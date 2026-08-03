@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch - Dual Review</title>
+    <title>CineMatch - Social & Dual Review</title>
     <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,6 +17,7 @@
             --text-main: #ffffff;
             --text-muted: #9ab;
             --border-color: #2c3440;
+            --danger-color: #ff4757;
         }
 
         * {
@@ -38,12 +39,13 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
         }
 
         header {
             text-align: center;
             margin-bottom: 2rem;
+            position: relative;
         }
 
         header h1 {
@@ -59,6 +61,35 @@
         header p {
             color: var(--text-muted);
             margin-top: 0.5rem;
+        }
+
+        /* Barra de Navegação Superior (Menu Social) */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #1a1d29;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--accent-color);
+            color: #12141c;
+            border-color: var(--accent-color);
         }
 
         .card {
@@ -255,6 +286,112 @@
             background-color: var(--accent-hover);
         }
 
+        .btn-secondary {
+            background-color: #2c3440;
+            color: var(--text-main);
+        }
+        .btn-secondary:hover {
+            background-color: #3b4454;
+        }
+
+        /* Seção Comunidades & Salas Dual */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media(max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .community-list, .friends-list, .chat-messages {
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .community-item, .friend-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .community-item:last-child, .friend-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Sistema de Chat de Conversa */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: none;
+            background: transparent;
+            border: none;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .message.incoming {
+            background: #2c3440;
+            align-self: flex-start;
+        }
+
+        .message.outgoing {
+            background: var(--accent-color);
+            color: #12141c;
+            align-self: flex-end;
+            font-weight: 500;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 0.75rem;
+            background: #1a1d29;
+            border-top: 1px solid var(--border-color);
+            gap: 0.5rem;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 0.75rem;
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: white;
+            outline: none;
+        }
+
+        .chat-input-area button {
+            width: auto;
+            padding: 0.75rem 1.5rem;
+        }
+
         /* Tela de Resultados / Comparação */
         .comparison-grid {
             display: grid;
@@ -300,6 +437,15 @@
             margin-top: 0.5rem;
         }
 
+        .badge {
+            background: #2c3440;
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -310,103 +456,198 @@
     <div class="container">
         <header>
             <h1>Cine<span>Match</span></h1>
-            <p>Sua plataforma de avaliação dual sincronizada.</p>
+            <p>Sua plataforma social e de avaliação dual sincronizada.</p>
         </header>
+
+        <!-- Menu de Navegação Social (Visível após autenticação) -->
+        <div id="socialNavbar" class="nav-bar hidden">
+            <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Sessão Dual</button>
+            <button class="nav-btn" data-target="view-communities"><i class="fa-solid fa-users"></i> Comunidades</button>
+            <button class="nav-btn" data-target="view-friends"><i class="fa-solid fa-user-plus"></i> Amigos & Convites</button>
+            <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats</button>
+        </div>
 
         <!-- ETAPA 0: Login com Google -->
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMatch</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem;">Faça login com sua conta Google para continuar</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Faça login com sua conta Google para continuar[cite: 1]</p>
             <button id="googleLoginBtn" class="btn-google">
-                <i class="fa-brands fa-google"></i> Entrar com o Google
+                <i class="fa-brands fa-google"></i> Entrar com o Google[cite: 1]
             </button>
         </div>
 
-        <!-- ETAPA 0.1: Escolha da Nametag (Caso não tenha cadastrado) -->
+        <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Como você quer ser chamado no Letterbox personalizado?</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Como você quer ser chamado no Letterbox personalizado?[cite: 1]</p>
             
             <form id="nametagForm">
                 <div class="form-group">
-                    <label>Nametag Única</label>
+                    <label>Nametag Única[cite: 1]</label>
                     <input type="text" id="nametagInput" required placeholder="Ex: cinemaniaco99" autocomplete="off">
                 </div>
-                <button type="submit" class="btn">Salvar Nametag e Continuar</button>
+                <button type="submit" class="btn">Salvar Nametag e Continuar[cite: 1]</button>
             </form>
         </div>
 
-        <!-- ETAPA 1: Seleção do Filme -->
-        <div id="step-movie" class="card hidden">
-            <h3 style="margin-bottom: 1rem;">1. Selecionar o Filme da Sessão</h3>
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="movieSearchInput" placeholder="Busque por qualquer filme..." autocomplete="off">
-                <div id="movieResults" class="movie-results"></div>
-            </div>
-
-            <div id="selectedMovieContainer" class="selected-movie-preview hidden">
-                <img id="selectedMoviePoster" src="" alt="Poster">
-                <div>
-                    <h3 id="selectedMovieTitle" style="color:white;"></h3>
-                    <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.9rem;"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ETAPA 2: Apenas a Minha Avaliação -->
-        <div id="step-review" class="card hidden">
-            <h3 style="margin-bottom: 1.5rem;">Sua Avaliação</h3>
-            
-            <form id="reviewForm">
-                <div class="form-group">
-                    <label>Sua Nota (1 a 5 estrelas)</label>
-                    <div class="rating-stars" id="starContainer">
-                        <i class="fa-solid fa-star" data-value="1"></i>
-                        <i class="fa-solid fa-star" data-value="2"></i>
-                        <i class="fa-solid fa-star" data-value="3"></i>
-                        <i class="fa-solid fa-star" data-value="4"></i>
-                        <i class="fa-solid fa-star" data-value="5"></i>
+        <!-- VIEW 1: SESSÃO DUAL DE AVALIAÇÃO AUTOMÁTICA -->
+        <div id="view-session" class="app-view">
+            <!-- Info da Sala Ativa -->
+            <div class="card" id="roomInfoCard" style="background: #161922; border-color: var(--accent-color);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span class="badge">SALA ATIVA</span>
+                        <h4 id="activeRoomName" style="margin-top: 0.3rem;">Sessão Principal[cite: 1]</h4>
                     </div>
-                    <input type="hidden" id="userRating" value="0">
+                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;">Sair da Sala</button>
                 </div>
-
-                <div class="form-group">
-                    <label>Sua Crítica / Feedback</label>
-                    <textarea id="userComment" required placeholder="O que você achou do filme..."></textarea>
-                </div>
-
-                <button type="submit" class="btn">Enviar Minha Avaliação</button>
-            </form>
-        </div>
-
-        <!-- ETAPA 3: Aguardando o Outro Usuário -->
-        <div id="step-waiting" class="card hidden" style="text-align: center;">
-            <i class="fa-solid fa-clock-rotate-left fa-3x" style="color: var(--accent-color); margin-bottom: 1rem;"></i>
-            <h3>Avaliação enviada!</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem;">Aguardando o outro usuário concluir para gerar o match...</p>
-        </div>
-
-        <!-- ETAPA 4: Comparação e Afinidade Final -->
-        <div id="step-results" class="card hidden">
-            <h3 style="margin-bottom: 1rem; text-align: center;">Resultado do Match</h3>
-            
-            <div class="match-score-card">
-                <p style="color: var(--text-muted);">Compatibilidade de Gosto</p>
-                <h2 id="matchPercentage">0%</h2>
             </div>
 
-            <div class="comparison-grid" id="comparisonContainer">
-                <!-- Preenchido via Realtime Database -->
+            <!-- ETAPA 1: Seleção do Filme -->
+            <div id="step-movie" class="card">
+                <h3 style="margin-bottom: 1rem;">1. Selecionar o Filme da Sessão[cite: 1]</h3>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="movieSearchInput" placeholder="Busque por qualquer filme..." autocomplete="off">
+                    <div id="movieResults" class="movie-results"></div>
+                </div>
+
+                <div id="selectedMovieContainer" class="selected-movie-preview hidden">
+                    <img id="selectedMoviePoster" src="" alt="Poster">
+                    <div>
+                        <h3 id="selectedMovieTitle" style="color:white;"></h3>
+                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.9rem;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ETAPA 2: Apenas a Minha Avaliação -->
+            <div id="step-review" class="card hidden">
+                <h3 style="margin-bottom: 1.5rem;">Sua Avaliação[cite: 1]</h3>
+                
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label>Sua Nota (1 a 5 estrelas)[cite: 1]</label>
+                        <div class="rating-stars" id="starContainer">
+                            <i class="fa-solid fa-star" data-value="1"></i>
+                            <i class="fa-solid fa-star" data-value="2"></i>
+                            <i class="fa-solid fa-star" data-value="3"></i>
+                            <i class="fa-solid fa-star" data-value="4"></i>
+                            <i class="fa-solid fa-star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="userRating" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sua Crítica / Feedback[cite: 1]</label>
+                        <textarea id="userComment" required placeholder="O que você achou do filme..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn">Enviar Minha Avaliação[cite: 1]</button>
+                </form>
+            </div>
+
+            <!-- ETAPA 3: Aguardando o Outro Usuário -->
+            <div id="step-waiting" class="card hidden" style="text-align: center;">
+                <i class="fa-solid fa-clock-rotate-left fa-3x" style="color: var(--accent-color); margin-bottom: 1rem;"></i>
+                <h3>Avaliação enviada![cite: 1]</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Aguardando o outro usuário concluir para gerar o match...[cite: 1]</p>
+            </div>
+
+            <!-- ETAPA 4: Comparação e Afinidade Final -->
+            <div id="step-results" class="card hidden">
+                <h3 style="margin-bottom: 1rem; text-align: center;">Resultado do Match[cite: 1]</h3>
+                
+                <div class="match-score-card">
+                    <p style="color: var(--text-muted);">Compatibilidade de Gosto[cite: 1]</p>
+                    <h2 id="matchPercentage">0%</h2>
+                </div>
+
+                <div class="comparison-grid" id="comparisonContainer">
+                    <!-- Preenchido via Realtime Database[cite: 1] -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: COMUNIDADES -->
+        <div id="view-communities" class="app-view hidden">
+            <div class="card">
+                <h3>Comunidades CineMatch</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Participe de rodas de discussão por gênero ou estilo de cinema.</p>
+                
+                <div class="community-list" id="communityList">
+                    <!-- Dinâmico -->
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <form id="createCommunityForm" style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="newCommunityName" placeholder="Nome da nova comunidade..." required style="flex: 1; padding: 0.75rem; background: #12141c; border: 1px solid var(--border-color); border-radius: 8px; color: white; outline: none;">
+                        <button type="submit" class="btn" style="width: auto;">Criar Comunidade</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: AMIGOS E CONVITES AUTOMÁTICOS -->
+        <div id="view-friends" class="app-view hidden">
+            <div class="grid-2">
+                <div class="card" style="margin-bottom: 0;">
+                    <h3>Convidar um Amigo</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Envie um convite direto pela Nametag para iniciar uma Sala Dual automática[cite: 1].</p>
+                    
+                    <form id="inviteFriendForm">
+                        <div class="form-group">
+                            <label>Nametag do Amigo</label>
+                            <input type="text" id="friendNametagInput" required placeholder="Ex: amigocinema21" autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn">Gerar Sala Dual Automática</button>
+                    </form>
+                </div>
+
+                <div class="card" style="margin-bottom: 0;">
+                    <h3>Seus Amigos / Conexões</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">Lista de usuários conectados recentemente.</p>
+                    <div class="friends-list" id="friendsList">
+                        <!-- Dinâmico -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: CHATS DE CONVERSAS -->
+        <div id="view-chats" class="app-view hidden">
+            <div class="grid-2">
+                <div class="card" style="margin-bottom: 0;">
+                    <h3>Conversas Recentes</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">Selecione um contato para trocar ideias.</p>
+                    <div class="community-list" id="chatContactsList" style="max-height: 330px;">
+                        <!-- Contatos dinâmicos -->
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 0; padding: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h4 id="activeChatTitle" style="color: var(--accent-color);">Selecione um chat</h4>
+                    </div>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessagesContainer">
+                            <div class="message incoming">Nenhuma conversa selecionada no momento.</div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chatInputMessage" placeholder="Digite sua mensagem..." autocomplete="off">
+                            <button id="sendChatBtn" class="btn"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDKs e Lógica -->
+    <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
+        import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAm_LLVLgUSpwbE2u78EN2waR-0uHqHNd0",
@@ -423,23 +664,39 @@
         const db = getDatabase(app);
         const googleProvider = new GoogleAuthProvider();
 
-        const roomId = "sessao_filme_principal"; 
-        const roomRef = ref(db, `rooms/${roomId}`);
-
         let currentUser = null;
         let userNametag = null;
+        let activeRoomId = "sessao_filme_principal"; // Sala padrão inicial[cite: 1]
+        let activeChatUserId = null;
 
-        // Elementos DOM de telas
+        // Elementos DOM de telas principais
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
-        const stepMovie = document.getElementById('step-movie');
-        const stepReview = document.getElementById('step-review');
-        const stepWaiting = document.getElementById('step-waiting');
-        const stepResults = document.getElementById('step-results');
-
+        const socialNavbar = document.getElementById('socialNavbar');
+        
         const googleLoginBtn = document.getElementById('googleLoginBtn');
         const nametagForm = document.getElementById('nametagForm');
         const nametagInput = document.getElementById('nametagInput');
+
+        // Navegação de Views Sociais
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const appViews = document.querySelectorAll('.app-view');
+
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const targetId = btn.getAttribute('data-target');
+                appViews.forEach(view => {
+                    if (view.id === targetId) {
+                        view.classList.remove('hidden');
+                    } else {
+                        view.classList.add('hidden');
+                    }
+                });
+            });
+        });
 
         // Ação de Login com Google
         googleLoginBtn.addEventListener('click', async () => {
@@ -457,48 +714,64 @@
                 currentUser = user;
                 stepAuth.classList.add('hidden');
 
-                // Verifica se o usuário já possui uma nametag salva no banco de dados
+                // Verifica nametag cadastrada[cite: 1]
                 const userRef = ref(db, `users/${user.uid}`);
                 const snapshot = await get(userRef);
 
                 if (snapshot.exists() && snapshot.val().nametag) {
                     userNametag = snapshot.val().nametag;
-                    initAppSession();
+                    // Registra presença do usuário online no banco
+                    await update(userRef, { lastLogin: Date.now() });
+                    startApplication();
                 } else {
-                    // Se não tiver, exibe a tela de cadastro de Nametag
                     stepNametag.classList.remove('hidden');
                 }
             } else {
                 currentUser = null;
                 stepAuth.classList.remove('hidden');
                 stepNametag.classList.add('hidden');
-                stepMovie.classList.add('hidden');
-                stepReview.classList.add('hidden');
-                stepWaiting.classList.add('hidden');
-                stepResults.classList.add('hidden');
+                socialNavbar.classList.add('hidden');
+                appViews.forEach(v => v.classList.add('hidden'));
             }
         });
 
-        // Cadastro da Nametag
+        // Cadastro da Nametag[cite: 1]
         nametagForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const tag = nametagInput.value.trim();
+            const tag = nametagInput.value.trim().toLowerCase();
             if (!tag) return;
 
             try {
+                // Salva dados e vincula a nametag de forma indexada
                 await set(ref(db, `users/${currentUser.uid}`), {
+                    uid: currentUser.uid,
                     email: currentUser.email,
-                    nametag: tag
+                    nametag: tag,
+                    lastLogin: Date.now()
                 });
+                // Mapeia nametag para uid para busca rápida em convites
+                await set(ref(db, `nametags/${tag}`), currentUser.uid);
+
                 userNametag = tag;
                 stepNametag.classList.add('hidden');
-                initAppSession();
+                startApplication();
             } catch (error) {
                 console.error("Erro ao salvar nametag:", error);
                 alert("Erro ao registrar a nametag.");
             }
         });
 
+        function startApplication() {
+            socialNavbar.classList.remove('hidden');
+            document.getElementById('view-session').classList.remove('hidden');
+            
+            initRoomSession(activeRoomId);
+            loadCommunities();
+            loadFriendsList();
+            loadChatContacts();
+        }
+
+        // ================= GESTÃO DA SALA DUAL E FILMES =================
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
         const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -513,12 +786,26 @@
         const starContainer = document.getElementById('starContainer');
         const userRatingInput = document.getElementById('userRating');
 
-        function initAppSession() {
-            // Sincronização em tempo real com o Realtime Database para a sala
+        const stepMovie = document.getElementById('step-movie');
+        const stepReview = document.getElementById('step-review');
+        const stepWaiting = document.getElementById('step-waiting');
+        const stepResults = document.getElementById('step-results');
+        const activeRoomName = document.getElementById('activeRoomName');
+
+        function initRoomSession(rId) {
+            activeRoomId = rId;
+            activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Automática: ${rId.substring(0,8)}...`;
+            
+            const roomRef = ref(db, `rooms/${activeRoomId}`);
+
             onValue(roomRef, (snapshot) => {
                 const data = snapshot.val();
                 if (!data) {
                     stepMovie.classList.remove('hidden');
+                    stepReview.classList.add('hidden');
+                    stepWaiting.classList.add('hidden');
+                    stepResults.classList.add('hidden');
+                    selectedMovieContainer.classList.add('hidden');
                     return;
                 }
 
@@ -549,11 +836,20 @@
                     }
                 } else {
                     stepMovie.classList.remove('hidden');
+                    stepReview.classList.add('hidden');
+                    stepWaiting.classList.add('hidden');
+                    stepResults.classList.add('hidden');
+                    selectedMovieContainer.classList.add('hidden');
                 }
             });
         }
 
-        // Busca de Filmes TMDB
+        document.getElementById('btnLeaveRoom').addEventListener('click', () => {
+            initRoomSession("sessao_filme_principal");
+            document.querySelector('[data-target="view-session"]').click();
+        });
+
+        // Busca TMDB
         let searchTimeout;
         movieSearchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -610,6 +906,7 @@
                 poster: posterUrl
             };
 
+            const roomRef = ref(db, `rooms/${activeRoomId}`);
             await update(roomRef, { movie: movieObj, reviews: null });
             movieResults.style.display = 'none';
             movieSearchInput.value = '';
@@ -631,10 +928,9 @@
             });
         });
 
-        // Envio da Avaliação vinculada ao UID e utilizando a Nametag cadastrada
+        // Envio de Avaliação
         reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const rating = parseInt(userRatingInput.value);
             const comment = document.getElementById('userComment').value.trim();
 
@@ -645,19 +941,19 @@
 
             const myReview = {
                 uid: currentUser.uid,
-                name: userNametag, // Utiliza a nametag escolhida pelo usuário
+                name: userNametag,
                 rating: rating,
                 comment: comment,
                 timestamp: Date.now()
             };
 
             try {
-                await set(ref(db, `rooms/${roomId}/reviews/${currentUser.uid}`), myReview);
+                await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
                 stepReview.classList.add('hidden');
                 stepWaiting.classList.remove('hidden');
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
-                alert("Erro ao salvar avaliação. Tente novamente.");
+                alert("Erro ao salvar avaliação.");
             }
         });
 
@@ -671,7 +967,6 @@
             if (reviewsArray.length < 2) return;
 
             const [rev1, rev2] = reviewsArray;
-
             const ratingDiff = Math.abs(rev1.rating - rev2.rating);
             let similarity = 100 - (ratingDiff * 20);
             if (similarity < 10) similarity = 10;
@@ -691,6 +986,194 @@
                     <p style="font-size: 0.95rem; line-height: 1.4;">"${rev2.comment}"</p>
                 </div>
             `;
+        }
+
+        // ================= COMUNIDADES =================
+        function loadCommunities() {
+            const commRef = ref(db, 'communities');
+            onValue(commRef, (snapshot) => {
+                const data = snapshot.val() || {
+                    "Geral & Lançamentos": { name: "Geral & Lançamentos" },
+                    "Ficção Científica": { name: "Ficção Científica" },
+                    "Terror & Suspense": { name: "Terror & Suspense" }
+                };
+
+                const listEl = document.getElementById('communityList');
+                listEl.innerHTML = '';
+
+                Object.keys(data).forEach(key => {
+                    const comm = data[key];
+                    const div = document.createElement('div');
+                    div.classList.add('community-item');
+                    div.innerHTML = `
+                        <span><i class="fa-solid fa-users-rectangle" style="color:var(--accent-color); margin-right:8px;"></i> ${comm.name}</span>
+                        <button class="btn btn-secondary" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;" data-comm="${comm.name}">Entrar</button>
+                    `;
+                    div.querySelector('button').addEventListener('click', () => {
+                        alert(`Você entrou na comunidade ${comm.name}!`);
+                    });
+                    listEl.appendChild(div);
+                });
+            });
+        }
+
+        document.getElementById('createCommunityForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('newCommunityName');
+            const name = input.value.trim();
+            if (!name) return;
+
+            await push(ref(db, 'communities'), { name });
+            input.value = '';
+        });
+
+        // ================= AMIGOS E SALAS AUTOMÁTICAS =================
+        function loadFriendsList() {
+            const usersRef = ref(db, 'users');
+            onValue(usersRef, (snapshot) => {
+                const users = snapshot.val() || {};
+                const friendsListEl = document.getElementById('friendsList');
+                friendsListEl.innerHTML = '';
+
+                Object.keys(users).forEach(uid => {
+                    const u = users[uid];
+                    if (uid === currentUser.uid) return;
+
+                    const div = document.createElement('div');
+                    div.classList.add('friend-item');
+                    div.innerHTML = `
+                        <span><strong>@${u.nametag}</strong></span>
+                        <button class="btn" style="width: auto; padding: 0.3rem 0.7rem; font-size: 0.8rem;" data-tag="${u.nametag}">Chamar p/ Sala</button>
+                    `;
+                    div.querySelector('button').addEventListener('click', () => {
+                        startAutomaticRoomWith(u.nametag);
+                    });
+                    friendsListEl.appendChild(div);
+                });
+            });
+        }
+
+        document.getElementById('inviteFriendForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const friendTag = document.getElementById('friendNametagInput').value.trim().toLowerCase();
+            if (!friendTag) return;
+            startAutomaticRoomWith(friendTag);
+        });
+
+        async function startAutomaticRoomWith(friendTag) {
+            // Busca UID do amigo através da nametag
+            const tagRef = ref(db, `nametags/${friendTag}`);
+            const snap = await get(tagRef);
+
+            if (!snap.exists()) {
+                alert("Nametag não encontrada no CineMatch!");
+                return;
+            }
+
+            const friendUid = snap.val();
+            if (friendUid === currentUser.uid) {
+                alert("Você não pode abrir uma sala dual com você mesmo.");
+                return;
+            }
+
+            // Gera sala automática única combinando os dois UIDs ordenados
+            const generatedRoomId = `sala_${[currentUser.uid, friendUid].sort().join('_')}`;
+            
+            // Cria ou limpa a sala e direciona o usuário automaticamente
+            await set(ref(db, `rooms/${generatedRoomId}`), {
+                createdAt: Date.now(),
+                host: currentUser.uid,
+                guest: friendUid,
+                movie: null,
+                reviews: null
+            });
+
+            activeRoomId = generatedRoomId;
+            initRoomSession(generatedRoomId);
+
+            // Redireciona visualmente para a aba de Sessão Dual
+            document.querySelector('[data-target="view-session"]').click();
+            alert(`Sala automática criada com @${friendTag}! Escolha o filme para começarem.`);
+        }
+
+        // ================= CHAT DE CONVERSAS =================
+        function loadChatContacts() {
+            const usersRef = ref(db, 'users');
+            onValue(usersRef, (snapshot) => {
+                const users = snapshot.val() || {};
+                const contactsEl = document.getElementById('chatContactsList');
+                contactsEl.innerHTML = '';
+
+                Object.keys(users).forEach(uid => {
+                    const u = users[uid];
+                    if (uid === currentUser.uid) return;
+
+                    const div = document.createElement('div');
+                    div.classList.add('community-item');
+                    div.innerHTML = `
+                        <span><i class="fa-solid fa-user" style="color:var(--text-muted); margin-right:8px;"></i> @${u.nametag}</span>
+                        <button class="btn btn-secondary" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">Conversar</button>
+                    `;
+                    div.addEventListener('click', () => openChatWith(uid, u.nametag));
+                    contactsEl.appendChild(div);
+                });
+            });
+        }
+
+        let chatUnsubscribe = null;
+
+        function openChatWith(uid, nametag) {
+            activeChatUserId = uid;
+            document.getElementById('activeChatTitle').textContent = `Chat com @${nametag}`;
+
+            // Chave única para o chat entre os dois usuários (ordenada alfabeticamente)
+            const chatId = [currentUser.uid, uid].sort().join('_');
+            const messagesRef = ref(db, `chats/${chatId}/messages`);
+
+            const msgContainer = document.getElementById('chatMessagesContainer');
+            
+            onValue(messagesRef, (snapshot) => {
+                const msgs = snapshot.val() || {};
+                msgContainer.innerHTML = '';
+
+                const keys = Object.keys(msgs);
+                if (keys.length === 0) {
+                    msgContainer.innerHTML = '<div class="message incoming">Inicie a conversa com este usuário.</div>';
+                    return;
+                }
+
+                keys.forEach(k => {
+                    const m = msgs[k];
+                    const div = document.createElement('div');
+                    div.classList.add('message');
+                    div.classList.add(m.sender === currentUser.uid ? 'outgoing' : 'incoming');
+                    div.textContent = m.text;
+                    msgContainer.appendChild(div);
+                });
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+            });
+        }
+
+        document.getElementById('sendChatBtn').addEventListener('click', sendMessage);
+        document.getElementById('chatInputMessage').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInputMessage');
+            const text = input.value.trim();
+            if (!text || !activeChatUserId) return;
+
+            const chatId = [currentUser.uid, activeChatUserId].sort().join('_');
+            const messagesRef = ref(db, `chats/${chatId}/messages`);
+
+            await push(messagesRef, {
+                sender: currentUser.uid,
+                text: text,
+                timestamp: Date.now()
+            });
+
+            input.value = '';
         }
     </script>
 </body>
