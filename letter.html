@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch - Dual Review</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #12141c;
+            --card-bg: #1a1d29;
+            --accent-color: #00e054;
+            --accent-hover: #00c048;
+            --text-main: #ffffff;
+            --text-muted: #9ab;
+            --border-color: #2c3440;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        header h1 span {
+            color: var(--accent-color);
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tela de Autenticação */
+        .auth-container {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .btn-google {
+            background-color: #ffffff;
+            color: #12141c;
+            border: none;
+            width: 100%;
+            max-width: 350px;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: background 0.2s;
+            margin-top: 1.5rem;
+        }
+
+        .btn-google:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Busca de Filmes */
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .movie-results {
+            max-height: 250px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            display: none;
+            margin-top: 0.5rem;
+            position: absolute;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .movie-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .movie-item:last-child {
+            border-bottom: none;
+        }
+
+        .movie-item:hover {
+            background: #2c3440;
+        }
+
+        .movie-item img {
+            width: 40px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .movie-info h4 {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .movie-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Filme Selecionado */
+        .selected-movie-preview {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: #12141c;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .selected-movie-preview img {
+            width: 70px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        /* Formulários gerais */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.85rem;
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--border-color);
+            cursor: pointer;
+        }
+
+        .rating-stars i.active {
+            color: #00e054;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #12141c;
+            border: none;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Tela de Resultados / Comparação */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .review-box {
+            background: #12141c;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .review-box h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .match-score-card {
+            text-align: center;
+            background: linear-gradient(135deg, #1a1d29 0%, #2c3440 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .match-score-card h2 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-top: 0.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Cine<span>Match</span></h1>
+            <p>Sua plataforma de avaliação dual sincronizada.</p>
+        </header>
+
+        <!-- ETAPA 0: Login com Google -->
+        <div id="step-auth" class="card auth-container">
+            <h3>Bem-vindo ao CineMatch</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Faça login com sua conta Google para continuar</p>
+            <button id="googleLoginBtn" class="btn-google">
+                <i class="fa-brands fa-google"></i> Entrar com o Google
+            </button>
+        </div>
+
+        <!-- ETAPA 0.1: Escolha da Nametag (Caso não tenha cadastrado) -->
+        <div id="step-nametag" class="card hidden">
+            <h3>Escolha sua Nametag</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Como você quer ser chamado no Letterbox personalizado?</p>
+            
+            <form id="nametagForm">
+                <div class="form-group">
+                    <label>Nametag Única</label>
+                    <input type="text" id="nametagInput" required placeholder="Ex: cinemaniaco99" autocomplete="off">
+                </div>
+                <button type="submit" class="btn">Salvar Nametag e Continuar</button>
+            </form>
+        </div>
+
+        <!-- ETAPA 1: Seleção do Filme -->
+        <div id="step-movie" class="card hidden">
+            <h3 style="margin-bottom: 1rem;">1. Selecionar o Filme da Sessão</h3>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="movieSearchInput" placeholder="Busque por qualquer filme..." autocomplete="off">
+                <div id="movieResults" class="movie-results"></div>
+            </div>
+
+            <div id="selectedMovieContainer" class="selected-movie-preview hidden">
+                <img id="selectedMoviePoster" src="" alt="Poster">
+                <div>
+                    <h3 id="selectedMovieTitle" style="color:white;"></h3>
+                    <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.9rem;"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 2: Apenas a Minha Avaliação -->
+        <div id="step-review" class="card hidden">
+            <h3 style="margin-bottom: 1.5rem;">Sua Avaliação</h3>
+            
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label>Sua Nota (1 a 5 estrelas)</label>
+                    <div class="rating-stars" id="starContainer">
+                        <i class="fa-solid fa-star" data-value="1"></i>
+                        <i class="fa-solid fa-star" data-value="2"></i>
+                        <i class="fa-solid fa-star" data-value="3"></i>
+                        <i class="fa-solid fa-star" data-value="4"></i>
+                        <i class="fa-solid fa-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="userRating" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Sua Crítica / Feedback</label>
+                    <textarea id="userComment" required placeholder="O que você achou do filme..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Enviar Minha Avaliação</button>
+            </form>
+        </div>
+
+        <!-- ETAPA 3: Aguardando o Outro Usuário -->
+        <div id="step-waiting" class="card hidden" style="text-align: center;">
+            <i class="fa-solid fa-clock-rotate-left fa-3x" style="color: var(--accent-color); margin-bottom: 1rem;"></i>
+            <h3>Avaliação enviada!</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Aguardando o outro usuário concluir para gerar o match...</p>
+        </div>
+
+        <!-- ETAPA 4: Comparação e Afinidade Final -->
+        <div id="step-results" class="card hidden">
+            <h3 style="margin-bottom: 1rem; text-align: center;">Resultado do Match</h3>
+            
+            <div class="match-score-card">
+                <p style="color: var(--text-muted);">Compatibilidade de Gosto</p>
+                <h2 id="matchPercentage">0%</h2>
+            </div>
+
+            <div class="comparison-grid" id="comparisonContainer">
+                <!-- Preenchido via Realtime Database -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs e Lógica -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAm_LLVLgUSpwbE2u78EN2waR-0uHqHNd0",
+            authDomain: "letter-76c0a.firebaseapp.com",
+            projectId: "letter-76c0a",
+            storageBucket: "letter-76c0a.firebasestorage.app",
+            messagingSenderId: "507179816072",
+            appId: "1:507179816072:web:5eac31ad73f6d2eb857b3d",
+            databaseURL: "https://letter-76c0a-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        const roomId = "sessao_filme_principal"; 
+        const roomRef = ref(db, `rooms/${roomId}`);
+
+        let currentUser = null;
+        let userNametag = null;
+
+        // Elementos DOM de telas
+        const stepAuth = document.getElementById('step-auth');
+        const stepNametag = document.getElementById('step-nametag');
+        const stepMovie = document.getElementById('step-movie');
+        const stepReview = document.getElementById('step-review');
+        const stepWaiting = document.getElementById('step-waiting');
+        const stepResults = document.getElementById('step-results');
+
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const nametagForm = document.getElementById('nametagForm');
+        const nametagInput = document.getElementById('nametagInput');
+
+        // Ação de Login com Google
+        googleLoginBtn.addEventListener('click', async () => {
+            try {
+                await signInWithPopup(auth, googleProvider);
+            } catch (error) {
+                console.error("Erro no login com Google:", error);
+                alert("Erro ao autenticar com o Google.");
+            }
+        });
+
+        // Ouvinte do Estado de Autenticação Firebase Auth
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                stepAuth.classList.add('hidden');
+
+                // Verifica se o usuário já possui uma nametag salva no banco de dados
+                const userRef = ref(db, `users/${user.uid}`);
+                const snapshot = await get(userRef);
+
+                if (snapshot.exists() && snapshot.val().nametag) {
+                    userNametag = snapshot.val().nametag;
+                    initAppSession();
+                } else {
+                    // Se não tiver, exibe a tela de cadastro de Nametag
+                    stepNametag.classList.remove('hidden');
+                }
+            } else {
+                currentUser = null;
+                stepAuth.classList.remove('hidden');
+                stepNametag.classList.add('hidden');
+                stepMovie.classList.add('hidden');
+                stepReview.classList.add('hidden');
+                stepWaiting.classList.add('hidden');
+                stepResults.classList.add('hidden');
+            }
+        });
+
+        // Cadastro da Nametag
+        nametagForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const tag = nametagInput.value.trim();
+            if (!tag) return;
+
+            try {
+                await set(ref(db, `users/${currentUser.uid}`), {
+                    email: currentUser.email,
+                    nametag: tag
+                });
+                userNametag = tag;
+                stepNametag.classList.add('hidden');
+                initAppSession();
+            } catch (error) {
+                console.error("Erro ao salvar nametag:", error);
+                alert("Erro ao registrar a nametag.");
+            }
+        });
+
+        const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
+        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+
+        const movieSearchInput = document.getElementById('movieSearchInput');
+        const movieResults = document.getElementById('movieResults');
+        const selectedMovieContainer = document.getElementById('selectedMovieContainer');
+        const selectedMoviePoster = document.getElementById('selectedMoviePoster');
+        const selectedMovieTitle = document.getElementById('selectedMovieTitle');
+        const selectedMovieYear = document.getElementById('selectedMovieYear');
+        
+        const reviewForm = document.getElementById('reviewForm');
+        const starContainer = document.getElementById('starContainer');
+        const userRatingInput = document.getElementById('userRating');
+
+        function initAppSession() {
+            // Sincronização em tempo real com o Realtime Database para a sala
+            onValue(roomRef, (snapshot) => {
+                const data = snapshot.val();
+                if (!data) {
+                    stepMovie.classList.remove('hidden');
+                    return;
+                }
+
+                if (data.movie) {
+                    selectedMoviePoster.src = data.movie.poster;
+                    selectedMovieTitle.textContent = data.movie.title;
+                    selectedMovieYear.textContent = `Lançamento: ${data.movie.year}`;
+                    selectedMovieContainer.classList.remove('hidden');
+
+                    const reviews = data.reviews || {};
+                    const hasMyReview = reviews[currentUser.uid];
+
+                    if (hasMyReview) {
+                        const reviewKeys = Object.keys(reviews);
+                        if (reviewKeys.length >= 2) {
+                            showResultsAndMatch(reviews);
+                        } else {
+                            stepMovie.classList.add('hidden');
+                            stepReview.classList.add('hidden');
+                            stepResults.classList.add('hidden');
+                            stepWaiting.classList.remove('hidden');
+                        }
+                    } else {
+                        stepMovie.classList.add('hidden');
+                        stepWaiting.classList.add('hidden');
+                        stepResults.classList.add('hidden');
+                        stepReview.classList.remove('hidden');
+                    }
+                } else {
+                    stepMovie.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Busca de Filmes TMDB
+        let searchTimeout;
+        movieSearchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            if (query.length < 3) {
+                movieResults.style.display = 'none';
+                return;
+            }
+
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
+                    const data = await response.json();
+                    renderMovieResults(data.results.slice(0, 5));
+                } catch (error) {
+                    console.error('Erro ao buscar filmes:', error);
+                }
+            }, 300);
+        });
+
+        function renderMovieResults(movies) {
+            movieResults.innerHTML = '';
+            if (movies.length === 0) {
+                movieResults.style.display = 'none';
+                return;
+            }
+
+            movies.forEach(movie => {
+                const posterUrl = movie.poster_path 
+                    ? `https://image.tmdb.org/t/p/w92${movie.poster_path}` 
+                    : 'https://via.placeholder.com/40x60?text=No+Img';
+                const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
+
+                const div = document.createElement('div');
+                div.classList.add('movie-item');
+                div.innerHTML = `
+                    <img src="${posterUrl}" alt="${movie.title}">
+                    <div class="movie-info">
+                        <h4>${movie.title}</h4>
+                        <span>${year}</span>
+                    </div>
+                `;
+                div.addEventListener('click', () => selectMovieOnFirebase(movie, posterUrl, year));
+                movieResults.appendChild(div);
+            });
+            movieResults.style.display = 'block';
+        }
+
+        async function selectMovieOnFirebase(movie, posterUrl, year) {
+            const movieObj = {
+                id: movie.id,
+                title: movie.title,
+                year: year,
+                poster: posterUrl
+            };
+
+            await update(roomRef, { movie: movieObj, reviews: null });
+            movieResults.style.display = 'none';
+            movieSearchInput.value = '';
+        }
+
+        // Sistema de Estrelas
+        const stars = starContainer.querySelectorAll('i');
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const val = star.getAttribute('data-value');
+                userRatingInput.value = val;
+                stars.forEach(s => {
+                    if (s.getAttribute('data-value') <= val) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Envio da Avaliação vinculada ao UID e utilizando a Nametag cadastrada
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const rating = parseInt(userRatingInput.value);
+            const comment = document.getElementById('userComment').value.trim();
+
+            if (rating === 0) {
+                alert('Por favor, selecione ao menos uma estrela.');
+                return;
+            }
+
+            const myReview = {
+                uid: currentUser.uid,
+                name: userNametag, // Utiliza a nametag escolhida pelo usuário
+                rating: rating,
+                comment: comment,
+                timestamp: Date.now()
+            };
+
+            try {
+                await set(ref(db, `rooms/${roomId}/reviews/${currentUser.uid}`), myReview);
+                stepReview.classList.add('hidden');
+                stepWaiting.classList.remove('hidden');
+            } catch (error) {
+                console.error("Erro ao enviar avaliação:", error);
+                alert("Erro ao salvar avaliação. Tente novamente.");
+            }
+        });
+
+        function showResultsAndMatch(reviewsObj) {
+            stepMovie.classList.add('hidden');
+            stepReview.classList.add('hidden');
+            stepWaiting.classList.add('hidden');
+            stepResults.classList.remove('hidden');
+
+            const reviewsArray = Object.values(reviewsObj);
+            if (reviewsArray.length < 2) return;
+
+            const [rev1, rev2] = reviewsArray;
+
+            const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+            let similarity = 100 - (ratingDiff * 20);
+            if (similarity < 10) similarity = 10;
+
+            document.getElementById('matchPercentage').textContent = `${similarity}%`;
+
+            const container = document.getElementById('comparisonContainer');
+            container.innerHTML = `
+                <div class="review-box">
+                    <h3>${rev1.name} <span>${'★'.repeat(rev1.rating)}</span></h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Nota: ${rev1.rating}/5</p>
+                    <p style="font-size: 0.95rem; line-height: 1.4;">"${rev1.comment}"</p>
+                </div>
+                <div class="review-box">
+                    <h3>${rev2.name} <span>${'★'.repeat(rev2.rating)}</span></h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Nota: ${rev2.rating}/5</p>
+                    <p style="font-size: 0.95rem; line-height: 1.4;">"${rev2.comment}"</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
