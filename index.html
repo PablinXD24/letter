@@ -3,40 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch - Edição Paper Liquid Glass</title>
+    <title>CineMatch</title>
     <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* Fundo Papel Rústico com tons de Branco e Off-White */
-            --bg-color: #f7f8fb;
-            --paper-texture: radial-gradient(#e2e8f0 0.85px, transparent 0.85px);
-            
-            /* Efeito Liquid Glass Estilo Apple adaptado ao Papel (White Glass) */
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(147, 51, 234, 0.18);
-            --glass-shadow: 0 12px 40px 0 rgba(147, 51, 234, 0.08), 0 2px 8px 0 rgba(6, 182, 212, 0.06);
-            --backdrop-blur: blur(16px);
-
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-hover: rgba(255, 255, 255, 0.95);
-            
-            /* Cores solicitadas: Roxa e Azul Ciano */
-            --accent-purple: #9333ea;
-            --accent-cyan: #06b6d4;
-            --accent-gradient: linear-gradient(135deg, #9333ea 0%, #06b6d4 100%);
-            
-            --accent-color: #9333ea;
-            --accent-hover: #7e22ce;
-            
-            --text-main: #1e1b4b;
+            --bg-color: #f4f6fa;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-hover: rgba(255, 255, 255, 0.9);
+            --accent-color: #6366f1; /* Tom roxo/índigo refinado */
+            --accent-hover: #4f46e5;
+            --cyan-color: #06b6d4; /* Azul ciano Apple style */
+            --text-main: #1e293b;
             --text-muted: #64748b;
-            --border-color: rgba(147, 51, 234, 0.15);
-            --border-focus: #9333ea;
+            --border-color: rgba(255, 255, 255, 0.8);
+            --border-focus: rgba(99, 102, 241, 0.4);
             --danger-color: #ef4444;
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --liquid-glass-shadow: 0 20px 40px rgba(99, 102, 241, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         * {
@@ -48,46 +34,27 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: var(--paper-texture);
-            background-size: 20px 20px;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.08) 0px, transparent 60%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 1.5rem 1rem;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Elemento decorativo imitando letras em rabisco pelo fundo */
-        body::before {
-            content: "🎬 ★ CineMatch 🍿 review ✎ ciano roxo ✦ filme ✨ match 📝";
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-12deg);
-            font-family: 'Architects Daughter', cursive;
-            font-size: 5rem;
-            color: rgba(147, 51, 234, 0.03);
-            white-space: nowrap;
-            z-index: -1;
-            pointer-events: none;
-            width: 200%;
-            text-align: center;
-            line-height: 1.8;
+            padding: 2rem 1rem;
+            background-attachment: fixed;
         }
 
         .container {
             width: 100%;
             max-width: 960px;
-            position: relative;
-            z-index: 2;
         }
 
         header {
             text-align: center;
-            margin-bottom: 1.75rem;
+            margin-bottom: 2rem;
         }
 
         header h1 {
@@ -95,22 +62,18 @@
             color: var(--text-main);
             letter-spacing: -0.5px;
             font-weight: 700;
-            font-family: 'Architects Daughter', cursive, 'Outfit', sans-serif;
-            text-shadow: 2px 2px 0px rgba(6, 182, 212, 0.2);
         }
 
         header h1 span {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         header p {
             color: var(--text-muted);
-            margin-top: 0.35rem;
-            font-size: 0.95rem;
-            font-family: 'Architects Daughter', cursive;
-            letter-spacing: 0.5px;
+            margin-top: 0.4rem;
+            font-size: 1rem;
         }
 
         /* Barra de Navegação Superior Liquid Glass */
@@ -118,16 +81,16 @@
             display: flex;
             justify-content: center;
             gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .nav-btn {
-            background: var(--glass-bg);
-            backdrop-filter: var(--backdrop-blur);
-            -webkit-backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 0.65rem 1.25rem;
+            padding: 0.7rem 1.35rem;
             border-radius: 14px;
             cursor: pointer;
             font-weight: 500;
@@ -136,55 +99,47 @@
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
         }
 
         .nav-btn.active, .nav-btn:hover {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             color: #ffffff;
             border-color: transparent;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.25);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
         }
 
-        /* Estilo Liquid Glass Apple IDêntico em Cards */
         .card {
-            background-color: var(--card-bg);
-            backdrop-filter: var(--backdrop-blur);
-            -webkit-backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 1.75rem;
-            box-shadow: var(--glass-shadow);
-            margin-bottom: 1.25rem;
+            padding: 2rem;
+            box-shadow: var(--liquid-glass-shadow);
+            margin-bottom: 1.5rem;
             transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
         }
 
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+        .card:hover {
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 24px 48px rgba(99, 102, 241, 0.12), 0 2px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         /* Tela de Autenticação */
         .auth-container {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem 1.5rem;
         }
 
         .btn-google {
             background-color: #ffffff;
-            color: #1e1b4b;
-            border: 1px solid rgba(147, 51, 234, 0.2);
+            color: #1e293b;
+            border: 1px solid rgba(226, 232, 240, 0.8);
             width: 100%;
             max-width: 320px;
-            padding: 0.85rem 1rem;
+            padding: 0.9rem 1rem;
             border-radius: 14px;
             font-weight: 600;
             font-size: 0.95rem;
@@ -195,14 +150,14 @@
             gap: 0.75rem;
             transition: var(--transition-smooth);
             margin-top: 1.25rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
 
         .btn-google:hover {
-            background-color: #faf5ff;
-            border-color: var(--accent-purple);
+            background-color: #f8fafc;
+            border-color: var(--accent-color);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
         /* Busca de Filmes */
@@ -213,55 +168,54 @@
 
         .search-box input {
             width: 100%;
-            padding: 0.9rem 1rem 0.9rem 3rem;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid var(--border-color);
+            padding: 0.95rem 1rem 0.95rem 3.2rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(203, 213, 225, 0.6);
             border-radius: 14px;
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
             transition: var(--transition-smooth);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .search-box input:focus {
-            border-color: var(--accent-purple);
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.12), inset 0 2px 4px rgba(0,0,0,0.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
         }
 
         .search-box i {
             position: absolute;
-            left: 1.1rem;
+            left: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--accent-purple);
-            font-size: 0.95rem;
+            color: var(--accent-color);
+            font-size: 1rem;
         }
 
         .movie-results {
-            max-height: 260px;
+            max-height: 280px;
             overflow-y: auto;
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
             display: none;
-            margin-top: 0.4rem;
+            margin-top: 0.5rem;
             position: absolute;
             width: 100%;
             z-index: 20;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
         }
 
         .movie-item {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 0.75rem 1rem;
+            padding: 0.8rem 1rem;
             cursor: pointer;
-            transition: background 0.15s;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.08);
+            transition: background 0.2s;
+            border-bottom: 1px solid rgba(241, 245, 249, 0.8);
         }
 
         .movie-item:last-child {
@@ -269,7 +223,7 @@
         }
 
         .movie-item:hover {
-            background: rgba(147, 51, 234, 0.06);
+            background: rgba(99, 102, 241, 0.06);
         }
 
         .movie-item img {
@@ -277,7 +231,7 @@
             height: 62px;
             object-fit: cover;
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .movie-info h4 {
@@ -297,10 +251,11 @@
             align-items: center;
             gap: 1.25rem;
             background: rgba(255, 255, 255, 0.6);
-            padding: 1rem 1.25rem;
+            backdrop-filter: blur(12px);
+            padding: 1.15rem 1.35rem;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .selected-movie-preview img {
@@ -308,66 +263,62 @@
             height: 95px;
             object-fit: cover;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.15);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
         /* Formulários gerais */
         .form-group {
-            margin-bottom: 1.15rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.5rem;
             color: var(--text-muted);
             font-size: 0.875rem;
             font-weight: 600;
-            font-family: 'Architects Daughter', cursive, 'Outfit', sans-serif;
-            letter-spacing: 0.5px;
         }
 
         .form-group input[type="text"],
         .form-group textarea {
             width: 100%;
-            padding: 0.85rem 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid var(--border-color);
+            padding: 0.9rem 1.1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(203, 213, 225, 0.6);
             border-radius: 14px;
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
             transition: var(--transition-smooth);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
         }
 
         .form-group input[type="text"]:focus,
         .form-group textarea:focus {
-            border-color: var(--accent-cyan);
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
         }
 
         .form-group textarea {
             resize: vertical;
             min-height: 110px;
-            font-family: 'Architects Daughter', cursive, 'Outfit', sans-serif;
-            font-size: 1.05rem;
         }
 
         /* Sistema de Avaliação Aprimorado */
         .rating-wrapper {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 1.25rem;
+            padding: 1.35rem;
             text-align: center;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.35rem;
         }
 
         .rating-stars {
             display: inline-flex;
             gap: 0.75rem;
-            font-size: 2rem;
+            font-size: 2.1rem;
             color: #cbd5e1;
             cursor: pointer;
             margin-bottom: 0.5rem;
@@ -375,26 +326,25 @@
 
         .rating-stars i {
             transition: color 0.2s ease, transform 0.2s ease;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .rating-stars i:hover,
         .rating-stars i.hovered {
-            color: #fbbf24;
-            transform: scale(1.2) rotate(5deg);
+            color: #f59e0b;
+            transform: scale(1.18);
         }
 
         .rating-stars i.active {
-            color: var(--accent-purple);
-            transform: scale(1.1);
+            color: #f59e0b;
+            transform: scale(1.08);
+            filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
         }
 
         .rating-feedback-text {
             font-size: 0.95rem;
             font-weight: 600;
-            color: var(--accent-purple);
+            color: var(--accent-color);
             min-height: 1.4rem;
-            font-family: 'Architects Daughter', cursive;
         }
 
         .char-counter {
@@ -402,44 +352,46 @@
             text-align: right;
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 0.3rem;
+            margin-top: 0.4rem;
         }
 
         .btn {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             color: #ffffff;
             border: none;
             width: 100%;
-            padding: 0.9rem 1rem;
+            padding: 0.95rem 1rem;
             border-radius: 14px;
             font-weight: 600;
             font-size: 0.95rem;
             cursor: pointer;
             transition: var(--transition-smooth);
-            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.25);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
         }
 
         .btn:hover {
             opacity: 0.95;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.35);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid var(--border-color);
+            background: rgba(241, 245, 249, 0.8);
             color: var(--text-main);
+            border: 1px solid rgba(203, 213, 225, 0.6);
+            box-shadow: none;
         }
+        
         .btn-secondary:hover {
-            background: #ffffff;
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
+            background: #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
         }
 
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
-            gap: 1.25rem;
+            gap: 1.5rem;
         }
 
         @media(max-width: 800px) {
@@ -449,7 +401,8 @@
         }
 
         .community-list, .friends-list, .chat-messages {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 0.75rem;
@@ -461,14 +414,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.08);
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(241, 245, 249, 0.8);
             border-radius: 12px;
-            transition: background 0.15s;
+            transition: background 0.2s;
         }
 
         .community-item:hover {
-            background: rgba(147, 51, 234, 0.06);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .community-item:last-child {
@@ -480,7 +433,8 @@
             display: flex;
             flex-direction: column;
             height: 440px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             overflow: hidden;
@@ -500,16 +454,15 @@
 
         .message {
             max-width: 75%;
-            padding: 0.75rem 1rem;
-            border-radius: 14px;
-            font-size: 0.95rem;
+            padding: 0.8rem 1.1rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
             line-height: 1.4;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            font-family: 'Architects Daughter', cursive, 'Outfit', sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .message.incoming {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--border-color);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
@@ -517,32 +470,32 @@
         }
 
         .message.outgoing {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             color: #ffffff;
             align-self: flex-end;
             font-weight: 500;
             border-bottom-right-radius: 4px;
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
         }
 
         /* Popup de Match no Chat */
         .chat-match-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--accent-purple);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 244, 255, 0.95));
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--accent-color);
             border-radius: 16px;
-            padding: 1rem;
+            padding: 1.15rem;
             margin: 0.5rem 0;
             max-width: 90%;
             align-self: center;
             width: 100%;
-            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.15);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
         }
 
         .chat-input-area {
             display: flex;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.85);
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.8);
             border-top: 1px solid var(--border-color);
             gap: 0.6rem;
             align-items: center;
@@ -550,9 +503,9 @@
 
         .chat-input-area input {
             flex: 1;
-            padding: 0.75rem 1rem;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(203, 213, 225, 0.6);
             border-radius: 12px;
             color: var(--text-main);
             outline: none;
@@ -561,22 +514,22 @@
         }
 
         .chat-input-area input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+            border-color: var(--accent-color);
+            background: #ffffff;
         }
 
         .chat-input-area button {
             width: auto;
-            padding: 0.75rem 1.15rem;
+            padding: 0.8rem 1.25rem;
             border-radius: 12px;
         }
 
         /* Botão interno para avaliar juntos na conversa */
         .btn-evaluate-together {
-            background: rgba(147, 51, 234, 0.08);
-            border: 1px solid var(--accent-purple);
-            color: var(--accent-purple);
-            padding: 0.5rem 0.8rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--accent-color);
+            padding: 0.55rem 0.9rem;
             border-radius: 12px;
             cursor: pointer;
             font-size: 0.85rem;
@@ -589,15 +542,17 @@
         }
 
         .btn-evaluate-together:hover {
-            background: var(--accent-purple);
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.2);
         }
 
         /* Tela de Resultados / Comparação Aprimorada */
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.25rem;
             margin-top: 1.25rem;
         }
 
@@ -608,14 +563,14 @@
         }
 
         .review-box {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: var(--backdrop-blur);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 1.25rem;
+            padding: 1.35rem;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
         }
 
         .review-box::before {
@@ -625,7 +580,7 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
         }
 
         .review-box h3 {
@@ -639,50 +594,51 @@
 
         .match-score-card {
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(240, 244, 255, 0.8));
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 1.75rem;
-            margin-bottom: 1.25rem;
-            box-shadow: inset 0 2px 10px rgba(147, 51, 234, 0.05);
+            padding: 2rem;
+            margin-bottom: 1.35rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 10px 25px rgba(99, 102, 241, 0.06);
         }
 
         .match-score-card h2 {
-            font-size: 3rem;
-            background: var(--accent-gradient);
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-top: 0.35rem;
             font-weight: 700;
             letter-spacing: -1px;
-            font-family: 'Architects Daughter', cursive;
         }
 
         .badge {
-            background: rgba(147, 51, 234, 0.1);
-            color: var(--accent-purple);
-            padding: 0.25rem 0.65rem;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-color);
+            padding: 0.3rem 0.75rem;
             border-radius: 8px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.5px;
-            border: 1px solid rgba(147, 51, 234, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.15);
         }
 
         .toast-notification {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: var(--accent-gradient);
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(16px);
             color: #ffffff;
-            padding: 0.9rem 1.4rem;
+            padding: 0.95rem 1.5rem;
             border-radius: 14px;
             font-weight: 600;
             font-size: 0.925rem;
-            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            font-family: 'Architects Daughter', cursive;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .hidden {
@@ -695,7 +651,7 @@
     <div class="container">
         <header>
             <h1>Cine<span>Match</span></h1>
-            <p>✦ Sua plataforma inteligente de avaliações e matches cinematográficos ✦</p>
+            <p>Sua plataforma inteligente de avaliações e matches cinematográficos.</p>
         </header>
 
         <!-- Menu de Navegação Superior Integrado -->
@@ -707,7 +663,7 @@
         <!-- ETAPA 0: Login com Google -->
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMatch</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem; font-family: 'Architects Daughter', cursive;">Faça login com sua conta Google para continuar</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Faça login com sua conta Google para continuar</p>
             <button id="googleLoginBtn" class="btn-google">
                 <i class="fa-brands fa-google" style="color: #ea4335;"></i> Entrar com o Google
             </button>
@@ -716,7 +672,7 @@
         <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
-            <p style="color: var(--text-muted); margin-top: 0.4rem; margin-bottom: 1.25rem; font-family: 'Architects Daughter', cursive;">Como você quer ser identificado na comunidade?</p>
+            <p style="color: var(--text-muted); margin-top: 0.4rem; margin-bottom: 1.25rem;">Como você quer ser identificado na comunidade?</p>
             
             <form id="nametagForm">
                 <div class="form-group">
@@ -730,11 +686,11 @@
         <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
-            <div class="card" id="roomInfoCard" style="background: rgba(255, 255, 255, 0.7); border-color: rgba(147, 51, 234, 0.2);">
+            <div class="card" id="roomInfoCard" style="background: rgba(255, 255, 255, 0.6); border-color: rgba(99, 102, 241, 0.2);">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                     <div>
                         <span class="badge">SESSÃO ATIVA</span>
-                        <h4 id="activeRoomName" style="margin-top: 0.35rem; font-weight: 600;">Sessão Principal</h4>
+                        <h4 id="activeRoomName" style="margin-top: 0.35rem; font-weight: 600; color: var(--text-main);">Sessão Principal</h4>
                     </div>
                     <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 10px;">Voltar à Sessão Padrão</button>
                 </div>
@@ -762,11 +718,11 @@
 
             <!-- ETAPA 2: Avaliação Intuitiva -->
             <div id="step-review" class="card hidden">
-                <h3 style="margin-bottom: 1.25rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="color: var(--accent-purple); margin-right: 6px;"></i> Sua Avaliação</h3>
+                <h3 style="margin-bottom: 1.25rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="color: var(--accent-color); margin-right: 6px;"></i> Sua Avaliação</h3>
                 
                 <form id="reviewForm">
                     <div class="rating-wrapper">
-                        <label style="display: block; color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem; font-weight: 600; font-family: 'Architects Daughter', cursive;">Toque nas estrelas para avaliar</label>
+                        <label style="display: block; color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem; font-weight: 600;">Toque nas estrelas para avaliar</label>
                         <div class="rating-stars" id="starContainer">
                             <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
                             <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
@@ -779,7 +735,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Sua Crítica / Feedback (Estilo Rabisco)</label>
+                        <label>Sua Crítica / Feedback</label>
                         <textarea id="userComment" maxlength="500" required placeholder="O que você achou da direção, atuação, roteiro..."></textarea>
                         <span id="charCounter" class="char-counter">0 / 500 caracteres</span>
                     </div>
@@ -790,7 +746,7 @@
 
             <!-- ETAPA 4: Comparação e Afinidade -->
             <div id="step-results" class="card hidden">
-                <h3 style="margin-bottom: 1rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--accent-cyan); margin-right: 6px;"></i> Resultado do Match</h3>
+                <h3 style="margin-bottom: 1rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--accent-color); margin-right: 6px;"></i> Resultado do Match</h3>
                 
                 <div class="match-score-card">
                     <p style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Compatibilidade de Gosto</p>
@@ -808,7 +764,7 @@
             <div class="grid-2">
                 <div class="card" style="margin-bottom: 0;">
                     <h3 style="margin-bottom: 0.35rem;">Contatos</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; font-family: 'Architects Daughter', cursive;">Selecione um contato para conversar.</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Selecione um contato para conversar.</p>
                     <div class="community-list" id="chatContactsList">
                         <!-- Contatos dinâmicos -->
                     </div>
@@ -816,7 +772,7 @@
 
                 <div class="card" style="margin-bottom: 0; padding: 1.25rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
-                        <h4 id="activeChatTitle" style="color: var(--accent-purple); font-size: 1rem; font-weight: 600;">Selecione um chat</h4>
+                        <h4 id="activeChatTitle" style="color: var(--accent-color); font-size: 1rem; font-weight: 600;">Selecione um chat</h4>
                     </div>
                     <div class="chat-container">
                         <div class="chat-messages" id="chatMessagesContainer">
@@ -835,7 +791,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs e Lógica Completa (Configurações e Login mantidos intactos conforme solicitado) -->
+    <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -1220,13 +1176,13 @@
             container.innerHTML = `
                 <div class="review-box">
                     <h3>@${rev1.name} <span>${'★'.repeat(rev1.rating)}${'☆'.repeat(5 - rev1.rating)}</span></h3>
-                    <p style="color: var(--accent-purple); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev1.rating} de 5 estrelas</p>
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main); font-family: 'Architects Daughter', cursive;">"${rev1.comment}"</p>
+                    <p style="color: var(--accent-color); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev1.rating} de 5 estrelas</p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);">"${rev1.comment}"</p>
                 </div>
                 <div class="review-box">
                     <h3>@${rev2.name} <span>${'★'.repeat(rev2.rating)}${'☆'.repeat(5 - rev2.rating)}</span></h3>
-                    <p style="color: var(--accent-purple); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev2.rating} de 5 estrelas</p>
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main); font-family: 'Architects Daughter', cursive;">"${rev2.comment}"</p>
+                    <p style="color: var(--accent-color); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev2.rating} de 5 estrelas</p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);">"${rev2.comment}"</p>
                 </div>
             `;
         }
@@ -1246,7 +1202,7 @@
                     const div = document.createElement('div');
                     div.classList.add('community-item');
                     div.innerHTML = `
-                        <span><i class="fa-solid fa-user" style="color:var(--accent-purple); margin-right:8px;"></i> @${u.nametag}</span>
+                        <span><i class="fa-solid fa-user" style="color:var(--text-muted); margin-right:8px;"></i> @${u.nametag}</span>
                         <button class="btn btn-secondary" style="width: auto; padding: 0.35rem 0.75rem; font-size: 0.8rem; border-radius: 10px;">Conversar</button>
                     `;
                     div.addEventListener('click', () => openChatWith(uid, u.nametag));
@@ -1285,13 +1241,13 @@
                         matchPopup.className = 'chat-match-card';
                         matchPopup.innerHTML = `
                             <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
-                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 6px;">
                                 <div>
-                                    <h5 style="color:var(--accent-purple); font-size:0.95rem;">Match de Filme: ${roomData.movie.title}</h5>
+                                    <h5 style="color:var(--accent-color); font-size:0.95rem;">Match de Filme: ${roomData.movie.title}</h5>
                                     <span style="font-size:0.8rem; color:var(--text-muted);">Compatibilidade: <strong>${similarity}%</strong></span>
                                 </div>
                             </div>
-                            <div style="font-size:0.85rem; color:var(--text-main); margin-top: 6px; font-family: 'Architects Daughter', cursive;">
+                            <div style="font-size:0.85rem; color:var(--text-main); margin-top: 6px;">
                                 <p><strong>@${revs[0].name}:</strong> ${'★'.repeat(revs[0].rating)} - "${revs[0].comment}"</p>
                                 <p style="margin-top:4px;"><strong>@${revs[1].name}:</strong> ${'★'.repeat(revs[1].rating)} - "${revs[1].comment}"</p>
                             </div>
