@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch - Social & Dual Review</title>
+    <title>CineMatch</title>
     <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -63,7 +63,7 @@
             margin-top: 0.5rem;
         }
 
-        /* Barra de Navegação Superior (Menu Social) */
+        /* Barra de Navegação Superior (Apenas Sessão e Chats) */
         .nav-bar {
             display: flex;
             justify-content: center;
@@ -294,7 +294,6 @@
             background-color: #3b4454;
         }
 
-        /* Seção Comunidades & Salas Dual */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -388,6 +387,7 @@
             background: #1a1d29;
             border-top: 1px solid var(--border-color);
             gap: 0.5rem;
+            align-items: center;
         }
 
         .chat-input-area input {
@@ -403,6 +403,27 @@
         .chat-input-area button {
             width: auto;
             padding: 0.75rem 1.5rem;
+        }
+
+        /* Botão interno para avaliar juntos na conversa */
+        .btn-evaluate-together {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .btn-evaluate-together:hover {
+            background: var(--accent-color);
+            color: #12141c;
         }
 
         /* Tela de Resultados / Comparação */
@@ -483,15 +504,13 @@
     <div class="container">
         <header>
             <h1>Cine<span>Match</span></h1>
-            <p>Sua plataforma social e de avaliação dual sincronizada[cite: 1].</p>
+            <p>Sua plataforma de avaliação de cinema sincronizada[cite: 1].</p>
         </header>
 
-        <!-- Menu de Navegação Social -->
+        <!-- Menu de Navegação Atualizado (Sem Comunidades e Sem aba separada de Sessão Dual) -->
         <div id="socialNavbar" class="nav-bar hidden">
-            <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Sessão Dual</button>
-            <button class="nav-btn" data-target="view-communities"><i class="fa-solid fa-users"></i> Comunidades</button>
-            <button class="nav-btn" data-target="view-friends"><i class="fa-solid fa-user-plus"></i> Amigos & Convites</button>
-            <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats</button>
+            <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Minha Sessão</button>
+            <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
         </div>
 
         <!-- ETAPA 0: Login com Google -->
@@ -506,7 +525,7 @@
         <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Como você quer ser chamado no Letterbox personalizado?[cite: 1]</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Como você quer ser chamado na plataforma?[cite: 1]</p>
             
             <form id="nametagForm">
                 <div class="form-group">
@@ -517,7 +536,7 @@
             </form>
         </div>
 
-        <!-- VIEW 1: SESSÃO DUAL DE AVALIAÇÃO AUTOMÁTICA -->
+        <!-- VIEW 1: SESSÃO INDIVIDUAL / ATIVA -->
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
             <div class="card" id="roomInfoCard" style="background: #161922; border-color: var(--accent-color);">
@@ -526,15 +545,14 @@
                         <span class="badge">SALA ATIVA</span>
                         <h4 id="activeRoomName" style="margin-top: 0.3rem;">Sessão Principal[cite: 1]</h4>
                     </div>
-                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;">Sair da Sala</button>
+                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;">Voltar à Sessão Padrão</button>
                 </div>
             </div>
 
-            <!-- Poster e Pesquisa de Filme (Sempre visível para gerenciar ou trocar o filme da sessão) -->
+            <!-- Poster e Pesquisa de Filme -->
             <div id="step-movie" class="card">
                 <h3 style="margin-bottom: 1rem;" id="movieSectionTitle">Selecionar o Filme da Sessão[cite: 1]</h3>
                 
-                <!-- Poster do filme em destaque (Sempre à mostra) -->
                 <div id="selectedMovieContainer" class="selected-movie-preview hidden">
                     <img id="selectedMoviePoster" src="" alt="Poster">
                     <div style="flex: 1;">
@@ -551,7 +569,7 @@
                 </div>
             </div>
 
-            <!-- ETAPA 2: Apenas a Minha Avaliação (Última avaliação permitida / exibida) -->
+            <!-- ETAPA 2: Avaliação -->
             <div id="step-review" class="card hidden">
                 <h3 style="margin-bottom: 1.5rem;" id="reviewCardTitle">Sua Avaliação[cite: 1]</h3>
                 
@@ -577,7 +595,7 @@
                 </form>
             </div>
 
-            <!-- ETAPA 4: Comparação e Afinidade Final -->
+            <!-- ETAPA 4: Comparação e Afinidade (Caso esteja em sala compartilhada) -->
             <div id="step-results" class="card hidden">
                 <h3 style="margin-bottom: 1rem; text-align: center;">Resultado do Match[cite: 1]</h3>
                 
@@ -592,57 +610,12 @@
             </div>
         </div>
 
-        <!-- VIEW 2: COMUNIDADES -->
-        <div id="view-communities" class="app-view hidden">
-            <div class="card">
-                <h3>Comunidades CineMatch</h3>
-                <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Participe de rodas de discussão por gênero ou estilo de cinema.</p>
-                
-                <div class="community-list" id="communityList">
-                    <!-- Dinâmico -->
-                </div>
-
-                <div style="margin-top: 1.5rem;">
-                    <form id="createCommunityForm" style="display: flex; gap: 0.5rem;">
-                        <input type="text" id="newCommunityName" placeholder="Nome da nova comunidade..." required style="flex: 1; padding: 0.75rem; background: #12141c; border: 1px solid var(--border-color); border-radius: 8px; color: white; outline: none;">
-                        <button type="submit" class="btn" style="width: auto;">Criar Comunidade</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 3: AMIGOS E CONVITES AUTOMÁTICOS -->
-        <div id="view-friends" class="app-view hidden">
-            <div class="grid-2">
-                <div class="card" style="margin-bottom: 0;">
-                    <h3>Convidar um Amigo</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Envie um convite direto pela Nametag para iniciar uma Sala Dual automática[cite: 1].</p>
-                    
-                    <form id="inviteFriendForm">
-                        <div class="form-group">
-                            <label>Nametag do Amigo</label>
-                            <input type="text" id="friendNametagInput" required placeholder="Ex: amigocinema21" autocomplete="off">
-                        </div>
-                        <button type="submit" class="btn">Gerar Sala Dual Automática</button>
-                    </form>
-                </div>
-
-                <div class="card" style="margin-bottom: 0;">
-                    <h3>Seus Amigos / Conexões</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">Lista de usuários conectados recentemente.</p>
-                    <div class="friends-list" id="friendsList">
-                        <!-- Dinâmico -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 4: CHATS DE CONVERSAS -->
+        <!-- VIEW 2: CHATS & CONEXÕES (Com a opção de avaliar juntos direto na conversa) -->
         <div id="view-chats" class="app-view hidden">
             <div class="grid-2">
                 <div class="card" style="margin-bottom: 0;">
-                    <h3>Conversas Recentes</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">Selecione um contato para trocar ideias.</p>
+                    <h3>Contatos</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">Selecione um contato para conversar.</p>
                     <div class="community-list" id="chatContactsList" style="max-height: 330px;">
                         <!-- Contatos dinâmicos -->
                     </div>
@@ -657,6 +630,9 @@
                             <div class="message incoming">Nenhuma conversa selecionada no momento.</div>
                         </div>
                         <div class="chat-input-area">
+                            <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
+                                <i class="fa-solid fa-film"></i> Avaliar Juntos
+                            </button>
                             <input type="text" id="chatInputMessage" placeholder="Digite sua mensagem..." autocomplete="off">
                             <button id="sendChatBtn" class="btn"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
@@ -691,6 +667,7 @@
         let userNametag = null;
         let activeRoomId = "sessao_filme_principal"; // Sala padrão inicial[cite: 1]
         let activeChatUserId = null;
+        let activeChatNametag = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -780,12 +757,10 @@
             document.getElementById('view-session').classList.remove('hidden');
             
             initRoomSession(activeRoomId);
-            loadCommunities();
-            loadFriendsList();
             loadChatContacts();
         }
 
-        // ================= GESTÃO DA SALA DUAL E FILMES =================
+        // ================= GESTÃO DA SALA E FILMES =================
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
         const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -820,7 +795,7 @@
 
         function initRoomSession(rId) {
             activeRoomId = rId;
-            activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Automática: ${rId.substring(0,8)}...`;
+            activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal[cite: 1]" : `Sala Conjunta com Colega`;
             
             const roomRef = ref(db, `rooms/${activeRoomId}`);
 
@@ -839,12 +814,11 @@
                     selectedMovieTitle.textContent = data.movie.title;
                     selectedMovieYear.textContent = `Lançamento: ${data.movie.year}`;
                     selectedMovieContainer.classList.remove('hidden');
-                    movieSearchBoxWrapper.style.display = 'none'; // Sempre mostra o poster do filme, oculta busca a menos que altere
+                    movieSearchBoxWrapper.style.display = 'none';
 
                     const reviews = data.reviews || {};
                     const myReview = reviews[currentUser.uid];
 
-                    // Exibir sempre a última avaliação na tela inicial se houver
                     if (myReview) {
                         userRatingInput.value = myReview.rating;
                         document.getElementById('userComment').value = myReview.comment;
@@ -877,7 +851,6 @@
 
         document.getElementById('btnLeaveRoom').addEventListener('click', () => {
             initRoomSession("sessao_filme_principal");
-            document.querySelector('[data-target="view-session"]').click();
         });
 
         let searchTimeout;
@@ -940,7 +913,7 @@
             await update(roomRef, { movie: movieObj, reviews: null });
             movieResults.style.display = 'none';
             movieSearchInput.value = '';
-            showToast("Filme selecionado para a sessão!");
+            showToast("Filme selecionado para a sessão![cite: 1]");
         }
 
         function highlightStars(val) {
@@ -982,7 +955,7 @@
 
             try {
                 await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
-                showToast("Avaliação salva com sucesso!"); // Notificação em vez de aba separada
+                showToast("Avaliação salva com sucesso![cite: 1]");
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
                 alert("Erro ao salvar avaliação.");
@@ -1017,112 +990,7 @@
             `;
         }
 
-        // ================= COMUNIDADES =================
-        function loadCommunities() {
-            const commRef = ref(db, 'communities');
-            onValue(commRef, (snapshot) => {
-                const data = snapshot.val() || {
-                    "Geral & Lançamentos": { name: "Geral & Lançamentos" },
-                    "Ficção Científica": { name: "Ficção Científica" },
-                    "Terror & Suspense": { name: "Terror & Suspense" }
-                };
-
-                const listEl = document.getElementById('communityList');
-                listEl.innerHTML = '';
-
-                Object.keys(data).forEach(key => {
-                    const comm = data[key];
-                    const div = document.createElement('div');
-                    div.classList.add('community-item');
-                    div.innerHTML = `
-                        <span><i class="fa-solid fa-users-rectangle" style="color:var(--accent-color); margin-right:8px;"></i> ${comm.name}</span>
-                        <button class="btn btn-secondary" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;" data-comm="${comm.name}">Entrar</button>
-                    `;
-                    div.querySelector('button').addEventListener('click', () => {
-                        showToast(`Você entrou na comunidade ${comm.name}!`);
-                    });
-                    listEl.appendChild(div);
-                });
-            });
-        }
-
-        document.getElementById('createCommunityForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('newCommunityName');
-            const name = input.value.trim();
-            if (!name) return;
-
-            await push(ref(db, 'communities'), { name });
-            input.value = '';
-            showToast("Comunidade criada!");
-        });
-
-        // ================= AMIGOS E SALAS AUTOMÁTICAS =================
-        function loadFriendsList() {
-            const usersRef = ref(db, 'users');
-            onValue(usersRef, (snapshot) => {
-                const users = snapshot.val() || {};
-                const friendsListEl = document.getElementById('friendsList');
-                friendsListEl.innerHTML = '';
-
-                Object.keys(users).forEach(uid => {
-                    const u = users[uid];
-                    if (uid === currentUser.uid) return;
-
-                    const div = document.createElement('div');
-                    div.classList.add('friend-item');
-                    div.innerHTML = `
-                        <span><strong>@${u.nametag}</strong></span>
-                        <button class="btn" style="width: auto; padding: 0.3rem 0.7rem; font-size: 0.8rem;" data-tag="${u.nametag}">Chamar p/ Sala</button>
-                    `;
-                    div.querySelector('button').addEventListener('click', () => {
-                        startAutomaticRoomWith(u.nametag);
-                    });
-                    friendsListEl.appendChild(div);
-                });
-            });
-        }
-
-        document.getElementById('inviteFriendForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const friendTag = document.getElementById('friendNametagInput').value.trim().toLowerCase();
-            if (!friendTag) return;
-            startAutomaticRoomWith(friendTag);
-        });
-
-        async function startAutomaticRoomWith(friendTag) {
-            const tagRef = ref(db, `nametags/${friendTag}`);
-            const snap = await get(tagRef);
-
-            if (!snap.exists()) {
-                alert("Nametag não encontrada no CineMatch!");
-                return;
-            }
-
-            const friendUid = snap.val();
-            if (friendUid === currentUser.uid) {
-                alert("Você não pode abrir uma sala dual com você mesmo.");
-                return;
-            }
-
-            const generatedRoomId = `sala_${[currentUser.uid, friendUid].sort().join('_')}`;
-            
-            await set(ref(db, `rooms/${generatedRoomId}`), {
-                createdAt: Date.now(),
-                host: currentUser.uid,
-                guest: friendUid,
-                movie: null,
-                reviews: null
-            });
-
-            activeRoomId = generatedRoomId;
-            initRoomSession(generatedRoomId);
-
-            document.querySelector('[data-target="view-session"]').click();
-            showToast(`Sala automática criada com @${friendTag}!`);
-        }
-
-        // ================= CHAT DE CONVERSAS COM POPUP DE MATCH =================
+        // ================= CHATS E OPÇÃO DE AVALIAR JUNTOS NA CONVERSA =================
         function loadChatContacts() {
             const usersRef = ref(db, 'users');
             onValue(usersRef, (snapshot) => {
@@ -1148,7 +1016,9 @@
 
         function openChatWith(uid, nametag) {
             activeChatUserId = uid;
+            activeChatNametag = nametag;
             document.getElementById('activeChatTitle').textContent = `Chat com @${nametag}`;
+            document.getElementById('btnEvaluateTogether').classList.remove('hidden');
 
             const chatId = [currentUser.uid, uid].sort().join('_');
             const messagesRef = ref(db, `chats/${chatId}/messages`);
@@ -1157,16 +1027,13 @@
 
             const msgContainer = document.getElementById('chatMessagesContainer');
             
-            // Ouvir mensagens normais e também verificar dados da sala compartilhada para injetar popup de match
             onValue(messagesRef, (snapshot) => {
                 const msgs = snapshot.val() || {};
                 
-                // Buscar também os dados da sala compartilhada para o Popup de Match no chat
                 get(sharedRoomRef).then((roomSnap) => {
                     const roomData = roomSnap.val();
                     msgContainer.innerHTML = '';
 
-                    // Se houver match completo (duas avaliações), injeta o popup dinâmico no chat
                     if (roomData && roomData.movie && roomData.reviews && Object.keys(roomData.reviews).length >= 2) {
                         const revs = Object.values(roomData.reviews);
                         const ratingDiff = Math.abs(revs[0].rating - revs[1].rating);
@@ -1179,13 +1046,13 @@
                             <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
                                 <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 4px;">
                                 <div>
-                                    <h5 style="color:var(--accent-color); font-size:0.95rem;">Match de Filme: ${roomData.movie.title}</h5>
-                                    <span style="font-size:0.8rem; color:var(--text-muted);">Compatibilidade: <strong>${similarity}%</strong></span>
+                                    <h5 style="color:var(--accent-color); font-size:0.95rem;">Match de Filme: ${roomData.movie.title}[cite: 1]</h5>
+                                    <span style="font-size:0.8rem; color:var(--text-muted);">Compatibilidade: <strong>${similarity}%</strong>[cite: 1]</span>
                                 </div>
                             </div>
                             <div style="font-size:0.85rem; color:var(--text-main); margin-top: 6px;">
-                                <p><strong>${revs[0].name}:</strong> ${'★'.repeat(revs[0].rating)} - "${revs[0].comment}"</p>
-                                <p style="margin-top:4px;"><strong>${revs[1].name}:</strong> ${'★'.repeat(revs[1].rating)} - "${revs[1].comment}"</p>
+                                <p><strong>${revs[0].name}:</strong> ${'★'.repeat(revs[0].rating)} - "${revs[0].comment}"[cite: 1]</p>
+                                <p style="margin-top:4px;"><strong>${revs[1].name}:</strong> ${'★'.repeat(revs[1].rating)} - "${revs[1].comment}"[cite: 1]</p>
                             </div>
                         `;
                         msgContainer.appendChild(matchPopup);
@@ -1195,7 +1062,7 @@
                     if (keys.length === 0 && (!roomData || !roomData.movie)) {
                         const defaultMsg = document.createElement('div');
                         defaultMsg.className = 'message incoming';
-                        defaultMsg.textContent = 'Inicie a conversa ou abra uma sala dual com este usuário.';
+                        defaultMsg.textContent = 'Inicie a conversa ou clique em "Avaliar Juntos" para escolherem um filme.[cite: 1]';
                         msgContainer.appendChild(defaultMsg);
                         return;
                     }
@@ -1212,6 +1079,27 @@
                 });
             });
         }
+
+        // Ação de "Avaliar Juntos" diretamente integrada dentro da conversa
+        document.getElementById('btnEvaluateTogether').addEventListener('click', async () => {
+            if (!activeChatUserId) return;
+
+            const generatedRoomId = `sala_${[currentUser.uid, activeChatUserId].sort().join('_')}`;
+            
+            await set(ref(db, `rooms/${generatedRoomId}`), {
+                createdAt: Date.now(),
+                host: currentUser.uid,
+                guest: activeChatUserId,
+                movie: null,
+                reviews: null
+            });
+
+            activeRoomId = generatedRoomId;
+            initRoomSession(generatedRoomId);
+
+            document.querySelector('[data-target="view-session"]').click();
+            showToast(`Sala conjunta aberta com @${activeChatNametag}![cite: 1]`);
+        });
 
         document.getElementById('sendChatBtn').addEventListener('click', sendMessage);
         document.getElementById('chatInputMessage').addEventListener('keypress', (e) => {
