@@ -348,6 +348,7 @@
             max-height: none;
             background: transparent;
             border: none;
+            overflow-y: auto;
         }
 
         .message {
@@ -367,6 +368,18 @@
             color: #12141c;
             align-self: flex-end;
             font-weight: 500;
+        }
+
+        /* Popup de Match no Chat */
+        .chat-match-card {
+            background: linear-gradient(135deg, #1a1d29 0%, #2c3440 100%);
+            border: 1px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            max-width: 85%;
+            align-self: center;
+            width: 100%;
         }
 
         .chat-input-area {
@@ -446,6 +459,20 @@
             font-weight: 600;
         }
 
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: #12141c;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -456,10 +483,10 @@
     <div class="container">
         <header>
             <h1>Cine<span>Match</span></h1>
-            <p>Sua plataforma social e de avaliação dual sincronizada.</p>
+            <p>Sua plataforma social e de avaliação dual sincronizada[cite: 1].</p>
         </header>
 
-        <!-- Menu de Navegação Social (Visível após autenticação) -->
+        <!-- Menu de Navegação Social -->
         <div id="socialNavbar" class="nav-bar hidden">
             <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Sessão Dual</button>
             <button class="nav-btn" data-target="view-communities"><i class="fa-solid fa-users"></i> Comunidades</button>
@@ -491,7 +518,7 @@
         </div>
 
         <!-- VIEW 1: SESSÃO DUAL DE AVALIAÇÃO AUTOMÁTICA -->
-        <div id="view-session" class="app-view">
+        <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
             <div class="card" id="roomInfoCard" style="background: #161922; border-color: var(--accent-color);">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -503,27 +530,30 @@
                 </div>
             </div>
 
-            <!-- ETAPA 1: Seleção do Filme -->
+            <!-- Poster e Pesquisa de Filme (Sempre visível para gerenciar ou trocar o filme da sessão) -->
             <div id="step-movie" class="card">
-                <h3 style="margin-bottom: 1rem;">1. Selecionar o Filme da Sessão[cite: 1]</h3>
-                <div class="search-box">
+                <h3 style="margin-bottom: 1rem;" id="movieSectionTitle">Selecionar o Filme da Sessão[cite: 1]</h3>
+                
+                <!-- Poster do filme em destaque (Sempre à mostra) -->
+                <div id="selectedMovieContainer" class="selected-movie-preview hidden">
+                    <img id="selectedMoviePoster" src="" alt="Poster">
+                    <div style="flex: 1;">
+                        <h3 id="selectedMovieTitle" style="color:white;"></h3>
+                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.9rem;"></p>
+                    </div>
+                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                </div>
+
+                <div class="search-box" id="movieSearchBoxWrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="movieSearchInput" placeholder="Busque por qualquer filme..." autocomplete="off">
                     <div id="movieResults" class="movie-results"></div>
                 </div>
-
-                <div id="selectedMovieContainer" class="selected-movie-preview hidden">
-                    <img id="selectedMoviePoster" src="" alt="Poster">
-                    <div>
-                        <h3 id="selectedMovieTitle" style="color:white;"></h3>
-                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.9rem;"></p>
-                    </div>
-                </div>
             </div>
 
-            <!-- ETAPA 2: Apenas a Minha Avaliação -->
+            <!-- ETAPA 2: Apenas a Minha Avaliação (Última avaliação permitida / exibida) -->
             <div id="step-review" class="card hidden">
-                <h3 style="margin-bottom: 1.5rem;">Sua Avaliação[cite: 1]</h3>
+                <h3 style="margin-bottom: 1.5rem;" id="reviewCardTitle">Sua Avaliação[cite: 1]</h3>
                 
                 <form id="reviewForm">
                     <div class="form-group">
@@ -543,15 +573,8 @@
                         <textarea id="userComment" required placeholder="O que você achou do filme..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn">Enviar Minha Avaliação[cite: 1]</button>
+                    <button type="submit" class="btn" id="submitReviewBtn">Enviar Minha Avaliação[cite: 1]</button>
                 </form>
-            </div>
-
-            <!-- ETAPA 3: Aguardando o Outro Usuário -->
-            <div id="step-waiting" class="card hidden" style="text-align: center;">
-                <i class="fa-solid fa-clock-rotate-left fa-3x" style="color: var(--accent-color); margin-bottom: 1rem;"></i>
-                <h3>Avaliação enviada![cite: 1]</h3>
-                <p style="color: var(--text-muted); margin-top: 0.5rem;">Aguardando o outro usuário concluir para gerar o match...[cite: 1]</p>
             </div>
 
             <!-- ETAPA 4: Comparação e Afinidade Final -->
@@ -647,7 +670,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
+        import { getDatabase, ref, set, get, update, push, onValue } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAm_LLVLgUSpwbE2u78EN2waR-0uHqHNd0",
@@ -669,7 +692,6 @@
         let activeRoomId = "sessao_filme_principal"; // Sala padrão inicial[cite: 1]
         let activeChatUserId = null;
 
-        // Elementos DOM de telas principais
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
         const socialNavbar = document.getElementById('socialNavbar');
@@ -678,7 +700,6 @@
         const nametagForm = document.getElementById('nametagForm');
         const nametagInput = document.getElementById('nametagInput');
 
-        // Navegação de Views Sociais
         const navButtons = document.querySelectorAll('.nav-btn');
         const appViews = document.querySelectorAll('.app-view');
 
@@ -698,7 +719,6 @@
             });
         });
 
-        // Ação de Login com Google
         googleLoginBtn.addEventListener('click', async () => {
             try {
                 await signInWithPopup(auth, googleProvider);
@@ -708,19 +728,16 @@
             }
         });
 
-        // Ouvinte do Estado de Autenticação Firebase Auth
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 stepAuth.classList.add('hidden');
 
-                // Verifica nametag cadastrada[cite: 1]
                 const userRef = ref(db, `users/${user.uid}`);
                 const snapshot = await get(userRef);
 
                 if (snapshot.exists() && snapshot.val().nametag) {
                     userNametag = snapshot.val().nametag;
-                    // Registra presença do usuário online no banco
                     await update(userRef, { lastLogin: Date.now() });
                     startApplication();
                 } else {
@@ -735,21 +752,18 @@
             }
         });
 
-        // Cadastro da Nametag[cite: 1]
         nametagForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const tag = nametagInput.value.trim().toLowerCase();
             if (!tag) return;
 
             try {
-                // Salva dados e vincula a nametag de forma indexada
                 await set(ref(db, `users/${currentUser.uid}`), {
                     uid: currentUser.uid,
                     email: currentUser.email,
                     nametag: tag,
                     lastLogin: Date.now()
                 });
-                // Mapeia nametag para uid para busca rápida em convites
                 await set(ref(db, `nametags/${tag}`), currentUser.uid);
 
                 userNametag = tag;
@@ -781,6 +795,8 @@
         const selectedMoviePoster = document.getElementById('selectedMoviePoster');
         const selectedMovieTitle = document.getElementById('selectedMovieTitle');
         const selectedMovieYear = document.getElementById('selectedMovieYear');
+        const movieSearchBoxWrapper = document.getElementById('movieSearchBoxWrapper');
+        const btnChangeMovie = document.getElementById('btnChangeMovie');
         
         const reviewForm = document.getElementById('reviewForm');
         const starContainer = document.getElementById('starContainer');
@@ -788,9 +804,19 @@
 
         const stepMovie = document.getElementById('step-movie');
         const stepReview = document.getElementById('step-review');
-        const stepWaiting = document.getElementById('step-waiting');
         const stepResults = document.getElementById('step-results');
         const activeRoomName = document.getElementById('activeRoomName');
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
         function initRoomSession(rId) {
             activeRoomId = rId;
@@ -801,11 +827,10 @@
             onValue(roomRef, (snapshot) => {
                 const data = snapshot.val();
                 if (!data) {
-                    stepMovie.classList.remove('hidden');
                     stepReview.classList.add('hidden');
-                    stepWaiting.classList.add('hidden');
                     stepResults.classList.add('hidden');
                     selectedMovieContainer.classList.add('hidden');
+                    movieSearchBoxWrapper.style.display = 'block';
                     return;
                 }
 
@@ -814,42 +839,47 @@
                     selectedMovieTitle.textContent = data.movie.title;
                     selectedMovieYear.textContent = `Lançamento: ${data.movie.year}`;
                     selectedMovieContainer.classList.remove('hidden');
+                    movieSearchBoxWrapper.style.display = 'none'; // Sempre mostra o poster do filme, oculta busca a menos que altere
 
                     const reviews = data.reviews || {};
-                    const hasMyReview = reviews[currentUser.uid];
+                    const myReview = reviews[currentUser.uid];
 
-                    if (hasMyReview) {
-                        const reviewKeys = Object.keys(reviews);
-                        if (reviewKeys.length >= 2) {
-                            showResultsAndMatch(reviews);
-                        } else {
-                            stepMovie.classList.add('hidden');
-                            stepReview.classList.add('hidden');
-                            stepResults.classList.add('hidden');
-                            stepWaiting.classList.remove('hidden');
-                        }
+                    // Exibir sempre a última avaliação na tela inicial se houver
+                    if (myReview) {
+                        userRatingInput.value = myReview.rating;
+                        document.getElementById('userComment').value = myReview.comment;
+                        highlightStars(myReview.rating);
+                    }
+
+                    stepReview.classList.remove('hidden');
+
+                    const reviewKeys = Object.keys(reviews);
+                    if (reviewKeys.length >= 2) {
+                        showResultsAndMatch(reviews);
                     } else {
-                        stepMovie.classList.add('hidden');
-                        stepWaiting.classList.add('hidden');
                         stepResults.classList.add('hidden');
-                        stepReview.classList.remove('hidden');
                     }
                 } else {
-                    stepMovie.classList.remove('hidden');
-                    stepReview.classList.add('hidden');
-                    stepWaiting.classList.add('hidden');
-                    stepResults.classList.add('hidden');
                     selectedMovieContainer.classList.add('hidden');
+                    movieSearchBoxWrapper.style.display = 'block';
+                    stepReview.classList.add('hidden');
+                    stepResults.classList.add('hidden');
                 }
             });
         }
+
+        btnChangeMovie.addEventListener('click', () => {
+            selectedMovieContainer.classList.add('hidden');
+            movieSearchBoxWrapper.style.display = 'block';
+            movieSearchInput.value = '';
+            movieSearchInput.focus();
+        });
 
         document.getElementById('btnLeaveRoom').addEventListener('click', () => {
             initRoomSession("sessao_filme_principal");
             document.querySelector('[data-target="view-session"]').click();
         });
 
-        // Busca TMDB
         let searchTimeout;
         movieSearchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -910,25 +940,28 @@
             await update(roomRef, { movie: movieObj, reviews: null });
             movieResults.style.display = 'none';
             movieSearchInput.value = '';
+            showToast("Filme selecionado para a sessão!");
         }
 
-        // Sistema de Estrelas
+        function highlightStars(val) {
+            stars.forEach(s => {
+                if (s.getAttribute('data-value') <= val) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        }
+
         const stars = starContainer.querySelectorAll('i');
         stars.forEach(star => {
             star.addEventListener('click', () => {
                 const val = star.getAttribute('data-value');
                 userRatingInput.value = val;
-                stars.forEach(s => {
-                    if (s.getAttribute('data-value') <= val) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
+                highlightStars(val);
             });
         });
 
-        // Envio de Avaliação
         reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const rating = parseInt(userRatingInput.value);
@@ -949,8 +982,7 @@
 
             try {
                 await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
-                stepReview.classList.add('hidden');
-                stepWaiting.classList.remove('hidden');
+                showToast("Avaliação salva com sucesso!"); // Notificação em vez de aba separada
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
                 alert("Erro ao salvar avaliação.");
@@ -958,9 +990,6 @@
         });
 
         function showResultsAndMatch(reviewsObj) {
-            stepMovie.classList.add('hidden');
-            stepReview.classList.add('hidden');
-            stepWaiting.classList.add('hidden');
             stepResults.classList.remove('hidden');
 
             const reviewsArray = Object.values(reviewsObj);
@@ -1010,7 +1039,7 @@
                         <button class="btn btn-secondary" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;" data-comm="${comm.name}">Entrar</button>
                     `;
                     div.querySelector('button').addEventListener('click', () => {
-                        alert(`Você entrou na comunidade ${comm.name}!`);
+                        showToast(`Você entrou na comunidade ${comm.name}!`);
                     });
                     listEl.appendChild(div);
                 });
@@ -1025,6 +1054,7 @@
 
             await push(ref(db, 'communities'), { name });
             input.value = '';
+            showToast("Comunidade criada!");
         });
 
         // ================= AMIGOS E SALAS AUTOMÁTICAS =================
@@ -1061,7 +1091,6 @@
         });
 
         async function startAutomaticRoomWith(friendTag) {
-            // Busca UID do amigo através da nametag
             const tagRef = ref(db, `nametags/${friendTag}`);
             const snap = await get(tagRef);
 
@@ -1076,10 +1105,8 @@
                 return;
             }
 
-            // Gera sala automática única combinando os dois UIDs ordenados
             const generatedRoomId = `sala_${[currentUser.uid, friendUid].sort().join('_')}`;
             
-            // Cria ou limpa a sala e direciona o usuário automaticamente
             await set(ref(db, `rooms/${generatedRoomId}`), {
                 createdAt: Date.now(),
                 host: currentUser.uid,
@@ -1091,12 +1118,11 @@
             activeRoomId = generatedRoomId;
             initRoomSession(generatedRoomId);
 
-            // Redireciona visualmente para a aba de Sessão Dual
             document.querySelector('[data-target="view-session"]').click();
-            alert(`Sala automática criada com @${friendTag}! Escolha o filme para começarem.`);
+            showToast(`Sala automática criada com @${friendTag}!`);
         }
 
-        // ================= CHAT DE CONVERSAS =================
+        // ================= CHAT DE CONVERSAS COM POPUP DE MATCH =================
         function loadChatContacts() {
             const usersRef = ref(db, 'users');
             onValue(usersRef, (snapshot) => {
@@ -1120,37 +1146,70 @@
             });
         }
 
-        let chatUnsubscribe = null;
-
         function openChatWith(uid, nametag) {
             activeChatUserId = uid;
             document.getElementById('activeChatTitle').textContent = `Chat com @${nametag}`;
 
-            // Chave única para o chat entre os dois usuários (ordenada alfabeticamente)
             const chatId = [currentUser.uid, uid].sort().join('_');
             const messagesRef = ref(db, `chats/${chatId}/messages`);
+            const sharedRoomId = `sala_${[currentUser.uid, uid].sort().join('_')}`;
+            const sharedRoomRef = ref(db, `rooms/${sharedRoomId}`);
 
             const msgContainer = document.getElementById('chatMessagesContainer');
             
+            // Ouvir mensagens normais e também verificar dados da sala compartilhada para injetar popup de match
             onValue(messagesRef, (snapshot) => {
                 const msgs = snapshot.val() || {};
-                msgContainer.innerHTML = '';
+                
+                // Buscar também os dados da sala compartilhada para o Popup de Match no chat
+                get(sharedRoomRef).then((roomSnap) => {
+                    const roomData = roomSnap.val();
+                    msgContainer.innerHTML = '';
 
-                const keys = Object.keys(msgs);
-                if (keys.length === 0) {
-                    msgContainer.innerHTML = '<div class="message incoming">Inicie a conversa com este usuário.</div>';
-                    return;
-                }
+                    // Se houver match completo (duas avaliações), injeta o popup dinâmico no chat
+                    if (roomData && roomData.movie && roomData.reviews && Object.keys(roomData.reviews).length >= 2) {
+                        const revs = Object.values(roomData.reviews);
+                        const ratingDiff = Math.abs(revs[0].rating - revs[1].rating);
+                        let similarity = 100 - (ratingDiff * 20);
+                        if (similarity < 10) similarity = 10;
 
-                keys.forEach(k => {
-                    const m = msgs[k];
-                    const div = document.createElement('div');
-                    div.classList.add('message');
-                    div.classList.add(m.sender === currentUser.uid ? 'outgoing' : 'incoming');
-                    div.textContent = m.text;
-                    msgContainer.appendChild(div);
+                        const matchPopup = document.createElement('div');
+                        matchPopup.className = 'chat-match-card';
+                        matchPopup.innerHTML = `
+                            <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
+                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                <div>
+                                    <h5 style="color:var(--accent-color); font-size:0.95rem;">Match de Filme: ${roomData.movie.title}</h5>
+                                    <span style="font-size:0.8rem; color:var(--text-muted);">Compatibilidade: <strong>${similarity}%</strong></span>
+                                </div>
+                            </div>
+                            <div style="font-size:0.85rem; color:var(--text-main); margin-top: 6px;">
+                                <p><strong>${revs[0].name}:</strong> ${'★'.repeat(revs[0].rating)} - "${revs[0].comment}"</p>
+                                <p style="margin-top:4px;"><strong>${revs[1].name}:</strong> ${'★'.repeat(revs[1].rating)} - "${revs[1].comment}"</p>
+                            </div>
+                        `;
+                        msgContainer.appendChild(matchPopup);
+                    }
+
+                    const keys = Object.keys(msgs);
+                    if (keys.length === 0 && (!roomData || !roomData.movie)) {
+                        const defaultMsg = document.createElement('div');
+                        defaultMsg.className = 'message incoming';
+                        defaultMsg.textContent = 'Inicie a conversa ou abra uma sala dual com este usuário.';
+                        msgContainer.appendChild(defaultMsg);
+                        return;
+                    }
+
+                    keys.forEach(k => {
+                        const m = msgs[k];
+                        const div = document.createElement('div');
+                        div.classList.add('message');
+                        div.classList.add(m.sender === currentUser.uid ? 'outgoing' : 'incoming');
+                        div.textContent = m.text;
+                        msgContainer.appendChild(div);
+                    });
+                    msgContainer.scrollTop = msgContainer.scrollHeight;
                 });
-                msgContainer.scrollTop = msgContainer.scrollHeight;
             });
         }
 
