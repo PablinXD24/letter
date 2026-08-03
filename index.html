@@ -10,14 +10,17 @@
     
     <style>
         :root {
-            --bg-color: #12141c;
-            --card-bg: #1a1d29;
+            --bg-color: #0b0e14;
+            --card-bg: #151922;
+            --card-hover: #1c222d;
             --accent-color: #00e054;
             --accent-hover: #00c048;
             --text-main: #ffffff;
-            --text-muted: #9ab;
-            --border-color: #2c3440;
+            --text-muted: #8ca0b3;
+            --border-color: #232b38;
+            --border-focus: #344256;
             --danger-color: #ff4757;
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -34,24 +37,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 960px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
+            margin-bottom: 1.75rem;
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
             color: var(--text-main);
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
+            font-weight: 700;
         }
 
         header h1 span {
@@ -60,117 +63,125 @@
 
         header p {
             color: var(--text-muted);
-            margin-top: 0.5rem;
+            margin-top: 0.35rem;
+            font-size: 0.95rem;
         }
 
-        /* Barra de Navegação Superior (Apenas Sessão e Chats) */
+        /* Barra de Navegação Superior Minimalista e Fluida */
         .nav-bar {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-bottom: 1.5rem;
-            flex-wrap: wrap;
         }
 
         .nav-btn {
-            background: #1a1d29;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+            padding: 0.65rem 1.25rem;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.2s;
+            font-size: 0.925rem;
+            transition: var(--transition-smooth);
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
         .nav-btn.active, .nav-btn:hover {
             background: var(--accent-color);
-            color: #12141c;
+            color: #0b0e14;
             border-color: var(--accent-color);
+            transform: translateY(-1px);
         }
 
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            margin-bottom: 1.5rem;
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            margin-bottom: 1.25rem;
+            transition: var(--transition-smooth);
         }
 
         /* Tela de Autenticação */
         .auth-container {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 2.5rem 1rem;
         }
 
         .btn-google {
             background-color: #ffffff;
-            color: #12141c;
+            color: #0b0e14;
             border: none;
             width: 100%;
-            max-width: 350px;
-            padding: 0.9rem 1rem;
-            border-radius: 8px;
+            max-width: 320px;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            transition: background 0.2s;
-            margin-top: 1.5rem;
+            transition: var(--transition-smooth);
+            margin-top: 1.25rem;
+            box-shadow: 0 4px 12px rgba(255,255,255,0.05);
         }
 
         .btn-google:hover {
-            background-color: #f1f1f1;
+            background-color: #f0f2f5;
+            transform: translateY(-1px);
         }
 
         /* Busca de Filmes */
         .search-box {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .search-box input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            background: #12141c;
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.3s;
+            transition: var(--transition-smooth);
         }
 
         .search-box input:focus {
             border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 224, 84, 0.15);
         }
 
         .search-box i {
             position: absolute;
-            left: 1rem;
+            left: 1.1rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         .movie-results {
-            max-height: 250px;
+            max-height: 260px;
             overflow-y: auto;
-            border-radius: 8px;
-            background: #12141c;
+            border-radius: 12px;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
             display: none;
-            margin-top: 0.5rem;
+            margin-top: 0.4rem;
             position: absolute;
             width: 100%;
-            z-index: 10;
+            z-index: 20;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
 
         .movie-item {
@@ -179,7 +190,7 @@
             gap: 1rem;
             padding: 0.75rem 1rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.15s;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -188,19 +199,20 @@
         }
 
         .movie-item:hover {
-            background: #2c3440;
+            background: var(--card-hover);
         }
 
         .movie-item img {
-            width: 40px;
-            height: 60px;
+            width: 42px;
+            height: 62px;
             object-fit: cover;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         .movie-info h4 {
             font-size: 0.95rem;
             color: var(--text-main);
+            font-weight: 500;
         }
 
         .movie-info span {
@@ -212,138 +224,161 @@
         .selected-movie-preview {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            background: #12141c;
-            padding: 1rem;
-            border-radius: 12px;
+            gap: 1.25rem;
+            background: var(--bg-color);
+            padding: 1rem 1.25rem;
+            border-radius: 14px;
             border: 1px solid var(--border-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .selected-movie-preview img {
-            width: 70px;
-            height: 100px;
+            width: 65px;
+            height: 95px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         /* Formulários gerais */
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.15rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.45rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 500;
         }
 
         .form-group input[type="text"],
         .form-group textarea {
             width: 100%;
-            padding: 0.85rem;
-            background: #12141c;
+            padding: 0.85rem 1rem;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 224, 84, 0.15);
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 110px;
         }
 
         .rating-stars {
             display: flex;
-            gap: 0.5rem;
-            font-size: 1.5rem;
+            gap: 0.6rem;
+            font-size: 1.6rem;
             color: var(--border-color);
             cursor: pointer;
         }
 
+        .rating-stars i {
+            transition: color 0.15s ease, transform 0.15s ease;
+        }
+
+        .rating-stars i:hover {
+            transform: scale(1.1);
+        }
+
         .rating-stars i.active {
-            color: #00e054;
+            color: var(--accent-color);
         }
 
         .btn {
             background-color: var(--accent-color);
-            color: #12141c;
+            color: #0b0e14;
             border: none;
             width: 100%;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: var(--transition-smooth);
         }
 
         .btn:hover {
             background-color: var(--accent-hover);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background-color: #2c3440;
+            background-color: var(--border-color);
             color: var(--text-main);
         }
         .btn-secondary:hover {
-            background-color: #3b4454;
+            background-color: #2e394b;
         }
 
         .grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.25rem;
         }
 
-        @media(max-width: 768px) {
+        @media(max-width: 800px) {
             .grid-2 {
                 grid-template-columns: 1fr;
             }
         }
 
         .community-list, .friends-list, .chat-messages {
-            background: #12141c;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            max-height: 300px;
+            border-radius: 14px;
+            padding: 0.75rem;
+            max-height: 340px;
             overflow-y: auto;
         }
 
-        .community-item, .friend-item {
+        .community-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid var(--border-color);
+            border-radius: 10px;
+            transition: background 0.15s;
         }
 
-        .community-item:last-child, .friend-item:last-child {
+        .community-item:hover {
+            background: var(--card-hover);
+        }
+
+        .community-item:last-child {
             border-bottom: none;
         }
 
-        /* Sistema de Chat de Conversa */
+        /* Sistema de Chat Aprimorado */
         .chat-container {
             display: flex;
             flex-direction: column;
-            height: 400px;
-            background: #12141c;
+            height: 440px;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 14px;
             overflow: hidden;
         }
 
         .chat-messages {
             flex: 1;
-            padding: 1rem;
+            padding: 1.25rem;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.85rem;
             max-height: none;
             background: transparent;
             border: none;
@@ -351,79 +386,93 @@
         }
 
         .message {
-            max-width: 70%;
+            max-width: 75%;
             padding: 0.75rem 1rem;
-            border-radius: 10px;
+            border-radius: 14px;
             font-size: 0.9rem;
+            line-height: 1.4;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         .message.incoming {
-            background: #2c3440;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             align-self: flex-start;
+            border-bottom-left-radius: 4px;
         }
 
         .message.outgoing {
             background: var(--accent-color);
-            color: #12141c;
+            color: #0b0e14;
             align-self: flex-end;
             font-weight: 500;
+            border-bottom-right-radius: 4px;
         }
 
         /* Popup de Match no Chat */
         .chat-match-card {
-            background: linear-gradient(135deg, #1a1d29 0%, #2c3440 100%);
+            background: linear-gradient(135deg, rgba(21, 25, 34, 0.95) 0%, rgba(35, 43, 56, 0.95) 100%);
             border: 1px solid var(--accent-color);
-            border-radius: 10px;
+            border-radius: 14px;
             padding: 1rem;
             margin: 0.5rem 0;
-            max-width: 85%;
+            max-width: 90%;
             align-self: center;
             width: 100%;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
         .chat-input-area {
             display: flex;
-            padding: 0.75rem;
-            background: #1a1d29;
+            padding: 0.75rem 1rem;
+            background: var(--card-bg);
             border-top: 1px solid var(--border-color);
-            gap: 0.5rem;
+            gap: 0.6rem;
             align-items: center;
         }
 
         .chat-input-area input {
             flex: 1;
-            padding: 0.75rem;
-            background: #12141c;
+            padding: 0.75rem 1rem;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 10px;
             color: white;
             outline: none;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--accent-color);
         }
 
         .chat-input-area button {
             width: auto;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.15rem;
+            border-radius: 10px;
         }
 
         /* Botão interno para avaliar juntos na conversa */
         .btn-evaluate-together {
-            background: var(--card-bg);
+            background: rgba(0, 224, 84, 0.1);
             border: 1px solid var(--accent-color);
             color: var(--accent-color);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
+            padding: 0.5rem 0.8rem;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            transition: all 0.2s;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
         }
 
         .btn-evaluate-together:hover {
             background: var(--accent-color);
-            color: #12141c;
+            color: #0b0e14;
         }
 
         /* Tela de Resultados / Comparação */
@@ -431,26 +480,26 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .comparison-grid {
                 grid-template-columns: 1fr;
             }
         }
 
         .review-box {
-            background: #12141c;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 14px;
             padding: 1.25rem;
         }
 
         .review-box h3 {
             color: var(--accent-color);
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+            font-size: 1.05rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -458,40 +507,43 @@
 
         .match-score-card {
             text-align: center;
-            background: linear-gradient(135deg, #1a1d29 0%, #2c3440 100%);
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg-color) 100%);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .match-score-card h2 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             color: var(--accent-color);
-            margin-top: 0.5rem;
+            margin-top: 0.35rem;
+            font-weight: 700;
         }
 
         .badge {
-            background: #2c3440;
+            background: rgba(0, 224, 84, 0.12);
             color: var(--accent-color);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
             font-size: 0.75rem;
             font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .toast-notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
             background: var(--accent-color);
-            color: #12141c;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
+            color: #0b0e14;
+            padding: 0.9rem 1.4rem;
+            border-radius: 12px;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-size: 0.925rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
             z-index: 1000;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .hidden {
@@ -504,10 +556,10 @@
     <div class="container">
         <header>
             <h1>Cine<span>Match</span></h1>
-            <p>Sua plataforma de avaliação de cinema sincronizada[cite: 1].</p>
+            <p>Sua plataforma inteligente de avaliações e matches cinematográficos[cite: 1].</p>
         </header>
 
-        <!-- Menu de Navegação Atualizado (Sem Comunidades e Sem aba separada de Sessão Dual) -->
+        <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
             <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Minha Sessão</button>
             <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
@@ -518,34 +570,34 @@
             <h3>Bem-vindo ao CineMatch</h3>
             <p style="color: var(--text-muted); margin-top: 0.5rem;">Faça login com sua conta Google para continuar[cite: 1]</p>
             <button id="googleLoginBtn" class="btn-google">
-                <i class="fa-brands fa-google"></i> Entrar com o Google[cite: 1]
+                <i class="fa-brands fa-google" style="color: #ea4335;"></i> Entrar com o Google[cite: 1]
             </button>
         </div>
 
         <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">Como você quer ser chamado na plataforma?[cite: 1]</p>
+            <p style="color: var(--text-muted); margin-top: 0.4rem; margin-bottom: 1.25rem;">Como você quer ser identificado na comunidade[cite: 1]?</p>
             
             <form id="nametagForm">
                 <div class="form-group">
                     <label>Nametag Única[cite: 1]</label>
                     <input type="text" id="nametagInput" required placeholder="Ex: cinemaniaco99" autocomplete="off">
                 </div>
-                <button type="submit" class="btn">Salvar Nametag e Continuar[cite: 1]</button>
+                <button type="submit" class="btn">Salvar e Continuar[cite: 1]</button>
             </form>
         </div>
 
-        <!-- VIEW 1: SESSÃO INDIVIDUAL / ATIVA -->
+        <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
-            <div class="card" id="roomInfoCard" style="background: #161922; border-color: var(--accent-color);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="card" id="roomInfoCard" style="background: rgba(21, 25, 34, 0.7); border-color: rgba(0, 224, 84, 0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                     <div>
-                        <span class="badge">SALA ATIVA</span>
-                        <h4 id="activeRoomName" style="margin-top: 0.3rem;">Sessão Principal[cite: 1]</h4>
+                        <span class="badge">SESSÃO ATIVA</span>
+                        <h4 id="activeRoomName" style="margin-top: 0.35rem; font-weight: 600;">Sessão Principal[cite: 1]</h4>
                     </div>
-                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;">Voltar à Sessão Padrão</button>
+                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px;">Voltar à Sessão Padrão</button>
                 </div>
             </div>
 
@@ -555,11 +607,11 @@
                 
                 <div id="selectedMovieContainer" class="selected-movie-preview hidden">
                     <img id="selectedMoviePoster" src="" alt="Poster">
-                    <div style="flex: 1;">
-                        <h3 id="selectedMovieTitle" style="color:white;"></h3>
-                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.9rem;"></p>
+                    <div style="flex: 1; min-width: 0;">
+                        <h3 id="selectedMovieTitle" style="color:white; font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
+                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;"></p>
                     </div>
-                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.5rem 0.85rem; font-size: 0.85rem; border-radius: 8px;"><i class="fa-solid fa-pen"></i> Alterar</button>
                 </div>
 
                 <div class="search-box" id="movieSearchBoxWrapper">
@@ -571,7 +623,7 @@
 
             <!-- ETAPA 2: Avaliação -->
             <div id="step-review" class="card hidden">
-                <h3 style="margin-bottom: 1.5rem;" id="reviewCardTitle">Sua Avaliação[cite: 1]</h3>
+                <h3 style="margin-bottom: 1.25rem;" id="reviewCardTitle">Sua Avaliação[cite: 1]</h3>
                 
                 <form id="reviewForm">
                     <div class="form-group">
@@ -595,12 +647,12 @@
                 </form>
             </div>
 
-            <!-- ETAPA 4: Comparação e Afinidade (Caso esteja em sala compartilhada) -->
+            <!-- ETAPA 4: Comparação e Afinidade -->
             <div id="step-results" class="card hidden">
                 <h3 style="margin-bottom: 1rem; text-align: center;">Resultado do Match[cite: 1]</h3>
                 
                 <div class="match-score-card">
-                    <p style="color: var(--text-muted);">Compatibilidade de Gosto[cite: 1]</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Compatibilidade de Gosto[cite: 1]</p>
                     <h2 id="matchPercentage">0%</h2>
                 </div>
 
@@ -610,24 +662,24 @@
             </div>
         </div>
 
-        <!-- VIEW 2: CHATS & CONEXÕES (Com a opção de avaliar juntos direto na conversa) -->
+        <!-- VIEW 2: CHATS & CONEXÕES -->
         <div id="view-chats" class="app-view hidden">
             <div class="grid-2">
                 <div class="card" style="margin-bottom: 0;">
-                    <h3>Contatos</h3>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">Selecione um contato para conversar.</p>
-                    <div class="community-list" id="chatContactsList" style="max-height: 330px;">
+                    <h3 style="margin-bottom: 0.35rem;">Contatos</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Selecione um contato para conversar.</p>
+                    <div class="community-list" id="chatContactsList">
                         <!-- Contatos dinâmicos -->
                     </div>
                 </div>
 
-                <div class="card" style="margin-bottom: 0; padding: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                        <h4 id="activeChatTitle" style="color: var(--accent-color);">Selecione um chat</h4>
+                <div class="card" style="margin-bottom: 0; padding: 1.25rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+                        <h4 id="activeChatTitle" style="color: var(--accent-color); font-size: 1rem; font-weight: 600;">Selecione um chat</h4>
                     </div>
                     <div class="chat-container">
                         <div class="chat-messages" id="chatMessagesContainer">
-                            <div class="message incoming">Nenhuma conversa selecionada no momento.</div>
+                            <div class="message incoming">Nenhuma conversa selecionada no momento.[cite: 1]</div>
                         </div>
                         <div class="chat-input-area">
                             <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
@@ -665,7 +717,7 @@
 
         let currentUser = null;
         let userNametag = null;
-        let activeRoomId = "sessao_filme_principal"; // Sala padrão inicial[cite: 1]
+        let activeRoomId = "sessao_filme_principal";[cite: 1]
         let activeChatUserId = null;
         let activeChatNametag = null;
 
@@ -1006,7 +1058,7 @@
                     div.classList.add('community-item');
                     div.innerHTML = `
                         <span><i class="fa-solid fa-user" style="color:var(--text-muted); margin-right:8px;"></i> @${u.nametag}</span>
-                        <button class="btn btn-secondary" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">Conversar</button>
+                        <button class="btn btn-secondary" style="width: auto; padding: 0.35rem 0.75rem; font-size: 0.8rem; border-radius: 8px;">Conversar</button>
                     `;
                     div.addEventListener('click', () => openChatWith(uid, u.nametag));
                     contactsEl.appendChild(div);
@@ -1044,7 +1096,7 @@
                         matchPopup.className = 'chat-match-card';
                         matchPopup.innerHTML = `
                             <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
-                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 6px;">
                                 <div>
                                     <h5 style="color:var(--accent-color); font-size:0.95rem;">Match de Filme: ${roomData.movie.title}[cite: 1]</h5>
                                     <span style="font-size:0.8rem; color:var(--text-muted);">Compatibilidade: <strong>${similarity}%</strong>[cite: 1]</span>
@@ -1062,7 +1114,7 @@
                     if (keys.length === 0 && (!roomData || !roomData.movie)) {
                         const defaultMsg = document.createElement('div');
                         defaultMsg.className = 'message incoming';
-                        defaultMsg.textContent = 'Inicie a conversa ou clique em "Avaliar Juntos" para escolherem um filme.[cite: 1]';
+                        defaultMsg.textContent = 'Inicie a conversa ou clique em "Avaliar Juntos" para escolherem um filme[cite: 1].';
                         msgContainer.appendChild(defaultMsg);
                         return;
                     }
@@ -1080,7 +1132,6 @@
             });
         }
 
-        // Ação de "Avaliar Juntos" diretamente integrada dentro da conversa
         document.getElementById('btnEvaluateTogether').addEventListener('click', async () => {
             if (!activeChatUserId) return;
 
