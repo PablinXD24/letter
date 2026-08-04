@@ -10,6 +10,7 @@
     
     <style>
         :root {
+            /* Paleta Neon Branca e Roxo Neon */
             --bg-main: #0a0118;
             --win-bg: #130328;
             --y2k-green: #ffffff;
@@ -27,6 +28,14 @@
             --font-retro-sub: 'VT323', monospace;
             --font-heading: 'Syne', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
+
+            /* Bordas e Sombras Sólidas Y2K */
+            --border-thick: 3px solid #ffffff;
+            --border-light: 3px solid #ffffff;
+            --shadow-solid: 6px 6px 0px #bf00ff;
+            --shadow-cyan: 6px 6px 0px #ffffff;
+            --shadow-pink: 6px 6px 0px #bf00ff;
+            --shadow-green: 6px 6px 0px #ffffff;
         }
 
         * {
@@ -37,6 +46,7 @@
             scrollbar-color: var(--y2k-purple) #000000;
         }
 
+        /* Removendo canaletas cinzas das barras de rolagem */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -57,6 +67,7 @@
             box-shadow: 0 0 12px var(--y2k-pink);
         }
 
+        /* Fundo Estilo Desktop Cyber OS com Grid Retrô */
         body {
             background-color: var(--bg-main);
             background-image: 
@@ -83,28 +94,129 @@
             z-index: 2;
         }
 
-        /* HEADER & USER PROFILE BALL */
-        .top-header-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Header Principal Limpo com Bolinha de Perfil */
+        header {
+            text-align: center;
             margin-bottom: 2rem;
             position: relative;
             background: #05000f;
             border: 3px solid #ffffff;
             outline: 3px solid #bf00ff;
-            padding: 1.5rem 2rem;
+            padding: 2rem 1.5rem;
             box-shadow: 8px 8px 0px #bf00ff, 14px 14px 0px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Bolinha de Perfil no Canto do Header */
+        .profile-bubble-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
+        }
+
+        .profile-bubble {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #bf00ff;
+            border: 3px solid #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #ffffff, 0 0 10px #bf00ff;
+            transition: transform 0.15s ease;
+        }
+
+        .profile-bubble:hover {
+            transform: scale(1.08);
+            background: #ffffff;
+            color: #bf00ff;
+        }
+
+        .profile-bubble img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-bubble i {
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .profile-bubble:hover i {
+            color: #bf00ff;
+        }
+
+        /* Dropdown do Perfil */
+        .profile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 240px;
+            background: #0d0122;
+            border: 3px solid #ffffff;
+            outline: 3px solid #bf00ff;
+            box-shadow: 6px 6px 0px #bf00ff;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .profile-dropdown.active {
+            display: flex;
+        }
+
+        .profile-dropdown-header {
+            padding-bottom: 0.6rem;
+            border-bottom: 2px dashed #bf00ff;
+            margin-bottom: 0.6rem;
+        }
+
+        .profile-dropdown-header p {
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            color: #ffffff;
+            word-break: break-all;
+        }
+
+        .profile-menu-item {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 0.6rem;
+            text-align: left;
+            font-family: var(--font-pixel);
+            font-size: 0.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.1s;
+        }
+
+        .profile-menu-item:hover {
+            background: #bf00ff;
+            color: #ffffff;
+        }
+
+        .profile-menu-item.danger:hover {
+            background: #ff3333;
         }
 
         header h1 {
             font-family: var(--font-pixel);
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: #ffffff;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 4px 4px 0px #bf00ff, -3px -3px 0px #000000;
             letter-spacing: 3px;
             text-transform: uppercase;
             line-height: 1.1;
+            margin-top: 0.5rem;
         }
 
         header h1 span {
@@ -114,79 +226,6 @@
             border: 3px solid #ffffff;
             display: inline-block;
             box-shadow: 3px 3px 0px #ffffff, 0 0 12px var(--y2k-purple);
-        }
-
-        /* Perfil Bolinha (Avatar) */
-        .profile-bubble-container {
-            position: relative;
-        }
-
-        .profile-bubble {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--y2k-purple);
-            border: 3px solid #ffffff;
-            outline: 2px solid #bf00ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px #ffffff, 0 0 10px #bf00ff;
-            font-family: var(--font-pixel);
-            font-size: 0.9rem;
-            color: #ffffff;
-            transition: transform 0.15s ease;
-        }
-
-        .profile-bubble:hover {
-            transform: scale(1.08);
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .profile-dropdown {
-            position: absolute;
-            right: 0;
-            top: 60px;
-            width: 240px;
-            background: #0d001a;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            box-shadow: 6px 6px 0px #bf00ff, 10px 10px 0px rgba(255,255,255,0.2);
-            padding: 1rem;
-            z-index: 9999;
-            display: none;
-        }
-
-        .profile-dropdown.active {
-            display: block;
-        }
-
-        .profile-dropdown p {
-            font-size: 0.8rem;
-            font-family: var(--font-pixel);
-            margin-bottom: 0.8rem;
-            color: #ffffff;
-            word-break: break-all;
-        }
-
-        .profile-dropdown button {
-            width: 100%;
-            padding: 0.5rem;
-            background: #130328;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            font-family: var(--font-pixel);
-            font-size: 0.65rem;
-            cursor: pointer;
-            margin-top: 0.4rem;
-            text-transform: uppercase;
-        }
-
-        .profile-dropdown button:hover {
-            background: #bf00ff;
-            box-shadow: 0 0 8px #ffffff;
         }
 
         /* Navegação Estilo Abas Y2K Pop-Art */
@@ -262,6 +301,7 @@
             position: relative;
         }
 
+        /* Botão Estilo Windows / Y2K Button */
         .btn-google {
             background: #ffffff;
             color: #000000;
@@ -292,31 +332,9 @@
             text-shadow: 0 0 8px #ffffff;
         }
 
-        /* Tela Inicial / Boas-Vindas Principal */
-        .welcome-home-screen {
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-
-        .welcome-home-screen h2 {
-            font-family: var(--font-pixel);
-            font-size: 1.8rem;
-            color: #ffffff;
-            text-shadow: 0 0 10px #ffffff, 3px 3px 0px #bf00ff;
-            margin-bottom: 1rem;
-        }
-
-        .welcome-home-screen p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            margin-bottom: 2rem;
-        }
-
-        .home-action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .btn-google:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #bf00ff;
         }
 
         /* Busca de Filmes */
@@ -355,6 +373,7 @@
             font-size: 1.2rem;
         }
 
+        /* POPUP LIMPADO */
         .movie-results {
             max-height: 340px;
             overflow-y: auto;
@@ -420,6 +439,7 @@
             font-weight: bold;
         }
 
+        /* Filme Selecionado */
         .selected-movie-preview {
             display: flex;
             align-items: center;
@@ -455,8 +475,26 @@
             .selected-movie-preview > div {
                 width: 100%;
             }
+
+            .selected-movie-preview h3 {
+                white-space: normal !important;
+                word-break: break-word;
+                font-size: 1.05rem !important;
+            }
+
+            .selected-movie-preview .btn {
+                width: 100% !important;
+                justify-content: center;
+                margin-top: 0.4rem;
+            }
+
+            .search-box input {
+                padding: 0.9rem 0.9rem 0.9rem 2.8rem;
+                font-size: 0.95rem;
+            }
         }
 
+        /* Formulários gerais */
         .form-group {
             margin-bottom: 1.4rem;
         }
@@ -484,12 +522,19 @@
             box-shadow: inset 3px 3px 0px #bf00ff;
         }
 
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            border-color: #ffffff;
+            box-shadow: inset 3px 3px 0px #bf00ff, 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
         .form-group textarea {
             resize: vertical;
             min-height: 120px;
             line-height: 1.5;
         }
 
+        /* Sistema de Avaliação Y2K Windows Box */
         .rating-wrapper {
             background: #05000f;
             border: 3px solid #ffffff;
@@ -536,6 +581,7 @@
             font-family: var(--font-retro-sub);
         }
 
+        /* Botão 3D Windows / Y2K Pop-Art */
         .btn {
             background: #ffffff;
             color: #000000;
@@ -563,6 +609,11 @@
             text-shadow: 0 0 8px #ffffff;
         }
 
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #bf00ff;
+        }
+
         .btn-secondary {
             background: #bf00ff;
             color: #ffffff;
@@ -579,13 +630,7 @@
             text-shadow: none;
         }
 
-        .btn-danger {
-            background: #ff0055;
-            color: #ffffff;
-            border: 3px solid #ffffff;
-            box-shadow: 4px 4px 0px #ffffff;
-        }
-
+        /* Chat Layout Retro Messenger Restilizado */
         .whatsapp-chat-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
@@ -722,6 +767,7 @@
             font-weight: 600;
         }
 
+        /* Estado Vazio Personalizado para o Chat (Sem conversas abertas) */
         .chat-empty-state {
             display: flex;
             flex-direction: column;
@@ -748,6 +794,7 @@
             text-transform: uppercase;
         }
 
+        /* Popup de Match no Chat */
         .chat-match-card {
             background: #05000f;
             border: 3px solid #ffffff;
@@ -806,6 +853,7 @@
             text-shadow: none;
         }
 
+        /* Resultados e Comparação */
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -838,6 +886,7 @@
             font-family: var(--font-pixel);
         }
 
+        /* CARD DE PLACAR */
         .match-score-card {
             text-align: center;
             background: #05000f;
@@ -876,6 +925,16 @@
             box-shadow: 0 0 6px #bf00ff;
         }
 
+        @media (max-width: 500px) {
+            .score-divider {
+                display: none;
+            }
+            .score-block h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* BIBLIOTECA */
         .library-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -925,6 +984,7 @@
             white-space: nowrap;
         }
 
+        /* POPUP TOAST SYSTEM ALERT */
         .toast-notification {
             position: fixed;
             bottom: 28px;
@@ -944,31 +1004,51 @@
         .hidden {
             display: none !important;
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+            .nav-bar {
+                gap: 0.4rem;
+            }
+            .nav-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.65rem;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container" id="mainContainerSwipe">
-        
-        <!-- HEADER COM LOGO E BOLINHA DE PERFIL -->
-        <div class="top-header-wrapper">
-            <header style="background:none; border:none; outline:none; padding:0; box-shadow:none; margin:0;">
-                <h1 style="cursor: pointer;" id="logoHomeBtn">Cine<span>Mozi</span></h1>
-            </header>
-
-            <!-- Bolinha de Perfil com Menu Dropdown -->
-            <div class="profile-bubble-container" id="profileBubbleContainer" style="display: none;">
-                <div class="profile-bubble" id="profileBubbleBtn">CM</div>
+        <header>
+            <!-- BOLINHA DE PERFIL (Exibida após o login) -->
+            <div id="profileBubbleContainer" class="profile-bubble-container hidden">
+                <div class="profile-bubble" id="profileBubbleBtn">
+                    <img id="profileBubbleImg" src="" alt="Perfil" style="display: none;">
+                    <i id="profileBubbleIcon" class="fa-solid fa-user"></i>
+                </div>
+                <!-- Menu Dropdown do Perfil -->
                 <div class="profile-dropdown" id="profileDropdownMenu">
-                    <p id="profileUserTag">@usuario</p>
-                    <p id="profileUserEmail" style="font-size:0.65rem; color:var(--text-muted);"></p>
-                    <hr style="border-color:#bf00ff; margin: 0.5rem 0;">
-                    <button id="profileHomeNavBtn"><i class="fa-solid fa-house"></i> Início</button>
-                    <button id="profileClearDataBtn" class="btn-danger" style="margin-top:0.4rem;"><i class="fa-solid fa-trash"></i> Excluir Dados</button>
-                    <button id="profileLogoutBtn" style="margin-top:0.4rem;"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+                    <div class="profile-dropdown-header">
+                        <p id="profileDropdownName">@usuario</p>
+                        <p id="profileDropdownEmail" style="color: var(--text-muted); font-size: 0.55rem; margin-top: 3px;">email@exemplo.com</p>
+                    </div>
+                    <button class="profile-menu-item" id="menuVoltarInicio"><i class="fa-solid fa-house"></i> Voltar à Sessão</button>
+                    <button class="profile-menu-item" id="menuSairConta"><i class="fa-solid fa-right-from-bracket"></i> Sair / Desconectar</button>
+                    <button class="profile-menu-item danger" id="menuExcluirConta"><i class="fa-solid fa-trash-can"></i> Excluir Dados</button>
                 </div>
             </div>
-        </div>
+
+            <h1>Cine<span>Mozi</span></h1>
+        </header>
 
         <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
@@ -977,20 +1057,9 @@
             <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
         </div>
 
-        <!-- TELA INICIAL COM OPÇÕES DE VOLTAR E EXCLUSÃO -->
-        <div id="view-home-screen" class="card welcome-home-screen hidden">
-            <h2>Bem-vindo ao CineMozi</h2>
-            <p>Sua plataforma Y2K para sessões de cinema e matches cinematográficos.</p>
-            <div class="home-action-buttons">
-                <button class="btn" id="homeStartSessionBtn"><i class="fa-solid fa-play"></i> Iniciar Sessão</button>
-                <button class="btn btn-secondary" id="homeBrowseLibraryBtn"><i class="fa-solid fa-book"></i> Ver Biblioteca</button>
-                <button class="btn btn-danger" id="homeClearStorageBtn"><i class="fa-solid fa-trash-can"></i> Excluir Dados da Sessão</button>
-            </div>
-        </div>
-
         <!-- ETAPA 0: Login com Google -->
-        <div id="step-auth" class="card auth-container hidden">
-            <h3>Entrar no CineMozi</h3>
+        <div id="step-auth" class="card auth-container">
+            <h3>Bem-vindo ao CineMozi</h3>
             <button id="googleLoginBtn" class="btn-google">
                 <i class="fa-brands fa-google" style="color: #000000;"></i> Entrar com o Google
             </button>
@@ -1089,6 +1158,7 @@
         <!-- VIEW 2: CHATS & CONEXÕES -->
         <div id="view-chats" class="app-view hidden">
             <div class="whatsapp-chat-layout">
+                <!-- Sidebar de Contatos -->
                 <div class="whatsapp-sidebar">
                     <div class="whatsapp-sidebar-header">
                         <h3>Conversas</h3>
@@ -1096,6 +1166,7 @@
                     <div class="whatsapp-contacts-list" id="chatContactsList"></div>
                 </div>
 
+                <!-- Janela Principal de Mensagens -->
                 <div class="whatsapp-main-chat">
                     <div class="whatsapp-chat-header">
                         <div style="display: flex; align-items: center; gap: 0.85rem;">
@@ -1148,7 +1219,7 @@
     <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
         import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -1174,11 +1245,12 @@
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
-        const viewHomeScreen = document.getElementById('view-home-screen');
         const socialNavbar = document.getElementById('socialNavbar');
         const profileBubbleContainer = document.getElementById('profileBubbleContainer');
         const profileBubbleBtn = document.getElementById('profileBubbleBtn');
         const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+        const profileBubbleImg = document.getElementById('profileBubbleImg');
+        const profileBubbleIcon = document.getElementById('profileBubbleIcon');
         
         const googleLoginBtn = document.getElementById('googleLoginBtn');
         const nametagForm = document.getElementById('nametagForm');
@@ -1187,64 +1259,7 @@
         const navButtons = document.querySelectorAll('.nav-btn');
         const appViews = document.querySelectorAll('.app-view');
 
-        // Toggle do Menu de Perfil (Bolinha)
-        profileBubbleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdownMenu.classList.toggle('active');
-        });
-
-        document.addEventListener('click', () => {
-            profileDropdownMenu.classList.remove('active');
-        });
-
-        document.getElementById('profileLogoutBtn').addEventListener('click', async () => {
-            await signOut(auth);
-            showToast("Sessão encerrada.");
-        });
-
-        document.getElementById('profileHomeNavBtn').addEventListener('click', () => {
-            goToHomeScreen();
-            profileDropdownMenu.classList.remove('active');
-        });
-
-        document.getElementById('logoHomeBtn').addEventListener('click', () => {
-            goToHomeScreen();
-        });
-
-        document.getElementById('homeStartSessionBtn').addEventListener('click', () => {
-            switchTab('view-session');
-        });
-
-        document.getElementById('homeBrowseLibraryBtn').addEventListener('click', () => {
-            switchTab('view-library');
-        });
-
-        document.getElementById('homeClearStorageBtn').addEventListener('click', async () => {
-            if (confirm("Deseja redefinir os dados da sua sessão atual?")) {
-                const roomRef = ref(db, `rooms/${activeRoomId}`);
-                await update(roomRef, { movie: null, reviews: null });
-                showToast("Dados da sessão limpos!");
-                goToHomeScreen();
-            }
-        });
-
-        document.getElementById('profileClearDataBtn').addEventListener('click', async () => {
-            if (confirm("Deseja realmente limpar os dados da sua sala principal?")) {
-                await set(ref(db, `rooms/sessao_filme_principal`), null);
-                showToast("Dados excluídos com sucesso.");
-                goToHomeScreen();
-            }
-        });
-
-        function goToHomeScreen() {
-            socialNavbar.classList.add('hidden');
-            appViews.forEach(v => v.classList.add('hidden'));
-            viewHomeScreen.classList.remove('hidden');
-        }
-
         function switchTab(targetId) {
-            viewHomeScreen.classList.add('hidden');
-            socialNavbar.classList.remove('hidden');
             navButtons.forEach(b => {
                 if (b.getAttribute('data-target') === targetId) {
                     b.classList.add('active');
@@ -1269,6 +1284,87 @@
             });
         });
 
+        // Toggle Bolinha de Perfil Menu
+        profileBubbleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdownMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            profileDropdownMenu.classList.remove('active');
+        });
+
+        // Menu Opções de Perfil
+        document.getElementById('menuVoltarInicio').addEventListener('click', () => {
+            switchTab('view-session');
+            profileDropdownMenu.classList.remove('active');
+        });
+
+        document.getElementById('menuSairConta').addEventListener('click', async () => {
+            if (confirm("Deseja realmente sair da conta?")) {
+                await signOut(auth);
+                location.reload();
+            }
+        });
+
+        document.getElementById('menuExcluirConta').addEventListener('click', async () => {
+            if (confirm("ATENÇÃO: Deseja realmente excluir seus dados e conta do CineMozi? Esta ação é irreversível.")) {
+                try {
+                    const uId = currentUser.uid;
+                    if (userNametag) {
+                        await remove(ref(db, `nametags/${userNametag}`));
+                    }
+                    await remove(ref(db, `users/${uId}`));
+                    await deleteUser(currentUser);
+                    showToast("Conta e dados excluídos com sucesso.");
+                    setTimeout(() => location.reload(), 1500);
+                } catch (error) {
+                    console.error("Erro ao excluir conta:", error);
+                    alert("Para sua segurança, faça login novamente antes de excluir a conta ou tente mais tarde.");
+                }
+            }
+        });
+
+        // SUPORTE A SWIPE (ARRASTAR O DEDO) PARA ABAS
+        const viewsList = ["view-session", "view-chats", "view-library"];
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const mainContainerSwipe = document.getElementById('mainContainerSwipe');
+
+        mainContainerSwipe.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        mainContainerSwipe.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipeGesture();
+        }, { passive: true });
+
+        function handleSwipeGesture() {
+            if (currentUser && !stepNametag.classList.contains('hidden')) return;
+            if (currentUser && stepAuth.classList.contains('hidden')) {
+                const threshold = 50;
+                const diff = touchStartX - touchEndX;
+
+                let currentActiveIndex = 0;
+                navButtons.forEach((btn, idx) => {
+                    if (btn.classList.contains('active')) {
+                        currentActiveIndex = idx;
+                    }
+                });
+
+                if (diff > threshold) {
+                    if (currentActiveIndex < viewsList.length - 1) {
+                        switchTab(viewsList[currentActiveIndex + 1]);
+                    }
+                } else if (diff < -threshold) {
+                    if (currentActiveIndex > 0) {
+                        switchTab(viewsList[currentActiveIndex - 1]);
+                    }
+                }
+            }
+        }
+
         googleLoginBtn.addEventListener('click', async () => {
             try {
                 await signInWithPopup(auth, googleProvider);
@@ -1278,24 +1374,25 @@
             }
         });
 
-        // Verificação de autenticação mantida para persistência ao atualizar a página
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 stepAuth.classList.add('hidden');
+
+                if (user.photoURL) {
+                    profileBubbleImg.src = user.photoURL;
+                    profileBubbleImg.style.display = 'block';
+                    profileBubbleIcon.style.display = 'none';
+                }
+                document.getElementById('profileDropdownEmail').textContent = user.email || '';
 
                 const userRef = ref(db, `users/${user.uid}`);
                 const snapshot = await get(userRef);
 
                 if (snapshot.exists() && snapshot.val().nametag) {
                     userNametag = snapshot.val().nametag;
+                    document.getElementById('profileDropdownName').textContent = `@${userNametag}`;
                     await update(userRef, { lastLogin: Date.now() });
-                    
-                    profileBubbleBtn.textContent = userNametag.substring(0, 2).toUpperCase();
-                    document.getElementById('profileUserTag').textContent = `@${userNametag}`;
-                    document.getElementById('profileUserEmail').textContent = user.email;
-                    profileBubbleContainer.style.display = 'block';
-
                     startApplication();
                 } else {
                     stepNametag.classList.remove('hidden');
@@ -1305,8 +1402,7 @@
                 stepAuth.classList.remove('hidden');
                 stepNametag.classList.add('hidden');
                 socialNavbar.classList.add('hidden');
-                profileBubbleContainer.style.display = 'none';
-                viewHomeScreen.classList.add('hidden');
+                profileBubbleContainer.classList.add('hidden');
                 appViews.forEach(v => v.classList.add('hidden'));
             }
         });
@@ -1326,13 +1422,8 @@
                 await set(ref(db, `nametags/${tag}`), currentUser.uid);
 
                 userNametag = tag;
+                document.getElementById('profileDropdownName').textContent = `@${tag}`;
                 stepNametag.classList.add('hidden');
-                
-                profileBubbleBtn.textContent = tag.substring(0, 2).toUpperCase();
-                document.getElementById('profileUserTag').textContent = `@${tag}`;
-                document.getElementById('profileUserEmail').textContent = currentUser.email;
-                profileBubbleContainer.style.display = 'block';
-
                 startApplication();
             } catch (error) {
                 console.error("Erro ao salvar nametag:", error);
@@ -1341,12 +1432,16 @@
         });
 
         function startApplication() {
-            goToHomeScreen();
+            socialNavbar.classList.remove('hidden');
+            profileBubbleContainer.classList.remove('hidden');
+            document.getElementById('view-session').classList.remove('hidden');
+            
             initRoomSession(activeRoomId);
             loadChatContacts();
             loadLibrary();
         }
 
+        // GESTÃO DA SALA E FILMES
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
         const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -1437,6 +1532,10 @@
             movieSearchBoxWrapper.style.display = 'block';
             movieSearchInput.value = '';
             movieSearchInput.focus();
+        });
+
+        document.getElementById('btnLeaveRoom').addEventListener('click', () => {
+            initRoomSession("sessao_filme_principal");
         });
 
         let searchTimeout;
@@ -1814,6 +1913,7 @@
             }
         });
 
+        // CHATS E OPÇÃO DE AVALIAR JUNTOS NA CONVERSA
         function loadChatContacts() {
             const usersRef = ref(db, 'users');
             onValue(usersRef, (snapshot) => {
