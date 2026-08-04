@@ -44,6 +44,7 @@
             box-sizing: border-box;
             scrollbar-width: thin;
             scrollbar-color: var(--y2k-purple) #000000;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Removendo canaletas cinzas das barras de rolagem */
@@ -94,7 +95,7 @@
             z-index: 2;
         }
 
-        /* Header Principal Limpo com Bolinha de Perfil */
+        /* Header Principal Limpo (Sem bolinha de perfil) */
         header {
             text-align: center;
             margin-bottom: 2rem;
@@ -104,108 +105,6 @@
             outline: 3px solid #bf00ff;
             padding: 2rem 1.5rem;
             box-shadow: 8px 8px 0px #bf00ff, 14px 14px 0px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Bolinha de Perfil no Canto do Header */
-        .profile-bubble-container {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            z-index: 100;
-        }
-
-        .profile-bubble {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #bf00ff;
-            border: 3px solid #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px #ffffff, 0 0 10px #bf00ff;
-            transition: transform 0.15s ease;
-        }
-
-        .profile-bubble:hover {
-            transform: scale(1.08);
-            background: #ffffff;
-            color: #bf00ff;
-        }
-
-        .profile-bubble img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile-bubble i {
-            color: #ffffff;
-            font-size: 1.1rem;
-        }
-
-        .profile-bubble:hover i {
-            color: #bf00ff;
-        }
-
-        /* Dropdown do Perfil */
-        .profile-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 0;
-            width: 240px;
-            background: #0d0122;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            box-shadow: 6px 6px 0px #bf00ff;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            padding: 0.8rem;
-            text-align: left;
-        }
-
-        .profile-dropdown.active {
-            display: flex;
-        }
-
-        .profile-dropdown-header {
-            padding-bottom: 0.6rem;
-            border-bottom: 2px dashed #bf00ff;
-            margin-bottom: 0.6rem;
-        }
-
-        .profile-dropdown-header p {
-            font-family: var(--font-pixel);
-            font-size: 0.65rem;
-            color: #ffffff;
-            word-break: break-all;
-        }
-
-        .profile-menu-item {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            padding: 0.6rem;
-            text-align: left;
-            font-family: var(--font-pixel);
-            font-size: 0.6rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.1s;
-        }
-
-        .profile-menu-item:hover {
-            background: #bf00ff;
-            color: #ffffff;
-        }
-
-        .profile-menu-item.danger:hover {
-            background: #ff3333;
         }
 
         header h1 {
@@ -535,7 +434,7 @@
             line-height: 1.5;
         }
 
-        /* Sistema de Avaliação Y2K Windows Box */
+        /* Sistema de Avaliação Y2K Windows Box com Animação Mobile Click & Drag */
         .rating-wrapper {
             background: #05000f;
             border: 3px solid #ffffff;
@@ -544,6 +443,7 @@
             text-align: center;
             margin-bottom: 1.5rem;
             box-shadow: inset 3px 3px 0px #bf00ff;
+            touch-action: pan-y;
         }
 
         .rating-stars {
@@ -554,12 +454,20 @@
             cursor: pointer;
             margin-bottom: 0.6rem;
             text-shadow: 0 0 4px rgba(153, 0, 255, 0.5);
+            user-select: none;
+            transition: transform 0.15s ease;
+        }
+
+        .rating-stars i {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.15s ease, text-shadow 0.15s ease;
+            display: inline-block;
         }
 
         .rating-stars i:hover,
         .rating-stars i.hovered,
         .rating-stars i.active {
             color: #ffffff;
+            transform: scale(1.3) translateY(-4px);
             text-shadow: 0 0 12px #ffffff, 0 0 20px #bf00ff;
         }
 
@@ -645,7 +553,7 @@
             box-shadow: 6px 6px 0px #ff3333, 8px 8px 0px rgba(255, 255, 255, 0.8) !important;
         }
 
-        /* Adicionado: Seção de Adicionar Amigos por Nametag */
+        /* Seção de Adicionar Amigos por Nametag */
         .friends-manager-box {
             background: #0d001a;
             border-bottom: 3px solid #bf00ff;
@@ -832,7 +740,7 @@
             font-weight: 600;
         }
 
-        /* Estado Vazio Personalizado para o Chat (Sem conversas abertas) */
+        /* Estado Vazio Personalizado para o Chat */
         .chat-empty-state {
             display: flex;
             flex-direction: column;
@@ -1057,7 +965,6 @@
             white-space: nowrap;
         }
 
-        /* Botão de Exclusão Rápida no Card da Biblioteca */
         .library-delete-btn {
             position: absolute;
             top: 12px;
@@ -1130,25 +1037,6 @@
 
     <div class="container" id="mainContainerSwipe">
         <header>
-            <!-- BOLINHA DE PERFIL (Exibida após o login) -->
-            <div id="profileBubbleContainer" class="profile-bubble-container hidden">
-                <div class="profile-bubble" id="profileBubbleBtn">
-                    <img id="profileBubbleImg" src="" alt="Perfil" style="display: none;">
-                    <i id="profileBubbleIcon" class="fa-solid fa-user"></i>
-                </div>
-                <!-- Menu Dropdown do Perfil -->
-                <div class="profile-dropdown" id="profileDropdownMenu">
-                    <div class="profile-dropdown-header">
-                        <p id="profileDropdownName">@usuario</p>
-                        <p id="profileDropdownEmail" style="color: var(--text-muted); font-size: 0.55rem; margin-top: 3px;">email@exemplo.com</p>
-                    </div>
-                    <button class="profile-menu-item" id="menuVerPerfil"><i class="fa-solid fa-id-card"></i> Meu Perfil & Cadastro</button>
-                    <button class="profile-menu-item" id="menuVoltarInicio"><i class="fa-solid fa-house"></i> Voltar à Sessão</button>
-                    <button class="profile-menu-item" id="menuSairConta"><i class="fa-solid fa-right-from-bracket"></i> Sair / Desconectar</button>
-                    <button class="profile-menu-item danger" id="menuExcluirConta"><i class="fa-solid fa-trash-can"></i> Excluir Dados</button>
-                </div>
-            </div>
-
             <h1>Cine<span>Mozi</span></h1>
         </header>
 
@@ -1208,13 +1096,13 @@
                 </div>
             </div>
 
-            <!-- ETAPA 2: Avaliação Intuitiva -->
+            <!-- ETAPA 2: Avaliação Intuitiva com Click & Drag / Toque Escala -->
             <div id="step-review" class="card hidden">
                 <h3 style="margin-bottom: 1.4rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Sua Avaliação</h3>
                 
                 <form id="reviewForm">
-                    <div class="rating-wrapper">
-                        <label style="display: block; color: #ffffff; text-shadow: 0 0 6px rgba(255, 255, 255, 0.8); font-family: var(--font-pixel); font-size: 0.75rem; margin-bottom: 0.6rem;">Toque nas estrelas para avaliar</label>
+                    <div class="rating-wrapper" id="ratingWrapperBox">
+                        <label style="display: block; color: #ffffff; text-shadow: 0 0 6px rgba(255, 255, 255, 0.8); font-family: var(--font-pixel); font-size: 0.75rem; margin-bottom: 0.6rem;">Toque e arraste nas estrelas para avaliar</label>
                         <div class="rating-stars" id="starContainer">
                             <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
                             <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
@@ -1266,7 +1154,6 @@
                     <div class="whatsapp-sidebar-header">
                         <h3>Conversas & Amigos</h3>
                     </div>
-                    <!-- Adicionado: Caixa para adicionar amigo por Nametag -->
                     <div class="friends-manager-box">
                         <label style="font-family: var(--font-pixel); font-size: 0.65rem; color: #ffffff; display: block; margin-bottom: 4px;">Adicionar Amigo</label>
                         <form id="addFriendForm" class="friend-add-form">
@@ -1315,7 +1202,7 @@
             </div>
         </div>
 
-        <!-- VIEW 4: PERFIL & CADASTRO -->
+        <!-- VIEW 4: PERFIL & CADASTRO (Com troca de conta Google e Nametag) -->
         <div id="view-profile" class="app-view hidden">
             <div class="card" style="max-width: 650px; margin: 0 auto;">
                 <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-gear" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Meu Perfil & Cadastro</h3>
@@ -1336,8 +1223,12 @@
                         <label>Alterar Nametag</label>
                         <input type="text" id="profileEditNametagInput" required placeholder="Nova nametag" autocomplete="off">
                     </div>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <button type="submit" class="btn" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-floppy-disk" style="margin-right: 6px;"></i> Salvar Nametag</button>
+                        <button type="button" id="btnSwitchGoogleAccount" class="btn btn-secondary" style="flex: 1; min-width: 180px;"><i class="fa-brands fa-google" style="margin-right: 6px;"></i> Trocar Conta Google</button>
+                    </div>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button type="submit" class="btn" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-floppy-disk" style="margin-right: 6px;"></i> Salvar Alterações</button>
+                        <button type="button" id="menuSairConta" class="btn btn-secondary" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Sair da Conta</button>
                         <button type="button" id="btnProfileDeleteAccount" class="btn btn-danger" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Conta</button>
                     </div>
                 </form>
@@ -1367,7 +1258,7 @@
     <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser, getAdditionalUserInfo } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
         import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -1395,13 +1286,9 @@
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
         const socialNavbar = document.getElementById('socialNavbar');
-        const profileBubbleContainer = document.getElementById('profileBubbleContainer');
-        const profileBubbleBtn = document.getElementById('profileBubbleBtn');
-        const profileDropdownMenu = document.getElementById('profileDropdownMenu');
-        const profileBubbleImg = document.getElementById('profileBubbleImg');
-        const profileBubbleIcon = document.getElementById('profileBubbleIcon');
         
         const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const btnSwitchGoogleAccount = document.getElementById('btnSwitchGoogleAccount');
         const nametagForm = document.getElementById('nametagForm');
         const nametagInput = document.getElementById('nametagInput');
 
@@ -1433,27 +1320,7 @@
             });
         });
 
-        // Toggle Bolinha de Perfil Menu
-        profileBubbleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdownMenu.classList.toggle('active');
-        });
-
-        document.addEventListener('click', () => {
-            profileDropdownMenu.classList.remove('active');
-        });
-
-        // Menu Opções de Perfil
-        document.getElementById('menuVerPerfil').addEventListener('click', () => {
-            switchTab('view-profile');
-            profileDropdownMenu.classList.remove('active');
-        });
-
-        document.getElementById('menuVoltarInicio').addEventListener('click', () => {
-            switchTab('view-session');
-            profileDropdownMenu.classList.remove('active');
-        });
-
+        // Ações de Sair e Excluir Conta na aba Perfil
         document.getElementById('menuSairConta').addEventListener('click', async () => {
             if (confirm("Deseja realmente sair da conta?")) {
                 await signOut(auth);
@@ -1479,24 +1346,42 @@
             }
         }
 
-        document.getElementById('menuExcluirConta').addEventListener('click', executeAccountDeletion);
         document.getElementById('btnProfileDeleteAccount').addEventListener('click', executeAccountDeletion);
 
-        // ATUALIZAR CADASTRO / PERFIL
+        // Trocar de Conta Google (Força prompt de escolha de conta)
+        async function handleGoogleLogin(forceSelectAccount = false) {
+            try {
+                if (forceSelectAccount) {
+                    googleProvider.setCustomParameters({ prompt: 'select_account' });
+                } else {
+                    googleProvider.setCustomParameters({});
+                }
+                await signInWithPopup(auth, googleProvider);
+            } catch (error) {
+                console.error("Erro no login com Google:", error);
+                alert("Erro ao autenticar com o Google.");
+            }
+        }
+
+        googleLoginBtn.addEventListener('click', () => handleGoogleLogin(false));
+        btnSwitchGoogleAccount.addEventListener('click', async () => {
+            await signOut(auth);
+            handleGoogleLogin(true);
+        });
+
+        // ATUALIZAR NAMETAG NO PERFIL
         document.getElementById('profileUpdateForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const newTag = document.getElementById('profileEditNametagInput').value.trim().toLowerCase();
             if (!newTag || newTag === userNametag) return;
 
             try {
-                // Verificar se nametag já existe
                 const tagSnap = await get(ref(db, `nametags/${newTag}`));
                 if (tagSnap.exists()) {
                     alert("Esta Nametag já está em uso por outro usuário. Escolha outra.");
                     return;
                 }
 
-                // Remover antiga nametag e registrar nova
                 await remove(ref(db, `nametags/${userNametag}`));
                 await set(ref(db, `nametags/${newTag}`), currentUser.uid);
 
@@ -1504,7 +1389,6 @@
                 await update(userRef, { nametag: newTag });
 
                 userNametag = newTag;
-                document.getElementById('profileDropdownName').textContent = `@${newTag}`;
                 document.getElementById('profileViewNametag').textContent = `@${newTag}`;
                 showToast("Nametag atualizada com sucesso!");
             } catch (error) {
@@ -1553,31 +1437,17 @@
             }
         }
 
-        googleLoginBtn.addEventListener('click', async () => {
-            try {
-                await signInWithPopup(auth, googleProvider);
-            } catch (error) {
-                console.error("Erro no login com Google:", error);
-                alert("Erro ao autenticar com o Google.");
-            }
-        });
-
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 stepAuth.classList.add('hidden');
 
                 if (user.photoURL) {
-                    profileBubbleImg.src = user.photoURL;
-                    profileBubbleImg.style.display = 'block';
-                    profileBubbleIcon.style.display = 'none';
-
                     const profileViewAvatarImg = document.getElementById('profileViewAvatarImg');
                     profileViewAvatarImg.src = user.photoURL;
                     profileViewAvatarImg.style.display = 'block';
                     document.getElementById('profileViewAvatarFallback').style.display = 'none';
                 }
-                document.getElementById('profileDropdownEmail').textContent = user.email || '';
                 document.getElementById('profileViewEmail').textContent = user.email || '';
 
                 const userRef = ref(db, `users/${user.uid}`);
@@ -1585,7 +1455,6 @@
 
                 if (snapshot.exists() && snapshot.val().nametag) {
                     userNametag = snapshot.val().nametag;
-                    document.getElementById('profileDropdownName').textContent = `@${userNametag}`;
                     document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
                     document.getElementById('profileEditNametagInput').value = userNametag;
                     await update(userRef, { lastLogin: Date.now() });
@@ -1598,7 +1467,6 @@
                 stepAuth.classList.remove('hidden');
                 stepNametag.classList.add('hidden');
                 socialNavbar.classList.add('hidden');
-                profileBubbleContainer.classList.add('hidden');
                 appViews.forEach(v => v.classList.add('hidden'));
             }
         });
@@ -1611,7 +1479,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${tag}`));
                 if (tagSnap.exists()) {
-                    alert("Esta Nametag já está em uso. Escolha outra.");
+                    alert(" Esta Nametag já está em uso. Escolha outra.");
                     return;
                 }
 
@@ -1624,7 +1492,6 @@
                 await set(ref(db, `nametags/${tag}`), currentUser.uid);
 
                 userNametag = tag;
-                document.getElementById('profileDropdownName').textContent = `@${tag}`;
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
                 document.getElementById('profileEditNametagInput').value = tag;
                 stepNametag.classList.add('hidden');
@@ -1637,7 +1504,6 @@
 
         function startApplication() {
             socialNavbar.classList.remove('hidden');
-            profileBubbleContainer.classList.remove('hidden');
             document.getElementById('view-session').classList.remove('hidden');
             
             initRoomSession(activeRoomId);
@@ -1664,6 +1530,7 @@
         const ratingFeedbackText = document.getElementById('ratingFeedbackText');
         const userComment = document.getElementById('userComment');
         const charCounter = document.getElementById('charCounter');
+        const ratingWrapperBox = document.getElementById('ratingWrapperBox');
 
         const stepReview = document.getElementById('step-review');
         const stepResults = document.getElementById('step-results');
@@ -1831,8 +1698,60 @@
 
         const stars = starContainer.querySelectorAll('i');
         
+        // Interatividade Completa Mouse & Touch (Click & Drag com Escala Suave)
+        function calculateStarFromClientX(clientX) {
+            const rect = starContainer.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const starWidth = rect.width / stars.length;
+            let rating = Math.ceil(x / starWidth);
+            if (rating < 1) rating = 1;
+            if (rating > 5) rating = 5;
+            return rating;
+        }
+
+        let isDraggingStars = false;
+
+        starContainer.addEventListener('mousedown', (e) => {
+            isDraggingStars = true;
+            const val = calculateStarFromClientX(e.clientX);
+            userRatingInput.value = val;
+            highlightStars(val);
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDraggingStars) return;
+            const val = calculateStarFromClientX(e.clientX);
+            userRatingInput.value = val;
+            highlightStars(val);
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDraggingStars = false;
+        });
+
+        starContainer.addEventListener('touchstart', (e) => {
+            isDraggingStars = true;
+            const touch = e.touches[0];
+            const val = calculateStarFromClientX(touch.clientX);
+            userRatingInput.value = val;
+            highlightStars(val);
+        }, { passive: true });
+
+        starContainer.addEventListener('touchmove', (e) => {
+            if (!isDraggingStars) return;
+            const touch = e.touches[0];
+            const val = calculateStarFromClientX(touch.clientX);
+            userRatingInput.value = val;
+            highlightStars(val);
+        }, { passive: true });
+
+        starContainer.addEventListener('touchend', () => {
+            isDraggingStars = false;
+        });
+
         stars.forEach(star => {
             star.addEventListener('mouseover', () => {
+                if (isDraggingStars) return;
                 const val = parseInt(star.getAttribute('data-value'));
                 stars.forEach(s => {
                     if (parseInt(s.getAttribute('data-value')) <= val) {
@@ -1845,6 +1764,7 @@
             });
 
             star.addEventListener('mouseout', () => {
+                if (isDraggingStars) return;
                 stars.forEach(s => s.classList.remove('hovered'));
                 const currentVal = parseInt(userRatingInput.value) || 0;
                 if (currentVal > 0) {
@@ -1946,8 +1866,6 @@
                 container.innerHTML = '';
 
                 const keys = Object.keys(data);
-                
-                // Atualizar contagem no Perfil
                 document.getElementById('profileStatsCount').textContent = keys.length;
 
                 if (keys.length === 0) {
@@ -1979,7 +1897,6 @@
                         </div>
                     `;
 
-                    // Ação de excluir direto do card
                     card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
                         e.stopPropagation();
                         if (confirm(`Deseja realmente excluir "${item.movie.title}" da biblioteca?`)) {
@@ -2132,7 +2049,6 @@
             });
         }
 
-        // Ação do botão de excluir dentro do modal da biblioteca
         document.getElementById('modalDeleteMovieBtn').addEventListener('click', async () => {
             if (!currentModalLibraryId) return;
             if (confirm("Deseja realmente excluir este filme da biblioteca?")) {
@@ -2169,7 +2085,6 @@
             }
 
             try {
-                // Procurar UID correspondente à nametag no Firebase
                 const tagSnap = await get(ref(db, `nametags/${targetTag}`));
                 if (!tagSnap.exists()) {
                     alert("Usuário não encontrado com esta Nametag.");
@@ -2178,7 +2093,6 @@
 
                 const targetUid = tagSnap.val();
 
-                // Adicionar reciprocamente na lista de amigos do usuário atual e do amigo
                 await set(ref(db, `users/${currentUser.uid}/friends/${targetUid}`), {
                     uid: targetUid,
                     nametag: targetTag,
@@ -2241,7 +2155,6 @@
             document.getElementById('chatInputAreaWrapper').style.display = 'flex';
             document.getElementById('btnEvaluateTogether').classList.remove('hidden');
 
-            // Gerar ID de sala/chat único combinando os UIDs em ordem alfabética
             const chatId = [currentUser.uid, uid].sort().join('_');
             
             const chatMessagesContainer = document.getElementById('chatMessagesContainer');
@@ -2318,12 +2231,10 @@
             if (e.key === 'Enter') sendTextMessage();
         });
 
-        // Avaliar Juntos a partir do Chat
         document.getElementById('btnEvaluateTogether').addEventListener('click', async () => {
             if (!activeChatUserId) return;
             const sharedRoomId = `sala_${[currentUser.uid, activeChatUserId].sort().join('_')}`;
 
-            // Obter filme atual da sessão principal para sugerir na sala conjunta, se houver
             const mainRoomSnap = await get(ref(db, `rooms/sessao_filme_principal`));
             let currentMovie = null;
             if (mainRoomSnap.exists() && mainRoomSnap.val().movie) {
