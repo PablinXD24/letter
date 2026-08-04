@@ -1601,7 +1601,8 @@
             socialNavbar.classList.remove('hidden');
             document.getElementById('view-session').classList.remove('hidden');
             
-            initRoomSession(activeRoomId);
+            // Garantir que a aba de "minha sessão" comece vazia para escolha do filme
+            initRoomSession("sessao_filme_principal", true);
             loadChatContacts();
             loadLibrary();
         }
@@ -1642,10 +1643,19 @@
             }, 3000);
         }
 
-        function initRoomSession(rId) {
+        function initRoomSession(rId, forceEmpty = false) {
             activeRoomId = rId;
             activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Conjunta com Colega`;
             
+            if (forceEmpty && rId === "sessao_filme_principal") {
+                stepReview.classList.add('hidden');
+                stepResults.classList.add('hidden');
+                selectedMovieContainer.classList.add('hidden');
+                movieSearchBoxWrapper.style.display = 'block';
+                movieSearchInput.value = '';
+                return;
+            }
+
             const roomRef = ref(db, `rooms/${activeRoomId}`);
 
             onValue(roomRef, (snapshot) => {
@@ -1975,7 +1985,6 @@
                 const container = document.getElementById('libraryGridContainer');
                 container.innerHTML = '';
 
-                // Correção para mapeamento de chaves únicas e remoção de duplicatas por ID de filme
                 const uniqueMoviesMap = new Map();
                 Object.keys(data).forEach(k => {
                     const item = data[k];
@@ -1983,7 +1992,6 @@
                     if (reviews.length === 0) return;
 
                     const movieId = item.movie?.id || k;
-                    // Se já existir, prioriza o mais recente
                     if (!uniqueMoviesMap.has(movieId) || item.updatedAt > uniqueMoviesMap.get(movieId).updatedAt) {
                         uniqueMoviesMap.set(movieId, { key: k, item });
                     }
@@ -2368,3 +2376,4 @@
     </script>
 </body>
 </html>
+```[cite: 1]
