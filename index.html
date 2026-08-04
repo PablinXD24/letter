@@ -409,7 +409,8 @@
 
         .movie-item img,
         .selected-movie-preview img,
-        .chat-match-card img {
+        .chat-match-card img,
+        .profile-avatar-large img {
             position: relative !important;
             z-index: 100000 !important;
             object-fit: cover;
@@ -628,6 +629,20 @@
             border-color: #bf00ff;
             box-shadow: 6px 6px 0px #bf00ff, 8px 8px 0px rgba(255, 255, 255, 0.8);
             text-shadow: none;
+        }
+
+        .btn-danger {
+            background: #ff3333 !important;
+            color: #ffffff !important;
+            border: 3px solid #ffffff !important;
+            box-shadow: 4px 4px 0px #ffffff, 6px 6px 0px rgba(255, 51, 51, 0.5) !important;
+        }
+
+        .btn-danger:hover {
+            background: #ffffff !important;
+            color: #ff3333 !important;
+            border-color: #ff3333 !important;
+            box-shadow: 6px 6px 0px #ff3333, 8px 8px 0px rgba(255, 255, 255, 0.8) !important;
         }
 
         /* Chat Layout Retro Messenger Restilizado */
@@ -984,6 +999,33 @@
             white-space: nowrap;
         }
 
+        /* Botão de Exclusão Rápida no Card da Biblioteca */
+        .library-delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #ff3333;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #000000;
+            z-index: 10;
+            transition: transform 0.1s ease;
+        }
+
+        .library-delete-btn:hover {
+            transform: scale(1.15);
+            background: #ffffff;
+            color: #ff3333;
+        }
+
         /* POPUP TOAST SYSTEM ALERT */
         .toast-notification {
             position: fixed;
@@ -1041,6 +1083,7 @@
                         <p id="profileDropdownName">@usuario</p>
                         <p id="profileDropdownEmail" style="color: var(--text-muted); font-size: 0.55rem; margin-top: 3px;">email@exemplo.com</p>
                     </div>
+                    <button class="profile-menu-item" id="menuVerPerfil"><i class="fa-solid fa-id-card"></i> Meu Perfil & Cadastro</button>
                     <button class="profile-menu-item" id="menuVoltarInicio"><i class="fa-solid fa-house"></i> Voltar à Sessão</button>
                     <button class="profile-menu-item" id="menuSairConta"><i class="fa-solid fa-right-from-bracket"></i> Sair / Desconectar</button>
                     <button class="profile-menu-item danger" id="menuExcluirConta"><i class="fa-solid fa-trash-can"></i> Excluir Dados</button>
@@ -1055,6 +1098,7 @@
             <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
             <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
             <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
+            <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
         </div>
 
         <!-- ETAPA 0: Login com Google -->
@@ -1203,6 +1247,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- VIEW 4: PERFIL & CADASTRO (NOVO) -->
+        <div id="view-profile" class="app-view hidden">
+            <div class="card" style="max-width: 650px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-gear" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Meu Perfil & Cadastro</h3>
+                
+                <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.8rem; background: #05000f; padding: 1.2rem; border: 3px solid #ffffff; outline: 2px solid #bf00ff;">
+                    <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                        <img id="profileViewAvatarImg" src="" alt="Avatar" style="width: 100%; height: 100%; display: none;">
+                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: #bf00ff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #fff;"><i class="fa-solid fa-user"></i></div>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <p style="font-family: var(--font-pixel); font-size: 0.8rem; color: #ffffff;" id="profileViewNametag">@usuario</p>
+                        <p style="font-family: var(--font-retro-sub); font-size: 1.1rem; color: var(--text-muted); margin-top: 4px; word-break: break-all;" id="profileViewEmail">email@exemplo.com</p>
+                    </div>
+                </div>
+
+                <form id="profileUpdateForm">
+                    <div class="form-group">
+                        <label>Alterar Nametag</label>
+                        <input type="text" id="profileEditNametagInput" required placeholder="Nova nametag" autocomplete="off">
+                    </div>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button type="submit" class="btn" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-floppy-disk" style="margin-right: 6px;"></i> Salvar Alterações</button>
+                        <button type="button" id="btnProfileDeleteAccount" class="btn btn-danger" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Conta</button>
+                    </div>
+                </form>
+
+                <div style="margin-top: 2rem; border-top: 2px dashed #bf00ff; padding-top: 1.2rem;">
+                    <h4 style="font-family: var(--font-pixel); font-size: 0.75rem; color: #ffffff; margin-bottom: 0.8rem; text-transform: uppercase;">Estatísticas da Conta</h4>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); font-family: var(--font-retro-sub); font-size: 1.2rem;">Filmes avaliados salvos: <strong id="profileStatsCount" style="color: #ffffff;">0</strong></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- POPUP MODAL DA BIBLIOTECA PARA DETALHES E EDIÇÃO -->
@@ -1213,6 +1291,9 @@
                 <span id="closeLibraryModalBtn" style="cursor: pointer; font-family: var(--font-pixel); color: #ffffff; text-shadow: 0 0 8px #ffffff; font-size: 1rem; padding: 4px;">[ ✕ ]</span>
             </div>
             <div id="libraryModalContent"></div>
+            <div style="margin-top: 1rem; text-align: right;">
+                <button type="button" id="modalDeleteMovieBtn" class="btn btn-danger" style="width: auto; padding: 0.7rem 1.2rem; font-size: 0.7rem;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Filme da Biblioteca</button>
+            </div>
         </div>
     </div>
 
@@ -1242,6 +1323,7 @@
         let activeRoomId = "sessao_filme_principal";
         let activeChatUserId = null;
         let activeChatNametag = null;
+        let currentModalLibraryId = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1295,6 +1377,11 @@
         });
 
         // Menu Opções de Perfil
+        document.getElementById('menuVerPerfil').addEventListener('click', () => {
+            switchTab('view-profile');
+            profileDropdownMenu.classList.remove('active');
+        });
+
         document.getElementById('menuVoltarInicio').addEventListener('click', () => {
             switchTab('view-session');
             profileDropdownMenu.classList.remove('active');
@@ -1307,7 +1394,7 @@
             }
         });
 
-        document.getElementById('menuExcluirConta').addEventListener('click', async () => {
+        async function executeAccountDeletion() {
             if (confirm("ATENÇÃO: Deseja realmente excluir seus dados e conta do CineMozi? Esta ação é irreversível.")) {
                 try {
                     const uId = currentUser.uid;
@@ -1323,10 +1410,44 @@
                     alert("Para sua segurança, faça login novamente antes de excluir a conta ou tente mais tarde.");
                 }
             }
+        }
+
+        document.getElementById('menuExcluirConta').addEventListener('click', executeAccountDeletion);
+        document.getElementById('btnProfileDeleteAccount').addEventListener('click', executeAccountDeletion);
+
+        // ATUALIZAR CADASTRO / PERFIL
+        document.getElementById('profileUpdateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newTag = document.getElementById('profileEditNametagInput').value.trim().toLowerCase();
+            if (!newTag || newTag === userNametag) return;
+
+            try {
+                // Verificar se nametag já existe
+                const tagSnap = await get(ref(db, `nametags/${newTag}`));
+                if (tagSnap.exists()) {
+                    alert("Esta Nametag já está em uso por outro usuário. Escolha outra.");
+                    return;
+                }
+
+                // Remover antiga nametag e registrar nova
+                await remove(ref(db, `nametags/${userNametag}`));
+                await set(ref(db, `nametags/${newTag}`), currentUser.uid);
+
+                const userRef = ref(db, `users/${currentUser.uid}`);
+                await update(userRef, { nametag: newTag });
+
+                userNametag = newTag;
+                document.getElementById('profileDropdownName').textContent = `@${newTag}`;
+                document.getElementById('profileViewNametag').textContent = `@${newTag}`;
+                showToast("Nametag atualizada com sucesso!");
+            } catch (error) {
+                console.error("Erro ao atualizar perfil:", error);
+                alert("Erro ao salvar alterações no perfil.");
+            }
         });
 
         // SUPORTE A SWIPE (ARRASTAR O DEDO) PARA ABAS
-        const viewsList = ["view-session", "view-chats", "view-library"];
+        const viewsList = ["view-session", "view-chats", "view-library", "view-profile"];
         let touchStartX = 0;
         let touchEndX = 0;
         const mainContainerSwipe = document.getElementById('mainContainerSwipe');
@@ -1383,8 +1504,14 @@
                     profileBubbleImg.src = user.photoURL;
                     profileBubbleImg.style.display = 'block';
                     profileBubbleIcon.style.display = 'none';
+
+                    const profileViewAvatarImg = document.getElementById('profileViewAvatarImg');
+                    profileViewAvatarImg.src = user.photoURL;
+                    profileViewAvatarImg.style.display = 'block';
+                    document.getElementById('profileViewAvatarFallback').style.display = 'none';
                 }
                 document.getElementById('profileDropdownEmail').textContent = user.email || '';
+                document.getElementById('profileViewEmail').textContent = user.email || '';
 
                 const userRef = ref(db, `users/${user.uid}`);
                 const snapshot = await get(userRef);
@@ -1392,6 +1519,8 @@
                 if (snapshot.exists() && snapshot.val().nametag) {
                     userNametag = snapshot.val().nametag;
                     document.getElementById('profileDropdownName').textContent = `@${userNametag}`;
+                    document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
+                    document.getElementById('profileEditNametagInput').value = userNametag;
                     await update(userRef, { lastLogin: Date.now() });
                     startApplication();
                 } else {
@@ -1413,6 +1542,12 @@
             if (!tag) return;
 
             try {
+                const tagSnap = await get(ref(db, `nametags/${tag}`));
+                if (tagSnap.exists()) {
+                    alert("Esta Nametag já está em uso. Escolha outra.");
+                    return;
+                }
+
                 await set(ref(db, `users/${currentUser.uid}`), {
                     uid: currentUser.uid,
                     email: currentUser.email,
@@ -1423,6 +1558,8 @@
 
                 userNametag = tag;
                 document.getElementById('profileDropdownName').textContent = `@${tag}`;
+                document.getElementById('profileViewNametag').textContent = `@${tag}`;
+                document.getElementById('profileEditNametagInput').value = tag;
                 stepNametag.classList.add('hidden');
                 startApplication();
             } catch (error) {
@@ -1742,6 +1879,10 @@
                 container.innerHTML = '';
 
                 const keys = Object.keys(data);
+                
+                // Atualizar contagem no Perfil
+                document.getElementById('profileStatsCount').textContent = keys.length;
+
                 if (keys.length === 0) {
                     container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda.</p>';
                     return;
@@ -1759,22 +1900,40 @@
 
                     const card = document.createElement('div');
                     card.className = 'library-card';
-                    card.setAttribute('onclick', `openLibraryModal('${item.roomId}')`);
                     card.title = `${item.movie.title} - Clique para abrir avaliações`;
 
                     card.innerHTML = `
-                        <img src="${item.movie.poster}" alt="${item.movie.title}">
-                        <div class="library-card-match">
-                            <span>Match: ${similarity}%</span>
+                        <button class="library-delete-btn" title="Excluir Filme" data-libkey="${k}"><i class="fa-solid fa-trash-can"></i></button>
+                        <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${item.roomId}')">
+                            <img src="${item.movie.poster}" alt="${item.movie.title}">
+                            <div class="library-card-match">
+                                <span>Match: ${similarity}%</span>
+                            </div>
                         </div>
                     `;
+
+                    // Ação de excluir direto do card
+                    card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        if (confirm(`Deseja realmente excluir "${item.movie.title}" da biblioteca?`)) {
+                            try {
+                                await remove(ref(db, `library/${k}`));
+                                showToast("Filme excluído da biblioteca!");
+                            } catch (err) {
+                                console.error("Erro ao excluir filme:", err);
+                                alert("Erro ao excluir o filme.");
+                            }
+                        }
+                    });
+
                     container.appendChild(card);
                 });
             });
         }
 
         window.openLibraryModal = function(roomId) {
-            const libraryRef = ref(db, `library/${roomId.replace(/[^a-zA-Z0-9_]/g, '_')}`);
+            currentModalLibraryId = roomId.replace(/[^a-zA-Z0-9_]/g, '_');
+            const libraryRef = ref(db, `library/${currentModalLibraryId}`);
             get(libraryRef).then((snapshot) => {
                 if (!snapshot.exists()) return;
                 const item = snapshot.val();
@@ -1905,6 +2064,21 @@
                 document.getElementById('libraryModal').classList.remove('hidden');
             });
         }
+
+        // Ação do botão de excluir dentro do modal da biblioteca
+        document.getElementById('modalDeleteMovieBtn').addEventListener('click', async () => {
+            if (!currentModalLibraryId) return;
+            if (confirm("Deseja realmente excluir este filme da biblioteca?")) {
+                try {
+                    await remove(ref(db, `library/${currentModalLibraryId}`));
+                    showToast("Filme excluído da biblioteca!");
+                    document.getElementById('libraryModal').classList.add('hidden');
+                } catch (error) {
+                    console.error("Erro ao excluir filme da biblioteca:", error);
+                    alert("Erro ao excluir o filme.");
+                }
+            }
+        });
 
         document.addEventListener('click', (e) => {
             const modal = document.getElementById('libraryModal');
