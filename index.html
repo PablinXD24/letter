@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch</title>
-    <!-- Google Fonts Y2K & Clean Sans + FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+    <title>CineMatch - Y2K Edition</title>
+    <!-- Google Fonts Y2K Bitmap & Clean Sans + FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=VT323&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* Palette Y2K Mixed Media */
-            --bg-black: #08000e;
+            /* Palette Y2K Mixed Media & Collage */
+            --bg-black: #06010d;
             --y2k-pink: #ff007f;
             --y2k-magenta: #e600aa;
             --y2k-cyan: #00f0ff;
-            --y2k-yellow: #ffe600;
-            --y2k-purple: #1f0036;
-            --y2k-card-bg: #140224;
+            --y2k-yellow: #ffee00;
+            --y2k-purple: #1a0033;
+            --y2k-dark-purple: #0f0022;
+            --y2k-card-bg: #110221;
+            --y2k-paper: #f7f4eb;
             --text-main: #ffffff;
-            --text-muted: #d0c0e0;
-            --border-white: 3px solid #ffffff;
-            --border-black: 3px solid #000000;
-            --shadow-hard-pink: 6px 6px 0px #ff007f;
-            --shadow-hard-cyan: 6px 6px 0px #00f0ff;
-            --shadow-hard-black: 6px 6px 0px #000000;
-            --shadow-hard-white: 6px 6px 0px #ffffff;
+            --text-dark: #000000;
+            --text-muted: #d5c4ea;
+            --border-white: 4px solid #ffffff;
+            --border-black: 4px solid #000000;
+            --shadow-hard-pink: 8px 8px 0px #ff007f;
+            --shadow-hard-cyan: 8px 8px 0px #00f0ff;
+            --shadow-hard-yellow: 8px 8px 0px #ffee00;
+            --shadow-hard-black: 8px 8px 0px #000000;
+            --shadow-hard-white: 8px 8px 0px #ffffff;
             --font-pixel: 'Silkscreen', 'Press Start 2P', cursive;
             --font-retro-sub: 'VT323', monospace;
+            --font-heading: 'Syne', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
         }
 
@@ -37,272 +42,360 @@
             box-sizing: border-box;
         }
 
-        /* Scanlines de CRT no fundo */
+        /* Scanlines de CRT no fundo com ruído sutil */
         body::before {
-            content: " ";
+            content: "";
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
-            background-size: 100% 4px;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.5) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 127, 0.03), rgba(0, 240, 255, 0.03));
+            background-size: 100% 4px, 6px 100%;
             z-index: 99999;
             pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
-        /* Padrão Halftone de fundo */
+        /* Padrão Halftone Print & Colagem de Fundo */
         body {
             background-color: var(--bg-black);
             background-image: 
-                radial-gradient(var(--y2k-magenta) 15%, transparent 16%),
-                radial-gradient(var(--y2k-cyan) 15%, transparent 16%),
-                radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%);
-            background-size: 60px 60px, 60px 60px, 30px 30px;
-            background-position: 0 0, 30px 30px, 0 0;
+                radial-gradient(circle at 50% 50%, var(--y2k-magenta) 18%, transparent 19%),
+                radial-gradient(circle at 50% 50%, var(--y2k-cyan) 18%, transparent 19%),
+                radial-gradient(rgba(255, 255, 255, 0.12) 15%, transparent 18%);
+            background-size: 40px 40px, 40px 40px, 20px 20px;
+            background-position: 0 0, 20px 20px, 0 0;
             color: var(--text-main);
             font-family: var(--font-body);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Estrelas Chrome Y2K Flutuantes de Fundo */
+        /* Estrelas Chrome 3D e Adesivos Flutuantes no Negative Space */
         body::after {
-            content: "✦ ✧ ✦ ✧ ✦";
+            content: "✦  ★  ✧  ✦  ★";
             position: fixed;
-            top: 5%;
-            left: 2%;
-            font-size: 2rem;
+            top: 4%;
+            left: 1%;
+            font-size: 2.2rem;
             color: var(--y2k-cyan);
-            text-shadow: 2px 2px 0px var(--y2k-pink), -2px -2px 0px #fff;
-            opacity: 0.5;
+            text-shadow: 3px 3px 0px var(--y2k-pink), -2px -2px 0px #ffffff, 0 0 12px var(--y2k-cyan);
+            opacity: 0.6;
             pointer-events: none;
             z-index: 1;
-            letter-spacing: 40vw;
+            letter-spacing: 38vw;
         }
 
         .container {
             width: 100%;
-            max-width: 980px;
+            max-width: 1040px;
             position: relative;
             z-index: 2;
         }
 
-        /* Header Estilo Colagem Y2K */
+        /* Grid Desconstruído Estilo Revista Teen dos Anos 2000 */
+        .container::before {
+            content: "Y2K MIXED MEDIA MAGAZINE • ISSUE #2000";
+            position: absolute;
+            top: -24px;
+            left: 0;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            color: var(--y2k-yellow);
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        /* Header Estilo Colagem Y2K com Fita Adesiva e Cutouts */
         header {
             text-align: center;
             margin-bottom: 2.5rem;
             position: relative;
-            background: #000;
-            border: 4px solid var(--y2k-pink);
-            padding: 1.5rem 1rem;
-            box-shadow: var(--shadow-hard-cyan);
-            transform: rotate(-1deg);
+            background: #000000;
+            border: 4px solid #ffffff;
+            outline: 4px solid var(--y2k-pink);
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            box-shadow: 12px 12px 0px #000000, 12px 12px 0px 4px var(--y2k-cyan);
+            transform: rotate(-0.8deg);
         }
 
+        /* Fita Adesiva Cutout Fictícia */
         header::before {
-            content: "★ LIMITED EDITION ★";
+            content: "★ CINEMATCH SPECIAL ★";
             position: absolute;
-            top: -14px;
+            top: -16px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) rotate(1deg);
             background: var(--y2k-yellow);
-            color: #000;
+            color: #000000;
             font-family: var(--font-pixel);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            padding: 2px 10px;
-            border: 2px solid #000;
+            padding: 4px 16px;
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px var(--y2k-pink);
             white-space: nowrap;
+            z-index: 10;
+        }
+
+        header::after {
+            content: "✦ HOT!";
+            position: absolute;
+            bottom: -15px;
+            right: 20px;
+            background: var(--y2k-pink);
+            color: #ffffff;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border: 2px solid #ffffff;
+            box-shadow: 3px 3px 0px #000;
+            transform: rotate(-3deg);
         }
 
         header h1 {
             font-family: var(--font-pixel);
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             color: #ffffff;
-            text-shadow: 4px 4px 0px var(--y2k-pink), -3px -3px 0px var(--y2k-cyan);
-            letter-spacing: 2px;
+            text-shadow: 5px 5px 0px var(--y2k-pink), -3px -3px 0px var(--y2k-cyan), 0 0 10px rgba(0,240,255,0.5);
+            letter-spacing: 3px;
             text-transform: uppercase;
+            line-height: 1.1;
         }
 
         header h1 span {
             color: var(--y2k-yellow);
-            -webkit-text-fill-color: initial;
-            background: none;
+            background: #000000;
+            padding: 0 8px;
+            border: 3px dashed var(--y2k-pink);
+            display: inline-block;
+            transform: rotate(2deg);
         }
 
         header p {
             font-family: var(--font-body);
             color: var(--y2k-cyan);
-            margin-top: 0.6rem;
-            font-size: 1rem;
-            font-weight: 600;
+            margin-top: 1rem;
+            font-size: 1.05rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            text-shadow: 2px 2px 0px #000000;
         }
 
-        /* Barra de Navegação - Estilo Moldura Digital Retro */
+        /* Moldura UI Digital Retro de Navegação */
         .nav-bar {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 1.2rem;
+            margin-bottom: 2.2rem;
             flex-wrap: wrap;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 12px;
-            border: var(--border-white);
-            box-shadow: var(--shadow-hard-pink);
+            background: rgba(10, 0, 20, 0.95);
+            padding: 14px;
+            border: 4px solid #ffffff;
+            box-shadow: 10px 10px 0px #000000, 10px 10px 0px 3px var(--y2k-pink);
+            position: relative;
         }
 
+        .nav-bar::before {
+            content: "[ UI_NAV_PANEL v2.00 ]";
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #000;
+            color: var(--y2k-cyan);
+            font-family: var(--font-pixel);
+            font-size: 0.55rem;
+            padding: 0 6px;
+            border: 1px solid var(--y2k-cyan);
+        }
+
+        /* Botões Dimensionais Paper Cutout */
         .nav-btn {
             background: var(--y2k-purple);
             border: 3px solid var(--y2k-cyan);
             color: #ffffff;
-            padding: 0.8rem 1.4rem;
+            padding: 0.85rem 1.5rem;
             font-family: var(--font-pixel);
             font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            box-shadow: 4px 4px 0px #000;
+            gap: 0.7rem;
+            box-shadow: 5px 5px 0px #000000;
             text-transform: uppercase;
+            position: relative;
         }
 
         .nav-btn.active, .nav-btn:hover {
             background: var(--y2k-yellow);
             color: #000000;
             border-color: #ffffff;
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--y2k-pink);
+            transform: translate(-3px, -3px) rotate(-1deg);
+            box-shadow: 8px 8px 0px var(--y2k-pink), 8px 8px 0px 2px #000000;
         }
 
-        /* Card Estilo Recorte de Papel com Borda Branca Grossa */
+        /* Cards Estilo Recorte de Papel (Layered Cutouts) */
         .card {
             background: var(--y2k-card-bg);
             border: 4px solid #ffffff;
             border-radius: 0px;
-            padding: 2rem;
-            box-shadow: 10px 10px 0px #000000, 10px 10px 0px 4px var(--y2k-pink);
-            margin-bottom: 2rem;
+            padding: 2.2rem;
+            box-shadow: 12px 12px 0px #000000, 12px 12px 0px 4px var(--y2k-pink);
+            margin-bottom: 2.5rem;
             position: relative;
             transition: all 0.2s ease;
+        }
+
+        /* Efeito de Tarja Superior de Janela Retro */
+        .card::before {
+            content: "✦ ✦ ✦";
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            font-size: 0.75rem;
+            color: var(--y2k-pink);
+            letter-spacing: 4px;
         }
 
         .card::after {
             content: "✦";
             position: absolute;
-            bottom: 8px;
-            right: 12px;
-            font-size: 1.2rem;
+            bottom: 10px;
+            right: 14px;
+            font-size: 1.4rem;
             color: var(--y2k-yellow);
+            text-shadow: 2px 2px 0px #000;
         }
 
         .card h3 {
             font-family: var(--font-pixel);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--y2k-cyan);
-            text-shadow: 2px 2px 0px #000;
+            text-shadow: 3px 3px 0px #000000;
             letter-spacing: 1px;
             line-height: 1.4;
+            text-transform: uppercase;
         }
 
-        /* Tela de Autenticação */
+        /* Tela de Autenticação com Visual Cyber-Y2K */
         .auth-container {
             text-align: center;
-            padding: 3rem 1.5rem;
-            background: #0d001a;
+            padding: 3.5rem 2rem;
+            background: linear-gradient(135deg, #0d001a 0%, #1f0036 100%);
             border: 4px solid var(--y2k-yellow);
-            box-shadow: var(--shadow-hard-cyan);
+            box-shadow: 12px 12px 0px #000000, 12px 12px 0px 4px var(--y2k-cyan);
+            position: relative;
+            overflow: hidden;
         }
 
+        .auth-container::before {
+            content: "AUTHENTICATION REQUIRED";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            background: var(--y2k-pink);
+            color: #fff;
+            padding: 2px 10px;
+            border: 1px solid #fff;
+        }
+
+        /* Botão Ação Estilo Paper Cutout Dimensional */
         .btn-google {
             background: var(--y2k-pink);
             color: #ffffff;
-            border: 3px solid #ffffff;
+            border: 4px solid #ffffff;
             width: 100%;
-            max-width: 340px;
-            padding: 1rem 1.2rem;
+            max-width: 360px;
+            padding: 1.1rem 1.4rem;
             font-family: var(--font-pixel);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 0.9rem;
             transition: all 0.15s ease;
-            margin-top: 1.5rem;
-            box-shadow: var(--shadow-hard-black);
+            margin-top: 2rem;
+            box-shadow: 8px 8px 0px #000000;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
         }
 
         .btn-google:hover {
             background: var(--y2k-yellow);
             color: #000000;
-            transform: translate(-3px, -3px);
-            box-shadow: 8px 8px 0px var(--y2k-cyan);
+            transform: translate(-4px, -4px) rotate(-1deg);
+            box-shadow: 12px 12px 0px var(--y2k-cyan), 12px 12px 0px 2px #000000;
         }
 
         /* Busca de Filmes */
         .search-box {
             position: relative;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             z-index: 100;
         }
 
         .search-box input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3.2rem;
+            padding: 1.1rem 1.1rem 1.1rem 3.5rem;
             background: #000000;
-            border: 3px solid var(--y2k-cyan);
+            border: 4px solid var(--y2k-cyan);
             border-radius: 0px;
             color: #ffffff;
             font-family: var(--font-body);
-            font-size: 1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
             outline: none;
-            box-shadow: inset 3px 3px 0px rgba(0,0,0,0.8);
+            box-shadow: inset 4px 4px 0px rgba(0,0,0,0.9), 6px 6px 0px #000;
         }
 
         .search-box input:focus {
             border-color: var(--y2k-yellow);
-            box-shadow: 0 0 0 3px var(--y2k-pink);
+            box-shadow: inset 4px 4px 0px rgba(0,0,0,0.9), 8px 8px 0px var(--y2k-pink);
         }
 
         .search-box i {
             position: absolute;
-            left: 1.2rem;
+            left: 1.3rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--y2k-yellow);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            text-shadow: 2px 2px 0px #000;
         }
 
         /* Popup de Resultados de Filme */
         .movie-results {
-            max-height: 300px;
+            max-height: 320px;
             overflow-y: auto;
-            border: 3px solid #ffffff;
+            border: 4px solid #ffffff;
             background: #0d001a;
             display: none;
-            margin-top: 0.5rem;
+            margin-top: 0.6rem;
             position: absolute;
             top: 100%;
             left: 0;
             width: 100%;
             z-index: 99999 !important;
-            box-shadow: 10px 10px 0px #000000;
+            box-shadow: 12px 12px 0px #000000, 12px 12px 0px 3px var(--y2k-pink);
         }
 
         .movie-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 0.8rem 1rem;
+            gap: 1.2rem;
+            padding: 1rem;
             cursor: pointer;
             transition: background 0.15s;
             border-bottom: 2px dashed var(--y2k-purple);
@@ -313,177 +406,189 @@
             color: #ffffff;
         }
 
+        /* Fotografia Flash Style com Contraste Alto & Sombra Dura */
         .movie-item img {
-            width: 45px;
-            height: 65px;
+            width: 50px;
+            height: 72px;
             object-fit: cover;
-            border: 2px solid #ffffff;
-            box-shadow: 3px 3px 0px #000;
+            border: 3px solid #ffffff;
+            box-shadow: 4px 4px 0px #000000;
+            filter: contrast(120%) brightness(110%) saturate(115%);
         }
 
         .movie-info h4 {
             font-family: var(--font-pixel);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #ffffff;
+            line-height: 1.3;
         }
 
         .movie-info span {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             color: var(--y2k-yellow);
             font-family: var(--font-retro-sub);
+            font-weight: bold;
         }
 
         /* Filme Selecionado estilo Fotos Flash Cutout */
         .selected-movie-preview {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 1.5rem;
             background: #000000;
-            padding: 1.2rem;
-            border: 3px solid var(--y2k-pink);
-            box-shadow: var(--shadow-hard-cyan);
-            margin-bottom: 1.25rem;
+            padding: 1.4rem;
+            border: 4px solid var(--y2k-pink);
+            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-cyan);
+            margin-bottom: 1.5rem;
+            transform: rotate(-0.5deg);
         }
 
         .selected-movie-preview img {
-            width: 75px;
-            height: 105px;
+            width: 85px;
+            height: 120px;
             object-fit: cover;
             border: 3px solid #ffffff;
-            box-shadow: 5px 5px 0px #000;
-            filter: contrast(110%) brightness(105%); /* Estilo Fotografia Flash */
+            box-shadow: 6px 6px 0px #000000;
+            filter: contrast(125%) brightness(108%) saturate(120%);
         }
 
-        /* Formulários gerais */
+        /* Formulários gerais com tipografia ultra legível para body */
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.4rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             color: var(--y2k-yellow);
             font-family: var(--font-pixel);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
+            text-shadow: 2px 2px 0px #000;
         }
 
         .form-group input[type="text"],
         .form-group textarea {
             width: 100%;
-            padding: 0.9rem 1.1rem;
+            padding: 1rem 1.2rem;
             background: #000000;
             border: 3px solid #ffffff;
             color: #ffffff;
             font-family: var(--font-body);
             font-size: 1rem;
+            font-weight: 500;
             outline: none;
+            box-shadow: 5px 5px 0px #000000;
         }
 
         .form-group input[type="text"]:focus,
         .form-group textarea:focus {
             border-color: var(--y2k-cyan);
-            box-shadow: 0 0 0 3px var(--y2k-pink);
+            box-shadow: 0 0 0 3px var(--y2k-pink), 6px 6px 0px #000000;
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 110px;
+            min-height: 120px;
+            line-height: 1.5;
         }
 
         /* Sistema de Avaliação Y2K */
         .rating-wrapper {
             background: #000000;
-            border: 3px solid var(--y2k-cyan);
-            padding: 1.5rem;
+            border: 4px solid var(--y2k-cyan);
+            padding: 1.8rem;
             text-align: center;
-            margin-bottom: 1.35rem;
-            box-shadow: 5px 5px 0px var(--y2k-pink);
+            margin-bottom: 1.5rem;
+            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-pink);
         }
 
         .rating-stars {
             display: inline-flex;
-            gap: 0.75rem;
-            font-size: 2.2rem;
-            color: #4a3b5c;
+            gap: 0.85rem;
+            font-size: 2.5rem;
+            color: #3b2854;
             cursor: pointer;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
         }
 
         .rating-stars i {
             transition: transform 0.15s ease, color 0.15s ease;
+            filter: drop-shadow(3px 3px 0px #000);
         }
 
         .rating-stars i:hover,
         .rating-stars i.hovered {
             color: var(--y2k-yellow);
-            transform: scale(1.25) rotate(-5deg);
-            text-shadow: 0 0 8px var(--y2k-yellow);
+            transform: scale(1.3) rotate(-8deg);
+            filter: drop-shadow(0 0 10px var(--y2k-yellow));
         }
 
         .rating-stars i.active {
             color: var(--y2k-yellow);
-            text-shadow: 3px 3px 0px #000000;
+            text-shadow: 4px 4px 0px #000000;
         }
 
         .rating-feedback-text {
             font-family: var(--font-pixel);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--y2k-cyan);
-            min-height: 1.4rem;
-            margin-top: 0.5rem;
+            min-height: 1.5rem;
+            margin-top: 0.6rem;
+            text-transform: uppercase;
         }
 
         .char-counter {
             display: block;
             text-align: right;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-top: 0.4rem;
+            margin-top: 0.5rem;
             font-family: var(--font-retro-sub);
         }
 
-        /* Botão 3D Estilo Paper Cutout Dimensional */
+        /* Botão 3D Estilo Paper Cutout Dimensional Grandes */
         .btn {
             background: var(--y2k-pink);
             color: #ffffff;
-            border: 3px solid #ffffff;
+            border: 4px solid #ffffff;
             width: 100%;
-            padding: 1rem 1.2rem;
+            padding: 1.1rem 1.4rem;
             font-family: var(--font-pixel);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 6px 6px 0px #000000;
+            transition: all 0.12s ease;
+            box-shadow: 8px 8px 0px #000000;
             text-transform: uppercase;
             letter-spacing: 1px;
             display: inline-block;
             text-align: center;
+            position: relative;
         }
 
         .btn:hover {
             background: var(--y2k-yellow);
             color: #000000;
-            transform: translate(-3px, -3px);
-            box-shadow: 9px 9px 0px var(--y2k-cyan);
+            transform: translate(-3px, -3px) rotate(-0.5deg);
+            box-shadow: 11px 11px 0px var(--y2k-cyan), 11px 11px 0px 2px #000;
         }
 
         .btn:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #000000;
+            transform: translate(3px, 3px);
+            box-shadow: 3px 3px 0px #000000;
         }
 
         .btn-secondary {
             background: var(--y2k-purple);
             color: #ffffff;
             border: 3px solid var(--y2k-cyan);
-            box-shadow: 4px 4px 0px #000000;
+            box-shadow: 5px 5px 0px #000000;
         }
         
         .btn-secondary:hover {
             background: var(--y2k-cyan);
             color: #000000;
-            box-shadow: 6px 6px 0px var(--y2k-pink);
+            box-shadow: 8px 8px 0px var(--y2k-pink), 8px 8px 0px 2px #000;
         }
 
         .grid-2 {
@@ -498,14 +603,15 @@
             }
         }
 
-        /* Chat Layout Retro Messenger Y2K */
+        /* Chat Layout Retro Messenger Y2K / Instant Messaging Aesthetic */
         .whatsapp-chat-layout {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 320px 1fr;
             background: #000000;
             border: 4px solid #ffffff;
-            box-shadow: var(--shadow-hard-pink);
-            height: 580px;
+            box-shadow: 12px 12px 0px #000000, 12px 12px 0px 3px var(--y2k-pink);
+            height: 600px;
+            position: relative;
         }
 
         @media(max-width: 768px) {
@@ -517,45 +623,47 @@
 
         .whatsapp-sidebar {
             background: #0d001a;
-            border-right: 3px solid #ffffff;
+            border-right: 4px solid #ffffff;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
         .whatsapp-sidebar-header {
-            padding: 1.2rem;
-            border-bottom: 3px solid var(--y2k-pink);
+            padding: 1.4rem 1.2rem;
+            border-bottom: 4px solid var(--y2k-pink);
             background: #190033;
         }
 
         .whatsapp-sidebar-header h3 {
             font-family: var(--font-pixel);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--y2k-yellow);
         }
 
         .whatsapp-contacts-list {
             flex: 1;
             overflow-y: auto;
-            padding: 0.5rem;
+            padding: 0.6rem;
         }
 
         .whatsapp-contact-item {
             display: flex;
             align-items: center;
-            gap: 0.85rem;
-            padding: 0.85rem;
-            border: 2px solid transparent;
+            gap: 1rem;
+            padding: 0.95rem;
+            border: 3px solid transparent;
             cursor: pointer;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
             background: #140224;
+            transition: all 0.15s ease;
         }
 
         .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
             background: var(--y2k-pink);
             border-color: #ffffff;
-            box-shadow: 4px 4px 0px #000;
+            box-shadow: 5px 5px 0px #000000;
+            transform: translate(-2px, -2px);
         }
 
         .whatsapp-contact-item.active h4 {
@@ -563,17 +671,17 @@
         }
 
         .whatsapp-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 0px;
             background: var(--y2k-cyan);
-            color: #000;
-            border: 2px solid #ffffff;
+            color: #000000;
+            border: 3px solid #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: 3px 3px 0px #000;
+            box-shadow: 4px 4px 0px #000000;
         }
 
         .whatsapp-main-chat {
@@ -584,9 +692,9 @@
         }
 
         .whatsapp-chat-header {
-            padding: 1rem;
+            padding: 1.2rem;
             background: #000000;
-            border-bottom: 3px solid var(--y2k-cyan);
+            border-bottom: 4px solid var(--y2k-cyan);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -594,23 +702,25 @@
 
         .chat-messages {
             flex: 1;
-            padding: 1.25rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
             overflow-y: auto;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
-            background-size: 16px 16px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 0);
+            background-size: 18px 18px;
         }
 
+        /* Balões de Mensagem Legíveis e com Borda Grossa Cutout */
         .message {
-            max-width: 80%;
-            padding: 0.9rem 1.1rem;
+            max-width: 82%;
+            padding: 1rem 1.2rem;
             border: 3px solid #ffffff;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            box-shadow: 5px 5px 0px #000;
+            font-size: 1rem;
+            line-height: 1.5;
+            box-shadow: 6px 6px 0px #000000;
             font-family: var(--font-body);
+            position: relative;
         }
 
         .message.incoming {
@@ -631,32 +741,33 @@
         /* Popup de Match no Chat */
         .chat-match-card {
             background: #000000;
-            border: 3px solid var(--y2k-yellow);
-            padding: 1.25rem;
-            margin: 0.75rem 0;
-            max-width: 90%;
+            border: 4px solid var(--y2k-yellow);
+            padding: 1.4rem;
+            margin: 0.85rem 0;
+            max-width: 92%;
             align-self: center;
             width: 100%;
-            box-shadow: 6px 6px 0px var(--y2k-pink);
+            box-shadow: 8px 8px 0px var(--y2k-pink), 8px 8px 0px 2px #000000;
         }
 
         .chat-input-area {
             display: flex;
-            padding: 0.85rem;
+            padding: 1rem;
             background: #000000;
-            border-top: 3px solid #ffffff;
-            gap: 0.6rem;
+            border-top: 4px solid #ffffff;
+            gap: 0.8rem;
             align-items: center;
         }
 
         .chat-input-area input {
             flex: 1;
-            padding: 0.8rem 1rem;
+            padding: 0.9rem 1.1rem;
             background: #140224;
-            border: 2px solid var(--y2k-cyan);
+            border: 3px solid var(--y2k-cyan);
             color: #ffffff;
             outline: none;
             font-family: var(--font-body);
+            font-size: 1rem;
         }
 
         .chat-input-area input:focus {
@@ -665,30 +776,33 @@
 
         .btn-evaluate-together {
             background: var(--y2k-yellow);
-            border: 2px solid #000000;
+            border: 3px solid #000000;
             color: #000000;
-            padding: 0.55rem 0.9rem;
+            padding: 0.65rem 1rem;
             font-family: var(--font-pixel);
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            box-shadow: 3px 3px 0px var(--y2k-pink);
+            gap: 0.5rem;
+            box-shadow: 4px 4px 0px var(--y2k-pink);
             white-space: nowrap;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
         .btn-evaluate-together:hover {
             background: var(--y2k-cyan);
-            color: #000;
+            color: #000000;
+            transform: scale(1.05);
         }
 
         /* Resultados e Comparação */
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-            margin-top: 1.25rem;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         @media (max-width: 650px) {
@@ -699,16 +813,16 @@
 
         .review-box {
             background: #000000;
-            border: 3px solid #ffffff;
-            padding: 1.25rem;
+            border: 4px solid #ffffff;
+            padding: 1.4rem;
             position: relative;
-            box-shadow: 5px 5px 0px var(--y2k-pink);
+            box-shadow: 8px 8px 0px var(--y2k-pink), 8px 8px 0px 2px #000000;
         }
 
         .review-box h3 {
             color: var(--y2k-yellow);
-            margin-bottom: 0.6rem;
-            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -718,96 +832,114 @@
         .match-score-card {
             text-align: center;
             background: #000000;
-            border: 4px solid var(--y2k-cyan);
-            padding: 2rem;
-            margin-bottom: 1.35rem;
-            box-shadow: 8px 8px 0px var(--y2k-pink);
+            border: 5px solid var(--y2k-cyan);
+            padding: 2.2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 10px 10px 0px #000000, 10px 10px 0px 3px var(--y2k-pink);
+            position: relative;
+        }
+
+        .match-score-card::after {
+            content: "★ MATCH SCORE ★";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--y2k-pink);
+            color: #fff;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            padding: 2px 12px;
+            border: 2px solid #fff;
         }
 
         .match-score-card h2 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-family: var(--font-pixel);
             color: var(--y2k-yellow);
-            text-shadow: 4px 4px 0px var(--y2k-pink);
-            margin-top: 0.35rem;
+            text-shadow: 5px 5px 0px var(--y2k-pink), -2px -2px 0px #000;
+            margin-top: 0.4rem;
         }
 
         .badge {
             background: var(--y2k-pink);
             color: #ffffff;
-            padding: 0.3rem 0.75rem;
+            padding: 0.4rem 0.85rem;
             font-family: var(--font-pixel);
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             border: 2px solid #ffffff;
-            box-shadow: 2px 2px 0px #000;
+            box-shadow: 3px 3px 0px #000000;
+            display: inline-block;
         }
 
-        /* Biblioteca de Filmes Avaliados */
+        /* Biblioteca de Filmes Avaliados - Layout Revista/Poster Cutout */
         .library-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.8rem;
         }
 
         .library-card {
             background: #000000;
-            border: 3px solid #ffffff;
+            border: 4px solid #ffffff;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-hard-cyan);
-            transition: transform 0.2s;
+            box-shadow: 9px 9px 0px #000000, 9px 9px 0px 3px var(--y2k-cyan);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .library-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 9px 9px 0px var(--y2k-pink);
+            transform: translate(-4px, -4px) rotate(0.8deg);
+            box-shadow: 12px 12px 0px var(--y2k-pink), 12px 12px 0px 3px #000000;
         }
 
         .library-card-header {
             display: flex;
-            gap: 1rem;
-            padding: 1.25rem;
+            gap: 1.1rem;
+            padding: 1.4rem;
             background: #140224;
-            border-bottom: 3px solid #ffffff;
+            border-bottom: 4px solid #ffffff;
             cursor: pointer;
         }
 
         .library-card-header img {
-            width: 70px;
-            height: 100px;
+            width: 75px;
+            height: 110px;
             object-fit: cover;
-            border: 2px solid #ffffff;
-            box-shadow: 4px 4px 0px #000;
+            border: 3px solid #ffffff;
+            box-shadow: 5px 5px 0px #000000;
+            filter: contrast(120%) brightness(108%);
         }
 
         .library-card-body {
-            padding: 1.25rem;
+            padding: 1.4rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.1rem;
             flex: 1;
             background: #0d001a;
         }
 
         .library-review-item {
             background: #000000;
-            padding: 0.85rem;
-            border: 2px solid var(--y2k-purple);
+            padding: 1rem;
+            border: 3px solid var(--y2k-purple);
+            box-shadow: 4px 4px 0px #000;
         }
 
         /* POPUP TOAST Y2K */
         .toast-notification {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 28px;
+            right: 28px;
             background: var(--y2k-yellow);
             color: #000000;
-            padding: 1rem 1.5rem;
-            border: 3px solid #000000;
+            padding: 1.1rem 1.6rem;
+            border: 4px solid #000000;
             font-family: var(--font-pixel);
-            font-size: 0.75rem;
-            box-shadow: 6px 6px 0px var(--y2k-pink);
+            font-size: 0.8rem;
+            box-shadow: 8px 8px 0px var(--y2k-pink);
             z-index: 10000;
             transition: opacity 0.3s ease;
         }
@@ -816,23 +948,26 @@
             display: none !important;
         }
 
-        /* Ajustes Mobile */
+        /* Ajustes Mobile Responsivos */
         @media (max-width: 768px) {
             body {
-                padding: 1rem 0.5rem;
+                padding: 1.2rem 0.6rem;
             }
             header h1 {
-                font-size: 1.8rem;
+                font-size: 2.1rem;
             }
             .card {
-                padding: 1.25rem;
+                padding: 1.4rem;
             }
             .nav-bar {
-                gap: 0.5rem;
+                gap: 0.6rem;
             }
             .nav-btn {
-                padding: 0.65rem 0.8rem;
-                font-size: 0.65rem;
+                padding: 0.75rem 0.9rem;
+                font-size: 0.7rem;
+            }
+            .rating-stars {
+                font-size: 2rem;
             }
         }
     </style>
@@ -855,7 +990,7 @@
         <!-- ETAPA 0: Login com Google -->
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMatch</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem;">Faça login com sua conta Google para continuar</p>
+            <p style="color: var(--text-muted); margin-top: 0.6rem; font-size: 1.05rem;">Faça login com sua conta Google para continuar</p>
             <button id="googleLoginBtn" class="btn-google">
                 <i class="fa-brands fa-google" style="color: #ffffff;"></i> Entrar com o Google
             </button>
@@ -864,7 +999,7 @@
         <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
-            <p style="color: var(--text-muted); margin-top: 0.4rem; margin-bottom: 1.25rem;">Como você quer ser identificado na comunidade?</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.4rem; font-size: 1rem;">Como você quer ser identificado na comunidade?</p>
             
             <form id="nametagForm">
                 <div class="form-group">
@@ -879,26 +1014,26 @@
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
             <div class="card" id="roomInfoCard" style="background: #000000; border-color: var(--y2k-pink);">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
                     <div>
                         <span class="badge">SESSÃO ATIVA</span>
-                        <h4 id="activeRoomName" style="margin-top: 0.5rem; font-family: var(--font-pixel); font-size: 0.85rem; color: var(--y2k-yellow);">Sessão Principal</h4>
+                        <h4 id="activeRoomName" style="margin-top: 0.6rem; font-family: var(--font-pixel); font-size: 0.95rem; color: var(--y2k-yellow);">Sessão Principal</h4>
                     </div>
-                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.5rem 1rem; font-size: 0.65rem;">Voltar à Sessão Padrão</button>
+                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.6rem 1.1rem; font-size: 0.7rem;">Voltar à Sessão Padrão</button>
                 </div>
             </div>
 
             <!-- Poster e Pesquisa de Filme -->
             <div id="step-movie" class="card">
-                <h3 style="margin-bottom: 1rem;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
+                <h3 style="margin-bottom: 1.2rem;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
                 
                 <div id="selectedMovieContainer" class="selected-movie-preview hidden">
                     <img id="selectedMoviePoster" src="" alt="Poster">
                     <div style="flex: 1; min-width: 0;">
-                        <h3 id="selectedMovieTitle" style="color:var(--text-main); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
-                        <p id="selectedMovieYear" style="color:var(--y2k-yellow); font-family: var(--font-retro-sub); font-size: 1rem; margin-top: 0.2rem;"></p>
+                        <h3 id="selectedMovieTitle" style="color:var(--text-main); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
+                        <p id="selectedMovieYear" style="color:var(--y2k-yellow); font-family: var(--font-retro-sub); font-size: 1.15rem; margin-top: 0.3rem;"></p>
                     </div>
-                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.5rem 0.85rem; font-size: 0.65rem;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.6rem 1rem; font-size: 0.7rem;"><i class="fa-solid fa-pen"></i> Alterar</button>
                 </div>
 
                 <div class="search-box" id="movieSearchBoxWrapper">
@@ -910,11 +1045,11 @@
 
             <!-- ETAPA 2: Avaliação Intuitiva -->
             <div id="step-review" class="card hidden">
-                <h3 style="margin-bottom: 1.25rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="color: var(--y2k-yellow); margin-right: 6px;"></i> Sua Avaliação</h3>
+                <h3 style="margin-bottom: 1.4rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="color: var(--y2k-yellow); margin-right: 8px;"></i> Sua Avaliação</h3>
                 
                 <form id="reviewForm">
                     <div class="rating-wrapper">
-                        <label style="display: block; color: var(--y2k-yellow); font-family: var(--font-pixel); font-size: 0.7rem; margin-bottom: 0.5rem;">Toque nas estrelas para avaliar</label>
+                        <label style="display: block; color: var(--y2k-yellow); font-family: var(--font-pixel); font-size: 0.75rem; margin-bottom: 0.6rem;">Toque nas estrelas para avaliar</label>
                         <div class="rating-stars" id="starContainer">
                             <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
                             <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
@@ -932,16 +1067,16 @@
                         <span id="charCounter" class="char-counter">0 / 500 caracteres</span>
                     </div>
 
-                    <button type="submit" class="btn" id="submitReviewBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Enviar Minha Avaliação</button>
+                    <button type="submit" class="btn" id="submitReviewBtn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> Enviar Minha Avaliação</button>
                 </form>
             </div>
 
             <!-- ETAPA 4: Comparação e Afinidade -->
             <div id="step-results" class="card hidden">
-                <h3 style="margin-bottom: 1rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--y2k-pink); margin-right: 6px;"></i> Resultado do Match</h3>
+                <h3 style="margin-bottom: 1.2rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--y2k-pink); margin-right: 8px;"></i> Resultado do Match</h3>
                 
                 <div class="match-score-card">
-                    <p style="color: var(--y2k-cyan); font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Compatibilidade de Gosto</p>
+                    <p style="color: var(--y2k-cyan); font-family: var(--font-pixel); font-size: 0.8rem; text-transform: uppercase;">Compatibilidade de Gosto</p>
                     <h2 id="matchPercentage">0%</h2>
                 </div>
 
@@ -958,7 +1093,7 @@
                 <div class="whatsapp-sidebar">
                     <div class="whatsapp-sidebar-header">
                         <h3>Conversas</h3>
-                        <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem;">Selecione um contato</p>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem;">Selecione um contato</p>
                     </div>
                     <div class="whatsapp-contacts-list" id="chatContactsList">
                         <!-- Contatos dinâmicos -->
@@ -968,9 +1103,9 @@
                 <!-- Janela Principal de Mensagens -->
                 <div class="whatsapp-main-chat">
                     <div class="whatsapp-chat-header">
-                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <div class="whatsapp-avatar" style="width: 36px; height: 36px; font-size: 0.85rem;"><i class="fa-solid fa-user"></i></div>
-                            <h4 id="activeChatTitle" style="color: var(--text-main); font-family: var(--font-pixel); font-size: 0.75rem;">Selecione um chat</h4>
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
+                            <div class="whatsapp-avatar" style="width: 38px; height: 38px; font-size: 0.9rem;"><i class="fa-solid fa-user"></i></div>
+                            <h4 id="activeChatTitle" style="color: var(--text-main); font-family: var(--font-pixel); font-size: 0.8rem;">Selecione um chat</h4>
                         </div>
                         <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
                             <i class="fa-solid fa-film"></i> Avaliar Juntos
@@ -983,7 +1118,7 @@
 
                     <div class="chat-input-area">
                         <input type="text" id="chatInputMessage" placeholder="Digite uma mensagem..." autocomplete="off">
-                        <button id="sendChatBtn" class="btn" style="width: auto; padding: 0.8rem 1.25rem;"><i class="fa-solid fa-paper-plane"></i></button>
+                        <button id="sendChatBtn" class="btn" style="width: auto; padding: 0.9rem 1.4rem;"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -992,11 +1127,11 @@
         <!-- VIEW 3: BIBLIOTECA DE AVALIAÇÕES -->
         <div id="view-library" class="app-view hidden">
             <div class="card">
-                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-book-bookmark" style="color: var(--y2k-yellow); margin-right: 6px;"></i> Biblioteca de Filmes Avaliados</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Filmes avaliados em conjunto por ambos os participantes.</p>
+                <h3 style="margin-bottom: 0.6rem;"><i class="fa-solid fa-book-bookmark" style="color: var(--y2k-yellow); margin-right: 8px;"></i> Biblioteca de Filmes Avaliados</h3>
+                <p style="color: var(--text-muted); font-size: 1rem;">Filmes avaliados em conjunto por ambos os participantes.</p>
                 
                 <div class="library-grid" id="libraryGridContainer">
-                    <p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda.</p>
+                    <p style="color: var(--text-muted); margin-top: 1.2rem;">Nenhum filme na biblioteca ainda.</p>
                 </div>
             </div>
         </div>
