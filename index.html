@@ -124,6 +124,7 @@
             box-shadow: var(--liquid-glass-shadow);
             margin-bottom: 1.5rem;
             transition: var(--transition-smooth);
+            position: relative; /* Ajustado para gerenciar empilhamento interno se necessário */
         }
 
         .card:hover {
@@ -164,11 +165,11 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Busca de Filmes */
+        /* Busca de Filmes - Z-index elevado para garantir prioridade sobre outros elementos do card */
         .search-box {
             position: relative;
             margin-bottom: 1rem;
-            z-index: 50;
+            z-index: 999;
         }
 
         .search-box input {
