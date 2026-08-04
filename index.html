@@ -42,6 +42,27 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--y2k-purple) #000000;
+        }
+
+        /* Removendo canaletas cinzas das barras de rolagem */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--y2k-purple);
+            border: 2px solid #ffffff;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--y2k-pink);
         }
 
         /* Scanlines CRT de Fundo */
