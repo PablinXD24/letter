@@ -1956,8 +1956,8 @@
         async function saveToLibrary(rId, movie, reviews) {
             const libId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
             
-            const deletedCheckSnap = await get(ref(db, `deleted_library/${libId}`));
-            if (deletedCheckSnap.exists()) return;
+            // CORREÇÃO: Limpamos o registro restritivo do deleted_library para garantir o registro imediato do filme.
+            await remove(ref(db, `deleted_library/${libId}`));
 
             const libraryRef = ref(db, `library/${libId}`);
             await set(libraryRef, {
