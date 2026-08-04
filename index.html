@@ -43,7 +43,7 @@
             padding: 0;
             box-sizing: border-box;
             scrollbar-width: thin;
-            scrollbar-color: var(--y2k-purple) #0a0118;
+            scrollbar-color: var(--y2k-purple) #000000;
         }
 
         /* Removendo canaletas cinzas das barras de rolagem */
@@ -53,7 +53,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0a0118;
+            background: #000000;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -297,8 +297,8 @@
         }
 
         .btn-google:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #000000;
+            transform: none;
+            box-shadow: 4px 4px 0px #000000;
         }
 
         /* Busca de Filmes */
@@ -587,8 +587,8 @@
         }
 
         .btn:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #000000;
+            transform: none;
+            box-shadow: 4px 4px 0px #000000;
         }
 
         .btn-secondary {
@@ -2008,7 +2008,7 @@
                 timestamp: Date.now()
             });
 
-            input.value = '';
+            input.value = ``;
         }
     </script>
 </body>
