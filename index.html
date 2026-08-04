@@ -368,10 +368,9 @@
             color: #ffffff;
         }
 
-        /* ESTILO GLOBAL E EMOLDURADO LIMPO DE PÔSTERES (SEM CANALETAS DE SCANLINE POR CIMA) */
+        /* ESTILO GLOBAL E EMOLDURADO LIMPO DE PÔSTERES */
         .movie-item img,
         .selected-movie-preview img,
-        .library-card-header img,
         .chat-match-card img {
             position: relative !important;
             z-index: 100000 !important;
@@ -831,22 +830,51 @@
             font-family: var(--font-pixel);
         }
 
+        /* CARD DE PLACAR DA PARTE PRINCIPAL (DUAS PORCENTAGENS) */
         .match-score-card {
             text-align: center;
             background: #000000;
             border: 3px solid #ffffff;
             outline: 3px solid #000000;
-            padding: 2rem;
+            padding: 1.8rem 1rem;
             margin-bottom: 1.5rem;
             box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-green);
         }
 
-        .match-score-card h2 {
-            font-size: 3.8rem;
+        .scores-wrapper {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .score-block {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .score-block h2 {
+            font-size: 3.2rem;
             font-family: var(--font-pixel);
-            color: var(--y2k-yellow);
-            text-shadow: 4px 4px 0px var(--y2k-pink);
             margin-top: 0.4rem;
+            line-height: 1;
+        }
+
+        .score-divider {
+            width: 3px;
+            height: 60px;
+            background: var(--y2k-purple);
+            border-left: 2px dashed #ffffff;
+        }
+
+        @media (max-width: 500px) {
+            .score-divider {
+                display: none;
+            }
+            .score-block h2 {
+                font-size: 2.5rem;
+            }
         }
 
         .badge {
@@ -860,11 +888,11 @@
             box-shadow: 2px 2px 0px #000000;
         }
 
-        /* Biblioteca de Filmes Avaliados */
+        /* BIBLIOTECA - APENAS PÔSTER COM PORCENTAGEM PEQUENA ABAIXO */
         .library-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1.2rem;
             margin-top: 1.5rem;
         }
 
@@ -874,36 +902,39 @@
             outline: 3px solid #000000;
             display: flex;
             flex-direction: column;
-            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-green);
-        }
-
-        .library-card-header {
-            display: flex;
-            gap: 1rem;
-            padding: 1.2rem;
-            background: #140224;
-            border-bottom: 3px solid #ffffff;
+            align-items: center;
+            padding: 0.6rem;
+            box-shadow: 6px 6px 0px #000000, 6px 6px 0px 2px var(--y2k-green);
             cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
         }
 
-        .library-card-header img {
-            width: 70px;
-            height: 100px;
+        .library-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-pink);
         }
 
-        .library-card-body {
-            padding: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            flex: 1;
-            background: #0d001a;
+        .library-card img {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+            border: 2px solid #ffffff !important;
+            outline: 2px solid #000000 !important;
         }
 
-        .library-review-item {
-            background: #000000;
-            padding: 0.8rem;
-            border: 2px solid var(--y2k-purple);
+        .library-card-match {
+            margin-top: 0.6rem;
+            font-family: var(--font-pixel);
+            font-size: 0.68rem;
+            color: var(--y2k-yellow);
+            text-align: center;
+            background: #140224;
+            border: 2px solid #ffffff;
+            padding: 0.3rem 0.4rem;
+            width: 100%;
+            box-shadow: 2px 2px 0px #000000;
+            white-space: nowrap;
         }
 
         /* POPUP TOAST SYSTEM ALERT */
@@ -1062,13 +1093,22 @@
                 </form>
             </div>
 
-            <!-- ETAPA 4: Comparação e Afinidade -->
+            <!-- ETAPA 4: Comparação e Afinidade (Com as Duas Porcentagens) -->
             <div id="step-results" class="card hidden">
                 <h3 style="margin-bottom: 1.2rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--y2k-pink); margin-right: 8px;"></i> Resultado do Match</h3>
                 
                 <div class="match-score-card">
-                    <p style="color: var(--y2k-cyan); font-family: var(--font-pixel); font-size: 0.8rem; text-transform: uppercase;">Compatibilidade de Gosto</p>
-                    <h2 id="matchPercentage">0%</h2>
+                    <div class="scores-wrapper">
+                        <div class="score-block">
+                            <p style="color: var(--y2k-cyan); font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Match de Gosto</p>
+                            <h2 id="matchPercentage" style="color: var(--y2k-yellow); text-shadow: 3px 3px 0px var(--y2k-pink);">0%</h2>
+                        </div>
+                        <div class="score-divider"></div>
+                        <div class="score-block">
+                            <p style="color: var(--y2k-pink); font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Avaliação Total</p>
+                            <h2 id="totalRatingPercentage" style="color: var(--y2k-green); text-shadow: 3px 3px 0px #000000;">0%</h2>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="comparison-grid" id="comparisonContainer">
@@ -1119,7 +1159,7 @@
         <div id="view-library" class="app-view hidden">
             <div class="card">
                 <h3 style="margin-bottom: 0.6rem;"><i class="fa-solid fa-book-bookmark" style="color: var(--y2k-yellow); margin-right: 8px;"></i> Biblioteca de Filmes Avaliados</h3>
-                <p style="color: var(--text-muted); font-size: 1rem;">Filmes avaliados em conjunto por ambos os participantes.</p>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Toque no pôster para abrir a sessão correspondente.</p>
                 
                 <div class="library-grid" id="libraryGridContainer">
                     <p style="color: var(--text-muted); margin-top: 1.2rem;">Nenhum filme na biblioteca ainda.</p>
@@ -1128,7 +1168,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs e Lógica Completa (Totalmente Inalterados) -->
+    <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -1550,6 +1590,7 @@
             }
         });
 
+        // MÓDULO DE EXIBIÇÃO: DUAS PORCENTAGENS NA PARTE PRINCIPAL
         function showResultsAndMatch(reviewsObj) {
             stepResults.classList.remove('hidden');
 
@@ -1557,11 +1598,17 @@
             if (reviewsArray.length < 2) return;
 
             const [rev1, rev2] = reviewsArray;
+            
+            // 1. Porcentagem de Match (Afinidade de Gosto)
             const ratingDiff = Math.abs(rev1.rating - rev2.rating);
             let similarity = 100 - (ratingDiff * 20);
             if (similarity < 10) similarity = 10;
 
+            // 2. Porcentagem da Avaliação Total de Ambos (Média / Nota Conjunta de ambos)
+            const totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / 10) * 100);
+
             document.getElementById('matchPercentage').textContent = `${similarity}%`;
+            document.getElementById('totalRatingPercentage').textContent = `${totalRatingPercent}%`;
 
             const container = document.getElementById('comparisonContainer');
             container.innerHTML = `
@@ -1590,6 +1637,7 @@
             });
         }
 
+        // MÓDULO DE EXIBIÇÃO: APENAS PÔSTER E PORCENTAGEM PEQUENA ABAIXO
         function loadLibrary() {
             const libraryRef = ref(db, 'library');
             onValue(libraryRef, (snapshot) => {
@@ -1608,35 +1656,20 @@
                     const reviews = Object.values(item.reviews || {});
                     if (reviews.length < 2) return;
 
+                    const [rev1, rev2] = reviews;
+                    const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+                    let similarity = 100 - (ratingDiff * 20);
+                    if (similarity < 10) similarity = 10;
+
                     const card = document.createElement('div');
                     card.className = 'library-card';
-                    
-                    let reviewsHTML = '';
-                    reviews.forEach(r => {
-                        const isMine = r.uid === currentUser.uid;
-                        reviewsHTML += `
-                            <div class="library-review-item">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                    <strong style="color: var(--y2k-yellow); font-size: 0.85rem;">@${r.name}</strong>
-                                    <span style="color: var(--y2k-pink); font-size: 0.8rem;">${'★'.repeat(r.rating)}</span>
-                                </div>
-                                <p style="font-size: 0.85rem; color: var(--text-bright);">"${r.comment}"</p>
-                                ${isMine ? `<button class="btn btn-secondary" style="margin-top: 6px; padding: 0.3rem 0.6rem; font-size: 0.65rem; width: auto;" onclick="editLibraryReview('${item.roomId}')"><i class="fa-solid fa-pen"></i> Editar Minha Avaliação</button>` : ''}
-                            </div>
-                        `;
-                    });
+                    card.setAttribute('onclick', `goToLibraryRoom('${item.roomId}')`);
+                    card.title = `${item.movie.title} - Clique para abrir a sessão`;
 
                     card.innerHTML = `
-                        <div class="library-card-header" onclick="goToLibraryRoom('${item.roomId}')" title="Clique para abrir a sessão">
-                            <img src="${item.movie.poster}" alt="${item.movie.title}">
-                            <div style="flex: 1; min-width: 0;">
-                                <h4 style="color: var(--text-bright); font-family: var(--font-pixel); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.movie.title}</h4>
-                                <span style="font-size: 0.85rem; color: var(--y2k-yellow); font-family: var(--font-retro-sub);">Ano: ${item.movie.year}</span>
-                                <div style="margin-top: 8px;"><span class="badge">Biblioteca</span></div>
-                            </div>
-                        </div>
-                        <div class="library-card-body">
-                            ${reviewsHTML}
+                        <img src="${item.movie.poster}" alt="${item.movie.title}">
+                        <div class="library-card-match">
+                            <span>Match: ${similarity}%</span>
                         </div>
                     `;
                     container.appendChild(card);
