@@ -553,6 +553,12 @@
             box-shadow: 6px 6px 0px #ff3333, 8px 8px 0px rgba(255, 255, 255, 0.8) !important;
         }
 
+        /* Estilização focada e limpa para o símbolo de porcentagem */
+        .percent-symbol {
+            font-family: var(--font-body);
+            font-weight: 700;
+        }
+
         /* Seção de Adicionar Amigos por Nametag */
         .friends-manager-box {
             background: #0d001a;
@@ -1140,12 +1146,12 @@
                     <div class="scores-wrapper">
                         <div class="score-block">
                             <p style="color: #ffffff; text-shadow: 0 0 6px #ffffff; font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Match de Gosto</p>
-                            <h2 id="matchPercentage" style="color: #ffffff; text-shadow: 0 0 12px #ffffff, 3px 3px 0px #bf00ff;">0%</h2>
+                            <h2 id="matchPercentage" style="color: #ffffff; text-shadow: 0 0 12px #ffffff, 3px 3px 0px #bf00ff;">0<span class="percent-symbol">%</span></h2>
                         </div>
                         <div class="score-divider"></div>
                         <div class="score-block">
                             <p style="color: #bf00ff; text-shadow: 0 0 6px #bf00ff; font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Avaliação Total</p>
-                            <h2 id="totalRatingPercentage" style="color: #ffffff; text-shadow: 0 0 12px #ffffff, 3px 3px 0px #bf00ff;">0%</h2>
+                            <h2 id="totalRatingPercentage" style="color: #ffffff; text-shadow: 0 0 12px #ffffff, 3px 3px 0px #bf00ff;">0<span class="percent-symbol">%</span></h2>
                         </div>
                     </div>
                 </div>
@@ -1887,6 +1893,17 @@
 
             try {
                 await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
+                
+                // Garantir salvamento imediato na biblioteca se já houver outras avaliações registradas na sala
+                const roomSnap = await get(ref(db, `rooms/${activeRoomId}`));
+                if (roomSnap.exists()) {
+                    const roomData = roomSnap.val();
+                    const allReviews = roomData.reviews || {};
+                    if (Object.keys(allReviews).length >= 2 && roomData.movie) {
+                        await saveToLibrary(activeRoomId, roomData.movie, allReviews);
+                    }
+                }
+
                 showToast("Avaliação salva com sucesso!");
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
@@ -1908,8 +1925,8 @@
 
             const totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / 10) * 100);
 
-            document.getElementById('matchPercentage').textContent = `${similarity}%`;
-            document.getElementById('totalRatingPercentage').textContent = `${totalRatingPercent}%`;
+            document.getElementById('matchPercentage').innerHTML = `${similarity}<span class="percent-symbol">%</span>`;
+            document.getElementById('totalRatingPercentage').innerHTML = `${totalRatingPercent}<span class="percent-symbol">%</span>`;
 
             const container = document.getElementById('comparisonContainer');
             container.innerHTML = `
@@ -1976,7 +1993,7 @@
                         <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${item.roomId}')">
                             <img src="${item.movie.poster}" alt="${item.movie.title}">
                             <div class="library-card-match">
-                                <span>Match: ${similarity}%</span>
+                                <span>Match: ${similarity}<span class="percent-symbol">%</span></span>
                             </div>
                         </div>
                     `;
@@ -2039,12 +2056,12 @@
                         <div class="scores-wrapper">
                             <div class="score-block">
                                 <p style="color: #ffffff; text-shadow: 0 0 4px #ffffff; font-family: var(--font-pixel); font-size: 0.65rem; text-transform: uppercase;">Match</p>
-                                <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff; font-size: 2.2rem; text-shadow: 2px 2px 0px #bf00ff;">${similarity}%</h2>
+                                <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff; font-size: 2.2rem; text-shadow: 2px 2px 0px #bf00ff;">${similarity}<span class="percent-symbol">%</span></h2>
                             </div>
                             <div class="score-divider"></div>
                             <div class="score-block">
                                 <p style="color: #bf00ff; text-shadow: 0 0 4px #bf00ff; font-family: var(--font-pixel); font-size: 0.65rem; text-transform: uppercase;">Média Avaliação</p>
-                                <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff; font-size: 2.2rem; text-shadow: 2px 2px 0px #bf00ff;">${totalRatingPercent}%</h2>
+                                <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff; font-size: 2.2rem; text-shadow: 2px 2px 0px #bf00ff;">${totalRatingPercent}<span class="percent-symbol">%</span></h2>
                             </div>
                         </div>
                     </div>
