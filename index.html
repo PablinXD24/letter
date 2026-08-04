@@ -1348,7 +1348,9 @@
                     }
                     await remove(ref(db, `users/${uId}`));
                     localStorage.removeItem('cinemozi_logged_tag');
-                    await deleteUser(currentUser);
+                    if (auth.currentUser) {
+                        await deleteUser(auth.currentUser);
+                    }
                     showToast("Conta e dados excluídos com sucesso.");
                     setTimeout(() => location.reload(), 1500);
                 } catch (error) {
@@ -1404,7 +1406,6 @@
                 userNametag = tag;
                 localStorage.setItem('cinemozi_logged_tag', tag);
                 
-                // Criação de um objeto de usuário simulado seguro para manter o fluxo sem travar o popup do Google
                 currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
                 
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
@@ -1516,7 +1517,7 @@
                     stepNametag.classList.remove('hidden');
                 }
             } else {
-                // Se não houver autenticação do Firebase mas houver sessão via localStorage (Nametag), mantém logado
+                // Tenta carregar sessão salva via Nametag se não houver token do Firebase Auth ativo
                 const savedTag = localStorage.getItem('cinemozi_logged_tag');
                 if (savedTag && !currentUser) {
                     try {
