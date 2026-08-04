@@ -85,20 +85,6 @@
             z-index: 2;
         }
 
-        /* Estilo de Moldura Retrô Y2K para TODOS os Pôsteres */
-        .movie-item img,
-        .selected-movie-preview img,
-        .library-card-header img,
-        .chat-match-card img {
-            object-fit: cover !important;
-            padding: 3px !important;
-            background: var(--y2k-yellow) !important;
-            border: 3px solid #000000 !important;
-            outline: 2px solid #ffffff !important;
-            box-shadow: 4px 4px 0px #000000, 6px 6px 0px var(--y2k-pink) !important;
-            border-radius: 0px !important;
-        }
-
         /* Header Principal Estilo Janela Mestra do Windows Y2K */
         header {
             text-align: center;
@@ -382,10 +368,23 @@
             color: #ffffff;
         }
 
+        /* ESTILO GLOBAL E EMOLDURADO LIMPO DE PÔSTERES (SEM CANALETAS DE SCANLINE POR CIMA) */
+        .movie-item img,
+        .selected-movie-preview img,
+        .library-card-header img,
+        .chat-match-card img {
+            position: relative !important;
+            z-index: 100000 !important;
+            object-fit: cover;
+            background-color: #000000;
+            border: 3px solid #ffffff !important;
+            outline: 2px solid #000000 !important;
+            box-shadow: 4px 4px 0px #000000 !important;
+        }
+
         .movie-item img {
-            width: 50px;
-            height: 72px;
-            flex-shrink: 0;
+            width: 48px;
+            height: 68px;
         }
 
         .movie-info h4 {
@@ -416,8 +415,8 @@
         }
 
         .selected-movie-preview img {
-            width: 95px;
-            height: 140px;
+            width: 90px;
+            height: 130px;
             flex-shrink: 0;
         }
 
@@ -432,8 +431,8 @@
             }
 
             .selected-movie-preview img {
-                width: 125px;
-                height: 180px;
+                width: 120px;
+                height: 175px;
             }
 
             .selected-movie-preview > div {
@@ -764,12 +763,6 @@
             box-shadow: 6px 6px 0px var(--y2k-pink);
         }
 
-        .chat-match-card img {
-            width: 48px;
-            height: 70px;
-            flex-shrink: 0;
-        }
-
         .chat-input-area {
             display: flex;
             padding: 0.8rem;
@@ -894,9 +887,8 @@
         }
 
         .library-card-header img {
-            width: 75px;
-            height: 110px;
-            flex-shrink: 0;
+            width: 70px;
+            height: 100px;
         }
 
         .library-card-body {
@@ -1730,7 +1722,7 @@
                         matchPopup.className = 'chat-match-card';
                         matchPopup.innerHTML = `
                             <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
-                                <img src="${roomData.movie.poster}">
+                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover;">
                                 <div>
                                     <h5 style="color:var(--y2k-yellow); font-family:var(--font-pixel); font-size:0.75rem;">Match: ${roomData.movie.title}</h5>
                                     <span style="font-size:0.8rem; color:var(--y2k-cyan);">Compatibilidade: <strong>${similarity}%</strong></span>
