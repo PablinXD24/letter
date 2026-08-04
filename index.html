@@ -215,7 +215,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.9rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             box-shadow: 4px 4px 0px #bf00ff, 8px 8px 0px rgba(255, 255, 255, 0.4);
             text-transform: uppercase;
             font-weight: bold;
@@ -1048,12 +1048,20 @@
             <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
         </div>
 
-        <!-- ETAPA 0: Login com Google -->
+        <!-- ETAPA 0: Login com Google / Login rápido por Nametag -->
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMozi</h3>
             <button id="googleLoginBtn" class="btn-google">
                 <i class="fa-brands fa-google" style="color: #000000;"></i> Entrar com o Google
             </button>
+            
+            <div style="margin-top: 2rem; border-top: 2px dashed #bf00ff; padding-top: 1.5rem;">
+                <h4 style="font-family: var(--font-pixel); font-size: 0.75rem; color: #ffffff; margin-bottom: 0.8rem; text-transform: uppercase;">Já tem uma Nametag?</h4>
+                <form id="quickTagLoginForm" style="display: flex; gap: 0.5rem; max-width: 360px; margin: 0 auto;">
+                    <input type="text" id="quickTagInput" required placeholder="Digite sua nametag" autocomplete="off" style="flex: 1; padding: 0.8rem; background: #05000f; border: 2px solid #ffffff; color: #ffffff; font-family: var(--font-body); font-size: 0.9rem; outline: none;">
+                    <button type="submit" class="btn btn-secondary" style="width: auto; padding: 0.8rem 1rem; font-size: 0.7rem;"><i class="fa-solid fa-right-to-bracket"></i></button>
+                </form>
+            </div>
         </div>
 
         <!-- ETAPA 0.1: Escolha da Nametag -->
@@ -1258,7 +1266,7 @@
     <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser, getAdditionalUserInfo } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
         import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -1291,6 +1299,8 @@
         const btnSwitchGoogleAccount = document.getElementById('btnSwitchGoogleAccount');
         const nametagForm = document.getElementById('nametagForm');
         const nametagInput = document.getElementById('nametagInput');
+        const quickTagLoginForm = document.getElementById('quickTagLoginForm');
+        const quickTagInput = document.getElementById('quickTagInput');
 
         const navButtons = document.querySelectorAll('.nav-btn');
         const appViews = document.querySelectorAll('.app-view');
@@ -1323,6 +1333,7 @@
         // Ações de Sair e Excluir Conta na aba Perfil
         document.getElementById('menuSairConta').addEventListener('click', async () => {
             if (confirm("Deseja realmente sair da conta?")) {
+                localStorage.removeItem('cinemozi_logged_tag');
                 await signOut(auth);
                 location.reload();
             }
@@ -1336,6 +1347,7 @@
                         await remove(ref(db, `nametags/${userNametag}`));
                     }
                     await remove(ref(db, `users/${uId}`));
+                    localStorage.removeItem('cinemozi_logged_tag');
                     await deleteUser(currentUser);
                     showToast("Conta e dados excluídos com sucesso.");
                     setTimeout(() => location.reload(), 1500);
@@ -1359,14 +1371,53 @@
                 await signInWithPopup(auth, googleProvider);
             } catch (error) {
                 console.error("Erro no login com Google:", error);
-                alert("Erro ao autenticar com o Google.");
             }
         }
 
         googleLoginBtn.addEventListener('click', () => handleGoogleLogin(false));
         btnSwitchGoogleAccount.addEventListener('click', async () => {
+            localStorage.removeItem('cinemozi_logged_tag');
             await signOut(auth);
             handleGoogleLogin(true);
+        });
+
+        // LOGIN RÁPIDO APENAS COM A NAMETAG NA TELA INICIAL
+        quickTagLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const tag = quickTagInput.value.trim().toLowerCase();
+            if (!tag) return;
+
+            try {
+                const tagSnap = await get(ref(db, `nametags/${tag}`));
+                if (!tagSnap.exists()) {
+                    alert("Nametag não encontrada. Verifique ou entre com o Google.");
+                    return;
+                }
+
+                const uid = tagSnap.val();
+                const userSnap = await get(ref(db, `users/${uid}`));
+                if (!userSnap.exists()) {
+                    alert("Dados do usuário não encontrados.");
+                    return;
+                }
+
+                userNametag = tag;
+                localStorage.setItem('cinemozi_logged_tag', tag);
+                
+                // Criação de um objeto de usuário simulado seguro para manter o fluxo sem travar o popup do Google
+                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+                
+                document.getElementById('profileViewNametag').textContent = `@${tag}`;
+                document.getElementById('profileEditNametagInput').value = tag;
+                document.getElementById('profileViewEmail').textContent = currentUser.email;
+
+                stepAuth.classList.add('hidden');
+                startApplication();
+                showToast(`Bem-vindo de volta, @${tag}!`);
+            } catch (error) {
+                console.error("Erro ao logar com nametag:", error);
+                alert("Erro ao efetuar login com a nametag.");
+            }
         });
 
         // ATUALIZAR NAMETAG NO PERFIL
@@ -1389,6 +1440,7 @@
                 await update(userRef, { nametag: newTag });
 
                 userNametag = newTag;
+                localStorage.setItem('cinemozi_logged_tag', newTag);
                 document.getElementById('profileViewNametag').textContent = `@${newTag}`;
                 showToast("Nametag atualizada com sucesso!");
             } catch (error) {
@@ -1455,6 +1507,7 @@
 
                 if (snapshot.exists() && snapshot.val().nametag) {
                     userNametag = snapshot.val().nametag;
+                    localStorage.setItem('cinemozi_logged_tag', userNametag);
                     document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
                     document.getElementById('profileEditNametagInput').value = userNametag;
                     await update(userRef, { lastLogin: Date.now() });
@@ -1463,6 +1516,30 @@
                     stepNametag.classList.remove('hidden');
                 }
             } else {
+                // Se não houver autenticação do Firebase mas houver sessão via localStorage (Nametag), mantém logado
+                const savedTag = localStorage.getItem('cinemozi_logged_tag');
+                if (savedTag && !currentUser) {
+                    try {
+                        const tagSnap = await get(ref(db, `nametags/${savedTag}`));
+                        if (tagSnap.exists()) {
+                            const uid = tagSnap.val();
+                            const userSnap = await get(ref(db, `users/${uid}`));
+                            if (userSnap.exists()) {
+                                userNametag = savedTag;
+                                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+                                document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
+                                document.getElementById('profileEditNametagInput').value = savedTag;
+                                document.getElementById('profileViewEmail').textContent = currentUser.email;
+                                stepAuth.classList.add('hidden');
+                                startApplication();
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Erro ao recuperar sessão por nametag:", e);
+                    }
+                }
+
                 currentUser = null;
                 stepAuth.classList.remove('hidden');
                 stepNametag.classList.add('hidden');
@@ -1479,7 +1556,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${tag}`));
                 if (tagSnap.exists()) {
-                    alert(" Esta Nametag já está em uso. Escolha outra.");
+                    alert("Esta Nametag já está em uso. Escolha outra.");
                     return;
                 }
 
@@ -1492,6 +1569,7 @@
                 await set(ref(db, `nametags/${tag}`), currentUser.uid);
 
                 userNametag = tag;
+                localStorage.setItem('cinemozi_logged_tag', tag);
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
                 document.getElementById('profileEditNametagInput').value = tag;
                 stepNametag.classList.add('hidden');
@@ -2277,3 +2355,4 @@
     </script>
 </body>
 </html>
+```[cite: 1]
