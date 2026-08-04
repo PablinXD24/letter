@@ -10,7 +10,7 @@
     
     <style>
         :root {
-            /* Paleta Neon & Cyber Y2K (Inspirada nas imagens de referência) */
+            /* Paleta Neon & Cyber Y2K */
             --bg-main: #0a0118;
             --win-bg: #130328;
             --y2k-green: #00ff66;
@@ -390,7 +390,7 @@
             font-weight: bold;
         }
 
-        /* Filme Selecionado */
+        /* Filme Selecionado - Responsividade Vertical Aprimorada */
         .selected-movie-preview {
             display: flex;
             align-items: center;
@@ -404,11 +404,49 @@
         }
 
         .selected-movie-preview img {
-            width: 80px;
-            height: 115px;
+            width: 90px;
+            height: 130px;
             object-fit: cover;
             border: 2px solid #ffffff;
             box-shadow: 4px 4px 0px #000000;
+            flex-shrink: 0;
+        }
+
+        /* Responsive Mobile Layout para Seleção de Filmes */
+        @media (max-width: 650px) {
+            .selected-movie-preview {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.2rem 1rem;
+            }
+
+            .selected-movie-preview img {
+                width: 120px;
+                height: 175px;
+            }
+
+            .selected-movie-preview > div {
+                width: 100%;
+            }
+
+            .selected-movie-preview h3 {
+                white-space: normal !important;
+                word-break: break-word;
+                font-size: 1.05rem !important;
+            }
+
+            .selected-movie-preview .btn {
+                width: 100% !important;
+                justify-content: center;
+                margin-top: 0.4rem;
+            }
+
+            .search-box input {
+                padding: 0.9rem 0.9rem 0.9rem 2.8rem;
+                font-size: 0.95rem;
+            }
         }
 
         /* Formulários gerais */
@@ -903,7 +941,7 @@
             display: none !important;
         }
 
-        /* Ajustes Mobile Responsivos */
+        /* Ajustes Mobile Responsivos Gerais */
         @media (max-width: 768px) {
             body {
                 padding: 1rem 0.5rem;
@@ -964,15 +1002,11 @@
 
         <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
-            <!-- Info da Sala Ativa -->
-            <div class="card" id="roomInfoCard" style="background: #000000;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
-                    <div>
-                        <span class="badge">SESSÃO ATIVA</span>
-                        <h4 id="activeRoomName" style="margin-top: 0.6rem; font-family: var(--font-pixel); font-size: 0.95rem; color: var(--y2k-yellow);">Sessão Principal</h4>
-                    </div>
-                    <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.6rem 1.1rem; font-size: 0.7rem;">Voltar à Sessão Padrão</button>
-                </div>
+            
+            <!-- Elemento Oculto da Sala Ativa para Compatibilidade Completa com o JS -->
+            <div id="roomInfoCard" style="display: none !important;">
+                <span id="activeRoomName"></span>
+                <button id="btnLeaveRoom"></button>
             </div>
 
             <!-- Poster e Pesquisa de Filme -->
