@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMozi</title>
+    <title>CineMozi - Y2K Edition</title>
     <!-- Google Fonts Y2K Bitmap & Clean Sans + FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=VT323&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -94,7 +94,7 @@
             z-index: 2;
         }
 
-        /* Header Principal Limpo (Sem subtítulo, nome trocado para CineMozi) */
+        /* Header Principal Limpo */
         header {
             text-align: center;
             margin-bottom: 2rem;
@@ -199,6 +199,7 @@
             position: relative;
         }
 
+        /* Botão Estilo Windows / Y2K Button */
         .btn-google {
             background: #ffffff;
             color: #000000;
@@ -227,6 +228,11 @@
             box-shadow: 6px 6px 0px #ffffff, 10px 10px 0px rgba(191, 0, 255, 0.6);
             transform: translate(-2px, -2px);
             text-shadow: 0 0 8px #ffffff;
+        }
+
+        .btn-google:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #bf00ff;
         }
 
         /* Busca de Filmes */
@@ -367,8 +373,26 @@
             .selected-movie-preview > div {
                 width: 100%;
             }
+
+            .selected-movie-preview h3 {
+                white-space: normal !important;
+                word-break: break-word;
+                font-size: 1.05rem !important;
+            }
+
+            .selected-movie-preview .btn {
+                width: 100% !important;
+                justify-content: center;
+                margin-top: 0.4rem;
+            }
+
+            .search-box input {
+                padding: 0.9rem 0.9rem 0.9rem 2.8rem;
+                font-size: 0.95rem;
+            }
         }
 
+        /* Formulários gerais */
         .form-group {
             margin-bottom: 1.4rem;
         }
@@ -408,6 +432,7 @@
             line-height: 1.5;
         }
 
+        /* Sistema de Avaliação Y2K Windows Box */
         .rating-wrapper {
             background: #05000f;
             border: 3px solid #ffffff;
@@ -454,6 +479,7 @@
             font-family: var(--font-retro-sub);
         }
 
+        /* Botão 3D Windows / Y2K Pop-Art */
         .btn {
             background: #ffffff;
             color: #000000;
@@ -481,6 +507,11 @@
             text-shadow: 0 0 8px #ffffff;
         }
 
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #bf00ff;
+        }
+
         .btn-secondary {
             background: #bf00ff;
             color: #ffffff;
@@ -497,29 +528,15 @@
             text-shadow: none;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 1.5rem;
-        }
-
-        @media(max-width: 800px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ========================================================
-           NOVA ESTILIZAÇÃO DO CHAT ESTILO WHATSAPP (COM AS MESMAS FUNÇÕES)
-           ======================================================== */
+        /* Chat Layout Retro Messenger Restilizado */
         .whatsapp-chat-layout {
             display: grid;
-            grid-template-columns: 340px 1fr;
-            background: #111b21;
+            grid-template-columns: 320px 1fr;
+            background: #05000f;
             border: 3px solid #ffffff;
             outline: 3px solid #bf00ff;
             box-shadow: 10px 10px 0px #bf00ff, 12px 12px 0px rgba(255, 255, 255, 0.25);
-            height: 640px;
+            height: 600px;
             position: relative;
         }
 
@@ -531,258 +548,206 @@
         }
 
         .whatsapp-sidebar {
-            background: #111b21;
-            border-right: 2px solid #222d34;
+            background: #0d001a;
+            border-right: 3px solid #ffffff;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
         .whatsapp-sidebar-header {
-            padding: 1rem 1.2rem;
-            background: #202c33;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #222d34;
+            padding: 1.2rem;
+            border-bottom: 3px solid #bf00ff;
+            background: #190033;
         }
 
         .whatsapp-sidebar-header h3 {
-            font-family: var(--font-body);
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #e9edef;
-            text-shadow: none;
-            letter-spacing: 0.3px;
-            text-transform: none;
-        }
-
-        .whatsapp-sidebar-search {
-            padding: 8px 12px;
-            background: #111b21;
-            border-bottom: 1px solid #222d34;
-        }
-
-        .whatsapp-sidebar-search-input {
-            width: 100%;
-            background: #202c33;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 12px 8px 36px;
-            color: #d1d7db;
-            font-size: 0.9rem;
-            outline: none;
+            font-family: var(--font-pixel);
+            font-size: 0.85rem;
+            color: #ffffff;
+            text-shadow: 0 0 6px #ffffff;
         }
 
         .whatsapp-contacts-list {
             flex: 1;
             overflow-y: auto;
-            background: #111b21;
+            padding: 0.6rem;
         }
 
         .whatsapp-contact-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 1rem;
+            padding: 0.8rem;
+            border: 2px solid transparent;
             cursor: pointer;
-            border-bottom: 1px solid rgba(34, 45, 52, 0.6);
-            transition: background 0.15s ease;
-            background: #111b21;
+            margin-bottom: 0.5rem;
+            background: #140224;
+            transition: all 0.2s;
         }
 
-        .whatsapp-contact-item:hover {
-            background: #202c33;
+        .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
+            background: #ffffff;
+            border-color: #bf00ff;
+            color: #000000;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
-        .whatsapp-contact-item.active {
-            background: #2a3942;
+        .whatsapp-contact-item:hover h4, .whatsapp-contact-item.active h4 {
+            color: #000000 !important;
+            text-shadow: none !important;
         }
 
         .whatsapp-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #00a884;
+            width: 40px;
+            height: 40px;
+            background: #bf00ff;
             color: #ffffff;
-            border: none;
+            border: 2px solid #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: none;
-            flex-shrink: 0;
-            font-size: 1.1rem;
+            box-shadow: 2px 2px 0px #ffffff, 0 0 8px #bf00ff;
         }
 
         .whatsapp-main-chat {
             display: flex;
             flex-direction: column;
-            background: #0b141a;
+            background: #120022;
             position: relative;
         }
 
         .whatsapp-chat-header {
-            padding: 10px 16px;
-            background: #202c33;
-            border-bottom: 1px solid #222d34;
+            padding: 1rem;
+            background: #05000f;
+            border-bottom: 3px solid #bf00ff;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 60px;
-        }
-
-        .whatsapp-chat-header-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .whatsapp-chat-header-info h4 {
-            color: #e9edef;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 600;
-            text-shadow: none;
-            letter-spacing: 0;
-        }
-
-        .whatsapp-chat-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        /* Otimização visual e de função para o botão Avaliar Juntos no estilo WPP */
-        .btn-evaluate-together {
-            background: #00a884;
-            border: none;
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            white-space: nowrap;
-            font-weight: 600;
-            text-shadow: none;
-            text-transform: none;
-            transition: background 0.2s;
-        }
-
-        .btn-evaluate-together:hover {
-            background: #008f72;
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-            text-shadow: none;
-            transform: none;
         }
 
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 1rem;
             overflow-y: auto;
-            background-color: #0b141a;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-            background-size: 24px 24px;
+            background-image: radial-gradient(rgba(191, 0, 255, 0.15) 1px, transparent 0);
+            background-size: 16px 16px;
         }
 
         .message {
-            max-width: 65%;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.92rem;
+            max-width: 82%;
+            padding: 0.9rem 1.1rem;
+            border: 3px solid #ffffff;
+            font-size: 0.95rem;
             line-height: 1.4;
-            box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+            box-shadow: 4px 4px 0px #bf00ff;
             font-family: var(--font-body);
-            position: relative;
-            word-wrap: break-word;
-            border: none;
         }
 
         .message.incoming {
-            background: #202c33;
-            color: #e9edef;
+            background: #1f0038;
+            color: #ffffff;
             align-self: flex-start;
-            border-top-left-radius: 0;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.2);
+            border-color: #ffffff;
+            box-shadow: 4px 4px 0px #bf00ff, 0 0 8px rgba(191, 0, 255, 0.4);
         }
 
         .message.outgoing {
-            background: #005c4b;
-            color: #e9edef;
+            background: #ffffff;
+            color: #000000;
             align-self: flex-end;
-            border-top-right-radius: 0;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.2);
-            font-weight: 400;
+            border-color: #bf00ff;
+            box-shadow: 4px 4px 0px #bf00ff, 0 0 10px rgba(255, 255, 255, 0.8);
+            font-weight: 600;
         }
 
-        /* Popup de Match integrado no Chat no padrão WhatsApp card */
+        /* Estado Vazio Personalizado para o Chat (Sem conversas abertas) */
+        .chat-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .chat-empty-state i {
+            font-size: 3rem;
+            color: var(--y2k-pink);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(191, 0, 255, 0.6);
+        }
+
+        .chat-empty-state p {
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            color: #ffffff;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+        }
+
+        /* Popup de Match no Chat */
         .chat-match-card {
-            background: #202c33;
-            border: 1px solid #2a3942;
-            outline: none;
-            padding: 12px 16px;
-            margin: 10px auto;
-            max-width: 85%;
+            background: #05000f;
+            border: 3px solid #ffffff;
+            outline: 3px solid #bf00ff;
+            padding: 1.2rem;
+            margin: 0.85rem 0;
+            max-width: 92%;
             align-self: center;
             width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 6px 6px 0px #bf00ff, 0 0 12px rgba(191, 0, 255, 0.5);
         }
 
         .chat-input-area {
             display: flex;
-            padding: 10px 16px;
-            background: #202c33;
-            border-top: 1px solid #222d34;
-            gap: 10px;
+            padding: 0.8rem;
+            background: #05000f;
+            border-top: 3px solid #ffffff;
+            gap: 0.8rem;
             align-items: center;
         }
 
         .chat-input-area input {
             flex: 1;
-            padding: 10px 16px;
-            background: #2a3942;
-            border: none;
-            border-radius: 8px;
-            color: #d1d7db;
+            padding: 0.8rem 1rem;
+            background: #140224;
+            border: 2px solid #ffffff;
+            color: #ffffff;
             outline: none;
             font-family: var(--font-body);
-            font-size: 0.95rem;
-            box-shadow: none;
+            font-size: 1rem;
+            box-shadow: inset 2px 2px 0px #bf00ff;
         }
 
-        .chat-input-area input::placeholder {
-            color: #8696a0;
-        }
-
-        /* Botão Enviar WPP style */
-        #sendChatBtn {
-            background: transparent;
-            border: none;
-            color: #8696a0;
-            width: auto;
-            padding: 8px 12px;
-            font-size: 1.2rem;
-            box-shadow: none;
+        .btn-evaluate-together {
+            background: #bf00ff;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 0.6rem 0.9rem;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
             cursor: pointer;
-            text-transform: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 3px 3px 0px #ffffff, 0 0 8px #bf00ff;
+            white-space: nowrap;
+            font-weight: bold;
+            text-shadow: 0 0 4px #ffffff;
         }
 
-        #sendChatBtn:hover {
-            background: transparent;
-            color: #00a884;
-            transform: none;
-            box-shadow: none;
+        .btn-evaluate-together:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #bf00ff;
+            box-shadow: 3px 3px 0px #bf00ff, 0 0 12px #ffffff;
             text-shadow: none;
         }
 
@@ -975,7 +940,6 @@
         <!-- ETAPA 0: Login com Google -->
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMozi</h3>
-            <p style="color: var(--text-muted); margin-top: 0.6rem; font-size: 1.05rem;">Faça login com sua conta Google para continuar</p>
             <button id="googleLoginBtn" class="btn-google">
                 <i class="fa-brands fa-google" style="color: #000000;"></i> Entrar com o Google
             </button>
@@ -984,9 +948,7 @@
         <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
-            <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.4rem; font-size: 1rem;">Como você quer ser identificado na comunidade?</p>
-            
-            <form id="nametagForm">
+            <form id="nametagForm" style="margin-top: 1.2rem;">
                 <div class="form-group">
                     <label>Nametag Única</label>
                     <input type="text" id="nametagInput" required placeholder="Ex: cinemaniaco99" autocomplete="off">
@@ -998,7 +960,6 @@
         <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
             
-            <!-- Elemento Oculto da Sala Ativa para Compatibilidade Completa com o JS -->
             <div id="roomInfoCard" style="display: none !important;">
                 <span id="activeRoomName"></span>
                 <button id="btnLeaveRoom"></button>
@@ -1070,13 +1031,11 @@
                     </div>
                 </div>
 
-                <div class="comparison-grid" id="comparisonContainer">
-                    <!-- Preenchido via Realtime Database -->
-                </div>
+                <div class="comparison-grid" id="comparisonContainer"></div>
             </div>
         </div>
 
-        <!-- VIEW 2: CHATS & CONEXÕES (REESTILIZADO IGUAL AO WHATSAPP) -->
+        <!-- VIEW 2: CHATS & CONEXÕES (Restilizado: sem conversas abertas por padrão) -->
         <div id="view-chats" class="app-view hidden">
             <div class="whatsapp-chat-layout">
                 <!-- Sidebar de Contatos -->
@@ -1084,35 +1043,32 @@
                     <div class="whatsapp-sidebar-header">
                         <h3>Conversas</h3>
                     </div>
-                    <div class="whatsapp-sidebar-search">
-                        <input type="text" class="whatsapp-sidebar-search-input" placeholder="Pesquisar ou começar uma nova conversa">
-                    </div>
-                    <div class="whatsapp-contacts-list" id="chatContactsList">
-                        <!-- Contatos dinâmicos -->
-                    </div>
+                    <div class="whatsapp-contacts-list" id="chatContactsList"></div>
                 </div>
 
                 <!-- Janela Principal de Mensagens -->
                 <div class="whatsapp-main-chat">
                     <div class="whatsapp-chat-header">
-                        <div class="whatsapp-chat-header-info">
-                            <div class="whatsapp-avatar" style="width: 40px; height: 40px; font-size: 0.95rem;"><i class="fa-solid fa-user"></i></div>
-                            <h4 id="activeChatTitle">Selecione um chat</h4>
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
+                            <div class="whatsapp-avatar" style="width: 38px; height: 38px; font-size: 0.9rem;"><i class="fa-solid fa-user"></i></div>
+                            <h4 id="activeChatTitle" style="color: var(--text-bright); font-family: var(--font-pixel); font-size: 0.8rem; text-shadow: 0 0 4px #ffffff;">Selecione um contato</h4>
                         </div>
-                        <div class="whatsapp-chat-header-actions">
-                            <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
-                                <i class="fa-solid fa-film"></i> Avaliar Juntos
-                            </button>
-                        </div>
+                        <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
+                            <i class="fa-solid fa-film"></i> Avaliar Juntos
+                        </button>
                     </div>
 
                     <div class="chat-messages" id="chatMessagesContainer">
-                        <div class="message incoming">Nenhuma conversa selecionada no momento.</div>
+                        <div class="chat-empty-state">
+                            <i class="fa-solid fa-comments"></i>
+                            <p>Nenhuma conversa aberta</p>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Escolha um contato na barra lateral para iniciar o papo.</span>
+                        </div>
                     </div>
 
-                    <div class="chat-input-area">
-                        <input type="text" id="chatInputMessage" placeholder="Digite uma mensagem" autocomplete="off">
-                        <button id="sendChatBtn"><i class="fa-solid fa-paper-plane"></i></button>
+                    <div class="chat-input-area" id="chatInputAreaWrapper" style="display: none;">
+                        <input type="text" id="chatInputMessage" placeholder="Digite uma mensagem..." autocomplete="off">
+                        <button id="sendChatBtn" class="btn" style="width: auto; padding: 0.8rem 1.2rem;"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -1122,8 +1078,6 @@
         <div id="view-library" class="app-view hidden">
             <div class="card">
                 <h3 style="margin-bottom: 0.6rem;"><i class="fa-solid fa-book-bookmark" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Biblioteca de Filmes Avaliados</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Toque no pôster para abrir os detalhes e avaliações em pop-up.</p>
-                
                 <div class="library-grid" id="libraryGridContainer">
                     <p style="color: var(--text-muted); margin-top: 1.2rem;">Nenhum filme na biblioteca ainda.</p>
                 </div>
@@ -1138,9 +1092,7 @@
                 <h3 style="font-size: 0.9rem; color: #ffffff; text-shadow: 0 0 6px #ffffff;">Detalhes e Edição da Avaliação</h3>
                 <span id="closeLibraryModalBtn" style="cursor: pointer; font-family: var(--font-pixel); color: #ffffff; text-shadow: 0 0 8px #ffffff; font-size: 1rem; padding: 4px;">[ ✕ ]</span>
             </div>
-            <div id="libraryModalContent">
-                <!-- Preenchido dinamicamente via JS -->
-            </div>
+            <div id="libraryModalContent"></div>
         </div>
     </div>
 
@@ -1207,11 +1159,10 @@
             });
         });
 
-        // ================= SUPORTE A SWIPE (ARRASTAR O DEDO) PARA ABAS =================
+        // SUPORTE A SWIPE (ARRASTAR O DEDO) PARA ABAS
         const viewsList = ["view-session", "view-chats", "view-library"];
         let touchStartX = 0;
         let touchEndX = 0;
-
         const mainContainerSwipe = document.getElementById('mainContainerSwipe');
 
         mainContainerSwipe.addEventListener('touchstart', (e) => {
@@ -1313,7 +1264,7 @@
             loadLibrary();
         }
 
-        // ================= GESTÃO DA SALA E FILMES =================
+        // GESTÃO DA SALA E FILMES
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
         const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -1333,7 +1284,6 @@
         const userComment = document.getElementById('userComment');
         const charCounter = document.getElementById('charCounter');
 
-        const stepMovie = document.getElementById('step-movie');
         const stepReview = document.getElementById('step-review');
         const stepResults = document.getElementById('step-results');
         const activeRoomName = document.getElementById('activeRoomName');
@@ -1616,7 +1566,7 @@
 
                 const keys = Object.keys(data);
                 if (keys.length === 0) {
-                    container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda. Conclua uma avaliação em dupla para o pôster aparecer aqui!</p>';
+                    container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda.</p>';
                     return;
                 }
 
@@ -1725,7 +1675,6 @@
                     </div>
                 `;
 
-                let currentModalRating = myReview.rating;
                 const modalStars = document.querySelectorAll('#modalStarContainer i');
                 const modalRatingInput = document.getElementById('modalUserRating');
                 const modalRatingFeedback = document.getElementById('modalRatingFeedback');
@@ -1733,7 +1682,6 @@
                 modalStars.forEach(star => {
                     star.addEventListener('click', () => {
                         const val = parseInt(star.getAttribute('data-value'));
-                        currentModalRating = val;
                         modalRatingInput.value = val;
                         modalStars.forEach(s => {
                             if (parseInt(s.getAttribute('data-value')) <= val) {
@@ -1788,7 +1736,7 @@
             }
         });
 
-        // ================= CHATS E OPÇÃO DE AVALIAR JUNTOS NA CONVERSA =================
+        // CHATS E OPÇÃO DE AVALIAR JUNTOS NA CONVERSA (Comportamento de abrir conversa apenas ao selecionar)
         function loadChatContacts() {
             const usersRef = ref(db, 'users');
             onValue(usersRef, (snapshot) => {
@@ -1805,8 +1753,8 @@
                     div.innerHTML = `
                         <div class="whatsapp-avatar"><i class="fa-solid fa-user"></i></div>
                         <div style="flex: 1; min-width: 0;">
-                            <h4 style="font-size: 0.95rem; color: #e9edef; font-family: var(--font-body); font-weight: 500;">@${u.nametag}</h4>
-                            <span style="font-size: 0.8rem; color: #8696a0;">Toque para abrir a conversa</span>
+                            <h4 style="font-size: 0.85rem; color: var(--text-bright); font-family: var(--font-pixel);">@${u.nametag}</h4>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Clique para conversar</span>
                         </div>
                     `;
                     div.addEventListener('click', () => {
@@ -1822,8 +1770,9 @@
         function openChatWith(uid, nametag) {
             activeChatUserId = uid;
             activeChatNametag = nametag;
-            document.getElementById('activeChatTitle').textContent = `@${nametag}`;
+            document.getElementById('activeChatTitle').textContent = `Chat com @${nametag}`;
             document.getElementById('btnEvaluateTogether').classList.remove('hidden');
+            document.getElementById('chatInputAreaWrapper').style.display = 'flex';
 
             const chatId = [currentUser.uid, uid].sort().join('_');
             const messagesRef = ref(db, `chats/${chatId}/messages`);
@@ -1851,11 +1800,11 @@
                             <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
                                 <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover;">
                                 <div>
-                                    <h5 style="color:#e9edef; font-family:var(--font-body); font-size:0.9rem; font-weight:600;">Match: ${roomData.movie.title}</h5>
-                                    <span style="font-size:0.8rem; color:#8696a0;">Compatibilidade: <strong>${similarity}%</strong></span>
+                                    <h5 style="color:#ffffff; text-shadow: 0 0 6px #ffffff; font-family:var(--font-pixel); font-size:0.75rem;">Match: ${roomData.movie.title}</h5>
+                                    <span style="font-size:0.8rem; color:#ffffff; text-shadow: 0 0 4px #ffffff;">Compatibilidade: <strong>${similarity}%</strong></span>
                                 </div>
                             </div>
-                            <div style="font-size:0.85rem; color:#d1d7db; margin-top: 6px;">
+                            <div style="font-size:0.85rem; color:var(--text-bright); margin-top: 6px;">
                                 <p><strong>@${revs[0].name}:</strong> ${'★'.repeat(revs[0].rating)} - "${revs[0].comment}"</p>
                                 <p style="margin-top:4px;"><strong>@${revs[1].name}:</strong> ${'★'.repeat(revs[1].rating)} - "${revs[1].comment}"</p>
                             </div>
