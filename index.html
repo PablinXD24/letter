@@ -10,21 +10,24 @@
     
     <style>
         :root {
-            --bg-color: #eef1f6; /* Fundo cinza moderno e limpo */
-            --card-bg: rgba(255, 255, 255, 0.65);
-            --card-hover: rgba(255, 255, 255, 0.85);
+            --bg-color: #121418;
+            --bg-gradient: radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                           radial-gradient(at 90% 90%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
+                           radial-gradient(at 50% 50%, rgba(30, 41, 59, 1) 0px, #121418 100%);
+            --card-bg: rgba(30, 41, 59, 0.55);
+            --card-hover: rgba(30, 41, 59, 0.75);
             --accent-color: #6366f1; 
             --accent-hover: #4f46e5;
             --cyan-color: #06b6d4; 
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: rgba(255, 255, 255, 0.8);
-            --border-focus: rgba(99, 102, 241, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(99, 102, 241, 0.5);
             --danger-color: #ef4444;
             --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --liquid-glass-shadow: 0 20px 40px rgba(99, 102, 241, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            --liquid-glass-intense: rgba(255, 255, 255, 0.75);
-            --liquid-glass-border: rgba(255, 255, 255, 0.95);
+            --liquid-glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            --liquid-glass-intense: rgba(18, 22, 31, 0.82);
+            --liquid-glass-border: rgba(255, 255, 255, 0.12);
         }
 
         * {
@@ -36,10 +39,7 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 10% 10%, rgba(148, 163, 184, 0.15) 0px, transparent 50%),
-                radial-gradient(at 90% 90%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 60%);
+            background-image: var(--bg-gradient);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -88,7 +88,7 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
@@ -102,7 +102,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .nav-btn.active, .nav-btn:hover {
@@ -110,7 +110,7 @@
             color: #ffffff;
             border-color: transparent;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
         }
 
         .card {
@@ -126,8 +126,8 @@
         }
 
         .card:hover {
-            border-color: rgba(255, 255, 255, 1);
-            box-shadow: 0 24px 48px rgba(99, 102, 241, 0.12), 0 2px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         /* Tela de Autenticação */
@@ -137,10 +137,9 @@
         }
 
         .btn-google {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.9);
             color: #1e293b;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             width: 100%;
             max-width: 320px;
             padding: 0.9rem 1rem;
@@ -154,14 +153,14 @@
             gap: 0.75rem;
             transition: var(--transition-smooth);
             margin-top: 1.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .btn-google:hover {
             background-color: #ffffff;
             border-color: var(--accent-color);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Busca de Filmes */
@@ -173,8 +172,8 @@
         .search-box input {
             width: 100%;
             padding: 0.95rem 1rem 0.95rem 3.2rem;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(203, 213, 225, 0.6);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
             border-radius: 14px;
             color: var(--text-main);
             font-size: 0.95rem;
@@ -183,9 +182,9 @@
         }
 
         .search-box input:focus {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(15, 23, 42, 0.9);
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
         }
 
         .search-box i {
@@ -202,7 +201,7 @@
             max-height: 280px;
             overflow-y: auto;
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--liquid-glass-intense);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1.5px solid var(--liquid-glass-border);
@@ -211,7 +210,7 @@
             position: absolute;
             width: 100%;
             z-index: 20;
-            box-shadow: 0 20px 45px rgba(99, 102, 241, 0.18), inset 0 1px 0 rgba(255, 255, 255, 1);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .movie-item {
@@ -221,7 +220,7 @@
             padding: 0.8rem 1rem;
             cursor: pointer;
             transition: background 0.2s;
-            border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .movie-item:last-child {
@@ -229,7 +228,7 @@
         }
 
         .movie-item:hover {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(99, 102, 241, 0.15);
         }
 
         .movie-item img {
@@ -237,7 +236,7 @@
             height: 62px;
             object-fit: cover;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .movie-info h4 {
@@ -256,7 +255,7 @@
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(12px);
             padding: 1.15rem 1.35rem;
             border-radius: 16px;
@@ -269,7 +268,7 @@
             height: 95px;
             object-fit: cover;
             border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
 
         /* Formulários gerais */
@@ -289,8 +288,8 @@
         .form-group textarea {
             width: 100%;
             padding: 0.9rem 1.1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(203, 213, 225, 0.6);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
             border-radius: 14px;
             color: var(--text-main);
             font-size: 0.95rem;
@@ -300,9 +299,9 @@
 
         .form-group input[type="text"]:focus,
         .form-group textarea:focus {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(15, 23, 42, 0.9);
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
         }
 
         .form-group textarea {
@@ -312,7 +311,7 @@
 
         /* Sistema de Avaliação Aprimorado */
         .rating-wrapper {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(15, 23, 42, 0.3);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -325,7 +324,7 @@
             display: inline-flex;
             gap: 0.75rem;
             font-size: 2.1rem;
-            color: #cbd5e1;
+            color: #334155;
             cursor: pointer;
             margin-bottom: 0.5rem;
         }
@@ -343,7 +342,7 @@
         .rating-stars i.active {
             color: #f59e0b;
             transform: scale(1.08);
-            filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
+            filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.5));
         }
 
         .rating-feedback-text {
@@ -372,25 +371,25 @@
             font-size: 0.95rem;
             cursor: pointer;
             transition: var(--transition-smooth);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
         }
 
         .btn:hover {
             opacity: 0.95;
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.45);
         }
 
         .btn-secondary {
-            background: rgba(241, 245, 249, 0.7);
+            background: rgba(30, 41, 59, 0.6);
             color: var(--text-main);
-            border: 1px solid rgba(203, 213, 225, 0.6);
+            border: 1px solid var(--border-color);
             box-shadow: none;
         }
         
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transform: translateY(-1px);
         }
 
@@ -410,13 +409,13 @@
         .whatsapp-chat-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(30, 41, 59, 0.45);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1.5px solid var(--liquid-glass-border);
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             height: 580px;
         }
 
@@ -428,8 +427,8 @@
         }
 
         .whatsapp-sidebar {
-            background: rgba(248, 250, 252, 0.5);
-            border-right: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(15, 23, 42, 0.4);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -437,8 +436,8 @@
 
         .whatsapp-sidebar-header {
             padding: 1.2rem;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
-            background: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(30, 41, 59, 0.3);
         }
 
         .whatsapp-contacts-list {
@@ -459,7 +458,7 @@
         }
 
         .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(99, 102, 241, 0.2);
             backdrop-filter: blur(10px);
         }
 
@@ -473,22 +472,22 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
         }
 
         .whatsapp-main-chat {
             display: flex;
             flex-direction: column;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, rgba(241, 245, 249, 0.2) 100%);
+            background: radial-gradient(circle at center, rgba(30, 41, 59, 0.2) 0%, rgba(15, 23, 42, 0.4) 100%);
             backdrop-filter: blur(15px);
             position: relative;
         }
 
         .whatsapp-chat-header {
             padding: 1rem 1.25rem;
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(30, 41, 59, 0.6);
             backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -509,12 +508,12 @@
             border-radius: 16px;
             font-size: 0.9rem;
             line-height: 1.4;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
         }
 
         .message.incoming {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(30, 41, 59, 0.8);
             border: 1px solid var(--border-color);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
@@ -527,12 +526,12 @@
             align-self: flex-end;
             font-weight: 500;
             border-bottom-right-radius: 4px;
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
         }
 
         /* Popup de Match no Chat com Liquid Glass Intenso */
         .chat-match-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(240, 244, 255, 0.9));
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.9));
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1.5px solid var(--accent-color);
@@ -542,13 +541,13 @@
             max-width: 90%;
             align-self: center;
             width: 100%;
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.2), inset 0 1px 0 rgba(255, 255, 255, 1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .chat-input-area {
             display: flex;
             padding: 0.85rem 1rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(30, 41, 59, 0.6);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--border-color);
             gap: 0.6rem;
@@ -558,8 +557,8 @@
         .chat-input-area input {
             flex: 1;
             padding: 0.8rem 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(203, 213, 225, 0.6);
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
             border-radius: 14px;
             color: var(--text-main);
             outline: none;
@@ -569,15 +568,15 @@
 
         .chat-input-area input:focus {
             border-color: var(--accent-color);
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
         }
 
         /* Botão interno para avaliar juntos na conversa */
         .btn-evaluate-together {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
             padding: 0.55rem 0.9rem;
             border-radius: 12px;
             cursor: pointer;
@@ -594,7 +593,7 @@
             background: linear-gradient(135deg, var(--accent-color), var(--cyan-color));
             color: #ffffff;
             border-color: transparent;
-            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
         }
 
         /* Tela de Resultados / Comparação Aprimorada */
@@ -612,14 +611,14 @@
         }
 
         .review-box {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 1.35rem;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .review-box::before {
@@ -643,13 +642,13 @@
 
         .match-score-card {
             text-align: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 244, 255, 0.7));
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.6));
             backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 1.35rem;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 10px 25px rgba(99, 102, 241, 0.06);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         .match-score-card h2 {
@@ -663,117 +662,72 @@
         }
 
         .badge {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
             padding: 0.3rem 0.75rem;
             border-radius: 8px;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.5px;
-            border: 1px solid rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
-        /* BIBLIOTECA DE FILMES AVALIADOS */
+        /* Biblioteca de Filmes Avaliados */
         .library-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .library-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(15px);
             border: 1px solid var(--border-color);
-            border-radius: 18px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
         }
 
         .library-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.85);
-            border-color: var(--accent-color);
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
         }
 
-        .library-card img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 0.85rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .library-card h4 {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-
-        /* MODAL LIQUID GLASS PARA DETALHES E EDIÇÃO NA BIBLIOTECA */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .library-card-header {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem;
             background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 1rem;
-        }
-
-        .modal-content {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1.5px solid var(--liquid-glass-border);
-            border-radius: 24px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 1);
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.25rem;
-            right: 1.25rem;
-            background: rgba(241, 245, 249, 0.8);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            border-bottom: 1px solid var(--border-color);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            transition: var(--transition-smooth);
         }
 
-        .modal-close:hover {
-            background: var(--danger-color);
-            color: #ffffff;
+        .library-card-header img {
+            width: 70px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .library-card-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .library-review-item {
+            background: rgba(15, 23, 42, 0.3);
+            padding: 0.85rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         /* POPUP TOAST COM LIQUID GLASS INTENSO */
@@ -781,7 +735,7 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: rgba(30, 41, 59, 0.82);
+            background: rgba(15, 23, 42, 0.88);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             color: #ffffff;
@@ -789,10 +743,10 @@
             border-radius: 16px;
             font-weight: 600;
             font-size: 0.925rem;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
             z-index: 1000;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
         }
 
         .hidden {
@@ -812,7 +766,7 @@
         <div id="socialNavbar" class="nav-bar hidden">
             <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Minha Sessão</button>
             <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
-            <button class="nav-btn" data-target="view-library"><i class="fa-solid fa-books"></i> Biblioteca de Matches</button>
+            <button class="nav-btn" data-target="view-library"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
         </div>
 
         <!-- ETAPA 0: Login com Google -->
@@ -841,7 +795,7 @@
         <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
-            <div class="card" id="roomInfoCard" style="background: rgba(255, 255, 255, 0.5); border-color: rgba(99, 102, 241, 0.2);">
+            <div class="card" id="roomInfoCard" style="background: rgba(30, 41, 59, 0.4); border-color: rgba(99, 102, 241, 0.3);">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                     <div>
                         <span class="badge">SESSÃO ATIVA</span>
@@ -908,15 +862,13 @@
                     <h2 id="matchPercentage">0%</h2>
                 </div>
 
-                <p style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin-bottom: 1rem;"><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Ambos avaliaram! Este filme foi adicionado à Biblioteca Global.</p>
-
                 <div class="comparison-grid" id="comparisonContainer">
                     <!-- Preenchido via Realtime Database -->
                 </div>
             </div>
         </div>
 
-        <!-- VIEW 2: CHATS & CONEXÕES (ESTILO WHATSAPP LIQUID GLASS) -->
+        <!-- VIEW 2: CHATS & CONEXÕES -->
         <div id="view-chats" class="app-view hidden">
             <div class="whatsapp-chat-layout">
                 <!-- Sidebar de Contatos -->
@@ -954,25 +906,15 @@
             </div>
         </div>
 
-        <!-- VIEW 3: BIBLIOTECA DE MATCHES -->
+        <!-- VIEW 3: BIBLIOTECA DE AVALIAÇÕES -->
         <div id="view-library" class="app-view hidden">
             <div class="card">
-                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-books" style="color: var(--accent-color); margin-right: 6px;"></i> Biblioteca de Filmes Avaliados</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Filmes avaliados em conjunto por ambos os participantes. Clique em qualquer pôster para visualizar ou editar as avaliações.</p>
+                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-book-bookmark" style="color: var(--accent-color); margin-right: 6px;"></i> Biblioteca de Filmes Avaliados</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Filmes avaliados em conjunto por ambos os participantes.</p>
                 
                 <div class="library-grid" id="libraryGridContainer">
-                    <!-- Preenchido dinamicamente -->
+                    <p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda.</p>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE DETALHES E EDIÇÃO DA BIBLIOTECA -->
-    <div id="libraryModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close" id="closeLibraryModal"><i class="fa-solid fa-xmark"></i></button>
-            <div id="modalBodyContent">
-                <!-- Conteúdo injetado via JS -->
             </div>
         </div>
     </div>
@@ -1093,7 +1035,7 @@
             
             initRoomSession(activeRoomId);
             loadChatContacts();
-            loadLibraryMatches();
+            loadLibrary();
         }
 
         // ================= GESTÃO DA SALA E FILMES =================
@@ -1171,7 +1113,7 @@
                     if (reviewKeys.length >= 2) {
                         showResultsAndMatch(reviews);
                         // Salva automaticamente na biblioteca global quando ambos avaliam
-                        saveToLibrary(activeRoomId, data);
+                        saveToLibrary(activeRoomId, data.movie, reviews);
                     } else {
                         stepResults.classList.add('hidden');
                     }
@@ -1376,131 +1318,87 @@
             `;
         }
 
-        // ================= BIBLIOTECA GLOBAL DE MATCHES =================
-        async function saveToLibrary(rId, roomData) {
-            const reviewsArray = Object.values(roomData.reviews || {});
-            if (reviewsArray.length < 2) return; // Só vai pra biblioteca se ambos avaliarem!
-
-            const libraryRef = ref(db, `library/${rId}`);
+        // ================= BIBLIOTECA DE AVALIAÇÕES COMPARTILHADAS =================
+        async function saveToLibrary(rId, movie, reviews) {
+            const libId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
+            const libraryRef = ref(db, `library/${libId}`);
             await set(libraryRef, {
                 roomId: rId,
-                movie: roomData.movie,
-                reviews: roomData.reviews,
+                movie: movie,
+                reviews: reviews,
                 updatedAt: Date.now()
             });
         }
 
-        function loadLibraryMatches() {
+        function loadLibrary() {
             const libraryRef = ref(db, 'library');
             onValue(libraryRef, (snapshot) => {
                 const data = snapshot.val() || {};
-                const gridContainer = document.getElementById('libraryGridContainer');
-                gridContainer.innerHTML = '';
+                const container = document.getElementById('libraryGridContainer');
+                container.innerHTML = '';
 
                 const keys = Object.keys(data);
                 if (keys.length === 0) {
-                    gridContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center;">Nenhum filme na biblioteca ainda. Conclua uma avaliação em dupla para registrar!</p>`;
+                    container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda. Conclua uma avaliação em dupla para o pôster aparecer aqui!</p>';
                     return;
                 }
 
-                keys.forEach(key => {
-                    const item = data[key];
-                    if (!item.movie || !item.reviews || Object.keys(item.reviews).length < 2) return;
+                keys.forEach(k => {
+                    const item = data[k];
+                    const reviews = Object.values(item.reviews || {});
+                    if (reviews.length < 2) return; // Só exibe se ambos avaliarem
 
                     const card = document.createElement('div');
-                    card.classList.add('library-card');
+                    card.className = 'library-card';
+                    
+                    let reviewsHTML = '';
+                    reviews.forEach(r => {
+                        const isMine = r.uid === currentUser.uid;
+                        reviewsHTML += `
+                            <div class="library-review-item">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <strong style="color: var(--accent-color); font-size: 0.85rem;">@${r.name}</strong>
+                                    <span style="color: #f59e0b; font-size: 0.8rem;">${'★'.repeat(r.rating)}</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-main);">"${r.comment}"</p>
+                                ${isMine ? `<button class="btn btn-secondary" style="margin-top: 6px; padding: 0.3rem 0.6rem; font-size: 0.75rem; width: auto;" onclick="editLibraryReview('${item.roomId}')"><i class="fa-solid fa-pen"></i> Editar Minha Avaliação</button>` : ''}
+                            </div>
+                        `;
+                    });
+
                     card.innerHTML = `
-                        <img src="${item.movie.poster}" alt="${item.movie.title}">
-                        <h4>${item.movie.title}</h4>
-                        <span style="font-size: 0.75rem; color: var(--text-muted);">${item.movie.year}</span>
+                        <div class="library-card-header" onclick="goToLibraryRoom('${item.roomId}')" title="Clique para abrir a sessão">
+                            <img src="${item.movie.poster}" alt="${item.movie.title}">
+                            <div style="flex: 1; min-width: 0;">
+                                <h4 style="color: var(--text-main); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.movie.title}</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Ano: ${item.movie.year}</span>
+                                <div style="margin-top: 8px;"><span class="badge">Disponível na Biblioteca</span></div>
+                            </div>
+                        </div>
+                        <div class="library-card-body">
+                            ${reviewsHTML}
+                        </div>
                     `;
-                    card.addEventListener('click', () => openLibraryModal(item));
-                    gridContainer.appendChild(card);
+                    container.appendChild(card);
                 });
             });
         }
 
-        const libraryModal = document.getElementById('libraryModal');
-        const closeLibraryModal = document.getElementById('closeLibraryModal');
-        const modalBodyContent = document.getElementById('modalBodyContent');
+        window.goToLibraryRoom = function(roomId) {
+            activeRoomId = roomId;
+            initRoomSession(roomId);
+            document.querySelector('[data-target="view-session"]').click();
+            showToast("Sessão carregada da biblioteca!");
+        }
 
-        closeLibraryModal.addEventListener('click', () => {
-            libraryModal.classList.add('hidden');
-        });
-
-        libraryModal.addEventListener('click', (e) => {
-            if (e.target === libraryModal) libraryModal.classList.add('hidden');
-        });
-
-        function openLibraryModal(item) {
-            const reviews = Object.values(item.reviews);
-            const [rev1, rev2] = reviews;
-            
-            const ratingDiff = Math.abs(rev1.rating - rev2.rating);
-            let similarity = 100 - (ratingDiff * 20);
-            if (similarity < 10) similarity = 10;
-
-            modalBodyContent.innerHTML = `
-                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
-                    <img src="${item.movie.poster}" style="width: 70px; height: 100px; object-fit: cover; border-radius: 10px;">
-                    <div>
-                        <span class="badge">MATCH DE SESSÃO</span>
-                        <h3 style="color:var(--text-main); margin-top: 0.25rem;">${item.movie.title} (${item.movie.year})</h3>
-                        <p style="color:var(--accent-color); font-weight: 600; font-size: 0.9rem; margin-top: 0.2rem;">Compatibilidade: ${similarity}%</p>
-                    </div>
-                </div>
-
-                <div class="comparison-grid" style="margin-bottom: 1.5rem;">
-                    <div class="review-box">
-                        <h3>@${rev1.name} <span>${'★'.repeat(rev1.rating)}</span></h3>
-                        <p style="font-size: 0.9rem; color: var(--text-main); margin-top: 0.5rem;">"${rev1.comment}"</p>
-                    </div>
-                    <div class="review-box">
-                        <h3>@${rev2.name} <span>${'★'.repeat(rev2.rating)}</span></h3>
-                        <p style="font-size: 0.9rem; color: var(--text-main); margin-top: 0.5rem;">"${rev2.comment}"</p>
-                    </div>
-                </div>
-
-                <div style="background: rgba(255, 255, 255, 0.5); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border-color);">
-                    <h4 style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.75rem;"><i class="fa-solid fa-pen-to-square"></i> Editar sua Avaliação</h4>
-                    <form id="editReviewForm">
-                        <div class="form-group" style="margin-bottom: 0.75rem;">
-                            <label style="font-size: 0.8rem;">Nova Nota (1 a 5 estrelas)</label>
-                            <input type="number" id="editRatingInput" min="1" max="5" value="${item.reviews[currentUser.uid] ? item.reviews[currentUser.uid].rating : 5}" required style="padding: 0.6rem;">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0.75rem;">
-                            <label style="font-size: 0.8rem;">Seu Comentário Editado</label>
-                            <textarea id="editCommentInput" required style="min-height: 80px; padding: 0.6rem;">${item.reviews[currentUser.uid] ? item.reviews[currentUser.uid].comment : ''}</textarea>
-                        </div>
-                        <button type="submit" class="btn" style="padding: 0.7rem;">Salvar Alterações</button>
-                    </form>
-                </div>
-            `;
-
-            document.getElementById('editReviewForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const newRating = parseInt(document.getElementById('editRatingInput').value);
-                const newComment = document.getElementById('editCommentInput').value.trim();
-
-                const myCurrentReview = item.reviews[currentUser.uid] || { name: userNametag };
-                myCurrentReview.rating = newRating;
-                myCurrentReview.comment = newComment;
-                myCurrentReview.timestamp = Date.now();
-
-                try {
-                    await set(ref(db, `library/${item.roomId}/reviews/${currentUser.uid}`), myCurrentReview);
-                    // Atualiza também na sala original se estiver ativa
-                    await set(ref(db, `rooms/${item.roomId}/reviews/${currentUser.uid}`), myCurrentReview);
-                    
-                    showToast("Avaliação atualizada com sucesso!");
-                    libraryModal.classList.add('hidden');
-                } catch (error) {
-                    console.error("Erro ao atualizar:", error);
-                    alert("Erro ao salvar edição.");
-                }
-            });
-
-            libraryModal.classList.remove('hidden');
+        window.editLibraryReview = function(roomId) {
+            activeRoomId = roomId;
+            initRoomSession(roomId);
+            document.querySelector('[data-target="view-session"]').click();
+            setTimeout(() => {
+                document.getElementById('step-review').scrollIntoView({ behavior: 'smooth' });
+                userComment.focus();
+            }, 300);
         }
 
         // ================= CHATS E OPÇÃO DE AVALIAR JUNTOS NA CONVERSA =================
