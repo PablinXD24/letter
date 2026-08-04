@@ -1928,6 +1928,11 @@
 
         async function saveToLibrary(rId, movie, reviews) {
             const libId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
+            
+            // Verificação para não recriar se o usuário excluiu explicitamente da biblioteca
+            const deletedCheckSnap = await get(ref(db, `deleted_library/${libId}`));
+            if (deletedCheckSnap.exists()) return;
+
             const libraryRef = ref(db, `library/${libId}`);
             await set(libraryRef, {
                 roomId: rId,
@@ -1980,7 +1985,13 @@
                         e.stopPropagation();
                         if (confirm(`Deseja realmente excluir "${item.movie.title}" da biblioteca?`)) {
                             try {
+                                // Salva uma flag indicando exclusão permanente para evitar recriação automática
+                                await set(ref(db, `deleted_library/${k}`), true);
                                 await remove(ref(db, `library/${k}`));
+                                // Opcional: limpa a sala ativa vinculada para evitar reenvio automático se for a mesma sala
+                                if (item.roomId) {
+                                    await remove(ref(db, `rooms/${item.roomId}`));
+                                }
                                 showToast("Filme excluído da biblioteca!");
                             } catch (err) {
                                 console.error("Erro ao excluir filme:", err);
@@ -2076,118 +2087,112 @@
 
                 const modalStars = document.querySelectorAll('#modalStarContainer i');
                 const modalRatingInput = document.getElementById('modalUserRating');
-                const modalRatingFeedback = document.getElementById('modalRatingFeedback');
+                const modalFeedback = document.getElementById('modalRatingFeedback');
 
                 modalStars.forEach(star => {
                     star.addEventListener('click', () => {
                         const val = parseInt(star.getAttribute('data-value'));
                         modalRatingInput.value = val;
-                        modalStars.forEach(s => {
-                            if (parseInt(s.getAttribute('data-value')) <= val) {
-                                s.classList.add('active');
-                            } else {
-                                s.classList.remove('active');
-                            }
+                        modalStars.forEach((s, idx) => {
+                            if (idx < val) s.classList.add('active');
+                            else s.classList.remove('active');
                         });
-                        modalRatingFeedback.textContent = ratingLabels[val];
+                        modalFeedback.textContent = ratingLabels[val];
                     });
                 });
 
                 document.getElementById('modalReviewForm').addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const rating = parseInt(modalRatingInput.value);
-                    const comment = document.getElementById('modalUserComment').value.trim();
+                    const newRating = parseInt(modalRatingInput.value);
+                    const newComment = document.getElementById('modalUserComment').value.trim();
 
-                    if (rating === 0) {
-                        alert('Por favor, selecione ao menos uma estrela.');
+                    if (newRating === 0) {
+                        alert('Selecione uma nota.');
                         return;
                     }
 
-                    const updatedReview = {
-                        uid: currentUser.uid,
-                        name: userNametag,
-                        rating: rating,
-                        comment: comment,
-                        timestamp: Date.now()
-                    };
-
                     try {
-                        const libIdKey = roomId.replace(/[^a-zA-Z0-9_]/g, '_');
-                        await set(ref(db, `rooms/${roomId}/reviews/${currentUser.uid}`), updatedReview);
-                        await set(ref(db, `library/${libIdKey}/reviews/${currentUser.uid}`), updatedReview);
-                        
+                        const updatedReviews = { ...item.reviews };
+                        updatedReviews[currentUser.uid] = {
+                            ...updatedReviews[currentUser.uid],
+                            rating: newRating,
+                            comment: newComment,
+                            timestamp: Date.now()
+                        };
+
+                        await update(ref(db, `library/${currentModalLibraryId}`), {
+                            reviews: updatedReviews,
+                            updatedAt: Date.now()
+                        });
+
                         showToast("Avaliação atualizada com sucesso!");
                         document.getElementById('libraryModal').classList.add('hidden');
-                    } catch (error) {
-                        console.error("Erro ao atualizar avaliação:", error);
+                    } catch (err) {
+                        console.error("Erro ao atualizar avaliação no modal:", err);
                         alert("Erro ao salvar alterações.");
                     }
                 });
 
                 document.getElementById('libraryModal').classList.remove('hidden');
             });
-        }
+        };
+
+        document.getElementById('closeLibraryModalBtn').addEventListener('click', () => {
+            document.getElementById('libraryModal').classList.add('hidden');
+        });
 
         document.getElementById('modalDeleteMovieBtn').addEventListener('click', async () => {
             if (!currentModalLibraryId) return;
             if (confirm("Deseja realmente excluir este filme da biblioteca?")) {
                 try {
+                    await set(ref(db, `deleted_library/${currentModalLibraryId}`), true);
                     await remove(ref(db, `library/${currentModalLibraryId}`));
-                    showToast("Filme excluído da biblioteca!");
                     document.getElementById('libraryModal').classList.add('hidden');
-                } catch (error) {
-                    console.error("Erro ao excluir filme da biblioteca:", error);
+                    showToast("Filme excluído com sucesso!");
+                } catch (err) {
+                    console.error("Erro ao excluir filme do modal:", err);
                     alert("Erro ao excluir o filme.");
                 }
             }
         });
 
-        document.addEventListener('click', (e) => {
-            const modal = document.getElementById('libraryModal');
-            if (e.target.id === 'libraryModal' || e.target.id === 'closeLibraryModalBtn' || e.target.closest('#closeLibraryModalBtn')) {
-                modal.classList.add('hidden');
-            }
-        });
-
-        // ADICIONAR AMIGO POR NAMETAG E CARREGAR CONTATOS
+        // SISTEMA DE CHATS & AMIGOS
         const addFriendForm = document.getElementById('addFriendForm');
         const friendNametagInput = document.getElementById('friendNametagInput');
+        const chatContactsList = document.getElementById('chatContactsList');
+        const activeChatTitle = document.getElementById('activeChatTitle');
+        const chatMessagesContainer = document.getElementById('chatMessagesContainer');
+        const chatInputAreaWrapper = document.getElementById('chatInputAreaWrapper');
+        const chatInputMessage = document.getElementById('chatInputMessage');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        const btnEvaluateTogether = document.getElementById('btnEvaluateTogether');
 
         addFriendForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const targetTag = friendNametagInput.value.trim().toLowerCase();
-            if (!targetTag) return;
-
-            if (targetTag === userNametag) {
-                alert("Você não pode adicionar a si mesmo.");
+            const friendTag = friendNametagInput.value.trim().toLowerCase();
+            if (!friendTag || friendTag === userNametag) {
+                alert("Digite uma Nametag válida e diferente da sua.");
                 return;
             }
 
             try {
-                const tagSnap = await get(ref(db, `nametags/${targetTag}`));
+                const tagSnap = await get(ref(db, `nametags/${friendTag}`));
                 if (!tagSnap.exists()) {
-                    alert("Usuário não encontrado com esta Nametag.");
+                    alert("Esta Nametag não foi encontrada.");
                     return;
                 }
 
-                const targetUid = tagSnap.val();
-
-                await set(ref(db, `users/${currentUser.uid}/friends/${targetUid}`), {
-                    uid: targetUid,
-                    nametag: targetTag,
-                    addedAt: Date.now()
-                });
-
-                await set(ref(db, `users/${targetUid}/friends/${currentUser.uid}`), {
-                    uid: currentUser.uid,
-                    nametag: userNametag,
+                const friendUid = tagSnap.val();
+                await set(ref(db, `users/${currentUser.uid}/friends/${friendUid}`), {
+                    uid: friendUid,
+                    nametag: friendTag,
                     addedAt: Date.now()
                 });
 
                 friendNametagInput.value = '';
-                showToast(`Amigo @${targetTag} adicionado com sucesso!`);
-            } catch (error) {
-                console.error("Erro ao adicionar amigo:", error);
+                showToast(`Amigo @${friendTag} adicionado com sucesso!`);
+            } catch (err) {
+                console.error("Erro ao adicionar amigo:", err);
                 alert("Erro ao adicionar amigo.");
             }
         });
@@ -2196,163 +2201,133 @@
             const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
             onValue(friendsRef, (snapshot) => {
                 const friends = snapshot.val() || {};
-                const contactsEl = document.getElementById('chatContactsList');
-                contactsEl.innerHTML = '';
+                chatContactsList.innerHTML = '';
 
-                const friendKeys = Object.keys(friends);
-                if (friendKeys.length === 0) {
-                    contactsEl.innerHTML = '<p style="color: var(--text-muted); font-size: 0.75rem; text-align: center; padding: 1rem;">Nenhum amigo adicionado ainda. Use o campo acima para adicionar por Nametag.</p>';
+                const keys = Object.keys(friends);
+                if (keys.length === 0) {
+                    chatContactsList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem; padding: 0.5rem; text-align: center;">Nenhum amigo adicionado.</p>';
                     return;
                 }
 
-                friendKeys.forEach(friendUid => {
-                    const f = friends[friendUid];
+                keys.forEach(fUid => {
+                    const friend = friends[fUid];
+                    const item = document.createElement('div');
+                    item.className = 'whatsapp-contact-item';
+                    if (activeChatUserId === fUid) item.classList.add('active');
 
-                    const div = document.createElement('div');
-                    div.classList.add('whatsapp-contact-item');
-                    div.innerHTML = `
-                        <div class="whatsapp-avatar"><i class="fa-solid fa-user"></i></div>
-                        <div style="flex: 1; min-width: 0;">
-                            <h4 style="font-size: 0.85rem; color: var(--text-bright); font-family: var(--font-pixel);">@${f.nametag}</h4>
-                            <span style="font-size: 0.75rem; color: var(--text-muted);">Clique para conversar</span>
+                    item.innerHTML = `
+                        <div class="whatsapp-avatar">${friend.nametag.charAt(0).toUpperCase()}</div>
+                        <div style="min-width: 0; flex: 1;">
+                            <h4 style="font-family: var(--font-pixel); font-size: 0.75rem; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@${friend.nametag}</h4>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Clique para conversar</span>
                         </div>
                     `;
-                    div.addEventListener('click', () => {
-                        document.querySelectorAll('.whatsapp-contact-item').forEach(el => el.classList.remove('active'));
-                        div.classList.add('active');
-                        openChatWith(friendUid, f.nametag);
+
+                    item.addEventListener('click', () => {
+                        setActiveChat(fUid, friend.nametag);
                     });
-                    contactsEl.appendChild(div);
+
+                    chatContactsList.appendChild(item);
                 });
             });
         }
 
-        function openChatWith(uid, nametag) {
-            activeChatUserId = uid;
-            activeChatNametag = nametag;
-            document.getElementById('activeChatTitle').textContent = `@${nametag}`;
-            document.getElementById('chatInputAreaWrapper').style.display = 'flex';
-            document.getElementById('btnEvaluateTogether').classList.remove('hidden');
+        function setActiveChat(fUid, fNametag) {
+            activeChatUserId = fUid;
+            activeChatNametag = fNametag;
+            activeChatTitle.textContent = `@${fNametag}`;
+            chatInputAreaWrapper.style.display = 'flex';
+            btnEvaluateTogether.classList.remove('hidden');
 
-            const chatId = [currentUser.uid, uid].sort().join('_');
-            
-            const chatMessagesContainer = document.getElementById('chatMessagesContainer');
-            const messagesRef = ref(db, `chats/${chatId}/messages`);
+            document.querySelectorAll('.whatsapp-contact-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.textContent.includes(`@${fNametag}`)) {
+                    el.classList.add('active');
+                }
+            });
 
-            onValue(messagesRef, (snapshot) => {
-                const data = snapshot.val() || {};
+            loadChatMessages();
+        }
+
+        function getChatRoomId(uid1, uid2) {
+            return uid1 < uid2 ? `chat_${uid1}_${uid2}` : `chat_${uid2}_${uid1}`;
+        }
+
+        function loadChatMessages() {
+            if (!activeChatUserId) return;
+            const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
+            const chatRef = ref(db, `chats/${chatId}/messages`);
+
+            onValue(chatRef, (snapshot) => {
+                const msgs = snapshot.val() || {};
                 chatMessagesContainer.innerHTML = '';
 
-                const msgKeys = Object.keys(data);
-                if (msgKeys.length === 0) {
+                const keys = Object.keys(msgs);
+                if (keys.length === 0) {
                     chatMessagesContainer.innerHTML = `
                         <div class="chat-empty-state">
-                            <i class="fa-solid fa-comment-dots"></i>
-                            <p>Início do papo com @${nametag}</p>
-                            <span style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Envie uma mensagem abaixo!</span>
+                            <i class="fa-solid fa-comments"></i>
+                            <p>Inicie a conversa com @${activeChatNametag}</p>
                         </div>
                     `;
                     return;
                 }
 
-                msgKeys.forEach(k => {
-                    const msg = data[k];
-                    const isMe = msg.sender === currentUser.uid;
+                keys.forEach(k => {
+                    const m = msgs[k];
                     const div = document.createElement('div');
-
-                    if (msg.type === 'match_card') {
-                        div.className = 'chat-match-card';
-                        div.innerHTML = `
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <img src="${msg.poster}" alt="Poster" style="width: 50px; height: 75px; object-fit: cover;">
-                                <div>
-                                    <p style="font-family: var(--font-pixel); font-size: 0.7rem; color: #ffffff;">Sessão Conjunta</p>
-                                    <h4 style="font-size: 0.9rem; color: var(--text-bright); margin-top: 3px;">${msg.movieTitle}</h4>
-                                    <button class="btn btn-secondary" style="margin-top: 8px; padding: 0.4rem 0.8rem; font-size: 0.6rem;" onclick="joinSharedRoom('${msg.roomId}')">Entrar na Sala</button>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        div.className = `message ${isMe ? 'outgoing' : 'incoming'}`;
-                        div.textContent = msg.text;
-                    }
+                    div.className = `message ${m.sender === currentUser.uid ? 'outgoing' : 'incoming'}`;
+                    div.textContent = m.text;
                     chatMessagesContainer.appendChild(div);
                 });
+
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
             });
         }
 
-        const chatInputMessage = document.getElementById('chatInputMessage');
-        const sendChatBtn = document.getElementById('sendChatBtn');
+        sendChatBtn.addEventListener('click', sendChatMessage);
+        chatInputMessage.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
 
-        async function sendTextMessage() {
+        async function sendChatMessage() {
             const text = chatInputMessage.value.trim();
             if (!text || !activeChatUserId) return;
 
-            const chatId = [currentUser.uid, activeChatUserId].sort().join('_');
+            const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
             const messagesRef = ref(db, `chats/${chatId}/messages`);
 
             try {
                 await push(messagesRef, {
                     sender: currentUser.uid,
                     text: text,
-                    timestamp: Date.now(),
-                    type: 'text'
-                });
-                chatInputMessage.value = '';
-            } catch (error) {
-                console.error("Erro ao enviar mensagem:", error);
-            }
-        }
-
-        sendChatBtn.addEventListener('click', sendTextMessage);
-        chatInputMessage.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendTextMessage();
-        });
-
-        document.getElementById('btnEvaluateTogether').addEventListener('click', async () => {
-            if (!activeChatUserId) return;
-            const sharedRoomId = `sala_${[currentUser.uid, activeChatUserId].sort().join('_')}`;
-
-            const mainRoomSnap = await get(ref(db, `rooms/sessao_filme_principal`));
-            let currentMovie = null;
-            if (mainRoomSnap.exists() && mainRoomSnap.val().movie) {
-                currentMovie = mainRoomSnap.val().movie;
-            }
-
-            const roomData = {
-                roomId: sharedRoomId,
-                movie: currentMovie || null,
-                reviews: null,
-                createdAt: Date.now()
-            };
-
-            await set(ref(db, `rooms/${sharedRoomId}`), roomData);
-
-            if (currentMovie) {
-                const chatId = [currentUser.uid, activeChatUserId].sort().join('_');
-                await push(ref(db, `chats/${chatId}/messages`), {
-                    sender: currentUser.uid,
-                    type: 'match_card',
-                    roomId: sharedRoomId,
-                    movieTitle: currentMovie.title,
-                    poster: currentMovie.poster,
                     timestamp: Date.now()
                 });
+                chatInputMessage.value = '';
+            } catch (err) {
+                console.error("Erro ao enviar mensagem:", err);
             }
+        }
 
-            activeRoomId = sharedRoomId;
-            initRoomSession(sharedRoomId);
-            switchTab('view-session');
-            showToast("Sala conjunta aberta! Selecione/avalie o filme.");
+        btnEvaluateTogether.addEventListener('click', async () => {
+            if (!activeChatUserId) return;
+            const sharedRoomId = getChatRoomId(currentUser.uid, activeChatUserId);
+            
+            try {
+                await update(ref(db, `rooms/${sharedRoomId}`), {
+                    createdPair: [currentUser.uid, activeChatUserId],
+                    updatedAt: Date.now()
+                });
+
+                initRoomSession(sharedRoomId);
+                switchTab('view-session');
+                showToast("Sessão conjunta aberta com sucesso!");
+            } catch (err) {
+                console.error("Erro ao iniciar sessão conjunta:", err);
+                alert("Erro ao abrir sessão conjunta.");
+            }
         });
 
-        window.joinSharedRoom = function(roomId) {
-            activeRoomId = roomId;
-            initRoomSession(roomId);
-            switchTab('view-session');
-            showToast("Entrou na sala conjunta!");
-        }
     </script>
 </body>
 </html>
