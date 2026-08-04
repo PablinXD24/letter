@@ -124,7 +124,7 @@
             box-shadow: var(--liquid-glass-shadow);
             margin-bottom: 1.5rem;
             transition: var(--transition-smooth);
-            position: relative; /* Ajustado para gerenciar empilhamento interno se necessário */
+            position: relative;
         }
 
         .card:hover {
@@ -165,11 +165,11 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Busca de Filmes - Z-index elevado para garantir prioridade sobre outros elementos do card */
+        /* Busca de Filmes */
         .search-box {
             position: relative;
             margin-bottom: 1rem;
-            z-index: 999;
+            z-index: 100;
         }
 
         .search-box input {
@@ -211,8 +211,10 @@
             display: none;
             margin-top: 0.5rem;
             position: absolute;
+            top: 100%;
+            left: 0;
             width: 100%;
-            z-index: 9999 !important;
+            z-index: 99999 !important;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
