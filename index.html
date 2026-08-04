@@ -26,8 +26,8 @@
             --danger-color: #ef4444;
             --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --liquid-glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            --liquid-glass-intense: rgba(18, 22, 31, 0.82);
-            --liquid-glass-border: rgba(255, 255, 255, 0.12);
+            --liquid-glass-intense: rgba(18, 22, 31, 0.95);
+            --liquid-glass-border: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -47,6 +47,7 @@
             align-items: center;
             padding: 2rem 1rem;
             background-attachment: fixed;
+            overflow-x: hidden;
         }
 
         .container {
@@ -167,6 +168,7 @@
         .search-box {
             position: relative;
             margin-bottom: 1rem;
+            z-index: 50;
         }
 
         .search-box input {
@@ -196,7 +198,7 @@
             font-size: 1rem;
         }
 
-        /* POPUP DE RESULTADOS DE FILMES COM LIQUID GLASS INTENSO */
+        /* POPUP DE RESULTADOS DE FILMES COM Z-INDEX SUPERIOR ACIMA DE TUDO */
         .movie-results {
             max-height: 280px;
             overflow-y: auto;
@@ -209,8 +211,8 @@
             margin-top: 0.5rem;
             position: absolute;
             width: 100%;
-            z-index: 20;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            z-index: 9999 !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .movie-item {
@@ -228,7 +230,7 @@
         }
 
         .movie-item:hover {
-            background: rgba(99, 102, 241, 0.15);
+            background: rgba(99, 102, 241, 0.25);
         }
 
         .movie-item img {
@@ -752,11 +754,33 @@
         .hidden {
             display: none !important;
         }
+
+        /* Responsividade especial mobile aprimorada */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 1.25rem;
+                border-radius: 18px;
+            }
+            .nav-bar {
+                gap: 0.5rem;
+            }
+            .nav-btn {
+                padding: 0.55rem 0.9rem;
+                font-size: 0.85rem;
+                border-radius: 10px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="mainContainerSwipe">
         <header>
             <h1>Cine<span>Match</span></h1>
             <p>Sua plataforma inteligente de avaliações e matches cinematográficos.</p>
@@ -764,9 +788,9 @@
 
         <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
-            <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Minha Sessão</button>
-            <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
-            <button class="nav-btn" data-target="view-library"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
+            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
+            <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
+            <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
         </div>
 
         <!-- ETAPA 0: Login com Google -->
@@ -957,21 +981,73 @@
         const navButtons = document.querySelectorAll('.nav-btn');
         const appViews = document.querySelectorAll('.app-view');
 
+        function switchTab(targetId) {
+            navButtons.forEach(b => {
+                if (b.getAttribute('data-target') === targetId) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+            
+            appViews.forEach(view => {
+                if (view.id === targetId) {
+                    view.classList.remove('hidden');
+                } else {
+                    view.classList.add('hidden');
+                }
+            });
+        }
+
         navButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                navButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
                 const targetId = btn.getAttribute('data-target');
-                appViews.forEach(view => {
-                    if (view.id === targetId) {
-                        view.classList.remove('hidden');
-                    } else {
-                        view.classList.add('hidden');
-                    }
-                });
+                switchTab(targetId);
             });
         });
+
+        // ================= SUPORTE A SWIPE (ARRASTAR O DEDO) PARA ABAS =================
+        const viewsList = ["view-session", "view-chats", "view-library"];
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const mainContainerSwipe = document.getElementById('mainContainerSwipe');
+
+        mainContainerSwipe.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        mainContainerSwipe.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipeGesture();
+        }, { passive: true });
+
+        function handleSwipeGesture() {
+            if (currentUser && !stepNametag.classList.contains('hidden')) return;
+            if (currentUser && stepAuth.classList.contains('hidden')) {
+                const threshold = 50;
+                const diff = touchStartX - touchEndX;
+
+                let currentActiveIndex = 0;
+                navButtons.forEach((btn, idx) => {
+                    if (btn.classList.contains('active')) {
+                        currentActiveIndex = idx;
+                    }
+                });
+
+                if (diff > threshold) {
+                    // Deslizar para esquerda (Próxima aba)
+                    if (currentActiveIndex < viewsList.length - 1) {
+                        switchTab(viewsList[currentActiveIndex + 1]);
+                    }
+                } else if (diff < -threshold) {
+                    // Deslizar para direita (Aba anterior)
+                    if (currentActiveIndex > 0) {
+                        switchTab(viewsList[currentActiveIndex - 1]);
+                    }
+                }
+            }
+        }
 
         googleLoginBtn.addEventListener('click', async () => {
             try {
@@ -1112,7 +1188,6 @@
                     const reviewKeys = Object.keys(reviews);
                     if (reviewKeys.length >= 2) {
                         showResultsAndMatch(reviews);
-                        // Salva automaticamente na biblioteca global quando ambos avaliam
                         saveToLibrary(activeRoomId, data.movie, reviews);
                     } else {
                         stepResults.classList.add('hidden');
@@ -1346,7 +1421,7 @@
                 keys.forEach(k => {
                     const item = data[k];
                     const reviews = Object.values(item.reviews || {});
-                    if (reviews.length < 2) return; // Só exibe se ambos avaliarem
+                    if (reviews.length < 2) return;
 
                     const card = document.createElement('div');
                     card.className = 'library-card';
@@ -1387,14 +1462,14 @@
         window.goToLibraryRoom = function(roomId) {
             activeRoomId = roomId;
             initRoomSession(roomId);
-            document.querySelector('[data-target="view-session"]').click();
+            switchTab('view-session');
             showToast("Sessão carregada da biblioteca!");
         }
 
         window.editLibraryReview = function(roomId) {
             activeRoomId = roomId;
             initRoomSession(roomId);
-            document.querySelector('[data-target="view-session"]').click();
+            switchTab('view-session');
             setTimeout(() => {
                 document.getElementById('step-review').scrollIntoView({ behavior: 'smooth' });
                 userComment.focus();
@@ -1514,7 +1589,7 @@
             activeRoomId = generatedRoomId;
             initRoomSession(generatedRoomId);
 
-            document.querySelector('[data-target="view-session"]').click();
+            switchTab('view-session');
             showToast(`Sala conjunta aberta com @${activeChatNametag}!`);
         });
 
