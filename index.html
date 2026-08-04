@@ -95,16 +95,25 @@
             z-index: 2;
         }
 
-        /* Header Principal Limpo (Sem bolinha de perfil) */
+        /* Header Principal com Logo Flutuante Individual em Box Y2K */
         header {
             text-align: center;
             margin-bottom: 2rem;
             position: relative;
+            background: transparent;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .floating-logo-box {
             background: #05000f;
             border: 3px solid #ffffff;
             outline: 3px solid #bf00ff;
-            padding: 2rem 1.5rem;
+            padding: 1.5rem 2.5rem;
             box-shadow: 8px 8px 0px #bf00ff, 14px 14px 0px rgba(255, 255, 255, 0.2);
+            display: inline-block;
         }
 
         header h1 {
@@ -115,7 +124,7 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             line-height: 1.1;
-            margin-top: 0.5rem;
+            margin: 0;
         }
 
         header h1 span {
@@ -1043,7 +1052,9 @@
 
     <div class="container" id="mainContainerSwipe">
         <header>
-            <h1>Cine<span>Mozi</span></h1>
+            <div class="floating-logo-box">
+                <h1>Cine<span>Mozi</span></h1>
+            </div>
         </header>
 
         <!-- Menu de Navegação Superior Integrado -->
@@ -1523,7 +1534,6 @@
                     stepNametag.classList.remove('hidden');
                 }
             } else {
-                // Tenta carregar sessão salva via Nametag se não houver token do Firebase Auth ativo
                 const savedTag = localStorage.getItem('cinemozi_logged_tag');
                 if (savedTag && !currentUser) {
                     try {
@@ -1668,8 +1678,10 @@
                     stepReview.classList.remove('hidden');
 
                     const reviewKeys = Object.keys(reviews);
-                    if (reviewKeys.length >= 2) {
-                        showResultsAndMatch(reviews);
+                    if (reviewKeys.length >= 1) {
+                        if (reviewKeys.length >= 2) {
+                            showResultsAndMatch(reviews);
+                        }
                         saveToLibrary(activeRoomId, data.movie, reviews);
                     } else {
                         stepResults.classList.add('hidden');
@@ -1783,7 +1795,6 @@
 
         const stars = starContainer.querySelectorAll('i');
         
-        // Interatividade Completa Mouse & Touch (Click & Drag com Escala Suave)
         function calculateStarFromClientX(clientX) {
             const rect = starContainer.getBoundingClientRect();
             const x = clientX - rect.left;
@@ -1894,12 +1905,11 @@
             try {
                 await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
                 
-                // Garantir salvamento imediato na biblioteca se já houver outras avaliações registradas na sala
                 const roomSnap = await get(ref(db, `rooms/${activeRoomId}`));
                 if (roomSnap.exists()) {
                     const roomData = roomSnap.val();
                     const allReviews = roomData.reviews || {};
-                    if (Object.keys(allReviews).length >= 2 && roomData.movie) {
+                    if (roomData.movie) {
                         await saveToLibrary(activeRoomId, roomData.movie, allReviews);
                     }
                 }
@@ -1946,7 +1956,6 @@
         async function saveToLibrary(rId, movie, reviews) {
             const libId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
             
-            // Verificação para não recriar se o usuário excluiu explicitamente da biblioteca
             const deletedCheckSnap = await get(ref(db, `deleted_library/${libId}`));
             if (deletedCheckSnap.exists()) return;
 
@@ -1977,12 +1986,15 @@
                 keys.forEach(k => {
                     const item = data[k];
                     const reviews = Object.values(item.reviews || {});
-                    if (reviews.length < 2) return;
+                    if (reviews.length === 0) return;
 
-                    const [rev1, rev2] = reviews;
-                    const ratingDiff = Math.abs(rev1.rating - rev2.rating);
-                    let similarity = 100 - (ratingDiff * 20);
-                    if (similarity < 10) similarity = 10;
+                    let similarity = 100;
+                    if (reviews.length >= 2) {
+                        const [rev1, rev2] = reviews;
+                        const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+                        similarity = 100 - (ratingDiff * 20);
+                        if (similarity < 10) similarity = 10;
+                    }
 
                     const card = document.createElement('div');
                     card.className = 'library-card';
@@ -2002,10 +2014,8 @@
                         e.stopPropagation();
                         if (confirm(`Deseja realmente excluir "${item.movie.title}" da biblioteca?`)) {
                             try {
-                                // Salva uma flag indicando exclusão permanente para evitar recriação automática
                                 await set(ref(db, `deleted_library/${k}`), true);
                                 await remove(ref(db, `library/${k}`));
-                                // Opcional: limpa a sala ativa vinculada para evitar reenvio automático se for a mesma sala
                                 if (item.roomId) {
                                     await remove(ref(db, `rooms/${item.roomId}`));
                                 }
@@ -2032,14 +2042,14 @@
                 const reviewsArray = Object.values(reviewsObj);
                 const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '' };
 
-                let similarity = 0;
-                let totalRatingPercent = 0;
+                let similarity = 100;
+                let totalRatingPercent = Math.round((myReview.rating / 5) * 100);
                 if (reviewsArray.length >= 2) {
                     const [rev1, rev2] = reviewsArray;
                     const ratingDiff = Math.abs(rev1.rating - rev2.rating);
                     similarity = 100 - (ratingDiff * 20);
                     if (similarity < 10) similarity = 10;
-                    totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / 10) * 100);
+                    totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / (reviewsArray.length * 5)) * 100);
                 }
 
                 const modalContent = document.getElementById('libraryModalContent');
@@ -2131,7 +2141,8 @@
                     try {
                         const updatedReviews = { ...item.reviews };
                         updatedReviews[currentUser.uid] = {
-                            ...updatedReviews[currentUser.uid],
+                            uid: currentUser.uid,
+                            name: userNametag,
                             rating: newRating,
                             comment: newComment,
                             timestamp: Date.now()
