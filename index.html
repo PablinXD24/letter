@@ -1954,9 +1954,9 @@
         }
 
         async function saveToLibrary(rId, movie, reviews) {
-            const libId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
+            const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
+            const libId = `${cleanRoomId}_movie_${movie.id}`;
             
-            // CORREÇÃO: Limpamos o registro restritivo do deleted_library para garantir o registro imediato do filme.
             await remove(ref(db, `deleted_library/${libId}`));
 
             const libraryRef = ref(db, `library/${libId}`);
@@ -2002,7 +2002,7 @@
 
                     card.innerHTML = `
                         <button class="library-delete-btn" title="Excluir Filme" data-libkey="${k}"><i class="fa-solid fa-trash-can"></i></button>
-                        <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${item.roomId}')">
+                        <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${k}')">
                             <img src="${item.movie.poster}" alt="${item.movie.title}">
                             <div class="library-card-match">
                                 <span>Match: ${similarity}<span class="percent-symbol">%</span></span>
@@ -2016,9 +2016,6 @@
                             try {
                                 await set(ref(db, `deleted_library/${k}`), true);
                                 await remove(ref(db, `library/${k}`));
-                                if (item.roomId) {
-                                    await remove(ref(db, `rooms/${item.roomId}`));
-                                }
                                 showToast("Filme excluído da biblioteca!");
                             } catch (err) {
                                 console.error("Erro ao excluir filme:", err);
@@ -2032,8 +2029,8 @@
             });
         }
 
-        window.openLibraryModal = function(roomId) {
-            currentModalLibraryId = roomId.replace(/[^a-zA-Z0-9_]/g, '_');
+        window.openLibraryModal = function(libKey) {
+            currentModalLibraryId = libKey;
             const libraryRef = ref(db, `library/${currentModalLibraryId}`);
             get(libraryRef).then((snapshot) => {
                 if (!snapshot.exists()) return;
