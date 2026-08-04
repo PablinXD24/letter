@@ -10,9 +10,9 @@
     
     <style>
         :root {
-            --bg-color: #f4f6fa;
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --card-hover: rgba(255, 255, 255, 0.9);
+            --bg-color: #eef1f6; /* Fundo cinza moderno e limpo */
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-hover: rgba(255, 255, 255, 0.85);
             --accent-color: #6366f1; 
             --accent-hover: #4f46e5;
             --cyan-color: #06b6d4; 
@@ -23,7 +23,7 @@
             --danger-color: #ef4444;
             --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --liquid-glass-shadow: 0 20px 40px rgba(99, 102, 241, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            --liquid-glass-intense: rgba(255, 255, 255, 0.85);
+            --liquid-glass-intense: rgba(255, 255, 255, 0.75);
             --liquid-glass-border: rgba(255, 255, 255, 0.95);
         }
 
@@ -37,9 +37,9 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-                radial-gradient(at 90% 90%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.08) 0px, transparent 60%);
+                radial-gradient(at 10% 10%, rgba(148, 163, 184, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 60%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -88,7 +88,7 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
@@ -137,7 +137,8 @@
         }
 
         .btn-google {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
             color: #1e293b;
             border: 1px solid rgba(226, 232, 240, 0.8);
             width: 100%;
@@ -157,7 +158,7 @@
         }
 
         .btn-google:hover {
-            background-color: #f8fafc;
+            background-color: #ffffff;
             border-color: var(--accent-color);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -172,7 +173,7 @@
         .search-box input {
             width: 100%;
             padding: 0.95rem 1rem 0.95rem 3.2rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(203, 213, 225, 0.6);
             border-radius: 14px;
             color: var(--text-main);
@@ -182,7 +183,7 @@
         }
 
         .search-box input:focus {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
             border-color: var(--accent-color);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
         }
@@ -201,7 +202,7 @@
             max-height: 280px;
             overflow-y: auto;
             border-radius: 16px;
-            background: var(--liquid-glass-intense);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1.5px solid var(--liquid-glass-border);
@@ -255,7 +256,7 @@
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(12px);
             padding: 1.15rem 1.35rem;
             border-radius: 16px;
@@ -288,7 +289,7 @@
         .form-group textarea {
             width: 100%;
             padding: 0.9rem 1.1rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(203, 213, 225, 0.6);
             border-radius: 14px;
             color: var(--text-main);
@@ -299,7 +300,7 @@
 
         .form-group input[type="text"]:focus,
         .form-group textarea:focus {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
             border-color: var(--accent-color);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
         }
@@ -311,7 +312,7 @@
 
         /* Sistema de Avaliação Aprimorado */
         .rating-wrapper {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -381,14 +382,14 @@
         }
 
         .btn-secondary {
-            background: rgba(241, 245, 249, 0.8);
+            background: rgba(241, 245, 249, 0.7);
             color: var(--text-main);
             border: 1px solid rgba(203, 213, 225, 0.6);
             box-shadow: none;
         }
         
         .btn-secondary:hover {
-            background: #e2e8f0;
+            background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             transform: translateY(-1px);
         }
@@ -405,66 +406,11 @@
             }
         }
 
-        /* BIBLIOTECA DE POSTERS AVALIADOS */
-        .library-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.25rem;
-            margin-top: 1rem;
-        }
-
-        .library-item {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(14px);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .library-item:hover {
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.85);
-            border-color: var(--accent-color);
-            box-shadow: 0 16px 32px rgba(99, 102, 241, 0.15);
-        }
-
-        .library-item img {
-            width: 110px;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .library-item h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-
-        .library-item .stars-display {
-            color: #f59e0b;
-            font-size: 0.85rem;
-            margin-top: 0.3rem;
-        }
-
         /* ABA DE CONVERSAS REESTILIZADA (ESTILO WHATSAPP LIQUID GLASS) */
         .whatsapp-chat-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1.5px solid var(--liquid-glass-border);
@@ -482,7 +428,7 @@
         }
 
         .whatsapp-sidebar {
-            background: rgba(248, 250, 252, 0.7);
+            background: rgba(248, 250, 252, 0.5);
             border-right: 1px solid rgba(226, 232, 240, 0.6);
             display: flex;
             flex-direction: column;
@@ -492,7 +438,7 @@
         .whatsapp-sidebar-header {
             padding: 1.2rem;
             border-bottom: 1px solid rgba(226, 232, 240, 0.6);
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
         }
 
         .whatsapp-contacts-list {
@@ -533,14 +479,14 @@
         .whatsapp-main-chat {
             display: flex;
             flex-direction: column;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, rgba(241, 245, 249, 0.3) 100%);
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, rgba(241, 245, 249, 0.2) 100%);
             backdrop-filter: blur(15px);
             position: relative;
         }
 
         .whatsapp-chat-header {
             padding: 1rem 1.25rem;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(226, 232, 240, 0.6);
             display: flex;
@@ -568,7 +514,7 @@
         }
 
         .message.incoming {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.85);
             border: 1px solid var(--border-color);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
@@ -584,8 +530,9 @@
             box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
         }
 
+        /* Popup de Match no Chat com Liquid Glass Intenso */
         .chat-match-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(240, 244, 255, 0.95));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(240, 244, 255, 0.9));
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1.5px solid var(--accent-color);
@@ -601,7 +548,7 @@
         .chat-input-area {
             display: flex;
             padding: 0.85rem 1rem;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--border-color);
             gap: 0.6rem;
@@ -611,7 +558,7 @@
         .chat-input-area input {
             flex: 1;
             padding: 0.8rem 1rem;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(203, 213, 225, 0.6);
             border-radius: 14px;
             color: var(--text-main);
@@ -626,6 +573,7 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
         }
 
+        /* Botão interno para avaliar juntos na conversa */
         .btn-evaluate-together {
             background: rgba(99, 102, 241, 0.1);
             border: 1px solid rgba(99, 102, 241, 0.3);
@@ -649,6 +597,7 @@
             box-shadow: 0 6px 15px rgba(99, 102, 241, 0.2);
         }
 
+        /* Tela de Resultados / Comparação Aprimorada */
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -663,7 +612,7 @@
         }
 
         .review-box {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -694,7 +643,7 @@
 
         .match-score-card {
             text-align: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(240, 244, 255, 0.8));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 244, 255, 0.7));
             backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
@@ -722,6 +671,109 @@
             font-weight: 700;
             letter-spacing: 0.5px;
             border: 1px solid rgba(99, 102, 241, 0.15);
+        }
+
+        /* BIBLIOTECA DE FILMES AVALIADOS */
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .library-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .library-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.85);
+            border-color: var(--accent-color);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
+        }
+
+        .library-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 0.85rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .library-card h4 {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* MODAL LIQUID GLASS PARA DETALHES E EDIÇÃO NA BIBLIOTECA */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1.5px solid var(--liquid-glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 1);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(241, 245, 249, 0.8);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .modal-close:hover {
+            background: var(--danger-color);
+            color: #ffffff;
         }
 
         /* POPUP TOAST COM LIQUID GLASS INTENSO */
@@ -759,8 +811,8 @@
         <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
             <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Minha Sessão</button>
-            <button class="nav-btn" data-target="view-library"><i class="fa-solid fa-books"></i> Biblioteca de Posters</button>
             <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
+            <button class="nav-btn" data-target="view-library"><i class="fa-solid fa-books"></i> Biblioteca de Matches</button>
         </div>
 
         <!-- ETAPA 0: Login com Google -->
@@ -789,7 +841,7 @@
         <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
-            <div class="card" id="roomInfoCard" style="background: rgba(255, 255, 255, 0.6); border-color: rgba(99, 102, 241, 0.2);">
+            <div class="card" id="roomInfoCard" style="background: rgba(255, 255, 255, 0.5); border-color: rgba(99, 102, 241, 0.2);">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                     <div>
                         <span class="badge">SESSÃO ATIVA</span>
@@ -843,7 +895,7 @@
                         <span id="charCounter" class="char-counter">0 / 500 caracteres</span>
                     </div>
 
-                    <button type="submit" class="btn" id="submitReviewBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Enviar e Salvar na Biblioteca</button>
+                    <button type="submit" class="btn" id="submitReviewBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Enviar Minha Avaliação</button>
                 </form>
             </div>
 
@@ -856,19 +908,10 @@
                     <h2 id="matchPercentage">0%</h2>
                 </div>
 
+                <p style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin-bottom: 1rem;"><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Ambos avaliaram! Este filme foi adicionado à Biblioteca Global.</p>
+
                 <div class="comparison-grid" id="comparisonContainer">
                     <!-- Preenchido via Realtime Database -->
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 3: BIBLIOTECA DE POSTERS AVALIADOS -->
-        <div id="view-library" class="app-view hidden">
-            <div class="card">
-                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-books" style="color: var(--accent-color); margin-right: 6px;"></i> Minha Biblioteca de Filmes Avaliados</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Clique em qualquer poster para editar sua avaliação a qualquer momento.</p>
-                <div class="library-grid" id="libraryGridContainer">
-                    <!-- Dinâmico -->
                 </div>
             </div>
         </div>
@@ -908,6 +951,28 @@
                         <button id="sendChatBtn" class="btn" style="width: auto; padding: 0.8rem 1.25rem;"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: BIBLIOTECA DE MATCHES -->
+        <div id="view-library" class="app-view hidden">
+            <div class="card">
+                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-books" style="color: var(--accent-color); margin-right: 6px;"></i> Biblioteca de Filmes Avaliados</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Filmes avaliados em conjunto por ambos os participantes. Clique em qualquer pôster para visualizar ou editar as avaliações.</p>
+                
+                <div class="library-grid" id="libraryGridContainer">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE DETALHES E EDIÇÃO DA BIBLIOTECA -->
+    <div id="libraryModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="closeLibraryModal"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modalBodyContent">
+                <!-- Conteúdo injetado via JS -->
             </div>
         </div>
     </div>
@@ -1028,7 +1093,7 @@
             
             initRoomSession(activeRoomId);
             loadChatContacts();
-            loadUserLibrary();
+            loadLibraryMatches();
         }
 
         // ================= GESTÃO DA SALA E FILMES =================
@@ -1105,6 +1170,8 @@
                     const reviewKeys = Object.keys(reviews);
                     if (reviewKeys.length >= 2) {
                         showResultsAndMatch(reviews);
+                        // Salva automaticamente na biblioteca global quando ambos avaliam
+                        saveToLibrary(activeRoomId, data);
                     } else {
                         stepResults.classList.add('hidden');
                     }
@@ -1264,15 +1331,7 @@
                 return;
             }
 
-            // Capturar dados do filme atual na sala
-            const roomSnap = await get(ref(db, `rooms/${activeRoomId}`));
-            const roomData = roomSnap.val();
-            if (!roomData || !roomData.movie) {
-                alert("Selecione um filme antes de avaliar!");
-                return;
-            }
-
-            const reviewData = {
+            const myReview = {
                 uid: currentUser.uid,
                 name: userNametag,
                 rating: rating,
@@ -1280,79 +1339,14 @@
                 timestamp: Date.now()
             };
 
-            const libraryItemData = {
-                movie: roomData.movie,
-                review: reviewData,
-                updatedAt: Date.now()
-            };
-
             try {
-                // Salva na sala ativa e também na Biblioteca pessoal do usuário para edição futura
-                await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), reviewData);
-                await set(ref(db, `users/${currentUser.uid}/library/${roomData.movie.id}`), libraryItemData);
-                
-                showToast("Avaliação salva e enviada para a Biblioteca!");
-                loadUserLibrary();
+                await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
+                showToast("Avaliação salva com sucesso!");
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
                 alert("Erro ao salvar avaliação.");
             }
         });
-
-        // ================= GESTÃO DA BIBLIOTECA DE POSTERS =================
-        function loadUserLibrary() {
-            if (!currentUser) return;
-            const libraryRef = ref(db, `users/${currentUser.uid}/library`);
-
-            onValue(libraryRef, (snapshot) => {
-                const items = snapshot.val() || {};
-                const gridContainer = document.getElementById('libraryGridContainer');
-                gridContainer.innerHTML = '';
-
-                const keys = Object.keys(items);
-                if (keys.length === 0) {
-                    gridContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 2rem;">Sua biblioteca está vazia. Avalie filmes na aba "Minha Sessão" para vê-los aqui!</p>`;
-                    return;
-                }
-
-                keys.forEach(movieId => {
-                    const entry = items[movieId];
-                    const movie = entry.movie;
-                    const review = entry.review;
-
-                    const div = document.createElement('div');
-                    div.classList.add('library-item');
-                    div.innerHTML = `
-                        <img src="${movie.poster}" alt="${movie.title}">
-                        <h4>${movie.title}</h4>
-                        <div class="stars-display">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
-                    `;
-
-                    // Ao clicar no poster da biblioteca, carrega os dados de volta para edição
-                    div.addEventListener('click', () => {
-                        // Configurar o filme selecionado na sessão principal
-                        selectedMoviePoster.src = movie.poster;
-                        selectedMovieTitle.textContent = movie.title;
-                        selectedMovieYear.textContent = `Lançamento: ${movie.year}`;
-                        selectedMovieContainer.classList.remove('hidden');
-                        movieSearchBoxWrapper.style.display = 'none';
-                        stepReview.classList.remove('hidden');
-
-                        // Preencher formulário com os dados salvos para edição
-                        userRatingInput.value = review.rating;
-                        userComment.value = review.comment;
-                        highlightStars(review.rating);
-                        updateCharCounter();
-
-                        // Alternar para a aba da sessão para editar
-                        document.querySelector('[data-target="view-session"]').click();
-                        showToast(`Editando avaliação de "${movie.title}"`);
-                    });
-
-                    gridContainer.appendChild(div);
-                });
-            });
-        }
 
         function showResultsAndMatch(reviewsObj) {
             stepResults.classList.remove('hidden');
@@ -1380,6 +1374,133 @@
                     <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);">"${rev2.comment}"</p>
                 </div>
             `;
+        }
+
+        // ================= BIBLIOTECA GLOBAL DE MATCHES =================
+        async function saveToLibrary(rId, roomData) {
+            const reviewsArray = Object.values(roomData.reviews || {});
+            if (reviewsArray.length < 2) return; // Só vai pra biblioteca se ambos avaliarem!
+
+            const libraryRef = ref(db, `library/${rId}`);
+            await set(libraryRef, {
+                roomId: rId,
+                movie: roomData.movie,
+                reviews: roomData.reviews,
+                updatedAt: Date.now()
+            });
+        }
+
+        function loadLibraryMatches() {
+            const libraryRef = ref(db, 'library');
+            onValue(libraryRef, (snapshot) => {
+                const data = snapshot.val() || {};
+                const gridContainer = document.getElementById('libraryGridContainer');
+                gridContainer.innerHTML = '';
+
+                const keys = Object.keys(data);
+                if (keys.length === 0) {
+                    gridContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center;">Nenhum filme na biblioteca ainda. Conclua uma avaliação em dupla para registrar!</p>`;
+                    return;
+                }
+
+                keys.forEach(key => {
+                    const item = data[key];
+                    if (!item.movie || !item.reviews || Object.keys(item.reviews).length < 2) return;
+
+                    const card = document.createElement('div');
+                    card.classList.add('library-card');
+                    card.innerHTML = `
+                        <img src="${item.movie.poster}" alt="${item.movie.title}">
+                        <h4>${item.movie.title}</h4>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">${item.movie.year}</span>
+                    `;
+                    card.addEventListener('click', () => openLibraryModal(item));
+                    gridContainer.appendChild(card);
+                });
+            });
+        }
+
+        const libraryModal = document.getElementById('libraryModal');
+        const closeLibraryModal = document.getElementById('closeLibraryModal');
+        const modalBodyContent = document.getElementById('modalBodyContent');
+
+        closeLibraryModal.addEventListener('click', () => {
+            libraryModal.classList.add('hidden');
+        });
+
+        libraryModal.addEventListener('click', (e) => {
+            if (e.target === libraryModal) libraryModal.classList.add('hidden');
+        });
+
+        function openLibraryModal(item) {
+            const reviews = Object.values(item.reviews);
+            const [rev1, rev2] = reviews;
+            
+            const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+            let similarity = 100 - (ratingDiff * 20);
+            if (similarity < 10) similarity = 10;
+
+            modalBodyContent.innerHTML = `
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                    <img src="${item.movie.poster}" style="width: 70px; height: 100px; object-fit: cover; border-radius: 10px;">
+                    <div>
+                        <span class="badge">MATCH DE SESSÃO</span>
+                        <h3 style="color:var(--text-main); margin-top: 0.25rem;">${item.movie.title} (${item.movie.year})</h3>
+                        <p style="color:var(--accent-color); font-weight: 600; font-size: 0.9rem; margin-top: 0.2rem;">Compatibilidade: ${similarity}%</p>
+                    </div>
+                </div>
+
+                <div class="comparison-grid" style="margin-bottom: 1.5rem;">
+                    <div class="review-box">
+                        <h3>@${rev1.name} <span>${'★'.repeat(rev1.rating)}</span></h3>
+                        <p style="font-size: 0.9rem; color: var(--text-main); margin-top: 0.5rem;">"${rev1.comment}"</p>
+                    </div>
+                    <div class="review-box">
+                        <h3>@${rev2.name} <span>${'★'.repeat(rev2.rating)}</span></h3>
+                        <p style="font-size: 0.9rem; color: var(--text-main); margin-top: 0.5rem;">"${rev2.comment}"</p>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.5); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border-color);">
+                    <h4 style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.75rem;"><i class="fa-solid fa-pen-to-square"></i> Editar sua Avaliação</h4>
+                    <form id="editReviewForm">
+                        <div class="form-group" style="margin-bottom: 0.75rem;">
+                            <label style="font-size: 0.8rem;">Nova Nota (1 a 5 estrelas)</label>
+                            <input type="number" id="editRatingInput" min="1" max="5" value="${item.reviews[currentUser.uid] ? item.reviews[currentUser.uid].rating : 5}" required style="padding: 0.6rem;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0.75rem;">
+                            <label style="font-size: 0.8rem;">Seu Comentário Editado</label>
+                            <textarea id="editCommentInput" required style="min-height: 80px; padding: 0.6rem;">${item.reviews[currentUser.uid] ? item.reviews[currentUser.uid].comment : ''}</textarea>
+                        </div>
+                        <button type="submit" class="btn" style="padding: 0.7rem;">Salvar Alterações</button>
+                    </form>
+                </div>
+            `;
+
+            document.getElementById('editReviewForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const newRating = parseInt(document.getElementById('editRatingInput').value);
+                const newComment = document.getElementById('editCommentInput').value.trim();
+
+                const myCurrentReview = item.reviews[currentUser.uid] || { name: userNametag };
+                myCurrentReview.rating = newRating;
+                myCurrentReview.comment = newComment;
+                myCurrentReview.timestamp = Date.now();
+
+                try {
+                    await set(ref(db, `library/${item.roomId}/reviews/${currentUser.uid}`), myCurrentReview);
+                    // Atualiza também na sala original se estiver ativa
+                    await set(ref(db, `rooms/${item.roomId}/reviews/${currentUser.uid}`), myCurrentReview);
+                    
+                    showToast("Avaliação atualizada com sucesso!");
+                    libraryModal.classList.add('hidden');
+                } catch (error) {
+                    console.error("Erro ao atualizar:", error);
+                    alert("Erro ao salvar edição.");
+                }
+            });
+
+            libraryModal.classList.remove('hidden');
         }
 
         // ================= CHATS E OPÇÃO DE AVALIAR JUNTOS NA CONVERSA =================
