@@ -1975,18 +1975,30 @@
                 const container = document.getElementById('libraryGridContainer');
                 container.innerHTML = '';
 
-                const keys = Object.keys(data);
-                document.getElementById('profileStatsCount').textContent = keys.length;
+                // Correção para mapeamento de chaves únicas e remoção de duplicatas por ID de filme
+                const uniqueMoviesMap = new Map();
+                Object.keys(data).forEach(k => {
+                    const item = data[k];
+                    const reviews = Object.values(item.reviews || {});
+                    if (reviews.length === 0) return;
 
-                if (keys.length === 0) {
+                    const movieId = item.movie?.id || k;
+                    // Se já existir, prioriza o mais recente
+                    if (!uniqueMoviesMap.has(movieId) || item.updatedAt > uniqueMoviesMap.get(movieId).updatedAt) {
+                        uniqueMoviesMap.set(movieId, { key: k, item });
+                    }
+                });
+
+                const validLibraryItems = Array.from(uniqueMoviesMap.values());
+                document.getElementById('profileStatsCount').textContent = validLibraryItems.length;
+
+                if (validLibraryItems.length === 0) {
                     container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda.</p>';
                     return;
                 }
 
-                keys.forEach(k => {
-                    const item = data[k];
+                validLibraryItems.forEach(({ key: k, item }) => {
                     const reviews = Object.values(item.reviews || {});
-                    if (reviews.length === 0) return;
 
                     let similarity = 100;
                     if (reviews.length >= 2) {
