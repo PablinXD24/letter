@@ -3,40 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch - Y2K Millennium Cyber Edition</title>
-    <!-- Google Fonts 2000s Cyber & Futurism -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <title>CineMatch - Y2K Edition</title>
+    <!-- Google Fonts Y2K Bitmap & Clean Sans + FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=VT323&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* Palette Y2K Cyber Millennium (MSN Live / Windows Media Player / Frutiger Aero Cyber) */
-            --bg-dark: #070714;
-            --bg-accent: #0f1026;
-            
+            /* Paleta Neon & Cyber Y2K (Inspirada nas imagens de referência) */
+            --bg-main: #0a0118;
+            --win-bg: #130328;
+            --y2k-green: #00ff66;
+            --y2k-pink: #ff007f;
             --y2k-cyan: #00f0ff;
-            --y2k-cyan-glow: rgba(0, 240, 255, 0.4);
-            --y2k-magenta: #ff007f;
-            --y2k-magenta-glow: rgba(255, 0, 127, 0.4);
-            --y2k-purple: #8a2be2;
-            --y2k-deep-purple: #1a0933;
-            --y2k-yellow: #ffe600;
-            --y2k-gold: #ffaa00;
+            --y2k-yellow: #ffee00;
+            --y2k-purple: #230842;
+            --y2k-dark-purple: #0a0118;
             
-            --glass-bg: linear-gradient(135deg, rgba(20, 22, 45, 0.85) 0%, rgba(10, 12, 28, 0.95) 100%);
-            --glass-header: linear-gradient(180deg, rgba(35, 40, 75, 0.9) 0%, rgba(15, 18, 40, 0.95) 100%);
-            --glass-border: rgba(0, 240, 255, 0.25);
-            --glass-border-light: rgba(255, 255, 255, 0.35);
+            --text-bright: #ffffff;
+            --text-dark: #000000;
+            --text-muted: #c8b6e2;
             
-            --text-main: #ffffff;
-            --text-muted: #b0b8da;
-            --text-dark: #080914;
-            
-            --font-heading: 'Orbitron', 'Syne', sans-serif;
-            --font-sub: 'Rajdhani', sans-serif;
+            --font-pixel: 'Silkscreen', 'Press Start 2P', cursive;
+            --font-retro-sub: 'VT323', monospace;
+            --font-heading: 'Syne', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
 
-            --chrome-shine: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 45%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.25) 100%);
+            /* Bordas e Sombras Sólidas Y2K */
+            --border-thick: 3px solid #000000;
+            --border-light: 3px solid #ffffff;
+            --shadow-solid: 6px 6px 0px #000000;
+            --shadow-cyan: 6px 6px 0px var(--y2k-cyan);
+            --shadow-pink: 6px 6px 0px var(--y2k-pink);
+            --shadow-green: 6px 6px 0px var(--y2k-green);
         }
 
         * {
@@ -45,38 +44,38 @@
             box-sizing: border-box;
         }
 
-        /* Fundo Cyber Y2K Anos 2000 - Grid Holográfico e Glows Suaves */
+        /* Scanlines CRT de Fundo */
+        body::before {
+            content: "";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+                        linear-gradient(90deg, rgba(0, 255, 102, 0.03), rgba(255, 0, 127, 0.03));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 99999;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Fundo Estilo Desktop Cyber OS com Grid Retrô */
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-main);
             background-image: 
-                radial-gradient(circle at 20% 15%, rgba(0, 240, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 85%, rgba(255, 0, 127, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.12) 0%, transparent 60%),
-                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 100% 100%, 30px 30px, 30px 30px;
-            background-attachment: fixed;
-            color: var(--text-main);
+                linear-gradient(rgba(0, 255, 102, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.06) 1px, transparent 1px),
+                radial-gradient(circle at 15% 15%, rgba(255, 0, 127, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.2) 0%, transparent 40%);
+            background-size: 28px 28px, 28px 28px, 100% 100%, 100% 100%;
+            color: var(--text-bright);
             font-family: var(--font-body);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             overflow-x: hidden;
             position: relative;
-        }
-
-        /* Efeito sutil de linhas de varredura digital 2000s */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(0, 0, 0, 0.15) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 99999;
-            opacity: 0.4;
         }
 
         .container {
@@ -86,260 +85,199 @@
             z-index: 2;
         }
 
-        /* Header Estilo Media Player / Interface Cyber Y2K */
+        /* Header Principal Estilo Janela Mestra do Windows Y2K */
         header {
             text-align: center;
             margin-bottom: 2rem;
             position: relative;
-            background: var(--glass-header);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-border-light);
-            border-radius: 20px;
-            padding: 2.2rem 1.8rem 1.8rem 1.8rem;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.6),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4),
-                0 0 25px rgba(0, 240, 255, 0.15);
-            backdrop-filter: blur(12px);
-            overflow: hidden;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+            box-shadow: 8px 8px 0px var(--y2k-pink), 14px 14px 0px #000000;
         }
 
-        /* Top Status Bar estilo Leitor Digital / Player 2000s */
+        /* Barra de Título Windows Y2K no Header */
         header::before {
-            content: "✦ CINEMATCH OS v2.0 • DIGITAL ENTERTAINMENT SYSTEM ✦";
+            content: " 🗔 CineMatch_Y2K_OS_v2.00.exe                         [ _ ] [ ▢ ] [ ✕ ] ";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 28px;
-            background: linear-gradient(90deg, rgba(0,240,255,0.2) 0%, rgba(255,0,127,0.2) 50%, rgba(138,43,226,0.2) 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            color: var(--y2k-cyan);
-            font-family: var(--font-heading);
+            background: linear-gradient(90deg, var(--y2k-pink), var(--y2k-cyan));
+            color: #000000;
+            font-family: var(--font-pixel);
             font-size: 0.65rem;
-            letter-spacing: 2px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            text-shadow: 0 0 8px var(--y2k-cyan);
+            justify-content: space-between;
+            padding: 0 10px;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #000000;
         }
 
         header h1 {
-            font-family: var(--font-heading);
-            font-size: 3.2rem;
-            font-weight: 900;
+            font-family: var(--font-pixel);
+            font-size: 3rem;
             color: #ffffff;
-            letter-spacing: 2px;
+            text-shadow: 4px 4px 0px var(--y2k-green), -3px -3px 0px var(--y2k-pink);
+            letter-spacing: 3px;
             text-transform: uppercase;
             line-height: 1.1;
-            margin-top: 0.8rem;
-            background: linear-gradient(180deg, #ffffff 0%, #a0c0ff 60%, #00f0ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.5));
-            display: inline-block;
+            margin-top: 0.5rem;
         }
 
         header h1 span {
-            background: linear-gradient(180deg, #ffe600 0%, #ff8800 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            padding: 0 4px;
-            filter: drop-shadow(0 0 10px rgba(255, 230, 0, 0.6));
+            color: #000000;
+            background: var(--y2k-yellow);
+            padding: 2px 10px;
+            border: 3px solid #000000;
+            display: inline-block;
+            box-shadow: 3px 3px 0px var(--y2k-green);
         }
 
         header p {
-            font-family: var(--font-sub);
-            color: var(--text-muted);
-            margin-top: 0.6rem;
-            font-size: 1.25rem;
-            letter-spacing: 1.5px;
-            font-weight: 600;
+            font-family: var(--font-retro-sub);
+            color: var(--y2k-green);
+            margin-top: 0.8rem;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
-        /* Navegação Estilo Abas Glossy MSN / WMP */
+        /* Navegação Estilo Abas Y2K Pop-Art */
         .nav-bar {
             display: flex;
-            justify-content: center;
-            gap: 0.8rem;
+            justify-content: flex-start;
+            gap: 0.6rem;
             margin-bottom: 2rem;
             flex-wrap: wrap;
-            background: rgba(12, 14, 32, 0.8);
-            padding: 8px;
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
+            background: #000000;
+            padding: 10px;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            box-shadow: 8px 8px 0px var(--y2k-cyan), 12px 12px 0px #000000;
+            position: relative;
         }
 
         .nav-btn {
-            background: linear-gradient(180deg, rgba(40, 45, 80, 0.6) 0%, rgba(20, 24, 50, 0.8) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: var(--text-muted);
-            padding: 0.85rem 1.6rem;
-            border-radius: 30px;
-            font-family: var(--font-heading);
-            font-size: 0.75rem;
-            font-weight: 700;
+            background: var(--y2k-purple);
+            border: 3px solid #000000;
+            color: #ffffff;
+            padding: 0.75rem 1.2rem;
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.15s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 100%);
-            border-radius: 30px 30px 0 0;
-            pointer-events: none;
+            box-shadow: 3px 3px 0px #ffffff;
         }
 
         .nav-btn.active, .nav-btn:hover {
-            background: linear-gradient(180deg, #00f0ff 0%, #0088ff 50%, #0055cc 100%);
-            color: #ffffff;
-            border-color: #80f0ff;
-            box-shadow: 0 0 20px var(--y2k-cyan-glow), inset 0 1px 2px rgba(255, 255, 255, 0.8);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-            transform: translateY(-2px);
+            background: var(--y2k-yellow);
+            color: #000000;
+            border-color: #000000;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--y2k-pink);
+            font-weight: bold;
         }
 
-        /* CARDS / PAINÉIS Y2K GLOSSY */
+        /* CAIXAS / CARDS ESTILO JANELA WINDOWS Y2K */
         .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-border-light);
-            border-radius: 20px;
-            padding: 2.5rem 2rem 2rem 2rem;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.6),
-                inset 0 1px 1px rgba(255, 255, 255, 0.25),
-                0 0 20px rgba(0, 240, 255, 0.08);
+            background: var(--win-bg);
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            padding: 2.8rem 1.8rem 1.8rem 1.8rem;
+            box-shadow: 8px 8px 0px #000000, 10px 10px 0px var(--y2k-green);
             margin-bottom: 2.2rem;
             position: relative;
-            backdrop-filter: blur(12px);
+        }
+
+        /* Barra de Título Padrão de Janela para todas as Caixas */
+        .card::before {
+            content: " 🗔 Window_Properties.dll                         [ _ ] [ ▢ ] [ ✕ ] ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 26px;
+            background: var(--y2k-green);
+            color: #000000;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #000000;
         }
 
         .card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--y2k-cyan);
-            letter-spacing: 1.5px;
+            font-family: var(--font-pixel);
+            font-size: 1.1rem;
+            color: var(--y2k-yellow);
+            text-shadow: 2px 2px 0px #000000;
+            letter-spacing: 1px;
             line-height: 1.4;
             text-transform: uppercase;
-            text-shadow: 0 0 10px var(--y2k-cyan-glow);
         }
 
-        /* Autenticação */
+        /* Tela de Autenticação Estilo Windows Logon Dialog */
         .auth-container {
             text-align: center;
-            padding: 3.5rem 2rem 3rem 2rem;
-            background: linear-gradient(135deg, rgba(25, 20, 50, 0.9) 0%, rgba(12, 10, 30, 0.95) 100%);
-            border-radius: 24px;
-        }
-
-        /* BOTÕES GLOSSY Y2K 2000s */
-        .btn {
-            background: linear-gradient(180deg, #00f0ff 0%, #0088ff 50%, #0055cc 100%);
-            color: #ffffff;
-            border: 1px solid #70e0ff;
-            border-radius: 30px;
-            width: 100%;
-            padding: 1.1rem 1.6rem;
-            font-family: var(--font-heading);
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 20px rgba(0, 136, 255, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.7);
-            text-transform: uppercase;
-            display: inline-block;
-            text-align: center;
+            padding: 3.8rem 2rem 2.8rem 2rem;
+            background: #0d0122;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            box-shadow: 10px 10px 0px #000000, 14px 14px 0px var(--y2k-cyan);
             position: relative;
-            overflow: hidden;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
-            border-radius: 30px 30px 0 0;
-            pointer-events: none;
+        .auth-container::before {
+            content: " 🔒 System Security - User Authentication         [ _ ] [ ▢ ] [ ✕ ] ";
+            background: linear-gradient(90deg, var(--y2k-green), var(--y2k-cyan));
+            color: #000000;
         }
 
-        .btn:hover {
-            filter: brightness(1.15);
-            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 10px rgba(0, 136, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(180deg, #b026ff 0%, #7a00cc 50%, #4d0080 100%);
-            border-color: #d880ff;
-            box-shadow: 0 6px 20px rgba(176, 38, 255, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.7);
-        }
-
-        .btn-secondary:hover {
-            box-shadow: 0 8px 25px rgba(216, 128, 255, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.9);
-        }
-
+        /* Botão Estilo Windows / Y2K Button */
         .btn-google {
-            background: linear-gradient(180deg, #ffffff 0%, #e0e8f5 50%, #c5d3e8 100%);
-            color: #0b0e24;
-            border: 1px solid #ffffff;
-            border-radius: 30px;
+            background: var(--y2k-green);
+            color: #000000;
+            border: 3px solid #000000;
             width: 100%;
-            max-width: 380px;
-            padding: 1.1rem 1.6rem;
-            font-family: var(--font-heading);
-            font-size: 0.85rem;
-            font-weight: 800;
-            letter-spacing: 1px;
+            max-width: 360px;
+            padding: 1rem 1.4rem;
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.9rem;
             margin-top: 2rem;
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25), inset 0 1px 2px #ffffff;
+            box-shadow: 4px 4px 0px #ffffff, 8px 8px 0px #000000;
             text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.2s ease;
-        }
-
-        .btn-google::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
-            pointer-events: none;
+            font-weight: bold;
+            transition: all 0.1s ease;
         }
 
         .btn-google:hover {
-            background: linear-gradient(180deg, #ffffff 0%, #f0f5ff 100%);
-            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.4);
-            transform: translateY(-2px);
+            background: var(--y2k-yellow);
+            box-shadow: 6px 6px 0px var(--y2k-pink), 10px 10px 0px #000000;
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-google:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
         }
 
         /* Busca de Filmes */
@@ -351,42 +289,38 @@
 
         .search-box input {
             width: 100%;
-            padding: 1.1rem 1.2rem 1.1rem 3.4rem;
-            background: rgba(10, 12, 28, 0.85);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 16px;
-            color: #ffffff;
+            padding: 1rem 1rem 1rem 3.2rem;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            color: var(--y2k-green);
             font-family: var(--font-body);
-            font-size: 1.05rem;
-            font-weight: 500;
-            outline: none;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.25s ease;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: inset 3px 3px 0px #000;
         }
 
         .search-box input:focus {
-            border-color: var(--y2k-cyan);
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6), 0 0 18px var(--y2k-cyan-glow);
-            background: rgba(15, 18, 42, 0.95);
+            border-color: var(--y2k-yellow);
+            background: #05000f;
         }
 
         .search-box i {
             position: absolute;
-            left: 1.3rem;
+            left: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--y2k-cyan);
+            color: var(--y2k-yellow);
             font-size: 1.2rem;
-            filter: drop-shadow(0 0 5px var(--y2k-cyan));
         }
 
-        /* POPUP RESULTADOS DAS BUSCAS */
+        /* POPUP ESTILO WINDOWS DIALOG */
         .movie-results {
             max-height: 340px;
             overflow-y: auto;
-            background: rgba(12, 14, 32, 0.95);
-            border: 1px solid var(--y2k-cyan);
-            border-radius: 16px;
+            background: #0d001a;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
             display: none;
             margin-top: 0.6rem;
             position: absolute;
@@ -394,39 +328,57 @@
             left: 0;
             width: 100%;
             z-index: 99999 !important;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px var(--y2k-cyan-glow);
-            padding: 0.5rem;
-            backdrop-filter: blur(15px);
+            box-shadow: 10px 10px 0px #000000, 10px 10px 0px 2px var(--y2k-pink);
+            padding-top: 28px;
+        }
+
+        /* Barra de Título do Popup Windows */
+        .movie-results::before {
+            content: " 🗔 Search_Results.dll - Select Item             [ ✕ ] ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: var(--y2k-cyan);
+            color: #000000;
+            font-family: var(--font-pixel);
+            font-size: 0.6rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #000000;
         }
 
         .movie-item {
             display: flex;
             align-items: center;
             gap: 1.2rem;
-            padding: 0.8rem 1rem;
+            padding: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            border-radius: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.15s;
+            border-bottom: 2px dashed var(--y2k-purple);
         }
 
         .movie-item:hover {
-            background: linear-gradient(90deg, rgba(0, 240, 255, 0.25) 0%, rgba(138, 43, 226, 0.25) 100%);
-            transform: translateX(4px);
+            background: var(--y2k-pink);
+            color: #ffffff;
         }
 
         .movie-item img {
             width: 48px;
             height: 68px;
             object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            border: 2px solid #ffffff;
+            box-shadow: 3px 3px 0px #000000;
         }
 
         .movie-info h4 {
-            font-family: var(--font-heading);
-            font-size: 0.85rem;
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
             color: #ffffff;
             line-height: 1.3;
         }
@@ -434,66 +386,61 @@
         .movie-info span {
             font-size: 0.95rem;
             color: var(--y2k-yellow);
-            font-family: var(--font-sub);
-            font-weight: 700;
+            font-family: var(--font-retro-sub);
+            font-weight: bold;
         }
 
-        /* Filme Selecionado Preview */
+        /* Filme Selecionado */
         .selected-movie-preview {
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            background: linear-gradient(135deg, rgba(15, 18, 40, 0.9) 0%, rgba(8, 10, 25, 0.95) 100%);
-            padding: 1.4rem;
-            border-radius: 16px;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 8px 25px rgba(0,0,0,0.4);
+            background: #000000;
+            padding: 1.2rem;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            box-shadow: inset 2px 2px 0px #000, 6px 6px 0px var(--y2k-green);
             margin-bottom: 1.5rem;
         }
 
         .selected-movie-preview img {
-            width: 85px;
-            height: 120px;
+            width: 80px;
+            height: 115px;
             object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+            border: 2px solid #ffffff;
+            box-shadow: 4px 4px 0px #000000;
         }
 
         /* Formulários gerais */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.4rem;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.6rem;
             color: var(--y2k-yellow);
-            font-family: var(--font-heading);
+            font-family: var(--font-pixel);
             font-size: 0.75rem;
-            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .form-group input[type="text"],
         .form-group textarea {
             width: 100%;
-            padding: 1.1rem;
-            background: rgba(8, 10, 25, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
+            padding: 1rem;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
             color: #ffffff;
             font-family: var(--font-body);
             font-size: 1rem;
-            outline: none;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-            transition: all 0.25s ease;
+            box-shadow: inset 3px 3px 0px #000000;
         }
 
         .form-group input[type="text"]:focus,
         .form-group textarea:focus {
             border-color: var(--y2k-cyan);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 15px var(--y2k-cyan-glow);
         }
 
         .form-group textarea {
@@ -502,56 +449,93 @@
             line-height: 1.5;
         }
 
-        /* Sistema de Avaliação por Estrelas Y2K */
+        /* Sistema de Avaliação Y2K Windows Box */
         .rating-wrapper {
-            background: rgba(8, 10, 25, 0.85);
-            border: 1px solid rgba(0, 240, 255, 0.25);
-            border-radius: 16px;
-            padding: 1.6rem;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            padding: 1.5rem;
             text-align: center;
             margin-bottom: 1.5rem;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
+            box-shadow: inset 3px 3px 0px #000;
         }
 
         .rating-stars {
             display: inline-flex;
-            gap: 1rem;
-            font-size: 2.5rem;
-            color: rgba(255, 255, 255, 0.2);
+            gap: 0.85rem;
+            font-size: 2.3rem;
+            color: #3b2854;
             cursor: pointer;
             margin-bottom: 0.6rem;
-        }
-
-        .rating-stars i {
-            transition: all 0.2s ease;
         }
 
         .rating-stars i:hover,
         .rating-stars i.hovered,
         .rating-stars i.active {
             color: var(--y2k-yellow);
-            text-shadow: 0 0 15px rgba(255, 230, 0, 0.8), 0 0 25px rgba(255, 170, 0, 0.5);
-            transform: scale(1.15);
+            text-shadow: 0 0 10px var(--y2k-yellow);
         }
 
         .rating-feedback-text {
-            font-family: var(--font-heading);
+            font-family: var(--font-pixel);
             font-size: 0.8rem;
             color: var(--y2k-cyan);
             min-height: 1.5rem;
             margin-top: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .char-counter {
             display: block;
             text-align: right;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
             margin-top: 0.5rem;
-            font-family: var(--font-sub);
-            font-weight: 600;
+            font-family: var(--font-retro-sub);
+        }
+
+        /* Botão 3D Windows / Y2K Pop-Art */
+        .btn {
+            background: var(--y2k-green);
+            color: #000000;
+            border: 3px solid #000000;
+            width: 100%;
+            padding: 1rem 1.4rem;
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 4px 4px 0px #ffffff, 8px 8px 0px #000000;
+            text-transform: uppercase;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: var(--y2k-yellow);
+            color: #000000;
+            box-shadow: 6px 6px 0px var(--y2k-pink), 10px 10px 0px #000000;
+            transform: translate(-2px, -2px);
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        .btn-secondary {
+            background: var(--y2k-pink);
+            color: #ffffff;
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px #ffffff, 6px 6px 0px #000000;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--y2k-cyan);
+            color: #000000;
+            box-shadow: 6px 6px 0px var(--y2k-yellow), 8px 8px 0px #000000;
         }
 
         .grid-2 {
@@ -566,19 +550,37 @@
             }
         }
 
-        /* CHAT LAYOUT ESTILO MSN LIVE MESSENGER / WINDOWS LIVE 2000s */
+        /* Chat Layout Retro Messenger Estilo Y2K / MSN */
         .whatsapp-chat-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
-            background: rgba(10, 12, 28, 0.95);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-border-light);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.15);
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            box-shadow: 10px 10px 0px #000000, 12px 12px 0px var(--y2k-pink);
             height: 600px;
             position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(15px);
+            padding-top: 28px;
+        }
+
+        .whatsapp-chat-layout::before {
+            content: " 🗔 CineMatch_Messenger.exe - [ONLINE]                 [ _ ] [ ▢ ] [ ✕ ] ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 26px;
+            background: linear-gradient(90deg, var(--y2k-green), var(--y2k-cyan));
+            color: #000000;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #000000;
         }
 
         @media(max-width: 768px) {
@@ -589,77 +591,76 @@
         }
 
         .whatsapp-sidebar {
-            background: linear-gradient(180deg, rgba(18, 20, 42, 0.95) 0%, rgba(10, 12, 28, 0.98) 100%);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0d001a;
+            border-right: 3px solid #ffffff;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
         .whatsapp-sidebar-header {
-            padding: 1.4rem 1.2rem;
-            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-            background: linear-gradient(180deg, rgba(30, 35, 70, 0.8) 0%, rgba(15, 18, 40, 0.9) 100%);
+            padding: 1.2rem;
+            border-bottom: 3px solid var(--y2k-pink);
+            background: #190033;
         }
 
         .whatsapp-sidebar-header h3 {
-            font-family: var(--font-heading);
-            font-size: 0.9rem;
-            color: var(--y2k-cyan);
-            letter-spacing: 1px;
+            font-family: var(--font-pixel);
+            font-size: 0.85rem;
+            color: var(--y2k-yellow);
         }
 
         .whatsapp-contacts-list {
             flex: 1;
             overflow-y: auto;
-            padding: 0.8rem;
+            padding: 0.6rem;
         }
 
         .whatsapp-contact-item {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 0.9rem;
-            border-radius: 14px;
-            border: 1px solid transparent;
+            padding: 0.8rem;
+            border: 2px solid transparent;
             cursor: pointer;
-            margin-bottom: 0.6rem;
-            background: rgba(20, 24, 50, 0.5);
-            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+            background: #140224;
         }
 
         .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
-            background: linear-gradient(90deg, rgba(0, 240, 255, 0.2) 0%, rgba(138, 43, 226, 0.25) 100%);
-            border-color: var(--y2k-cyan);
-            transform: translateX(3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: var(--y2k-green);
+            border-color: #000000;
+            color: #000000;
+        }
+
+        .whatsapp-contact-item:hover h4, .whatsapp-contact-item.active h4 {
+            color: #000000 !important;
         }
 
         .whatsapp-avatar {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, #00f0ff 0%, #0066ff 100%);
-            color: #ffffff;
-            border-radius: 50%;
-            border: 2px solid #ffffff;
+            width: 40px;
+            height: 40px;
+            background: var(--y2k-cyan);
+            color: #000000;
+            border: 2px solid #000000;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: 0 0 10px var(--y2k-cyan-glow);
+            box-shadow: 2px 2px 0px #ffffff;
         }
 
         .whatsapp-main-chat {
             display: flex;
             flex-direction: column;
-            background: rgba(8, 10, 24, 0.95);
+            background: #120022;
             position: relative;
         }
 
         .whatsapp-chat-header {
-            padding: 1.2rem;
-            background: linear-gradient(180deg, rgba(25, 30, 60, 0.9) 0%, rgba(12, 15, 35, 0.95) 100%);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 1rem;
+            background: #000000;
+            border-bottom: 3px solid var(--y2k-cyan);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -667,71 +668,69 @@
 
         .chat-messages {
             flex: 1;
-            padding: 1.4rem;
+            padding: 1.2rem;
             display: flex;
             flex-direction: column;
             gap: 1rem;
             overflow-y: auto;
-            background-image: radial-gradient(rgba(0, 240, 255, 0.08) 1px, transparent 0);
-            background-size: 20px 20px;
+            background-image: radial-gradient(rgba(0, 255, 102, 0.1) 1px, transparent 0);
+            background-size: 16px 16px;
         }
 
         .message {
-            max-width: 80%;
-            padding: 1rem 1.2rem;
-            border-radius: 18px;
+            max-width: 82%;
+            padding: 0.9rem 1.1rem;
+            border: 3px solid #000000;
             font-size: 0.95rem;
-            line-height: 1.45;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            line-height: 1.4;
+            box-shadow: 4px 4px 0px #000000;
             font-family: var(--font-body);
-            position: relative;
         }
 
         .message.incoming {
-            background: linear-gradient(135deg, rgba(25, 30, 60, 0.9) 0%, rgba(15, 18, 40, 0.95) 100%);
+            background: #1f0038;
             color: #ffffff;
             align-self: flex-start;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-bottom-left-radius: 4px;
+            border-color: var(--y2k-cyan);
+            box-shadow: 4px 4px 0px var(--y2k-cyan);
         }
 
         .message.outgoing {
-            background: linear-gradient(135deg, #0088ff 0%, #0044cc 100%);
-            color: #ffffff;
+            background: var(--y2k-green);
+            color: #000000;
             align-self: flex-end;
-            border: 1px solid #66b2ff;
-            border-bottom-right-radius: 4px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+            border-color: #000000;
+            box-shadow: 4px 4px 0px var(--y2k-pink);
+            font-weight: 600;
         }
 
-        /* Popup Match no Chat */
+        /* Popup de Match no Chat */
         .chat-match-card {
-            background: linear-gradient(135deg, rgba(20, 15, 45, 0.95) 0%, rgba(10, 8, 25, 0.98) 100%);
-            border: 1px solid var(--y2k-magenta);
-            border-radius: 16px;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
             padding: 1.2rem;
             margin: 0.85rem 0;
             max-width: 92%;
             align-self: center;
             width: 100%;
-            box-shadow: 0 8px 25px rgba(255, 0, 127, 0.25);
+            box-shadow: 6px 6px 0px var(--y2k-pink);
         }
 
         .chat-input-area {
             display: flex;
-            padding: 1rem;
-            background: rgba(12, 14, 32, 0.95);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem;
+            background: #000000;
+            border-top: 3px solid #ffffff;
             gap: 0.8rem;
             align-items: center;
         }
 
         .chat-input-area input {
             flex: 1;
-            padding: 0.9rem 1.2rem;
-            background: rgba(8, 10, 25, 0.9);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 25px;
+            padding: 0.8rem 1rem;
+            background: #140224;
+            border: 2px solid #ffffff;
             color: #ffffff;
             outline: none;
             font-family: var(--font-body);
@@ -739,26 +738,19 @@
         }
 
         .btn-evaluate-together {
-            background: linear-gradient(180deg, #ffe600 0%, #ff9900 100%);
-            border: 1px solid #fffaaa;
-            border-radius: 25px;
-            color: #0d0f24;
-            padding: 0.6rem 1.1rem;
-            font-family: var(--font-heading);
-            font-size: 0.7rem;
-            font-weight: 800;
+            background: var(--y2k-yellow);
+            border: 2px solid #000000;
+            color: #000000;
+            padding: 0.6rem 0.9rem;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(255, 230, 0, 0.4);
+            box-shadow: 3px 3px 0px var(--y2k-pink);
             white-space: nowrap;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-evaluate-together:hover {
-            filter: brightness(1.15);
-            transform: translateY(-1px);
+            font-weight: bold;
         }
 
         /* Resultados e Comparação */
@@ -776,89 +768,75 @@
         }
 
         .review-box {
-            background: rgba(10, 12, 28, 0.85);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 16px;
-            padding: 1.4rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            padding: 1.2rem;
+            box-shadow: 6px 6px 0px var(--y2k-pink);
         }
 
         .review-box h3 {
             color: var(--y2k-yellow);
             margin-bottom: 0.8rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: var(--font-heading);
+            font-family: var(--font-pixel);
         }
 
         .match-score-card {
             text-align: center;
-            background: linear-gradient(135deg, rgba(20, 25, 55, 0.9) 0%, rgba(10, 12, 30, 0.95) 100%);
-            border: 1px solid var(--y2k-cyan);
-            border-radius: 20px;
-            padding: 2.2rem;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
+            padding: 2rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px var(--y2k-cyan-glow);
+            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-green);
         }
 
         .match-score-card h2 {
-            font-size: 4rem;
-            font-family: var(--font-heading);
-            font-weight: 900;
-            background: linear-gradient(180deg, #ffe600 0%, #ff007f 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.6));
+            font-size: 3.8rem;
+            font-family: var(--font-pixel);
+            color: var(--y2k-yellow);
+            text-shadow: 4px 4px 0px var(--y2k-pink);
             margin-top: 0.4rem;
         }
 
         .badge {
-            background: linear-gradient(135deg, #ff007f 0%, #b000ff 100%);
+            background: var(--y2k-pink);
             color: #ffffff;
-            padding: 0.35rem 0.85rem;
-            font-family: var(--font-heading);
-            font-size: 0.65rem;
-            font-weight: 800;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 0.3rem 0.75rem;
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            border: 2px solid #ffffff;
             display: inline-block;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(255, 0, 127, 0.4);
+            box-shadow: 2px 2px 0px #000000;
         }
 
-        /* Biblioteca */
+        /* Biblioteca de Filmes Avaliados */
         .library-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
         .library-card {
-            background: rgba(10, 12, 28, 0.9);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 18px;
+            background: #000000;
+            border: 3px solid #ffffff;
+            outline: 3px solid #000000;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            transition: transform 0.2s ease;
-        }
-
-        .library-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--y2k-cyan);
-            box-shadow: 0 15px 35px rgba(0, 240, 255, 0.2);
+            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-green);
         }
 
         .library-card-header {
             display: flex;
             gap: 1rem;
             padding: 1.2rem;
-            background: linear-gradient(180deg, rgba(25, 30, 60, 0.8) 0%, rgba(12, 15, 35, 0.9) 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: #140224;
+            border-bottom: 3px solid #ffffff;
             cursor: pointer;
         }
 
@@ -866,9 +844,8 @@
             width: 70px;
             height: 100px;
             object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border: 2px solid #ffffff;
+            box-shadow: 4px 4px 0px #000000;
         }
 
         .library-card-body {
@@ -877,33 +854,49 @@
             flex-direction: column;
             gap: 1rem;
             flex: 1;
+            background: #0d001a;
         }
 
         .library-review-item {
-            background: rgba(8, 10, 25, 0.8);
-            padding: 0.9rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #000000;
+            padding: 0.8rem;
+            border: 2px solid var(--y2k-purple);
         }
 
-        /* TOAST ALERT NOTIFICATION ESTILO POPUP MSN/WINDOWS 2000s */
+        /* POPUP TOAST SYSTEM ALERT */
         .toast-notification {
             position: fixed;
             bottom: 28px;
             right: 28px;
-            background: linear-gradient(135deg, rgba(20, 25, 55, 0.95) 0%, rgba(10, 12, 30, 0.98) 100%);
-            color: #ffffff;
-            padding: 1.2rem 1.6rem;
-            border-radius: 16px;
-            border: 1px solid var(--y2k-cyan);
-            font-family: var(--font-heading);
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--y2k-cyan-glow);
+            background: var(--y2k-yellow);
+            color: #000000;
+            padding: 2.2rem 1.4rem 1rem 1.4rem;
+            border: 3px solid #000000;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            font-weight: bold;
+            box-shadow: 8px 8px 0px #000000, 8px 8px 0px 2px var(--y2k-pink);
             z-index: 100000;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease;
+        }
+
+        /* Barra de Título do Alert Popup */
+        .toast-notification::before {
+            content: " ⚠️ System_Alert.exe                               [ ✕ ] ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 22px;
+            background: var(--y2k-pink);
+            color: #ffffff;
+            font-family: var(--font-pixel);
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            border-bottom: 2px solid #000;
         }
 
         .hidden {
@@ -916,18 +909,17 @@
                 padding: 1rem 0.5rem;
             }
             header h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
             .card {
-                padding: 2.2rem 1.2rem 1.4rem 1.2rem;
+                padding: 2.2rem 1rem 1.2rem 1rem;
             }
             .nav-bar {
                 gap: 0.4rem;
-                border-radius: 25px;
             }
             .nav-btn {
-                padding: 0.65rem 1rem;
-                font-size: 0.68rem;
+                padding: 0.6rem 0.8rem;
+                font-size: 0.65rem;
             }
         }
     </style>
@@ -952,7 +944,7 @@
             <h3>Bem-vindo ao CineMatch</h3>
             <p style="color: var(--text-muted); margin-top: 0.6rem; font-size: 1.05rem;">Faça login com sua conta Google para continuar</p>
             <button id="googleLoginBtn" class="btn-google">
-                <i class="fa-brands fa-google" style="color: #0b0e24;"></i> Entrar com o Google
+                <i class="fa-brands fa-google" style="color: #000000;"></i> Entrar com o Google
             </button>
         </div>
 
@@ -973,11 +965,11 @@
         <!-- VIEW 1: SESSÃO ATIVA -->
         <div id="view-session" class="app-view hidden">
             <!-- Info da Sala Ativa -->
-            <div class="card" id="roomInfoCard" style="background: rgba(10, 12, 28, 0.9);">
+            <div class="card" id="roomInfoCard" style="background: #000000;">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
                     <div>
                         <span class="badge">SESSÃO ATIVA</span>
-                        <h4 id="activeRoomName" style="margin-top: 0.6rem; font-family: var(--font-heading); font-size: 0.95rem; color: var(--y2k-yellow);">Sessão Principal</h4>
+                        <h4 id="activeRoomName" style="margin-top: 0.6rem; font-family: var(--font-pixel); font-size: 0.95rem; color: var(--y2k-yellow);">Sessão Principal</h4>
                     </div>
                     <button id="btnLeaveRoom" class="btn btn-secondary" style="width: auto; padding: 0.6rem 1.1rem; font-size: 0.7rem;">Voltar à Sessão Padrão</button>
                 </div>
@@ -990,8 +982,8 @@
                 <div id="selectedMovieContainer" class="selected-movie-preview hidden">
                     <img id="selectedMoviePoster" src="" alt="Poster">
                     <div style="flex: 1; min-width: 0;">
-                        <h3 id="selectedMovieTitle" style="color:var(--text-main); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
-                        <p id="selectedMovieYear" style="color:var(--y2k-yellow); font-family: var(--font-sub); font-size: 1.15rem; font-weight: 700; margin-top: 0.3rem;"></p>
+                        <h3 id="selectedMovieTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
+                        <p id="selectedMovieYear" style="color:var(--y2k-yellow); font-family: var(--font-retro-sub); font-size: 1.15rem; margin-top: 0.3rem;"></p>
                     </div>
                     <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.6rem 1rem; font-size: 0.7rem;"><i class="fa-solid fa-pen"></i> Alterar</button>
                 </div>
@@ -1009,7 +1001,7 @@
                 
                 <form id="reviewForm">
                     <div class="rating-wrapper">
-                        <label style="display: block; color: var(--y2k-yellow); font-family: var(--font-heading); font-size: 0.75rem; margin-bottom: 0.6rem;">Toque nas estrelas para avaliar</label>
+                        <label style="display: block; color: var(--y2k-yellow); font-family: var(--font-pixel); font-size: 0.75rem; margin-bottom: 0.6rem;">Toque nas estrelas para avaliar</label>
                         <div class="rating-stars" id="starContainer">
                             <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
                             <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
@@ -1033,10 +1025,10 @@
 
             <!-- ETAPA 4: Comparação e Afinidade -->
             <div id="step-results" class="card hidden">
-                <h3 style="margin-bottom: 1.2rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--y2k-magenta); margin-right: 8px;"></i> Resultado do Match</h3>
+                <h3 style="margin-bottom: 1.2rem; text-align: center;"><i class="fa-solid fa-fire" style="color: var(--y2k-pink); margin-right: 8px;"></i> Resultado do Match</h3>
                 
                 <div class="match-score-card">
-                    <p style="color: var(--y2k-cyan); font-family: var(--font-heading); font-size: 0.8rem; text-transform: uppercase;">Compatibilidade de Gosto</p>
+                    <p style="color: var(--y2k-cyan); font-family: var(--font-pixel); font-size: 0.8rem; text-transform: uppercase;">Compatibilidade de Gosto</p>
                     <h2 id="matchPercentage">0%</h2>
                 </div>
 
@@ -1065,7 +1057,7 @@
                     <div class="whatsapp-chat-header">
                         <div style="display: flex; align-items: center; gap: 0.85rem;">
                             <div class="whatsapp-avatar" style="width: 38px; height: 38px; font-size: 0.9rem;"><i class="fa-solid fa-user"></i></div>
-                            <h4 id="activeChatTitle" style="color: var(--text-main); font-family: var(--font-heading); font-size: 0.8rem;">Selecione um chat</h4>
+                            <h4 id="activeChatTitle" style="color: var(--text-bright); font-family: var(--font-pixel); font-size: 0.8rem;">Selecione um chat</h4>
                         </div>
                         <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
                             <i class="fa-solid fa-film"></i> Avaliar Juntos
@@ -1097,7 +1089,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs e Lógica Completa (100% Inalterados) -->
+    <!-- Firebase SDKs e Lógica Completa (Totalmente Inalterados) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -1536,13 +1528,13 @@
             container.innerHTML = `
                 <div class="review-box">
                     <h3>@${rev1.name} <span>${'★'.repeat(rev1.rating)}${'☆'.repeat(5 - rev1.rating)}</span></h3>
-                    <p style="color: var(--y2k-magenta); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev1.rating} de 5 estrelas</p>
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);">"${rev1.comment}"</p>
+                    <p style="color: var(--y2k-pink); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev1.rating} de 5 estrelas</p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-bright);">"${rev1.comment}"</p>
                 </div>
                 <div class="review-box">
                     <h3>@${rev2.name} <span>${'★'.repeat(rev2.rating)}${'☆'.repeat(5 - rev2.rating)}</span></h3>
-                    <p style="color: var(--y2k-magenta); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev2.rating} de 5 estrelas</p>
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main);">"${rev2.comment}"</p>
+                    <p style="color: var(--y2k-pink); font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev2.rating} de 5 estrelas</p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-bright);">"${rev2.comment}"</p>
                 </div>
             `;
         }
@@ -1587,10 +1579,10 @@
                             <div class="library-review-item">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                                     <strong style="color: var(--y2k-yellow); font-size: 0.85rem;">@${r.name}</strong>
-                                    <span style="color: var(--y2k-magenta); font-size: 0.8rem;">${'★'.repeat(r.rating)}</span>
+                                    <span style="color: var(--y2k-pink); font-size: 0.8rem;">${'★'.repeat(r.rating)}</span>
                                 </div>
-                                <p style="font-size: 0.85rem; color: var(--text-main);">"${r.comment}"</p>
-                                ${isMine ? `<button class="btn btn-secondary" style="margin-top: 8px; padding: 0.35rem 0.7rem; font-size: 0.65rem; width: auto;" onclick="editLibraryReview('${item.roomId}')"><i class="fa-solid fa-pen"></i> Editar Minha Avaliação</button>` : ''}
+                                <p style="font-size: 0.85rem; color: var(--text-bright);">"${r.comment}"</p>
+                                ${isMine ? `<button class="btn btn-secondary" style="margin-top: 6px; padding: 0.3rem 0.6rem; font-size: 0.65rem; width: auto;" onclick="editLibraryReview('${item.roomId}')"><i class="fa-solid fa-pen"></i> Editar Minha Avaliação</button>` : ''}
                             </div>
                         `;
                     });
@@ -1599,8 +1591,8 @@
                         <div class="library-card-header" onclick="goToLibraryRoom('${item.roomId}')" title="Clique para abrir a sessão">
                             <img src="${item.movie.poster}" alt="${item.movie.title}">
                             <div style="flex: 1; min-width: 0;">
-                                <h4 style="color: var(--text-main); font-family: var(--font-heading); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.movie.title}</h4>
-                                <span style="font-size: 0.85rem; color: var(--y2k-yellow); font-family: var(--font-sub); font-weight: 700;">Ano: ${item.movie.year}</span>
+                                <h4 style="color: var(--text-bright); font-family: var(--font-pixel); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.movie.title}</h4>
+                                <span style="font-size: 0.85rem; color: var(--y2k-yellow); font-family: var(--font-retro-sub);">Ano: ${item.movie.year}</span>
                                 <div style="margin-top: 8px;"><span class="badge">Biblioteca</span></div>
                             </div>
                         </div>
@@ -1647,7 +1639,7 @@
                     div.innerHTML = `
                         <div class="whatsapp-avatar"><i class="fa-solid fa-user"></i></div>
                         <div style="flex: 1; min-width: 0;">
-                            <h4 style="font-size: 0.85rem; color: var(--text-main); font-family: var(--font-heading);">@${u.nametag}</h4>
+                            <h4 style="font-size: 0.85rem; color: var(--text-bright); font-family: var(--font-pixel);">@${u.nametag}</h4>
                             <span style="font-size: 0.75rem; color: var(--text-muted);">Clique para conversar</span>
                         </div>
                     `;
@@ -1691,13 +1683,13 @@
                         matchPopup.className = 'chat-match-card';
                         matchPopup.innerHTML = `
                             <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
-                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #fff;">
+                                <img src="${roomData.movie.poster}" style="width: 40px; height: 60px; object-fit: cover; border: 2px solid #fff;">
                                 <div>
-                                    <h5 style="color:var(--y2k-yellow); font-family:var(--font-heading); font-size:0.75rem;">Match: ${roomData.movie.title}</h5>
+                                    <h5 style="color:var(--y2k-yellow); font-family:var(--font-pixel); font-size:0.75rem;">Match: ${roomData.movie.title}</h5>
                                     <span style="font-size:0.8rem; color:var(--y2k-cyan);">Compatibilidade: <strong>${similarity}%</strong></span>
                                 </div>
                             </div>
-                            <div style="font-size:0.85rem; color:var(--text-main); margin-top: 6px;">
+                            <div style="font-size:0.85rem; color:var(--text-bright); margin-top: 6px;">
                                 <p><strong>@${revs[0].name}:</strong> ${'★'.repeat(revs[0].rating)} - "${revs[0].comment}"</p>
                                 <p style="margin-top:4px;"><strong>@${revs[1].name}:</strong> ${'★'.repeat(revs[1].rating)} - "${revs[1].comment}"</p>
                             </div>
