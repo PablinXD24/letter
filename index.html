@@ -821,54 +821,6 @@
             transform: scale(1.1);
         }
 
-        /* Estilo do Carrossel Horizontal de Miniaturas (Filmes Assistidos) */
-        .watched-carousel-section {
-            background: #fff;
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: var(--box-shadow-lg);
-            margin-bottom: 20px;
-        }
-
-        .watched-carousel-container {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            scroll-behavior: smooth;
-        }
-
-        .watched-carousel-card {
-            min-width: 110px;
-            width: 110px;
-            background: #fff;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            padding: 8px;
-            box-shadow: 2px 2px 0px #111;
-            cursor: pointer;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
-        }
-
-        .watched-carousel-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0px #111;
-        }
-
-        .watched-carousel-card img {
-            width: 100%;
-            aspect-ratio: 2 / 3;
-            object-fit: cover;
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
-            background-color: #000;
-        }
-
         /* CARROSSEL COVERFLOW 3D ESTILO NEO-BRUTALIST (SEM BOX DE FUNDO) */
         .featured-hero-carousel {
             background: transparent;
@@ -1036,18 +988,10 @@
             </form>
         </div>
 
-        <!-- VIEW 1: SESSÃO ATIVA (HUB DE BEM-VINDO & AVALIAÇÃO) -->
+        <!-- VIEW 1: SESSÃO ATIVA (HUB DE BEM-VINDO & CARROSSEL) -->
         <div id="view-session" class="app-view hidden">
             
-            <!-- Carrossel Horizontal de Filmes Já Assistidos -->
-            <div class="watched-carousel-section" id="watchedCarouselSection">
-                <h3 style="font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clapperboard" style="color: var(--orange);"></i> Filmes Já Assistidos</h3>
-                <div class="watched-carousel-container" id="watchedCarouselContainer">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme assistido ainda.</p>
-                </div>
-            </div>
-
-            <!-- CARROSSEL COVERFLOW 3D INFINITO (CENTRO GRANDE, 2 LADOS MENORES E DEPOIS MENORES AINDA, SEM BOX DE FUNDO) -->
+            <!-- CARROSSEL COVERFLOW 3D INFINITO -->
             <div class="featured-hero-carousel" id="featuredHeroCarouselSection">
                 <div class="coverflow-stage" id="coverflowStage">
                     <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>
@@ -1059,7 +1003,7 @@
                 <button id="btnLeaveRoom"></button>
             </div>
 
-            <!-- HUB / SALA DE BEM-VINDO (Box único inicial) -->
+            <!-- HUB / SALA DE BEM-VINDO (Box único inicial com o botão de ver a próxima sessão) -->
             <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--yellow); cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha de filme para avaliar juntos">
                 <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: var(--border-color); margin-bottom: 12px;"></i>
                 <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px;">Veja a próxima sessão com @amigo</h3>
@@ -2013,9 +1957,6 @@
                 const container = document.getElementById('libraryGridContainer');
                 container.innerHTML = '';
 
-                const watchedCarouselContainer = document.getElementById('watchedCarouselContainer');
-                watchedCarouselContainer.innerHTML = '';
-
                 const uniqueMoviesMap = new Map();
                 Object.keys(data).forEach(k => {
                     const item = data[k];
@@ -2033,7 +1974,6 @@
 
                 if (validLibraryItems.length === 0) {
                     container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
-                    watchedCarouselContainer.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme assistido ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
                     featuredMoviesList = [];
                     if (featuredInterval) clearInterval(featuredInterval);
@@ -2058,16 +1998,6 @@
                     if (posterHighRes && posterHighRes.includes('/w92/')) {
                         posterHighRes = posterHighRes.replace('/w92/', '/w500/');
                     }
-
-                    const carouselCard = document.createElement('div');
-                    carouselCard.className = 'watched-carousel-card';
-                    carouselCard.title = `${item.movie.title} - Clique para ver detalhes`;
-                    carouselCard.innerHTML = `
-                        <img src="${posterHighRes}" alt="${item.movie.title}">
-                        <span style="font-size: 10px; font-weight: 800; color: var(--border-color); margin-top: 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${item.movie.title}</span>
-                    `;
-                    carouselCard.addEventListener('click', () => openLibraryModal(k));
-                    watchedCarouselContainer.appendChild(carouselCard);
 
                     const card = document.createElement('div');
                     card.className = 'library-card';
@@ -2126,11 +2056,9 @@
             stage.innerHTML = '';
             const total = featuredMoviesList.length;
 
-            // Renderiza todos os itens posicionados com base no índice atual
             featuredMoviesList.forEach((entry, idx) => {
                 let diff = idx - currentFeaturedIndex;
 
-                // Garante loop infinito circular correto
                 if (diff > total / 2) diff -= total;
                 if (diff < -total / 2) diff += total;
 
