@@ -102,15 +102,6 @@
             text-align: left;
         }
 
-        .breadcrumb {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #666;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
         header h1 {
             font-size: 44px;
             font-weight: 800;
@@ -886,11 +877,10 @@
 <body>
 
     <div class="container" id="mainContainerSwipe">
-        <!-- HEADER / HERO -->
+        <!-- HEADER / HERO (Apenas o Título) -->
         <header>
             <div class="floating-logo-box">
                 <div class="hero-content-left">
-                    <div class="breadcrumb">Cine Operations • Y2K & Timeless Edition</div>
                     <h1>Cine<span>Mozi</span></h1>
                 </div>
                 <div class="hero-sidebar-sun">
@@ -899,9 +889,9 @@
             </div>
         </header>
 
-        <!-- Menu de Navegação Superior Integrado -->
+        <!-- Menu de Navegação Superior Integrado (Hub de Sessão renomeado no botão) -->
         <div id="socialNavbar" class="nav-bar hidden">
-            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
+            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-layer-group"></i> Hub de Sessão</button>
             <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
             <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
             <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
@@ -935,12 +925,22 @@
             </form>
         </div>
 
-        <!-- VIEW 1: SESSÃO ATIVA -->
+        <!-- VIEW 1: HUB DE SESSÃO -->
         <div id="view-session" class="app-view hidden">
             
-            <div id="roomInfoCard" style="display: none !important;">
-                <span id="activeRoomName"></span>
-                <button id="btnLeaveRoom"></button>
+            <!-- Barra de Status da Sala Ativa / Hub Navigation -->
+            <div id="roomHubHeader" class="card" style="background: #faf7f0; margin-bottom: 24px; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-tower-broadcast" style="color: var(--orange); font-size: 1.2rem;"></i>
+                    <div>
+                        <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); display: block;">Sala Ativa</span>
+                        <span id="activeRoomName" style="font-weight: 800; font-size: 15px; color: var(--border-color);">Sessão Principal</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button id="btnSwitchToMainRoom" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-house"></i> Sessão Principal</button>
+                    <button id="btnLeaveRoom" class="btn btn-danger hidden" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-right-from-bracket"></i> Sair da Sala</button>
+                </div>
             </div>
 
             <!-- Poster e Pesquisa de Filme -->
@@ -1466,6 +1466,8 @@
         const stepReview = document.getElementById('step-review');
         const stepResults = document.getElementById('step-results');
         const activeRoomName = document.getElementById('activeRoomName');
+        const btnLeaveRoom = document.getElementById('btnLeaveRoom');
+        const btnSwitchToMainRoom = document.getElementById('btnSwitchToMainRoom');
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -1480,7 +1482,15 @@
 
         function initRoomSession(rId) {
             activeRoomId = rId;
-            activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Conjunta com Colega`;
+            if (rId === "sessao_filme_principal") {
+                activeRoomName.textContent = "Sessão Principal";
+                btnLeaveRoom.classList.add('hidden');
+                btnSwitchToMainRoom.classList.add('hidden');
+            } else {
+                activeRoomName.textContent = "Sala Conjunta com Colega";
+                btnLeaveRoom.classList.remove('hidden');
+                btnSwitchToMainRoom.classList.remove('hidden');
+            }
             
             const roomRef = ref(db, `rooms/${activeRoomId}`);
 
@@ -1538,7 +1548,11 @@
             movieSearchInput.focus();
         });
 
-        document.getElementById('btnLeaveRoom').addEventListener('click', () => {
+        btnLeaveRoom.addEventListener('click', () => {
+            initRoomSession("sessao_filme_principal");
+        });
+
+        btnSwitchToMainRoom.addEventListener('click', () => {
             initRoomSession("sessao_filme_principal");
         });
 
