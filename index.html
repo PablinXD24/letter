@@ -78,7 +78,7 @@
             z-index: 2;
         }
 
-        /* Header / Hero Principal Estilo Timeless */
+        /* Header / Hero Principal Estilo Timeless (Apenas Título) */
         header {
             text-align: center;
             margin-bottom: 0;
@@ -92,14 +92,24 @@
             padding: 30px;
             box-shadow: var(--box-shadow-lg);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
         .hero-content-left {
-            text-align: left;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
 
         header h1 {
@@ -117,37 +127,6 @@
             border: none;
             display: inline-block;
             box-shadow: none;
-        }
-
-        .hero-sidebar-sun {
-            background-color: var(--blue);
-            border: var(--border-width) solid var(--border-color);
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            box-shadow: 3px 3px 0px #111;
-            flex-shrink: 0;
-        }
-
-        .hero-sidebar-sun::before {
-            content: '';
-            position: absolute;
-            inset: -6px;
-            border-radius: 50%;
-            border: 2px dashed var(--border-color);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .hero-sidebar-sun .boat {
-            font-size: 36px;
         }
 
         /* Navegação Abas Estilo Timeless Pill / Tags */
@@ -877,21 +856,19 @@
 <body>
 
     <div class="container" id="mainContainerSwipe">
-        <!-- HEADER / HERO (Apenas o Título) -->
+        <!-- HEADER / HERO (Título limpo, sem imagem à direita) -->
         <header>
             <div class="floating-logo-box">
                 <div class="hero-content-left">
+                    <div class="breadcrumb">Cine Operations • Y2K & Timeless Edition</div>
                     <h1>Cine<span>Mozi</span></h1>
-                </div>
-                <div class="hero-sidebar-sun">
-                    <div class="boat">🍿</div>
                 </div>
             </div>
         </header>
 
-        <!-- Menu de Navegação Superior Integrado (Hub de Sessão renomeado no botão) -->
+        <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
-            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-layer-group"></i> Hub de Sessão</button>
+            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-house-chimney"></i> Hub & Início</button>
             <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
             <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
             <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
@@ -925,25 +902,36 @@
             </form>
         </div>
 
-        <!-- VIEW 1: HUB DE SESSÃO -->
+        <!-- VIEW 1: HUB / SALA DE BEM-VINDO (Substituindo antiga Minha Sessão) -->
         <div id="view-session" class="app-view hidden">
             
-            <!-- Barra de Status da Sala Ativa / Hub Navigation -->
-            <div id="roomHubHeader" class="card" style="background: #faf7f0; margin-bottom: 24px; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fa-solid fa-tower-broadcast" style="color: var(--orange); font-size: 1.2rem;"></i>
-                    <div>
-                        <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); display: block;">Sala Ativa</span>
-                        <span id="activeRoomName" style="font-weight: 800; font-size: 15px; color: var(--border-color);">Sessão Principal</span>
+            <div id="roomInfoCard" style="display: none !important;">
+                <span id="activeRoomName"></span>
+                <button id="btnLeaveRoom"></button>
+            </div>
+
+            <!-- Sala de Bem-Vindo / Hub com o Box Dinâmico -->
+            <div class="card" style="text-align: center; padding: 35px 20px;">
+                <h3 style="font-size: 26px; margin-bottom: 10px;"><i class="fa-solid fa-door-open" style="margin-right: 8px; color: var(--orange);"></i> Sala de Bem-Vindo</h3>
+                <p style="color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 24px;">Explore suas conexões e gerencie sua experiência cinematográfica.</p>
+
+                <!-- Box solicitado com o nome da pessoa conectada -->
+                <div id="nextSessionBox" style="background: #fff; border: var(--border-width) solid var(--border-color); border-radius: 14px; padding: 24px; max-width: 480px; margin: 0 auto; box-shadow: var(--box-shadow); text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
+                        <div class="whatsapp-avatar" style="width: 44px; height: 44px; font-size: 16px; background: var(--green);"><i class="fa-solid fa-film"></i></div>
+                        <div>
+                            <h4 style="font-size: 15px; font-weight: 800; color: var(--border-color); margin: 0;">Próxima Sessão</h4>
+                            <span id="nextSessionSubtitle" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Conexão ativa encontrada</span>
+                        </div>
                     </div>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button id="btnSwitchToMainRoom" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-house"></i> Sessão Principal</button>
-                    <button id="btnLeaveRoom" class="btn btn-danger hidden" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-right-from-bracket"></i> Sair da Sala</button>
+                    <p id="nextSessionConnectionText" style="font-size: 14px; font-weight: 700; color: var(--border-color); margin-bottom: 16px; background: #faf7f0; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px;">
+                        Carregando conexão...
+                    </p>
+                    <button id="btnGoToChatConnections" class="btn" style="width: 100%;"><i class="fa-solid fa-comments" style="margin-right: 6px;"></i> Ir para Chats & Conexões</button>
                 </div>
             </div>
 
-            <!-- Poster e Pesquisa de Filme -->
+            <!-- Poster e Pesquisa de Filme (Mantido funcionalidade integrada) -->
             <div id="step-movie" class="card">
                 <h3 style="margin-bottom: 1.2rem;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
                 
@@ -1441,6 +1429,7 @@
             initRoomSession(activeRoomId);
             loadChatContacts();
             loadLibrary();
+            updateHubNextSession();
         }
 
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
@@ -1466,8 +1455,6 @@
         const stepReview = document.getElementById('step-review');
         const stepResults = document.getElementById('step-results');
         const activeRoomName = document.getElementById('activeRoomName');
-        const btnLeaveRoom = document.getElementById('btnLeaveRoom');
-        const btnSwitchToMainRoom = document.getElementById('btnSwitchToMainRoom');
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -1482,15 +1469,7 @@
 
         function initRoomSession(rId) {
             activeRoomId = rId;
-            if (rId === "sessao_filme_principal") {
-                activeRoomName.textContent = "Sessão Principal";
-                btnLeaveRoom.classList.add('hidden');
-                btnSwitchToMainRoom.classList.add('hidden');
-            } else {
-                activeRoomName.textContent = "Sala Conjunta com Colega";
-                btnLeaveRoom.classList.remove('hidden');
-                btnSwitchToMainRoom.classList.remove('hidden');
-            }
+            activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Conjunta com Colega`;
             
             const roomRef = ref(db, `rooms/${activeRoomId}`);
 
@@ -1548,11 +1527,7 @@
             movieSearchInput.focus();
         });
 
-        btnLeaveRoom.addEventListener('click', () => {
-            initRoomSession("sessao_filme_principal");
-        });
-
-        btnSwitchToMainRoom.addEventListener('click', () => {
+        document.getElementById('btnLeaveRoom').addEventListener('click', () => {
             initRoomSession("sessao_filme_principal");
         });
 
@@ -2075,6 +2050,7 @@
 
                 friendNametagInput.value = '';
                 showToast(`Amigo @${friendTag} adicionado com sucesso!`);
+                updateHubNextSession();
             } catch (err) {
                 console.error("Erro ao adicionar amigo:", err);
                 alert("Erro ao adicionar amigo.");
@@ -2086,6 +2062,7 @@
             onValue(friendsRef, (snapshot) => {
                 const friends = snapshot.val() || {};
                 chatContactsList.innerHTML = '';
+                updateHubNextSession();
 
                 const keys = Object.keys(friends);
                 if (keys.length === 0) {
@@ -2115,6 +2092,31 @@
                 });
             });
         }
+
+        function updateHubNextSession() {
+            const nextSessionConnectionText = document.getElementById('nextSessionConnectionText');
+            if (!currentUser) return;
+
+            const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
+            get(friendsRef).then((snapshot) => {
+                const friends = snapshot.val() || {};
+                const friendKeys = Object.keys(friends);
+
+                if (friendKeys.length > 0) {
+                    // Pega o primeiro amigo conectado/adicionado para exibir no box de boas-vindas
+                    const firstFriend = friends[friendKeys[0]];
+                    nextSessionConnectionText.innerHTML = `Veja a próxima sessão com <strong>@${firstFriend.nametag}</strong>`;
+                } else {
+                    nextSessionConnectionText.innerHTML = `Nenhuma conexão ativa no momento. Adicione amigos na aba de Chats!`;
+                }
+            }).catch(() => {
+                nextSessionConnectionText.innerHTML = `Nenhuma conexão encontrada.`;
+            });
+        }
+
+        document.getElementById('btnGoToChatConnections').addEventListener('click', () => {
+            switchTab('view-chats');
+        });
 
         function setActiveChat(fUid, fNametag) {
             activeChatUserId = fUid;
