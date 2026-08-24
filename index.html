@@ -89,27 +89,17 @@
             background: var(--card-bg);
             border: var(--border-width) solid var(--border-color);
             border-radius: 16px;
-            padding: 30px;
+            padding: 24px 30px;
             box-shadow: var(--box-shadow-lg);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
-            text-align: center;
         }
 
         .hero-content-left {
             text-align: center;
-        }
-
-        .breadcrumb {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #666;
-            margin-bottom: 8px;
-            text-transform: uppercase;
         }
 
         header h1 {
@@ -856,11 +846,10 @@
 <body>
 
     <div class="container" id="mainContainerSwipe">
-        <!-- HEADER / HERO (Título limpo, sem imagem à direita) -->
+        <!-- HEADER / HERO (Apenas Título) -->
         <header>
             <div class="floating-logo-box">
                 <div class="hero-content-left">
-                    <div class="breadcrumb">Cine Operations • Y2K & Timeless Edition</div>
                     <h1>Cine<span>Mozi</span></h1>
                 </div>
             </div>
@@ -868,7 +857,7 @@
 
         <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
-            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-house-chimney"></i> Hub & Início</button>
+            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
             <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
             <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
             <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
@@ -902,7 +891,7 @@
             </form>
         </div>
 
-        <!-- VIEW 1: HUB / SALA DE BEM-VINDO (Substituindo antiga Minha Sessão) -->
+        <!-- VIEW 1: SESSÃO ATIVA (HUB DE BEM-VINDO & AVALIAÇÃO) -->
         <div id="view-session" class="app-view hidden">
             
             <div id="roomInfoCard" style="display: none !important;">
@@ -910,30 +899,19 @@
                 <button id="btnLeaveRoom"></button>
             </div>
 
-            <!-- Sala de Bem-Vindo / Hub com o Box Dinâmico -->
-            <div class="card" style="text-align: center; padding: 35px 20px;">
-                <h3 style="font-size: 26px; margin-bottom: 10px;"><i class="fa-solid fa-door-open" style="margin-right: 8px; color: var(--orange);"></i> Sala de Bem-Vindo</h3>
-                <p style="color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 24px;">Explore suas conexões e gerencie sua experiência cinematográfica.</p>
-
-                <!-- Box solicitado com o nome da pessoa conectada -->
-                <div id="nextSessionBox" style="background: #fff; border: var(--border-width) solid var(--border-color); border-radius: 14px; padding: 24px; max-width: 480px; margin: 0 auto; box-shadow: var(--box-shadow); text-align: left;">
-                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
-                        <div class="whatsapp-avatar" style="width: 44px; height: 44px; font-size: 16px; background: var(--green);"><i class="fa-solid fa-film"></i></div>
-                        <div>
-                            <h4 style="font-size: 15px; font-weight: 800; color: var(--border-color); margin: 0;">Próxima Sessão</h4>
-                            <span id="nextSessionSubtitle" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Conexão ativa encontrada</span>
-                        </div>
-                    </div>
-                    <p id="nextSessionConnectionText" style="font-size: 14px; font-weight: 700; color: var(--border-color); margin-bottom: 16px; background: #faf7f0; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px;">
-                        Carregando conexão...
-                    </p>
-                    <button id="btnGoToChatConnections" class="btn" style="width: 100%;"><i class="fa-solid fa-comments" style="margin-right: 6px;"></i> Ir para Chats & Conexões</button>
-                </div>
+            <!-- HUB / SALA DE BEM-VINDO (Box único inicial) -->
+            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--yellow); cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha de filme para avaliar juntos">
+                <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: var(--border-color); margin-bottom: 12px;"></i>
+                <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px;">Veja a próxima sessão com @amigo</h3>
+                <p style="font-size: 13px; font-weight: 700; color: var(--text-dark);">Clique aqui para escolher o filme e avaliarem juntos!</p>
             </div>
 
-            <!-- Poster e Pesquisa de Filme (Mantido funcionalidade integrada) -->
-            <div id="step-movie" class="card">
-                <h3 style="margin-bottom: 1.2rem;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
+            <!-- Poster e Pesquisa de Filme (Conteúdo da Sessão) -->
+            <div id="step-movie" class="card hidden" style="margin-top: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+                    <h3 style="margin-bottom: 0;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
+                    <button id="btnBackToHub" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;"><i class="fa-solid fa-arrow-left"></i> Voltar ao Hub</button>
+                </div>
                 
                 <div id="selectedMovieContainer" class="selected-movie-preview hidden">
                     <img id="selectedMoviePoster" src="" alt="Poster">
@@ -1137,6 +1115,8 @@
         let activeChatUserId = null;
         let activeChatNametag = null;
         let currentModalLibraryId = null;
+        let connectedConnectionUid = null;
+        let connectedConnectionNametag = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1429,7 +1409,7 @@
             initRoomSession(activeRoomId);
             loadChatContacts();
             loadLibrary();
-            updateHubNextSession();
+            loadHubConnection();
         }
 
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
@@ -1455,6 +1435,10 @@
         const stepReview = document.getElementById('step-review');
         const stepResults = document.getElementById('step-results');
         const activeRoomName = document.getElementById('activeRoomName');
+        const stepMovie = document.getElementById('step-movie');
+        const hubWelcomeBox = document.getElementById('hubWelcomeBox');
+        const hubWelcomeTitle = document.getElementById('hubWelcomeTitle');
+        const btnBackToHub = document.getElementById('btnBackToHub');
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -1466,6 +1450,59 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
+
+        function loadHubConnection() {
+            const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
+            onValue(friendsRef, (snapshot) => {
+                const friends = snapshot.val() || {};
+                const keys = Object.keys(friends);
+                if (keys.length > 0) {
+                    // Pega o primeiro amigo/conexão disponível para exibir no hub
+                    const firstFriendUid = keys[0];
+                    const friendData = friends[firstFriendUid];
+                    connectedConnectionUid = friendData.uid;
+                    connectedConnectionNametag = friendData.nametag;
+                    hubWelcomeTitle.textContent = `Veja a próxima sessão com @${friendData.nametag}`;
+                } else {
+                    connectedConnectionUid = null;
+                    connectedConnectionNametag = null;
+                    hubWelcomeTitle.textContent = "Adicione amigos para ver a próxima sessão";
+                }
+            });
+        }
+
+        hubWelcomeBox.addEventListener('click', async () => {
+            if (!connectedConnectionUid) {
+                alert("Você precisa adicionar pelo menos um amigo na aba 'Chats & Conexões' para abrir uma sessão conjunta!");
+                switchTab('view-chats');
+                return;
+            }
+
+            const sharedRoomId = getChatRoomId(currentUser.uid, connectedConnectionUid);
+            try {
+                await update(ref(db, `rooms/${sharedRoomId}`), {
+                    createdPair: [currentUser.uid, connectedConnectionUid],
+                    updatedAt: Date.now()
+                });
+
+                activeRoomId = sharedRoomId;
+                hubWelcomeBox.classList.add('hidden');
+                stepMovie.classList.remove('hidden');
+                initRoomSession(activeRoomId);
+                showToast(`Sala de sessão aberta com @${connectedConnectionNametag}!`);
+            } catch (err) {
+                console.error("Erro ao abrir sala conjunta:", err);
+                alert("Erro ao abrir sessão.");
+            }
+        });
+
+        btnBackToHub.addEventListener('click', () => {
+            stepMovie.classList.add('hidden');
+            stepReview.classList.add('hidden');
+            stepResults.classList.add('hidden');
+            hubWelcomeBox.classList.remove('hidden');
+            activeRoomId = "sessao_filme_principal";
+        });
 
         function initRoomSession(rId) {
             activeRoomId = rId;
@@ -2050,7 +2087,6 @@
 
                 friendNametagInput.value = '';
                 showToast(`Amigo @${friendTag} adicionado com sucesso!`);
-                updateHubNextSession();
             } catch (err) {
                 console.error("Erro ao adicionar amigo:", err);
                 alert("Erro ao adicionar amigo.");
@@ -2062,7 +2098,6 @@
             onValue(friendsRef, (snapshot) => {
                 const friends = snapshot.val() || {};
                 chatContactsList.innerHTML = '';
-                updateHubNextSession();
 
                 const keys = Object.keys(friends);
                 if (keys.length === 0) {
@@ -2092,31 +2127,6 @@
                 });
             });
         }
-
-        function updateHubNextSession() {
-            const nextSessionConnectionText = document.getElementById('nextSessionConnectionText');
-            if (!currentUser) return;
-
-            const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
-            get(friendsRef).then((snapshot) => {
-                const friends = snapshot.val() || {};
-                const friendKeys = Object.keys(friends);
-
-                if (friendKeys.length > 0) {
-                    // Pega o primeiro amigo conectado/adicionado para exibir no box de boas-vindas
-                    const firstFriend = friends[friendKeys[0]];
-                    nextSessionConnectionText.innerHTML = `Veja a próxima sessão com <strong>@${firstFriend.nametag}</strong>`;
-                } else {
-                    nextSessionConnectionText.innerHTML = `Nenhuma conexão ativa no momento. Adicione amigos na aba de Chats!`;
-                }
-            }).catch(() => {
-                nextSessionConnectionText.innerHTML = `Nenhuma conexão encontrada.`;
-            });
-        }
-
-        document.getElementById('btnGoToChatConnections').addEventListener('click', () => {
-            switchTab('view-chats');
-        });
 
         function setActiveChat(fUid, fNametag) {
             activeChatUserId = fUid;
