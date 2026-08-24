@@ -1620,15 +1620,21 @@
 
             onValue(roomRef, (snapshot) => {
                 const data = snapshot.val();
-                if (!data) {
+                
+                // Se não houver dados ou não houver filme selecionado na sala, garante que a interface inicial mostre apenas o carrossel e o hub
+                if (!data || !data.movie) {
+                    stepMovie.classList.add('hidden');
                     stepReview.classList.add('hidden');
                     stepResults.classList.add('hidden');
+                    hubWelcomeBox.classList.remove('hidden');
                     selectedMovieContainer.classList.add('hidden');
-                    movieSearchBoxWrapper.style.display = 'block';
                     return;
                 }
 
                 if (data.movie) {
+                    hubWelcomeBox.classList.add('hidden');
+                    stepMovie.classList.remove('hidden');
+
                     selectedMoviePoster.src = data.movie.poster;
                     selectedMovieTitle.textContent = data.movie.title;
                     selectedMovieYear.textContent = `Lançamento: ${data.movie.year}`;
@@ -1656,11 +1662,6 @@
                     } else {
                         stepResults.classList.add('hidden');
                     }
-                } else {
-                    selectedMovieContainer.classList.add('hidden');
-                    movieSearchBoxWrapper.style.display = 'block';
-                    stepReview.classList.add('hidden');
-                    stepResults.classList.add('hidden');
                 }
             });
         }
