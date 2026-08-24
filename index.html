@@ -821,6 +821,151 @@
             transform: scale(1.1);
         }
 
+        /* Estilo do Carrossel Horizontal de Miniaturas (Filmes Assistidos) */
+        .watched-carousel-section {
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--box-shadow-lg);
+            margin-bottom: 20px;
+        }
+
+        .watched-carousel-container {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-behavior: smooth;
+        }
+
+        .watched-carousel-card {
+            min-width: 110px;
+            width: 110px;
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: 2px 2px 0px #111;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .watched-carousel-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #111;
+        }
+
+        .watched-carousel-card img {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #000;
+        }
+
+        /* CARROSSEL COVERFLOW 3D ESTILO NEO-BRUTALIST (SEM BOX DE FUNDO) */
+        .featured-hero-carousel {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 24px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .coverflow-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: 310px;
+            width: 100%;
+            gap: 12px;
+        }
+
+        .coverflow-item {
+            position: absolute;
+            cursor: pointer;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            background: #000;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            aspect-ratio: 2 / 3;
+        }
+
+        .coverflow-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Camadas de posicionamento e tamanhos relativos do Coverflow */
+        .coverflow-item.center {
+            width: 190px;
+            z-index: 5;
+            transform: translateX(0) scale(1);
+            box-shadow: var(--box-shadow-lg);
+            filter: brightness(1);
+        }
+
+        .coverflow-item.left-1 {
+            width: 150px;
+            z-index: 4;
+            transform: translateX(-120px) scale(0.9);
+            filter: brightness(0.85);
+        }
+
+        .coverflow-item.left-2 {
+            width: 115px;
+            z-index: 3;
+            transform: translateX(-235px) scale(0.78);
+            filter: brightness(0.7);
+        }
+
+        .coverflow-item.right-1 {
+            width: 150px;
+            z-index: 4;
+            transform: translateX(120px) scale(0.9);
+            filter: brightness(0.85);
+        }
+
+        .coverflow-item.right-2 {
+            width: 115px;
+            z-index: 3;
+            transform: translateX(235px) scale(0.78);
+            filter: brightness(0.7);
+        }
+
+        .coverflow-item.hidden-side {
+            display: none;
+        }
+
+        .coverflow-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(17, 17, 17, 0.9);
+            color: #fff;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .toast-notification {
             position: fixed;
             bottom: 28px;
@@ -894,6 +1039,21 @@
         <!-- VIEW 1: SESSÃO ATIVA (HUB DE BEM-VINDO & AVALIAÇÃO) -->
         <div id="view-session" class="app-view hidden">
             
+            <!-- Carrossel Horizontal de Filmes Já Assistidos -->
+            <div class="watched-carousel-section" id="watchedCarouselSection">
+                <h3 style="font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clapperboard" style="color: var(--orange);"></i> Filmes Já Assistidos</h3>
+                <div class="watched-carousel-container" id="watchedCarouselContainer">
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme assistido ainda.</p>
+                </div>
+            </div>
+
+            <!-- CARROSSEL COVERFLOW 3D INFINITO (CENTRO GRANDE, 2 LADOS MENORES E DEPOIS MENORES AINDA, SEM BOX DE FUNDO) -->
+            <div class="featured-hero-carousel" id="featuredHeroCarouselSection">
+                <div class="coverflow-stage" id="coverflowStage">
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>
+                </div>
+            </div>
+
             <div id="roomInfoCard" style="display: none !important;">
                 <span id="activeRoomName"></span>
                 <button id="btnLeaveRoom"></button>
@@ -1117,6 +1277,11 @@
         let currentModalLibraryId = null;
         let connectedConnectionUid = null;
         let connectedConnectionNametag = null;
+        
+        // Controle do Carrossel Coverflow Infinito
+        let featuredMoviesList = [];
+        let currentFeaturedIndex = 0;
+        let featuredInterval = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1457,7 +1622,6 @@
                 const friends = snapshot.val() || {};
                 const keys = Object.keys(friends);
                 if (keys.length > 0) {
-                    // Pega o primeiro amigo/conexão disponível para exibir no hub
                     const firstFriendUid = keys[0];
                     const friendData = friends[firstFriendUid];
                     connectedConnectionUid = friendData.uid;
@@ -1597,7 +1761,7 @@
 
             movies.forEach(movie => {
                 const posterUrl = movie.poster_path 
-                    ? `https://image.tmdb.org/t/p/w92${movie.poster_path}` 
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
                     : 'https://via.placeholder.com/40x60?text=No+Img';
                 const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
 
@@ -1617,11 +1781,12 @@
         }
 
         async function selectMovieOnFirebase(movie, posterUrl, year) {
+            const highQualityPoster = posterUrl.replace(/\/w92\//, '/w500/');
             const movieObj = {
                 id: movie.id,
                 title: movie.title,
                 year: year,
-                poster: posterUrl
+                poster: highQualityPoster
             };
 
             const roomRef = ref(db, `rooms/${activeRoomId}`);
@@ -1772,7 +1937,12 @@
                     const roomData = roomSnap.val();
                     const allReviews = roomData.reviews || {};
                     if (roomData.movie) {
-                        await saveToLibrary(activeRoomId, roomData.movie, allReviews);
+                        let highResPoster = roomData.movie.poster;
+                        if (highResPoster && highResPoster.includes('/w92/')) {
+                            highResPoster = highResPoster.replace('/w92/', '/w500/');
+                        }
+                        const updatedMovieObj = { ...roomData.movie, poster: highResPoster };
+                        await saveToLibrary(activeRoomId, updatedMovieObj, allReviews);
                     }
                 }
 
@@ -1819,12 +1989,18 @@
             const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
             const libId = `${cleanRoomId}_movie_${movie.id}`;
             
+            let posterUrl = movie.poster;
+            if (posterUrl && posterUrl.includes('/w92/')) {
+                posterUrl = posterUrl.replace('/w92/', '/w500/');
+            }
+            const cleanMovie = { ...movie, poster: posterUrl };
+
             await remove(ref(db, `deleted_library/${libId}`));
 
             const libraryRef = ref(db, `library/${libId}`);
             await set(libraryRef, {
                 roomId: rId,
-                movie: movie,
+                movie: cleanMovie,
                 reviews: reviews,
                 updatedAt: Date.now()
             });
@@ -1836,6 +2012,9 @@
                 const data = snapshot.val() || {};
                 const container = document.getElementById('libraryGridContainer');
                 container.innerHTML = '';
+
+                const watchedCarouselContainer = document.getElementById('watchedCarouselContainer');
+                watchedCarouselContainer.innerHTML = '';
 
                 const uniqueMoviesMap = new Map();
                 Object.keys(data).forEach(k => {
@@ -1854,8 +2033,15 @@
 
                 if (validLibraryItems.length === 0) {
                     container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
+                    watchedCarouselContainer.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme assistido ainda.</p>';
+                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
+                    featuredMoviesList = [];
+                    if (featuredInterval) clearInterval(featuredInterval);
                     return;
                 }
+
+                featuredMoviesList = validLibraryItems;
+                initCoverflowCarousel();
 
                 validLibraryItems.forEach(({ key: k, item }) => {
                     const reviews = Object.values(item.reviews || {});
@@ -1868,6 +2054,21 @@
                         if (similarity < 10) similarity = 10;
                     }
 
+                    let posterHighRes = item.movie.poster;
+                    if (posterHighRes && posterHighRes.includes('/w92/')) {
+                        posterHighRes = posterHighRes.replace('/w92/', '/w500/');
+                    }
+
+                    const carouselCard = document.createElement('div');
+                    carouselCard.className = 'watched-carousel-card';
+                    carouselCard.title = `${item.movie.title} - Clique para ver detalhes`;
+                    carouselCard.innerHTML = `
+                        <img src="${posterHighRes}" alt="${item.movie.title}">
+                        <span style="font-size: 10px; font-weight: 800; color: var(--border-color); margin-top: 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${item.movie.title}</span>
+                    `;
+                    carouselCard.addEventListener('click', () => openLibraryModal(k));
+                    watchedCarouselContainer.appendChild(carouselCard);
+
                     const card = document.createElement('div');
                     card.className = 'library-card';
                     card.title = `${item.movie.title} - Clique para abrir avaliações`;
@@ -1875,7 +2076,7 @@
                     card.innerHTML = `
                         <button class="library-delete-btn" title="Excluir Filme" data-libkey="${k}"><i class="fa-solid fa-trash-can"></i></button>
                         <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${k}')">
-                            <img src="${item.movie.poster}" alt="${item.movie.title}">
+                            <img src="${posterHighRes}" alt="${item.movie.title}">
                             <div class="library-card-match">
                                 <span>Match: ${similarity}<span class="percent-symbol">%</span></span>
                             </div>
@@ -1901,6 +2102,65 @@
             });
         }
 
+        // Carrossel Coverflow infinito (Centro grande, 1º menor, 2º menor ainda dos dois lados)
+        function initCoverflowCarousel() {
+            if (featuredInterval) clearInterval(featuredInterval);
+            if (featuredMoviesList.length === 0) return;
+
+            if (currentFeaturedIndex >= featuredMoviesList.length) {
+                currentFeaturedIndex = 0;
+            }
+
+            renderCoverflowStage();
+
+            featuredInterval = setInterval(() => {
+                currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredMoviesList.length;
+                renderCoverflowStage();
+            }, 4000);
+        }
+
+        function renderCoverflowStage() {
+            const stage = document.getElementById('coverflowStage');
+            if (!stage || featuredMoviesList.length === 0) return;
+
+            stage.innerHTML = '';
+            const total = featuredMoviesList.length;
+
+            // Renderiza todos os itens posicionados com base no índice atual
+            featuredMoviesList.forEach((entry, idx) => {
+                let diff = idx - currentFeaturedIndex;
+
+                // Garante loop infinito circular correto
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
+
+                let posClass = 'hidden-side';
+                if (diff === 0) posClass = 'center';
+                else if (diff === 1) posClass = 'right-1';
+                else if (diff === 2) posClass = 'right-2';
+                else if (diff === -1) posClass = 'left-1';
+                else if (diff === -2) posClass = 'left-2';
+
+                let posterUrl = entry.item.movie.poster;
+                if (posterUrl && posterUrl.includes('/w92/')) {
+                    posterUrl = posterUrl.replace('/w92/', '/w500/');
+                }
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `coverflow-item ${posClass}`;
+                itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
+                itemDiv.innerHTML = `
+                    <img src="${posterUrl}" alt="${entry.item.movie.title}">
+                    <div class="coverflow-title-overlay">${entry.item.movie.title}</div>
+                `;
+                itemDiv.addEventListener('click', () => {
+                    openLibraryModal(entry.key);
+                });
+
+                stage.appendChild(itemDiv);
+            });
+        }
+
         window.openLibraryModal = function(libKey) {
             currentModalLibraryId = libKey;
             const libraryRef = ref(db, `library/${currentModalLibraryId}`);
@@ -1921,10 +2181,15 @@
                     totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / (reviewsArray.length * 5)) * 100);
                 }
 
+                let posterUrlModal = item.movie.poster;
+                if (posterUrlModal && posterUrlModal.includes('/w92/')) {
+                    posterUrlModal = posterUrlModal.replace('/w92/', '/w500/');
+                }
+
                 const modalContent = document.getElementById('libraryModalContent');
                 modalContent.innerHTML = `
                     <div class="selected-movie-preview" style="margin-bottom: 1rem;">
-                        <img src="${item.movie.poster}" alt="Poster">
+                        <img src="${posterUrlModal}" alt="Poster">
                         <div style="flex: 1; min-width: 0;">
                             <h3 style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${item.movie.title}</h3>
                             <p style="color:var(--text-muted); font-size: 13px; font-weight: 700;">Lançamento: ${item.movie.year}</p>
