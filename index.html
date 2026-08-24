@@ -2,760 +2,677 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMozi - Y2K Edition</title>
-    <!-- Google Fonts Y2K Bitmap & Clean Sans + FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=VT323&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>CINE MOZI - TIMELESS EDITION</title>
     
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@700;800&family=VT323&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            /* Paleta Neon Branca e Roxo Neon */
-            --bg-main: #0a0118;
-            --win-bg: #130328;
-            --y2k-green: #ffffff;
-            --y2k-pink: #bf00ff;
-            --y2k-cyan: #ffffff;
-            --y2k-yellow: #ffffff;
-            --y2k-purple: #9900ff;
-            --y2k-dark-purple: #0a0118;
-            
-            --text-bright: #ffffff;
-            --text-dark: #000000;
-            --text-muted: #d8b4fe;
-            
-            --font-pixel: 'Silkscreen', 'Press Start 2P', cursive;
-            --font-retro-sub: 'VT323', monospace;
-            --font-heading: 'Syne', sans-serif;
-            --font-body: 'Space Grotesk', sans-serif;
-
-            /* Bordas e Sombras Sólidas Y2K */
-            --border-thick: 3px solid #ffffff;
-            --border-light: 3px solid #ffffff;
-            --shadow-solid: 6px 6px 0px #bf00ff;
-            --shadow-cyan: 6px 6px 0px #ffffff;
-            --shadow-pink: 6px 6px 0px #bf00ff;
-            --shadow-green: 6px 6px 0px #ffffff;
+            --font-display: 'Syne', sans-serif;
+            --font-data: 'Space Grotesk', sans-serif;
+            --font-mono: 'VT323', monospace;
+            --island-bezier: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scrollbar-width: thin;
-            scrollbar-color: var(--y2k-purple) #000000;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* Removendo canaletas cinzas das barras de rolagem */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #000000;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--y2k-purple);
-            border: 2px solid #ffffff;
-            box-shadow: 0 0 8px var(--y2k-purple);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--y2k-pink);
-            box-shadow: 0 0 12px var(--y2k-pink);
-        }
-
-        /* Fundo Estilo Desktop Cyber OS com Grid Retrô */
         body {
-            background-color: var(--bg-main);
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                radial-gradient(circle at 15% 15%, rgba(191, 0, 255, 0.25) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.12) 0%, transparent 40%);
-            background-size: 28px 28px, 28px 28px, 100% 100%, 100% 100%;
-            color: var(--text-bright);
-            font-family: var(--font-body);
-            min-height: 100vh;
-            display: flex;
+            background-color: #000000;
+            color: #000;
+            height: 100vh; 
+            width: 100vw; 
+            overflow: hidden;
+            font-family: var(--font-data);
+            display: flex; 
             flex-direction: column;
-            align-items: center;
-            padding: 2.5rem 1rem;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1040px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Header Principal com Logo Flutuante Individual em Box Y2K */
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            background: transparent;
-            padding: 1rem 0;
-            display: flex;
+            align-items: center; 
             justify-content: center;
-            align-items: center;
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.4s ease;
+        }
+
+        /* --- EFEITO PORTAL FECHANDO (CINEMÁTICO ARANHAVERSO) --- */
+        body.portal-closing {
+            transform: scaleY(0.005) scaleX(1.2);
+            opacity: 0;
+            background-color: #000000 !important;
+            filter: brightness(3) contrast(2);
+        }
+
+        /* --- DYNAMIC ISLAND (ESTÉTICA MODERNA, COLORIDA E TEXTOS INTEIROS) --- */
+        .island-container {
+            position: fixed; top: 12px; width: 100%; display: flex; justify-content: center; z-index: 99999; pointer-events: none;
+        }
+        .island {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); 
+            width: 160px; height: 42px;
+            border-radius: 24px; pointer-events: auto;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            border: 2px solid #ff2a75;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; box-shadow: 0 4px 20px rgba(255, 42, 117, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            cursor: pointer; position: relative;
+        }
+        .island.mini-active { width: 48px; height: 48px; border-radius: 50%; border-color: #00ff66; box-shadow: 0 0 15px rgba(0, 255, 102, 0.5); }
+        .island.active { width: 360px; height: 85px; border-radius: 20px; border-color: #ffd600; box-shadow: 0 6px 30px rgba(255, 214, 0, 0.5); }
+        .island.pulse { animation: islandPulse 0.5s ease; }
+        .island.error { animation: shake 0.4s ease; background: linear-gradient(135deg, #ff2a75 0%, #8b0000 100%) !important; border-color: #fff !important; color: #fff; }
+
+        @keyframes islandPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .island-content {
+            width: 100%; padding: 0 16px; display: flex; align-items: center; justify-content: space-between;
+            opacity: 0; transition: opacity 0.3s ease; position: absolute; pointer-events: none;
+        }
+        .island.active .island-content { opacity: 1; pointer-events: auto; }
+        .island-mini-status { display: flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .island.active .island-mini-status { opacity: 0; transform: scale(0.5); }
+        .dot { width: 9px; height: 9px; border-radius: 50%; background: #ff2a75; border: 1px solid rgba(255,255,255,0.4); }
+        .dot.online { background: #00ff66; box-shadow: 0 0 8px #00ff66; }
+        .island-mini-status span { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #fff; text-shadow: 0 0 5px rgba(0,255,102,0.5); }
+        
+        #island-mini-icon { display: none; font-size: 16px; color: #00ff66; filter: drop-shadow(0 0 5px #00ff66); }
+        .island.mini-active #island-mini-icon { display: block; }
+        .island.mini-active .island-mini-status { display: none; }
+
+        .island-info-text { display: flex; flex-direction: column; line-height: 1.2; flex: 1; margin-left: 12px; overflow: hidden; }
+        .island-label { font-size: 0.7rem; color: #ffd600; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); letter-spacing: 1px; }
+        
+        .island-main { 
+            font-size: 0.95rem; 
+            font-weight: 800; 
+            color: #ffffff; 
+            font-family: var(--font-display); 
+            white-space: normal; 
+            overflow: visible; 
+            text-overflow: clip; 
+            max-width: 220px; 
+            line-height: 1.15;
+            word-break: break-word;
+        }
+
+        .ambilight-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.15; background: repeating-linear-gradient(45deg, #222, #222 1px, transparent 1px, transparent 10px); transition: all 0.5s ease; pointer-events: none; }
+        
+        /* --- TELA INTEIRA RESPONSIVA PARA PC E MOBILE --- */
+        .container, .app-container { 
+            position: relative; 
+            width: 100vw; 
+            height: 100vh; 
+            max-width: 100%; 
+            max-height: 100%;
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            padding: 0; 
+        }
+
+        .app-view, .card { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            display: none; 
+            flex-direction: column; 
+            padding: 75px 20px 40px; 
+            overflow-y: auto; 
+            justify-content: center; 
+            align-items: center; 
+            border: none;
+            box-shadow: none;
+            background-color: transparent;
+        }
+        .app-view:not(.hidden) { display: flex; animation: slideUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        header {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 999;
         }
 
         .floating-logo-box {
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            padding: 1.5rem 2.5rem;
-            box-shadow: 8px 8px 0px #bf00ff, 14px 14px 0px rgba(255, 255, 255, 0.2);
-            display: inline-block;
+            background: #ffd600;
+            border: 4px solid #000000;
+            padding: 8px 16px;
+            box-shadow: 4px 4px 0px #000000;
         }
 
         header h1 {
-            font-family: var(--font-pixel);
-            font-size: 3rem;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 4px 4px 0px #bf00ff, -3px -3px 0px #000000;
-            letter-spacing: 3px;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #000;
             text-transform: uppercase;
-            line-height: 1.1;
-            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1;
         }
-
         header h1 span {
-            color: #ffffff;
-            background: var(--y2k-purple);
-            padding: 2px 10px;
-            border: 3px solid #ffffff;
-            display: inline-block;
-            box-shadow: 3px 3px 0px #ffffff, 0 0 12px var(--y2k-purple);
+            background: #000;
+            color: #ffd600;
+            padding: 0 4px;
         }
 
-        /* Navegação Estilo Abas Y2K Pop-Art */
+        h1, h2, h3 { 
+            font-family: var(--font-display); 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            text-align: center; 
+            color: #fff; 
+            word-break: break-word;
+        }
+        p { font-size: 1.1rem; color: #fff; opacity: 0.85; margin-bottom: 25px; font-family: var(--font-data); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; text-align: center; }
+
+        .input-group, form { width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; }
+
+        input, textarea, select { 
+            width: 100%; background: #ffffff; border: 4px solid #000000; 
+            color: #000000; padding: 18px; border-radius: 0px; font-family: var(--font-data); 
+            font-size: 1.1rem; font-weight: 700; outline: none; margin-bottom: 16px; text-align: center; 
+            box-shadow: 6px 6px 0px #000000; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        input:focus, textarea:focus { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #000000; background: #fff; }
+        textarea { text-align: left; min-height: 120px; }
+
+        .btn, .btn-google, .btn-secondary, .btn-danger { 
+            background: #ffd600; color: #000000; border: 4px solid #000000; padding: 18px; 
+            border-radius: 0px; font-weight: 800; font-size: 1.1rem; font-family: var(--font-display); width: 100%; max-width: 480px; cursor: pointer; 
+            box-shadow: 6px 6px 0px #000000; transition: 0.2s ease; text-transform: uppercase; margin-bottom: 16px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+        }
+        .btn:hover, .btn-google:hover, .btn-secondary:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #000000; background: #adff2f; color: #000; }
+        .btn:active, .btn-google:active, .btn-secondary:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000000; }
+        .btn-secondary { background: #00bfff; color: #000; }
+        .btn-danger { background: #ff2a75 !important; color: #fff !important; }
+        .btn-danger:hover { background: #fff !important; color: #ff2a75 !important; }
+        .btn-google { background: #fff; color: #000; }
+
+        /* Navegação Estilo Abas Y2K / Brutalista */
         .nav-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            justify-content: flex-start;
-            gap: 0.6rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            background: #05000f;
+            justify-content: center;
+            gap: 10px;
+            z-index: 9999;
+            background: #000;
             padding: 10px;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            box-shadow: 8px 8px 0px #bf00ff, 12px 12px 0px rgba(255, 255, 255, 0.2);
-            position: relative;
+            border: 4px solid #ffd600;
+            box-shadow: 6px 6px 0px #ffd600;
+            flex-wrap: wrap;
+            max-width: 95vw;
         }
 
         .nav-btn {
-            background: #130328;
-            border: 3px solid #ffffff;
-            color: #ffffff;
-            padding: 0.75rem 1.2rem;
-            font-family: var(--font-pixel);
-            font-size: 0.7rem;
+            background: #ffffff;
+            border: 3px solid #000000;
+            color: #000000;
+            padding: 10px 16px;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.15s ease;
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 6px;
             text-transform: uppercase;
-            position: relative;
-            box-shadow: 3px 3px 0px #bf00ff;
+            box-shadow: 3px 3px 0px #000000;
         }
 
         .nav-btn.active, .nav-btn:hover {
-            background: #ffffff;
+            background: #ffd600;
             color: #000000;
-            border-color: #ffffff;
             transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0px #bf00ff, 0 0 15px rgba(255, 255, 255, 0.9);
-            font-weight: bold;
+            box-shadow: 5px 5px 0px #000000;
         }
 
-        /* CAIXAS / CARDS LIMPAS */
-        .card {
-            background: var(--win-bg);
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            padding: 1.8rem;
-            box-shadow: 8px 8px 0px #bf00ff, 10px 10px 0px rgba(255, 255, 255, 0.25);
-            margin-bottom: 2.2rem;
-            position: relative;
-        }
-
-        .card h3 {
-            font-family: var(--font-pixel);
-            font-size: 1.1rem;
-            color: #ffffff;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 2px 2px 0px #bf00ff;
-            letter-spacing: 1px;
-            line-height: 1.4;
-            text-transform: uppercase;
-        }
-
-        /* Tela de Autenticação Limpa */
-        .auth-container {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: #0d0122;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            box-shadow: 10px 10px 0px #bf00ff, 14px 14px 0px rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-
-        /* Botão Estilo Windows / Y2K Button */
-        .btn-google {
-            background: #ffffff;
-            color: #000000;
-            border: 3px solid #bf00ff;
+        /* CARDS E CONTAINERS DE CONTEÚDO */
+        .auth-container, .card, .whatsapp-chat-layout {
+            background: #111;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0px #ffd600;
+            padding: 30px;
             width: 100%;
-            max-width: 360px;
-            padding: 1rem 1.4rem;
-            font-family: var(--font-pixel);
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.9rem;
-            margin-top: 1.5rem;
-            box-shadow: 4px 4px 0px #bf00ff, 8px 8px 0px rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            font-weight: bold;
-            transition: all 0.1s ease;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
-        .btn-google:hover {
-            background: #bf00ff;
-            color: #ffffff;
-            border-color: #ffffff;
-            box-shadow: 6px 6px 0px #ffffff, 10px 10px 0px rgba(191, 0, 255, 0.6);
-            transform: translate(-2px, -2px);
-            text-shadow: 0 0 8px #ffffff;
+        .auth-container h3, .card h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: #ffd600;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px #000;
         }
 
-        .btn-google:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #bf00ff;
-        }
-
-        /* Busca de Filmes */
+        /* BUSCA DE FILMES */
         .search-box {
             position: relative;
-            margin-bottom: 1.2rem;
-            z-index: 100;
-        }
-
-        .search-box input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3.2rem;
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            color: #ffffff;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 600;
-            box-shadow: inset 3px 3px 0px #bf00ff, 0 0 8px rgba(191, 0, 255, 0.3);
+            max-width: 480px;
+            margin-bottom: 20px;
         }
-
-        .search-box input:focus {
-            border-color: #ffffff;
-            box-shadow: inset 3px 3px 0px #bf00ff, 0 0 12px rgba(255, 255, 255, 0.8);
-            background: #0a0118;
+        .search-box input {
+            margin-bottom: 0;
+            padding-left: 50px;
         }
-
         .search-box i {
             position: absolute;
-            left: 1.2rem;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #ffffff;
-            text-shadow: 0 0 6px #ffffff;
+            color: #000;
             font-size: 1.2rem;
+            z-index: 5;
         }
 
-        /* POPUP LIMPADO */
         .movie-results {
-            max-height: 340px;
-            overflow-y: auto;
-            background: #0d001a;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            display: none;
-            margin-top: 0.6rem;
             position: absolute;
             top: 100%;
             left: 0;
             width: 100%;
-            z-index: 99999 !important;
-            box-shadow: 10px 10px 0px #bf00ff, 10px 10px 0px 2px rgba(255, 255, 255, 0.3);
-            padding: 0.5rem;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 10000;
+            display: none;
         }
 
         .movie-item {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
-            padding: 0.8rem;
+            gap: 15px;
+            padding: 12px;
+            border-bottom: 2px solid #000;
             cursor: pointer;
             transition: background 0.15s;
-            border-bottom: 2px dashed rgba(191, 0, 255, 0.5);
         }
-
         .movie-item:hover {
-            background: #bf00ff;
-            color: #ffffff;
-            box-shadow: 0 0 10px rgba(191, 0, 255, 0.8);
+            background: #ffd600;
         }
-
-        .movie-item img,
-        .selected-movie-preview img,
-        .chat-match-card img,
-        .profile-avatar-large img {
-            position: relative !important;
-            z-index: 100000 !important;
-            object-fit: cover;
-            background-color: #000000;
-            border: 3px solid #ffffff !important;
-            outline: 2px solid #bf00ff !important;
-            box-shadow: 4px 4px 0px #bf00ff, 0 0 6px rgba(255, 255, 255, 0.4) !important;
-        }
-
         .movie-item img {
-            width: 48px;
-            height: 68px;
+            width: 45px;
+            height: 65px;
+            object-fit: cover;
+            border: 2px solid #000;
         }
-
         .movie-info h4 {
-            font-family: var(--font-pixel);
-            font-size: 0.8rem;
-            color: #ffffff;
-            text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
-            line-height: 1.3;
-        }
-
-        .movie-info span {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-family: var(--font-retro-sub);
-            font-weight: bold;
-        }
-
-        /* Filme Selecionado */
-        .selected-movie-preview {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            background: #05000f;
-            padding: 1.2rem;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            box-shadow: inset 2px 2px 0px #bf00ff, 6px 6px 0px #bf00ff;
-            margin-bottom: 1.5rem;
-        }
-
-        .selected-movie-preview img {
-            width: 90px;
-            height: 130px;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 650px) {
-            .selected-movie-preview {
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
-                gap: 1rem;
-                padding: 1.2rem 1rem;
-            }
-
-            .selected-movie-preview img {
-                width: 120px;
-                height: 175px;
-            }
-
-            .selected-movie-preview > div {
-                width: 100%;
-            }
-
-            .selected-movie-preview h3 {
-                white-space: normal !important;
-                word-break: break-word;
-                font-size: 1.05rem !important;
-            }
-
-            .selected-movie-preview .btn {
-                width: 100% !important;
-                justify-content: center;
-                margin-top: 0.4rem;
-            }
-
-            .search-box input {
-                padding: 0.9rem 0.9rem 0.9rem 2.8rem;
-                font-size: 0.95rem;
-            }
-        }
-
-        /* Formulários gerais */
-        .form-group {
-            margin-bottom: 1.4rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.6rem;
-            color: #ffffff;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-            font-family: var(--font-pixel);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-        }
-
-        .form-group input[type="text"],
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            color: #ffffff;
-            font-family: var(--font-body);
+            font-family: var(--font-display);
             font-size: 1rem;
-            box-shadow: inset 3px 3px 0px #bf00ff;
+            color: #000;
         }
-
-        .form-group input[type="text"]:focus,
-        .form-group textarea:focus {
-            border-color: #ffffff;
-            box-shadow: inset 3px 3px 0px #bf00ff, 0 0 10px rgba(255, 255, 255, 0.7);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-            line-height: 1.5;
-        }
-
-        /* Sistema de Avaliação Y2K Windows Box com Animação Mobile Click & Drag */
-        .rating-wrapper {
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            box-shadow: inset 3px 3px 0px #bf00ff;
-            touch-action: pan-y;
-        }
-
-        .rating-stars {
-            display: inline-flex;
-            gap: 0.85rem;
-            font-size: 2.3rem;
-            color: #4c1d95;
-            cursor: pointer;
-            margin-bottom: 0.6rem;
-            text-shadow: 0 0 4px rgba(153, 0, 255, 0.5);
-            user-select: none;
-            transition: transform 0.15s ease;
-        }
-
-        .rating-stars i {
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.15s ease, text-shadow 0.15s ease;
-            display: inline-block;
-        }
-
-        .rating-stars i:hover,
-        .rating-stars i.hovered,
-        .rating-stars i.active {
-            color: #ffffff;
-            transform: scale(1.3) translateY(-4px);
-            text-shadow: 0 0 12px #ffffff, 0 0 20px #bf00ff;
-        }
-
-        .rating-feedback-text {
-            font-family: var(--font-pixel);
-            font-size: 0.8rem;
-            color: #ffffff;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-            min-height: 1.5rem;
-            margin-top: 0.6rem;
-            text-transform: uppercase;
-        }
-
-        .char-counter {
-            display: block;
-            text-align: right;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-            font-family: var(--font-retro-sub);
-        }
-
-        /* Botão 3D Windows / Y2K Pop-Art */
-        .btn {
-            background: #ffffff;
-            color: #000000;
-            border: 3px solid #bf00ff;
-            width: 100%;
-            padding: 1rem 1.4rem;
-            font-family: var(--font-pixel);
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 4px 4px 0px #bf00ff, 8px 8px 0px rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            display: inline-block;
-            text-align: center;
-            position: relative;
-            font-weight: bold;
-        }
-
-        .btn:hover {
-            background: #bf00ff;
-            color: #ffffff;
-            border-color: #ffffff;
-            box-shadow: 6px 6px 0px #ffffff, 10px 10px 0px rgba(191, 0, 255, 0.7);
-            transform: translate(-2px, -2px);
-            text-shadow: 0 0 8px #ffffff;
-        }
-
-        .btn:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #bf00ff;
-        }
-
-        .btn-secondary {
-            background: #bf00ff;
-            color: #ffffff;
-            border: 3px solid #ffffff;
-            box-shadow: 4px 4px 0px #ffffff, 6px 6px 0px rgba(191, 0, 255, 0.5);
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-        }
-        
-        .btn-secondary:hover {
-            background: #ffffff;
-            color: #000000;
-            border-color: #bf00ff;
-            box-shadow: 6px 6px 0px #bf00ff, 8px 8px 0px rgba(255, 255, 255, 0.8);
-            text-shadow: none;
-        }
-
-        .btn-danger {
-            background: #ff3333 !important;
-            color: #ffffff !important;
-            border: 3px solid #ffffff !important;
-            box-shadow: 4px 4px 0px #ffffff, 6px 6px 0px rgba(255, 51, 51, 0.5) !important;
-        }
-
-        .btn-danger:hover {
-            background: #ffffff !important;
-            color: #ff3333 !important;
-            border-color: #ff3333 !important;
-            box-shadow: 6px 6px 0px #ff3333, 8px 8px 0px rgba(255, 255, 255, 0.8) !important;
-        }
-
-        /* Estilização focada e limpa para o símbolo de porcentagem */
-        .percent-symbol {
-            font-family: var(--font-body);
+        .movie-info span {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: #333;
             font-weight: 700;
         }
 
-        /* Seção de Adicionar Amigos por Nametag */
-        .friends-manager-box {
-            background: #0d001a;
-            border-bottom: 3px solid #bf00ff;
-            padding: 1rem;
-        }
-
-        .friend-add-form {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .friend-add-form input {
-            flex: 1;
-            padding: 0.6rem;
-            background: #05000f;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        .friend-add-form button {
-            width: auto;
-            padding: 0.6rem 1rem;
-            font-size: 0.65rem;
-        }
-
-        /* Chat Layout Retro Messenger Restilizado */
-        .whatsapp-chat-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            box-shadow: 10px 10px 0px #bf00ff, 12px 12px 0px rgba(255, 255, 255, 0.25);
-            height: 600px;
-            position: relative;
-        }
-
-        @media(max-width: 768px) {
-            .whatsapp-chat-layout {
-                grid-template-columns: 1fr;
-                height: auto;
-            }
-            .whatsapp-sidebar {
-                max-height: 280px;
-            }
-            .whatsapp-main-chat {
-                height: 450px;
-            }
-        }
-
-        .whatsapp-sidebar {
-            background: #0d001a;
-            border-right: 3px solid #ffffff;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .whatsapp-sidebar-header {
-            padding: 1.2rem;
-            border-bottom: 3px solid #bf00ff;
-            background: #190033;
-        }
-
-        .whatsapp-sidebar-header h3 {
-            font-family: var(--font-pixel);
-            font-size: 0.85rem;
-            color: #ffffff;
-            text-shadow: 0 0 6px #ffffff;
-        }
-
-        .whatsapp-contacts-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0.6rem;
-        }
-
-        .whatsapp-contact-item {
+        .selected-movie-preview {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 0.8rem;
-            border: 2px solid transparent;
+            gap: 20px;
+            background: #fff;
+            border: 4px solid #000;
+            padding: 15px;
+            box-shadow: 6px 6px 0px #000;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 480px;
+        }
+        .selected-movie-preview img {
+            width: 80px;
+            height: 120px;
+            object-fit: cover;
+            border: 2px solid #000;
+        }
+        .selected-movie-preview h3 {
+            color: #000;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .selected-movie-preview p {
+            color: #333;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        /* AVALIAÇÃO COM ESTRELAS */
+        .rating-wrapper {
+            background: #fff;
+            border: 4px solid #000;
+            padding: 20px;
+            box-shadow: 6px 6px 0px #000;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+        }
+        .rating-wrapper label {
+            color: #000;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2.2rem;
+            color: #ccc;
             cursor: pointer;
-            margin-bottom: 0.5rem;
-            background: #140224;
-            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+        .rating-stars i.active, .rating-stars i.hovered {
+            color: #ffd600;
+            text-shadow: 2px 2px 0px #000;
+        }
+        .rating-feedback-text {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            color: #000;
+            font-weight: 700;
+        }
+        .char-counter {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: #fff;
+            text-align: right;
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 15px;
         }
 
-        .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
-            background: #ffffff;
-            border-color: #bf00ff;
-            color: #000000;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        /* MATCH E COMPARAÇÃO */
+        .match-score-card {
+            background: #ffd600;
+            border: 4px solid #000;
+            padding: 20px;
+            box-shadow: 6px 6px 0px #000;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+        }
+        .scores-wrapper {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .score-block h2 {
+            font-size: 3rem;
+            color: #000;
+            font-family: var(--font-display);
+            text-shadow: 2px 2px 0px #fff;
+        }
+        .score-divider {
+            width: 4px;
+            height: 50px;
+            background: #000;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 700px;
+        }
+        @media(max-width: 650px) { .comparison-grid { grid-template-columns: 1fr; } }
+        .review-box {
+            background: #fff;
+            border: 4px solid #000;
+            padding: 15px;
+            box-shadow: 6px 6px 0px #000;
+            color: #000;
+            text-align: left;
+        }
+        .review-box h3 {
+            color: #000;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
         }
 
-        .whatsapp-contact-item:hover h4, .whatsapp-contact-item.active h4 {
-            color: #000000 !important;
-            text-shadow: none !important;
+        /* BIBLIOTECA */
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 15px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 10px;
         }
-
-        .whatsapp-avatar {
-            width: 40px;
-            height: 40px;
-            background: #bf00ff;
-            color: #ffffff;
-            border: 2px solid #ffffff;
+        .library-card {
+            background: #fff;
+            border: 4px solid #000;
+            padding: 8px;
+            box-shadow: 5px 5px 0px #000;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .library-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px #000;
+        }
+        .library-card img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            border: 2px solid #000;
+        }
+        .library-card-match {
+            background: #00ff66;
+            border: 2px solid #000;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 6px;
+            padding: 2px;
+            color: #000;
+            font-weight: 800;
+        }
+        .library-delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #ff2a75;
+            color: #fff;
+            border: 2px solid #000;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            box-shadow: 2px 2px 0px #ffffff, 0 0 8px #bf00ff;
-            flex-shrink: 0;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #000;
+            z-index: 10;
         }
 
+        /* CHAT */
+        .whatsapp-chat-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 75vh;
+            max-width: 900px;
+            padding: 0;
+            overflow: hidden;
+        }
+        @media(max-width: 768px) {
+            .whatsapp-chat-layout { grid-template-columns: 1fr; height: 80vh; }
+            .whatsapp-sidebar { display: none; } /* Alternável se necessário ou empilhado */
+        }
+        .whatsapp-sidebar {
+            background: #000;
+            border-right: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .whatsapp-sidebar-header {
+            padding: 15px;
+            background: #ffd600;
+            border-bottom: 4px solid #000;
+        }
+        .whatsapp-sidebar-header h3 {
+            color: #000;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .friends-manager-box {
+            padding: 10px;
+            background: #222;
+            border-bottom: 3px solid #000;
+        }
+        .friend-add-form {
+            display: flex;
+            gap: 5px;
+            max-width: 100%;
+        }
+        .friend-add-form input {
+            margin-bottom: 0;
+            padding: 8px;
+            font-size: 0.85rem;
+        }
+        .friend-add-form button {
+            margin-bottom: 0;
+            width: auto;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+        }
+        .whatsapp-contacts-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .whatsapp-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #fff;
+            border: 3px solid #000;
+            margin-bottom: 8px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #000;
+            transition: 0.15s;
+        }
+        .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
+            background: #ffd600;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px #000;
+        }
+        .whatsapp-avatar {
+            width: 36px;
+            height: 36px;
+            background: #ff2a75;
+            color: #fff;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-family: var(--font-display);
+        }
         .whatsapp-main-chat {
             display: flex;
             flex-direction: column;
-            background: #120022;
+            background: #0a0a0a;
             position: relative;
         }
-
         .whatsapp-chat-header {
-            padding: 1rem;
-            background: #05000f;
-            border-bottom: 3px solid #bf00ff;
+            padding: 15px;
+            background: #1a1a1a;
+            border-bottom: 4px solid #000;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        @media(max-width: 500px) {
-            .whatsapp-chat-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.8rem;
-            }
-            .btn-evaluate-together {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
         .chat-messages {
             flex: 1;
-            padding: 1.2rem;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 12px;
             overflow-y: auto;
-            background-image: radial-gradient(rgba(191, 0, 255, 0.15) 1px, transparent 0);
-            background-size: 16px 16px;
         }
-
         .message {
-            max-width: 82%;
-            padding: 0.9rem 1.1rem;
-            border: 3px solid #ffffff;
+            max-width: 80%;
+            padding: 12px 16px;
+            border: 3px solid #000;
             font-size: 0.95rem;
-            line-height: 1.4;
-            box-shadow: 4px 4px 0px #bf00ff;
-            font-family: var(--font-body);
+            font-weight: 700;
+            box-shadow: 4px 4px 0px #000;
             word-break: break-word;
         }
-
         .message.incoming {
-            background: #1f0038;
-            color: #ffffff;
+            background: #fff;
+            color: #000;
             align-self: flex-start;
-            border-color: #ffffff;
-            box-shadow: 4px 4px 0px #bf00ff, 0 0 8px rgba(191, 0, 255, 0.4);
         }
-
         .message.outgoing {
-            background: #ffffff;
-            color: #000000;
+            background: #ffd600;
+            color: #000;
             align-self: flex-end;
-            border-color: #bf00ff;
-            box-shadow: 4px 4px 0px #bf00ff, 0 0 10px rgba(255, 255, 255, 0.8);
-            font-weight: 600;
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 12px;
+            background: #1a1a1a;
+            border-top: 4px solid #000;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            margin-bottom: 0;
+            background: #fff;
+        }
+        .btn-evaluate-together {
+            background: #00ff66;
+            border: 2px solid #000;
+            color: #000;
+            padding: 6px 12px;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 0.75rem;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #000;
+        }
+        .btn-evaluate-together:hover {
+            background: #fff;
         }
 
-        /* Estado Vazio Personalizado para o Chat */
         .chat-empty-state {
             display: flex;
             flex-direction: column;
@@ -763,1608 +680,1382 @@
             justify-content: center;
             height: 100%;
             text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
+            color: #888;
         }
-
         .chat-empty-state i {
             font-size: 3rem;
-            color: var(--y2k-pink);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(191, 0, 255, 0.6);
+            color: #ffd600;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #000;
         }
-
         .chat-empty-state p {
-            font-family: var(--font-pixel);
-            font-size: 0.75rem;
-            color: #ffffff;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-        }
-
-        /* Popup de Match no Chat */
-        .chat-match-card {
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            padding: 1.2rem;
-            margin: 0.85rem 0;
-            max-width: 92%;
-            align-self: center;
-            width: 100%;
-            box-shadow: 6px 6px 0px #bf00ff, 0 0 12px rgba(191, 0, 255, 0.5);
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 0.8rem;
-            background: #05000f;
-            border-top: 3px solid #ffffff;
-            gap: 0.8rem;
-            align-items: center;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 0.8rem 1rem;
-            background: #140224;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            outline: none;
-            font-family: var(--font-body);
+            font-family: var(--font-display);
+            color: #fff;
             font-size: 1rem;
-            box-shadow: inset 2px 2px 0px #bf00ff;
         }
 
-        .btn-evaluate-together {
-            background: #bf00ff;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            padding: 0.6rem 0.9rem;
-            font-family: var(--font-pixel);
-            font-size: 0.65rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 3px 3px 0px #ffffff, 0 0 8px #bf00ff;
-            white-space: nowrap;
-            font-weight: bold;
-            text-shadow: 0 0 4px #ffffff;
-        }
-
-        .btn-evaluate-together:hover {
-            background: #ffffff;
-            color: #000000;
-            border-color: #bf00ff;
-            box-shadow: 3px 3px 0px #bf00ff, 0 0 12px #ffffff;
-            text-shadow: none;
-        }
-
-        /* Resultados e Comparação */
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        @media (max-width: 650px) {
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .review-box {
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            padding: 1.2rem;
-            box-shadow: 6px 6px 0px #bf00ff, 0 0 8px rgba(191, 0, 255, 0.3);
-        }
-
-        .review-box h3 {
-            color: #ffffff;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.8rem;
-            font-size: 0.85rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-pixel);
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        /* CARD DE PLACAR */
-        .match-score-card {
-            text-align: center;
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            padding: 1.8rem 1rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 8px 8px 0px #bf00ff, 8px 8px 0px 2px rgba(255, 255, 255, 0.3);
-        }
-
-        .scores-wrapper {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .score-block {
-            flex: 1;
-            min-width: 140px;
-        }
-
-        .score-block h2 {
-            font-size: 3.2rem;
-            font-family: var(--font-pixel);
-            margin-top: 0.4rem;
-            line-height: 1;
-        }
-
-        .score-divider {
-            width: 3px;
-            height: 60px;
-            background: #bf00ff;
-            border-left: 2px dashed #ffffff;
-            box-shadow: 0 0 6px #bf00ff;
-        }
-
-        @media (max-width: 500px) {
-            .score-divider {
-                display: none;
-            }
-            .score-block h2 {
-                font-size: 2.5rem;
-            }
-        }
-
-        /* BIBLIOTECA */
-        .library-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.5rem;
-        }
-
-        @media (max-width: 480px) {
-            .library-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .library-card {
-            background: #05000f;
-            border: 3px solid #ffffff;
-            outline: 3px solid #bf00ff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.6rem;
-            box-shadow: 6px 6px 0px #bf00ff, 6px 6px 0px 2px rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            position: relative;
-        }
-
-        .library-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px #ffffff, 8px 8px 0px 2px #bf00ff;
-        }
-
-        .library-card img {
-            width: 100%;
-            aspect-ratio: 2 / 3;
-            object-fit: cover;
-            border: 2px solid #ffffff !important;
-            outline: 2px solid #bf00ff !important;
-        }
-
-        .library-card-match {
-            margin-top: 0.6rem;
-            font-family: var(--font-pixel);
-            font-size: 0.68rem;
-            color: #ffffff;
-            text-shadow: 0 0 4px #ffffff;
-            text-align: center;
-            background: #140224;
-            border: 2px solid #ffffff;
-            padding: 0.3rem 0.4rem;
-            width: 100%;
-            box-shadow: 2px 2px 0px #bf00ff;
-            white-space: nowrap;
-        }
-
-        .library-delete-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #ff3333;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            cursor: pointer;
-            box-shadow: 2px 2px 0px #000000;
-            z-index: 10;
-            transition: transform 0.1s ease;
-        }
-
-        .library-delete-btn:hover {
-            transform: scale(1.15);
-            background: #ffffff;
-            color: #ff3333;
-        }
-
-        /* POPUP TOAST SYSTEM ALERT */
+        /* TOAST SYSTEM */
         .toast-notification {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
-            background: #ffffff;
-            color: #000000;
-            padding: 1.2rem 1.4rem;
-            border: 3px solid #bf00ff;
-            font-family: var(--font-pixel);
-            font-size: 0.75rem;
-            font-weight: bold;
-            box-shadow: 8px 8px 0px #bf00ff, 8px 8px 0px 2px rgba(255, 255, 255, 0.8);
-            z-index: 100000;
+            bottom: 80px;
+            right: 20px;
+            background: #ffd600;
+            color: #000;
+            padding: 15px 20px;
+            border: 4px solid #000;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 800;
+            box-shadow: 6px 6px 0px #000;
+            z-index: 999999;
             transition: opacity 0.3s ease;
-            max-width: 90%;
         }
 
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem 0.5rem;
-            }
-            header h1 {
-                font-size: 2rem;
-            }
-            .card {
-                padding: 1.2rem;
-            }
-            .nav-bar {
-                gap: 0.4rem;
-            }
-            .nav-btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.65rem;
-            }
-        }
+        #roomInfoCard { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainContainerSwipe">
-        <header>
-            <div class="floating-logo-box">
-                <h1>Cine<span>Mozi</span></h1>
-            </div>
-        </header>
+<div class="ambilight-bg" id="ambilight"></div>
 
-        <!-- Menu de Navegação Superior Integrado -->
-        <div id="socialNavbar" class="nav-bar hidden">
-            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
-            <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
-            <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
-            <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
+<header>
+    <div class="floating-logo-box">
+        <h1>CINE<span>MOZI</span></h1>
+    </div>
+</header>
+
+<!-- Navegação Superior / Inferior Estilo Abas Brutalistas -->
+<div id="socialNavbar" class="nav-bar hidden">
+    <button class="nav-btn active" data-target="view-session"><i class="fa-solid fa-film"></i> Sessão</button>
+    <button class="nav-btn" data-target="view-chats"><i class="fa-solid fa-comments"></i> Chats</button>
+    <button class="nav-btn" data-target="view-library"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
+    <button class="nav-btn" data-target="view-profile"><i class="fa-solid fa-user-gear"></i> Perfil</button>
+</div>
+
+<div class="container" id="mainContainerSwipe">
+    <!-- ETAPA 0: Login com Google / Login rápido por Nametag -->
+    <div id="step-auth" class="card auth-container">
+        <h3>BEM-VINDO AO CINEMOZI</h3>
+        <button id="googleLoginBtn" class="btn-google">
+            <i class="fa-brands fa-google"></i> ENTRAR COM O GOOGLE
+        </button>
+        
+        <div style="margin-top: 25px; border-top: 3px dashed #ffd600; padding-top: 20px; width: 100%;">
+            <h4 style="font-family: var(--font-display); font-size: 0.9rem; color: #fff; margin-bottom: 12px; text-transform: uppercase;">JÁ TEM UMA NAMETAG?</h4>
+            <form id="quickTagLoginForm" style="display: flex; gap: 8px; max-width: 100%; margin: 0 auto;">
+                <input type="text" id="quickTagInput" required placeholder="DIGITE SUA NAMETAG" autocomplete="off" style="flex: 1; margin-bottom: 0;">
+                <button type="submit" class="btn btn-secondary" style="width: auto; margin-bottom: 0; padding: 15px 20px;"><i class="fa-solid fa-right-to-bracket"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ETAPA 0.1: Escolha da Nametag -->
+    <div id="step-nametag" class="card hidden">
+        <h3>ESCOLHA SUA NAMETAG</h3>
+        <form id="nametagForm" style="margin-top: 15px;">
+            <div class="input-group" style="width: 100%;">
+                <label style="color:#ffd600; font-family:var(--font-display); font-weight:800; margin-bottom:8px; display:block; text-align:left; width:100%;">NAMETAG ÚNICA</label>
+                <input type="text" id="nametagInput" required placeholder="EX: CINEMANIACO99" autocomplete="off">
+            </div>
+            <button type="submit" class="btn">SALVAR E CONTINUAR</button>
+        </form>
+    </div>
+
+    <!-- VIEW 1: SESSÃO ATIVA -->
+    <div id="view-session" class="app-view hidden">
+        <div id="roomInfoCard" style="display: none !important;">
+            <span id="activeRoomName"></span>
+            <button id="btnLeaveRoom"></button>
         </div>
 
-        <!-- ETAPA 0: Login com Google / Login rápido por Nametag -->
-        <div id="step-auth" class="card auth-container">
-            <h3>Bem-vindo ao CineMozi</h3>
-            <button id="googleLoginBtn" class="btn-google">
-                <i class="fa-brands fa-google" style="color: #000000;"></i> Entrar com o Google
-            </button>
+        <div id="step-movie" class="card" style="position: relative; height: auto; max-width: 540px; margin-bottom: 20px;">
+            <h3 style="margin-bottom: 15px;" id="movieSectionTitle">SELECIONAR FILME</h3>
             
-            <div style="margin-top: 2rem; border-top: 2px dashed #bf00ff; padding-top: 1.5rem;">
-                <h4 style="font-family: var(--font-pixel); font-size: 0.75rem; color: #ffffff; margin-bottom: 0.8rem; text-transform: uppercase;">Já tem uma Nametag?</h4>
-                <form id="quickTagLoginForm" style="display: flex; gap: 0.5rem; max-width: 360px; margin: 0 auto;">
-                    <input type="text" id="quickTagInput" required placeholder="Digite sua nametag" autocomplete="off" style="flex: 1; padding: 0.8rem; background: #05000f; border: 2px solid #ffffff; color: #ffffff; font-family: var(--font-body); font-size: 0.9rem; outline: none;">
-                    <button type="submit" class="btn btn-secondary" style="width: auto; padding: 0.8rem 1rem; font-size: 0.7rem;"><i class="fa-solid fa-right-to-bracket"></i></button>
-                </form>
+            <div id="selectedMovieContainer" class="selected-movie-preview hidden">
+                <img id="selectedMoviePoster" src="" alt="Poster">
+                <div style="flex: 1; min-width: 0; text-align: left;">
+                    <h3 id="selectedMovieTitle" style="color:#000; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
+                    <p id="selectedMovieYear" style="color:#5500ff; font-family: var(--font-mono); font-size: 1.1rem; margin-top: 5px; font-weight: 700;"></p>
+                </div>
+                <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 10px 15px; font-size: 0.75rem; margin-bottom:0;"><i class="fa-solid fa-pen"></i></button>
+            </div>
+
+            <div class="search-box" id="movieSearchBoxWrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="movieSearchInput" placeholder="BUSQUE POR QUALQUER FILME..." autocomplete="off">
+                <div id="movieResults" class="movie-results"></div>
             </div>
         </div>
 
-        <!-- ETAPA 0.1: Escolha da Nametag -->
-        <div id="step-nametag" class="card hidden">
-            <h3>Escolha sua Nametag</h3>
-            <form id="nametagForm" style="margin-top: 1.2rem;">
-                <div class="form-group">
-                    <label>Nametag Única</label>
-                    <input type="text" id="nametagInput" required placeholder="Ex: cinemaniaco99" autocomplete="off">
+        <!-- ETAPA 2: Avaliação -->
+        <div id="step-review" class="card hidden" style="position: relative; height: auto; max-width: 540px; margin-bottom: 20px;">
+            <h3 style="margin-bottom: 15px;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="margin-right: 8px;"></i> SUA AVALIAÇÃO</h3>
+            
+            <form id="reviewForm" style="max-width: 100%;">
+                <div class="rating-wrapper" id="ratingWrapperBox">
+                    <label>TOQUE E ARRASTE NAS ESTRELAS</label>
+                    <div class="rating-stars" id="starContainer">
+                        <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
+                        <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
+                        <i class="fa-solid fa-star" data-value="3" title="Bom"></i>
+                        <i class="fa-solid fa-star" data-value="4" title="Muito Bom"></i>
+                        <i class="fa-solid fa-star" data-value="5" title="Obra-Prima"></i>
+                    </div>
+                    <div id="ratingFeedbackText" class="rating-feedback-text">SELECIONE SUA NOTA</div>
+                    <input type="hidden" id="userRating" value="0">
                 </div>
-                <button type="submit" class="btn">Salvar e Continuar</button>
+
+                <div style="width: 100%;">
+                    <label style="color:#ffd600; font-family:var(--font-display); font-weight:800; margin-bottom:6px; display:block; text-align:left;">SUA CRÍTICA / FEEDBACK</label>
+                    <textarea id="userComment" maxlength="500" required placeholder="O QUE VOCÊ ACHOU DO FILME..."></textarea>
+                    <span id="charCounter" class="char-counter">0 / 500 CARACTERES</span>
+                </div>
+
+                <button type="submit" class="btn" id="submitReviewBtn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> ENVIAR AVALIAÇÃO</button>
             </form>
         </div>
 
-        <!-- VIEW 1: SESSÃO ATIVA -->
-        <div id="view-session" class="app-view hidden">
+        <!-- ETAPA 4: Resultados e Match -->
+        <div id="step-results" class="card hidden" style="position: relative; height: auto; max-width: 700px; margin-bottom: 40px;">
+            <h3 style="margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-fire" style="margin-right: 8px;"></i> RESULTADO DO MATCH</h3>
             
-            <div id="roomInfoCard" style="display: none !important;">
-                <span id="activeRoomName"></span>
-                <button id="btnLeaveRoom"></button>
-            </div>
-
-            <!-- Poster e Pesquisa de Filme -->
-            <div id="step-movie" class="card">
-                <h3 style="margin-bottom: 1.2rem;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
-                
-                <div id="selectedMovieContainer" class="selected-movie-preview hidden">
-                    <img id="selectedMoviePoster" src="" alt="Poster">
-                    <div style="flex: 1; min-width: 0;">
-                        <h3 id="selectedMovieTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h3>
-                        <p id="selectedMovieYear" style="color:var(--text-muted); font-family: var(--font-retro-sub); font-size: 1.15rem; margin-top: 0.3rem; text-shadow: 0 0 4px #ffffff;"></p>
+            <div class="match-score-card">
+                <div class="scores-wrapper">
+                    <div class="score-block">
+                        <p style="color: #000; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 800; text-transform: uppercase;">MATCH DE GOSTO</p>
+                        <h2 id="matchPercentage">0%</h2>
                     </div>
-                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 0.6rem 1rem; font-size: 0.7rem;"><i class="fa-solid fa-pen"></i> Alterar</button>
-                </div>
-
-                <div class="search-box" id="movieSearchBoxWrapper">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="movieSearchInput" placeholder="Busque por qualquer filme..." autocomplete="off">
-                    <div id="movieResults" class="movie-results"></div>
-                </div>
-            </div>
-
-            <!-- ETAPA 2: Avaliação Intuitiva com Click & Drag / Toque Escala -->
-            <div id="step-review" class="card hidden">
-                <h3 style="margin-bottom: 1.4rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Sua Avaliação</h3>
-                
-                <form id="reviewForm">
-                    <div class="rating-wrapper" id="ratingWrapperBox">
-                        <label style="display: block; color: #ffffff; text-shadow: 0 0 6px rgba(255, 255, 255, 0.8); font-family: var(--font-pixel); font-size: 0.75rem; margin-bottom: 0.6rem;">Toque e arraste nas estrelas para avaliar</label>
-                        <div class="rating-stars" id="starContainer">
-                            <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
-                            <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
-                            <i class="fa-solid fa-star" data-value="3" title="Bom"></i>
-                            <i class="fa-solid fa-star" data-value="4" title="Muito Bom"></i>
-                            <i class="fa-solid fa-star" data-value="5" title="Obra-Prima"></i>
-                        </div>
-                        <div id="ratingFeedbackText" class="rating-feedback-text">Selecione sua nota</div>
-                        <input type="hidden" id="userRating" value="0">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Sua Crítica / Feedback</label>
-                        <textarea id="userComment" maxlength="500" required placeholder="O que você achou da direção, atuação, roteiro..."></textarea>
-                        <span id="charCounter" class="char-counter">0 / 500 caracteres</span>
-                    </div>
-
-                    <button type="submit" class="btn" id="submitReviewBtn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> Enviar Minha Avaliação</button>
-                </form>
-            </div>
-
-            <!-- ETAPA 4: Comparação e Afinidade -->
-            <div id="step-results" class="card hidden">
-                <h3 style="margin-bottom: 1.2rem; text-align: center;"><i class="fa-solid fa-fire" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Resultado do Match</h3>
-                
-                <div class="match-score-card">
-                    <div class="scores-wrapper">
-                        <div class="score-block">
-                            <p style="color: #ffffff; text-shadow: 0 0 6px #ffffff; font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Match de Gosto</p>
-                            <h2 id="matchPercentage" style="color: #ffffff; text-shadow: 0 0 12px #ffffff, 3px 3px 0px #bf00ff;">0<span class="percent-symbol">%</span></h2>
-                        </div>
-                        <div class="score-divider"></div>
-                        <div class="score-block">
-                            <p style="color: #bf00ff; text-shadow: 0 0 6px #bf00ff; font-family: var(--font-pixel); font-size: 0.75rem; text-transform: uppercase;">Avaliação Total</p>
-                            <h2 id="totalRatingPercentage" style="color: #ffffff; text-shadow: 0 0 12px #ffffff, 3px 3px 0px #bf00ff;">0<span class="percent-symbol">%</span></h2>
-                        </div>
+                    <div class="score-divider"></div>
+                    <div class="score-block">
+                        <p style="color: #000; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 800; text-transform: uppercase;">MÉDIA GERAL</p>
+                        <h2 id="totalRatingPercentage">0%</h2>
                     </div>
                 </div>
-
-                <div class="comparison-grid" id="comparisonContainer"></div>
             </div>
+
+            <div class="comparison-grid" id="comparisonContainer"></div>
         </div>
+    </div>
 
-        <!-- VIEW 2: CHATS & CONEXÕES -->
-        <div id="view-chats" class="app-view hidden">
-            <div class="whatsapp-chat-layout">
-                <!-- Sidebar de Contatos -->
-                <div class="whatsapp-sidebar">
-                    <div class="whatsapp-sidebar-header">
-                        <h3>Conversas & Amigos</h3>
-                    </div>
-                    <div class="friends-manager-box">
-                        <label style="font-family: var(--font-pixel); font-size: 0.65rem; color: #ffffff; display: block; margin-bottom: 4px;">Adicionar Amigo</label>
-                        <form id="addFriendForm" class="friend-add-form">
-                            <input type="text" id="friendNametagInput" placeholder="Nametag (ex: joao99)" autocomplete="off" required>
-                            <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-user-plus"></i></button>
-                        </form>
-                    </div>
-                    <div class="whatsapp-contacts-list" id="chatContactsList"></div>
+    <!-- VIEW 2: CHATS & CONEXÕES -->
+    <div id="view-chats" class="app-view hidden">
+        <div class="whatsapp-chat-layout">
+            <!-- Sidebar de Contatos -->
+            <div class="whatsapp-sidebar">
+                <div class="whatsapp-sidebar-header">
+                    <h3>CONVERSAS</h3>
                 </div>
-
-                <!-- Janela Principal de Mensagens -->
-                <div class="whatsapp-main-chat">
-                    <div class="whatsapp-chat-header">
-                        <div style="display: flex; align-items: center; gap: 0.85rem; min-width: 0;">
-                            <div class="whatsapp-avatar" style="width: 38px; height: 38px; font-size: 0.9rem;"><i class="fa-solid fa-user"></i></div>
-                            <h4 id="activeChatTitle" style="color: var(--text-bright); font-family: var(--font-pixel); font-size: 0.8rem; text-shadow: 0 0 4px #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Selecione um contato</h4>
-                        </div>
-                        <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
-                            <i class="fa-solid fa-film"></i> Avaliar Juntos
-                        </button>
-                    </div>
-
-                    <div class="chat-messages" id="chatMessagesContainer">
-                        <div class="chat-empty-state">
-                            <i class="fa-solid fa-comments"></i>
-                            <p>Nenhuma conversa aberta</p>
-                            <span style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Adicione amigos por Nametag e escolha um contato para iniciar o papo.</span>
-                        </div>
-                    </div>
-
-                    <div class="chat-input-area" id="chatInputAreaWrapper" style="display: none;">
-                        <input type="text" id="chatInputMessage" placeholder="Digite uma mensagem..." autocomplete="off">
-                        <button id="sendChatBtn" class="btn" style="width: auto; padding: 0.8rem 1.2rem;"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
+                <div class="friends-manager-box">
+                    <label style="font-family: var(--font-display); font-size: 0.75rem; color: #ffd600; display: block; margin-bottom: 6px;">ADICIONAR AMIGO</label>
+                    <form id="addFriendForm" class="friend-add-form">
+                        <input type="text" id="friendNametagInput" placeholder="NAMETAG" autocomplete="off" required>
+                        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-user-plus"></i></button>
+                    </form>
                 </div>
+                <div class="whatsapp-contacts-list" id="chatContactsList"></div>
             </div>
-        </div>
 
-        <!-- VIEW 3: BIBLIOTECA DE AVALIAÇÕES -->
-        <div id="view-library" class="app-view hidden">
-            <div class="card">
-                <h3 style="margin-bottom: 0.6rem;"><i class="fa-solid fa-book-bookmark" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Biblioteca de Filmes Avaliados</h3>
-                <div class="library-grid" id="libraryGridContainer">
-                    <p style="color: var(--text-muted); margin-top: 1.2rem;">Nenhum filme na biblioteca ainda.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 4: PERFIL & CADASTRO (Com troca de conta Google e Nametag) -->
-        <div id="view-profile" class="app-view hidden">
-            <div class="card" style="max-width: 650px; margin: 0 auto;">
-                <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-gear" style="color: #ffffff; text-shadow: 0 0 8px #ffffff; margin-right: 8px;"></i> Meu Perfil & Cadastro</h3>
-                
-                <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.8rem; background: #05000f; padding: 1.2rem; border: 3px solid #ffffff; outline: 2px solid #bf00ff; flex-wrap: wrap;">
-                    <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
-                        <img id="profileViewAvatarImg" src="" alt="Avatar" style="width: 100%; height: 100%; display: none;">
-                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: #bf00ff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #fff;"><i class="fa-solid fa-user"></i></div>
+            <!-- Janela Principal de Mensagens -->
+            <div class="whatsapp-main-chat">
+                <div class="whatsapp-chat-header">
+                    <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                        <div class="whatsapp-avatar"><i class="fa-solid fa-user"></i></div>
+                        <h4 id="activeChatTitle" style="color: #fff; font-family: var(--font-display); font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">SELECIONE UM CONTATO</h4>
                     </div>
-                    <div style="flex: 1; min-width: 0;">
-                        <p style="font-family: var(--font-pixel); font-size: 0.8rem; color: #ffffff;" id="profileViewNametag">@usuario</p>
-                        <p style="font-family: var(--font-retro-sub); font-size: 1.1rem; color: var(--text-muted); margin-top: 4px; word-break: break-all;" id="profileViewEmail">email@exemplo.com</p>
+                    <button id="btnEvaluateTogether" class="btn-evaluate-together hidden" title="Abrir Sessão Conjunta">
+                        <i class="fa-solid fa-film"></i> AVALIAR JUNTOS
+                    </button>
+                </div>
+
+                <div class="chat-messages" id="chatMessagesContainer">
+                    <div class="chat-empty-state">
+                        <i class="fa-solid fa-comments"></i>
+                        <p>NENHUMA CONVERSA ABERTA</p>
+                        <span style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">ADICIONE AMIGOS POR NAMETAG E ESCOLHA UM CONTATO.</span>
                     </div>
                 </div>
 
-                <form id="profileUpdateForm">
-                    <div class="form-group">
-                        <label>Alterar Nametag</label>
-                        <input type="text" id="profileEditNametagInput" required placeholder="Nova nametag" autocomplete="off">
-                    </div>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                        <button type="submit" class="btn" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-floppy-disk" style="margin-right: 6px;"></i> Salvar Nametag</button>
-                        <button type="button" id="btnSwitchGoogleAccount" class="btn btn-secondary" style="flex: 1; min-width: 180px;"><i class="fa-brands fa-google" style="margin-right: 6px;"></i> Trocar Conta Google</button>
-                    </div>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button type="button" id="menuSairConta" class="btn btn-secondary" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Sair da Conta</button>
-                        <button type="button" id="btnProfileDeleteAccount" class="btn btn-danger" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Conta</button>
-                    </div>
-                </form>
-
-                <div style="margin-top: 2rem; border-top: 2px dashed #bf00ff; padding-top: 1.2rem;">
-                    <h4 style="font-family: var(--font-pixel); font-size: 0.75rem; color: #ffffff; margin-bottom: 0.8rem; text-transform: uppercase;">Estatísticas da Conta</h4>
-                    <p style="font-size: 0.95rem; color: var(--text-muted); font-family: var(--font-retro-sub); font-size: 1.2rem;">Filmes avaliados salvos: <strong id="profileStatsCount" style="color: #ffffff;">0</strong></p>
+                <div class="chat-input-area" id="chatInputAreaWrapper" style="display: none;">
+                    <input type="text" id="chatInputMessage" placeholder="DIGITE UMA MENSAGEM..." autocomplete="off">
+                    <button id="sendChatBtn" class="btn" style="width: auto; margin-bottom: 0; padding: 12px 20px;"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- POPUP MODAL DA BIBLIOTECA PARA DETALHES E EDIÇÃO -->
-    <div id="libraryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 1, 24, 0.9); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 1rem;">
-        <div class="card" style="width: 100%; max-width: 650px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #bf00ff; padding-bottom: 0.5rem;">
-                <h3 style="font-size: 0.9rem; color: #ffffff; text-shadow: 0 0 6px #ffffff;">Detalhes e Edição da Avaliação</h3>
-                <span id="closeLibraryModalBtn" style="cursor: pointer; font-family: var(--font-pixel); color: #ffffff; text-shadow: 0 0 8px #ffffff; font-size: 1rem; padding: 4px;">[ ✕ ]</span>
-            </div>
-            <div id="libraryModalContent"></div>
-            <div style="margin-top: 1rem; text-align: right;">
-                <button type="button" id="modalDeleteMovieBtn" class="btn btn-danger" style="width: auto; padding: 0.7rem 1.2rem; font-size: 0.7rem;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Filme da Biblioteca</button>
+    <!-- VIEW 3: BIBLIOTECA -->
+    <div id="view-library" class="app-view hidden">
+        <div class="card" style="max-width: 750px; height: auto;">
+            <h3 style="margin-bottom: 10px;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> BIBLIOTECA DE FILMES</h3>
+            <div class="library-grid" id="libraryGridContainer">
+                <p style="color: #888; margin-top: 20px;">NENHUM FILME NA BIBLIOTECA AINDA.</p>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDKs e Lógica Completa -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
+    <!-- VIEW 4: PERFIL -->
+    <div id="view-profile" class="app-view hidden">
+        <div class="card" style="max-width: 600px; height: auto;">
+            <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i> MEU PERFIL</h3>
+            
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px; background: #000; padding: 15px; border: 4px solid #ffd600; flex-wrap: wrap;">
+                <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 3px solid #ffd600;">
+                    <img id="profileViewAvatarImg" src="" alt="Avatar" style="width: 100%; height: 100%; display: none; object-fit: cover;">
+                    <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: #ff2a75; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #fff;"><i class="fa-solid fa-user"></i></div>
+                </div>
+                <div style="flex: 1; min-width: 0; text-align: left;">
+                    <p style="font-family: var(--font-display); font-size: 1rem; color: #ffd600;" id="profileViewNametag">@USUARIO</p>
+                    <p style="font-family: var(--font-mono); font-size: 1rem; color: #aaa; margin-top: 4px; word-break: break-all;" id="profileViewEmail">EMAIL@EXEMPLO.COM</p>
+                </div>
+            </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAm_LLVLgUSpwbE2u78EN2waR-0uHqHNd0",
-            authDomain: "letter-76c0a.firebaseapp.com",
-            projectId: "letter-76c0a",
-            storageBucket: "letter-76c0a.firebasestorage.app",
-            messagingSenderId: "507179816072",
-            appId: "1:507179816072:web:5eac31ad73f6d2eb857b3d",
-            databaseURL: "https://letter-76c0a-default-rtdb.firebaseio.com"
-        };
+            <form id="profileUpdateForm" style="max-width: 100%;">
+                <div class="input-group" style="width: 100%;">
+                    <label style="color:#ffd600; font-family:var(--font-display); font-weight:800; margin-bottom:6px; display:block; text-align:left; width:100%;">ALTERAR NAMETAG</label>
+                    <input type="text" id="profileEditNametagInput" required placeholder="NOVA NAMETAG" autocomplete="off">
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%; margin-bottom: 12px;">
+                    <button type="submit" class="btn" style="flex: 1; margin-bottom: 0;"><i class="fa-solid fa-floppy-disk" style="margin-right: 6px;"></i> SALVAR</button>
+                    <button type="button" id="btnSwitchGoogleAccount" class="btn btn-secondary" style="flex: 1; margin-bottom: 0;"><i class="fa-brands fa-google" style="margin-right: 6px;"></i> TROCAR GOOGLE</button>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%;">
+                    <button type="button" id="menuSairConta" class="btn btn-secondary" style="flex: 1; margin-bottom: 0; background: #ffaa00;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> SAIR</button>
+                    <button type="button" id="btnProfileDeleteAccount" class="btn btn-danger" style="flex: 1; margin-bottom: 0;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> EXCLUIR</button>
+                </div>
+            </form>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-        const googleProvider = new GoogleAuthProvider();
+            <div style="margin-top: 25px; border-top: 3px dashed #ffd600; padding-top: 15px; width: 100%; text-align: left;">
+                <h4 style="font-family: var(--font-display); font-size: 0.9rem; color: #ffd600; margin-bottom: 8px; text-transform: uppercase;">ESTATÍSTICAS</h4>
+                <p style="font-size: 1.1rem; color: #fff; font-family: var(--font-mono);">FILMES AVALIADOS SALVOS: <strong id="profileStatsCount" style="color: #ffd600;">0</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
 
-        let currentUser = null;
-        let userNametag = null;
-        let activeRoomId = "sessao_filme_principal";
-        let activeChatUserId = null;
-        let activeChatNametag = null;
-        let currentModalLibraryId = null;
+<!-- MODAL DA BIBLIOTECA -->
+<div id="libraryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.92); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+    <div class="card" style="width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; margin-bottom: 0; position: relative; background: #111;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 3px solid #ffd600; padding-bottom: 10px;">
+            <h3 style="font-size: 1rem; color: #ffd600; margin-bottom:0;">DETALHES DA AVALIAÇÃO</h3>
+            <span id="closeLibraryModalBtn" style="cursor: pointer; font-family: var(--font-display); color: #ffd600; font-size: 1.2rem; font-weight: 800;">[ ✕ ]</span>
+        </div>
+        <div id="libraryModalContent"></div>
+        <div style="margin-top: 15px; text-align: right;">
+            <button type="button" id="modalDeleteMovieBtn" class="btn btn-danger" style="width: auto; padding: 10px 20px; font-size: 0.8rem; margin-bottom:0;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> EXCLUIR DA BIBLIOTECA</button>
+        </div>
+    </div>
+</div>
 
-        const stepAuth = document.getElementById('step-auth');
-        const stepNametag = document.getElementById('step-nametag');
-        const socialNavbar = document.getElementById('socialNavbar');
+<!-- DYNAMIC ISLAND COMPONENT -->
+<div class="island-container">
+    <div class="island" id="dynamic-island">
+        <i id="island-mini-icon" class="fa-solid fa-microchip"></i>
+        <div class="island-mini-status">
+            <div class="dot" id="status-dot"></div>
+            <span id="mini-player-count">OFFLINE</span>
+        </div>
+        <div class="island-content">
+            <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                <div id="island-icon-bg" style="width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ff2a75; flex-shrink: 0;">
+                    <i id="island-icon" class="fa-solid fa-microchip" style="color: #ffd600;"></i>
+                </div>
+                <div class="island-info-text">
+                    <span class="island-label" id="island-label">SISTEMA</span>
+                    <span class="island-main" id="island-main">INICIALIZANDO...</span>
+                </div>
+            </div>
+            <div id="island-action-icon" style="flex-shrink: 0; margin-left: 8px;">
+                <i class="fa-solid fa-bolt-lightning" style="color: #00ff66; filter: drop-shadow(0 0 5px #00ff66);"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Firebase SDKs e Lógica Completa -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+    import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAm_LLVLgUSpwbE2u78EN2waR-0uHqHNd0",
+        authDomain: "letter-76c0a.firebaseapp.com",
+        projectId: "letter-76c0a",
+        storageBucket: "letter-76c0a.firebasestorage.app",
+        messagingSenderId: "507179816072",
+        appId: "1:507179816072:web:5eac31ad73f6d2eb857b3d",
+        databaseURL: "https://letter-76c0a-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    let currentUser = null;
+    let userNametag = null;
+    let activeRoomId = "sessao_filme_principal";
+    let activeChatUserId = null;
+    let activeChatNametag = null;
+    let currentModalLibraryId = null;
+
+    const stepAuth = document.getElementById('step-auth');
+    const stepNametag = document.getElementById('step-nametag');
+    const socialNavbar = document.getElementById('socialNavbar');
+    
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const btnSwitchGoogleAccount = document.getElementById('btnSwitchGoogleAccount');
+    const nametagForm = document.getElementById('nametagForm');
+    const nametagInput = document.getElementById('nametagInput');
+    const quickTagLoginForm = document.getElementById('quickTagLoginForm');
+    const quickTagInput = document.getElementById('quickTagInput');
+
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const appViews = document.querySelectorAll('.app-view');
+
+    const islandEl = document.getElementById('dynamic-island');
+    const islandMiniIcon = document.getElementById('island-mini-icon');
+    const dotEl = document.getElementById('status-dot');
+    const islandLabel = document.getElementById('island-label');
+    const islandMain = document.getElementById('island-main');
+    const islandIcon = document.getElementById('island-icon');
+    const miniPlayerCount = document.getElementById('mini-player-count');
+
+    if (islandEl) {
+        islandEl.onclick = () => { islandEl.classList.toggle('active'); };
+    }
+
+    function notifyIsland(label, main, iconClass = "fa-microchip", type = "default", duration = 3000) {
+        if (!islandLabel || !islandMain || !islandEl || !dotEl) return;
+        islandLabel.innerText = label;
+        islandMain.innerText = main;
+        const fullIconClass = `fa-solid ${iconClass}`;
+        if (islandIcon) islandIcon.className = fullIconClass;
+        if (islandMiniIcon) islandMiniIcon.className = fullIconClass;
         
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
-        const btnSwitchGoogleAccount = document.getElementById('btnSwitchGoogleAccount');
-        const nametagForm = document.getElementById('nametagForm');
-        const nametagInput = document.getElementById('nametagInput');
-        const quickTagLoginForm = document.getElementById('quickTagLoginForm');
-        const quickTagInput = document.getElementById('quickTagInput');
+        islandEl.classList.remove('pulse', 'error', 'mini-active');
+        void islandEl.offsetWidth; 
+        if(type !== 'default') islandEl.classList.add(type);
+        islandEl.classList.add('active', 'pulse');
+        dotEl.classList.add('online');
 
-        const navButtons = document.querySelectorAll('.nav-btn');
-        const appViews = document.querySelectorAll('.app-view');
+        setTimeout(() => {
+            islandEl.classList.remove('active', 'pulse');
+            islandEl.classList.add('mini-active');
+        }, duration);
+    }
 
-        function switchTab(targetId) {
-            navButtons.forEach(b => {
-                if (b.getAttribute('data-target') === targetId) {
-                    b.classList.add('active');
-                } else {
-                    b.classList.remove('active');
-                }
-            });
-            
-            appViews.forEach(view => {
-                if (view.id === targetId) {
-                    view.classList.remove('hidden');
-                } else {
-                    view.classList.add('hidden');
-                }
-            });
-        }
-
-        navButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.getAttribute('data-target');
-                switchTab(targetId);
-            });
-        });
-
-        // Ações de Sair e Excluir Conta na aba Perfil
-        document.getElementById('menuSairConta').addEventListener('click', async () => {
-            if (confirm("Deseja realmente sair da conta?")) {
-                localStorage.removeItem('cinemozi_logged_tag');
-                await signOut(auth);
-                location.reload();
+    function switchTab(targetId) {
+        navButtons.forEach(b => {
+            if (b.getAttribute('data-target') === targetId) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
             }
         });
-
-        async function executeAccountDeletion() {
-            if (confirm("ATENÇÃO: Deseja realmente excluir seus dados e conta do CineMozi? Esta ação é irreversível.")) {
-                try {
-                    const uId = currentUser.uid;
-                    if (userNametag) {
-                        await remove(ref(db, `nametags/${userNametag}`));
-                    }
-                    await remove(ref(db, `users/${uId}`));
-                    localStorage.removeItem('cinemozi_logged_tag');
-                    if (auth.currentUser) {
-                        await deleteUser(auth.currentUser);
-                    }
-                    showToast("Conta e dados excluídos com sucesso.");
-                    setTimeout(() => location.reload(), 1500);
-                } catch (error) {
-                    console.error("Erro ao excluir conta:", error);
-                    alert("Para sua segurança, faça login novamente antes de excluir a conta ou tente mais tarde.");
-                }
+        
+        appViews.forEach(view => {
+            if (view.id === targetId) {
+                view.classList.remove('hidden');
+            } else {
+                view.classList.add('hidden');
             }
-        }
+        });
+    }
 
-        document.getElementById('btnProfileDeleteAccount').addEventListener('click', executeAccountDeletion);
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            switchTab(targetId);
+            notifyIsland("NAV", btn.innerText.trim(), "fa-compass");
+        });
+    });
 
-        // Trocar de Conta Google (Força prompt de escolha de conta)
-        async function handleGoogleLogin(forceSelectAccount = false) {
-            try {
-                if (forceSelectAccount) {
-                    googleProvider.setCustomParameters({ prompt: 'select_account' });
-                } else {
-                    googleProvider.setCustomParameters({});
-                }
-                await signInWithPopup(auth, googleProvider);
-            } catch (error) {
-                console.error("Erro no login com Google:", error);
-            }
-        }
-
-        googleLoginBtn.addEventListener('click', () => handleGoogleLogin(false));
-        btnSwitchGoogleAccount.addEventListener('click', async () => {
+    document.getElementById('menuSairConta').addEventListener('click', async () => {
+        if (confirm("DESEJA REALMENTE SAIR DA CONTA?")) {
             localStorage.removeItem('cinemozi_logged_tag');
             await signOut(auth);
-            handleGoogleLogin(true);
-        });
+            location.reload();
+        }
+    });
 
-        // LOGIN RÁPIDO APENAS COM A NAMETAG NA TELA INICIAL
-        quickTagLoginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const tag = quickTagInput.value.trim().toLowerCase();
-            if (!tag) return;
-
+    async function executeAccountDeletion() {
+        if (confirm("ATENÇÃO: DESEJA REALMENTE EXCLUIR SUA CONTA E DADOS?")) {
             try {
-                const tagSnap = await get(ref(db, `nametags/${tag}`));
-                if (!tagSnap.exists()) {
-                    alert("Nametag não encontrada. Verifique ou entre com o Google.");
-                    return;
+                const uId = currentUser.uid;
+                if (userNametag) {
+                    await remove(ref(db, `nametags/${userNametag}`));
                 }
-
-                const uid = tagSnap.val();
-                const userSnap = await get(ref(db, `users/${uid}`));
-                if (!userSnap.exists()) {
-                    alert("Dados do usuário não encontrados.");
-                    return;
+                await remove(ref(db, `users/${uId}`));
+                localStorage.removeItem('cinemozi_logged_tag');
+                if (auth.currentUser) {
+                    await deleteUser(auth.currentUser);
                 }
-
-                userNametag = tag;
-                localStorage.setItem('cinemozi_logged_tag', tag);
-                
-                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
-                
-                document.getElementById('profileViewNametag').textContent = `@${tag}`;
-                document.getElementById('profileEditNametagInput').value = tag;
-                document.getElementById('profileViewEmail').textContent = currentUser.email;
-
-                stepAuth.classList.add('hidden');
-                startApplication();
-                showToast(`Bem-vindo de volta, @${tag}!`);
+                showToast("CONTA EXCLUÍDA COM SUCESSO.");
+                setTimeout(() => location.reload(), 1500);
             } catch (error) {
-                console.error("Erro ao logar com nametag:", error);
-                alert("Erro ao efetuar login com a nametag.");
-            }
-        });
-
-        // ATUALIZAR NAMETAG NO PERFIL
-        document.getElementById('profileUpdateForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newTag = document.getElementById('profileEditNametagInput').value.trim().toLowerCase();
-            if (!newTag || newTag === userNametag) return;
-
-            try {
-                const tagSnap = await get(ref(db, `nametags/${newTag}`));
-                if (tagSnap.exists()) {
-                    alert("Esta Nametag já está em uso por outro usuário. Escolha outra.");
-                    return;
-                }
-
-                await remove(ref(db, `nametags/${userNametag}`));
-                await set(ref(db, `nametags/${newTag}`), currentUser.uid);
-
-                const userRef = ref(db, `users/${currentUser.uid}`);
-                await update(userRef, { nametag: newTag });
-
-                userNametag = newTag;
-                localStorage.setItem('cinemozi_logged_tag', newTag);
-                document.getElementById('profileViewNametag').textContent = `@${newTag}`;
-                showToast("Nametag atualizada com sucesso!");
-            } catch (error) {
-                console.error("Erro ao atualizar perfil:", error);
-                alert("Erro ao salvar alterações no perfil.");
-            }
-        });
-
-        // SUPORTE A SWIPE (ARRASTAR O DEDO) PARA ABAS
-        const viewsList = ["view-session", "view-chats", "view-library", "view-profile"];
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const mainContainerSwipe = document.getElementById('mainContainerSwipe');
-
-        mainContainerSwipe.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        mainContainerSwipe.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipeGesture();
-        }, { passive: true });
-
-        function handleSwipeGesture() {
-            if (currentUser && !stepNametag.classList.contains('hidden')) return;
-            if (currentUser && stepAuth.classList.contains('hidden')) {
-                const threshold = 50;
-                const diff = touchStartX - touchEndX;
-
-                let currentActiveIndex = 0;
-                navButtons.forEach((btn, idx) => {
-                    if (btn.classList.contains('active')) {
-                        currentActiveIndex = idx;
-                    }
-                });
-
-                if (diff > threshold) {
-                    if (currentActiveIndex < viewsList.length - 1) {
-                        switchTab(viewsList[currentActiveIndex + 1]);
-                    }
-                } else if (diff < -threshold) {
-                    if (currentActiveIndex > 0) {
-                        switchTab(viewsList[currentActiveIndex - 1]);
-                    }
-                }
+                console.error("Erro ao excluir conta:", error);
+                alert("Para sua segurança, faça login novamente antes de excluir a conta.");
             }
         }
+    }
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                stepAuth.classList.add('hidden');
+    document.getElementById('btnProfileDeleteAccount').addEventListener('click', executeAccountDeletion);
 
-                if (user.photoURL) {
-                    const profileViewAvatarImg = document.getElementById('profileViewAvatarImg');
-                    profileViewAvatarImg.src = user.photoURL;
-                    profileViewAvatarImg.style.display = 'block';
-                    document.getElementById('profileViewAvatarFallback').style.display = 'none';
-                }
-                document.getElementById('profileViewEmail').textContent = user.email || '';
-
-                const userRef = ref(db, `users/${user.uid}`);
-                const snapshot = await get(userRef);
-
-                if (snapshot.exists() && snapshot.val().nametag) {
-                    userNametag = snapshot.val().nametag;
-                    localStorage.setItem('cinemozi_logged_tag', userNametag);
-                    document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
-                    document.getElementById('profileEditNametagInput').value = userNametag;
-                    await update(userRef, { lastLogin: Date.now() });
-                    startApplication();
-                } else {
-                    stepNametag.classList.remove('hidden');
-                }
+    async function handleGoogleLogin(forceSelectAccount = false) {
+        try {
+            if (forceSelectAccount) {
+                googleProvider.setCustomParameters({ prompt: 'select_account' });
             } else {
-                const savedTag = localStorage.getItem('cinemozi_logged_tag');
-                if (savedTag && !currentUser) {
-                    try {
-                        const tagSnap = await get(ref(db, `nametags/${savedTag}`));
-                        if (tagSnap.exists()) {
-                            const uid = tagSnap.val();
-                            const userSnap = await get(ref(db, `users/${uid}`));
-                            if (userSnap.exists()) {
-                                userNametag = savedTag;
-                                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
-                                document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
-                                document.getElementById('profileEditNametagInput').value = savedTag;
-                                document.getElementById('profileViewEmail').textContent = currentUser.email;
-                                stepAuth.classList.add('hidden');
-                                startApplication();
-                                return;
-                            }
-                        }
-                    } catch (e) {
-                        console.error("Erro ao recuperar sessão por nametag:", e);
-                    }
-                }
-
-                currentUser = null;
-                stepAuth.classList.remove('hidden');
-                stepNametag.classList.add('hidden');
-                socialNavbar.classList.add('hidden');
-                appViews.forEach(v => v.classList.add('hidden'));
+                googleProvider.setCustomParameters({});
             }
-        });
-
-        nametagForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const tag = nametagInput.value.trim().toLowerCase();
-            if (!tag) return;
-
-            try {
-                const tagSnap = await get(ref(db, `nametags/${tag}`));
-                if (tagSnap.exists()) {
-                    alert("Esta Nametag já está em uso. Escolha outra.");
-                    return;
-                }
-
-                await set(ref(db, `users/${currentUser.uid}`), {
-                    uid: currentUser.uid,
-                    email: currentUser.email,
-                    nametag: tag,
-                    lastLogin: Date.now()
-                });
-                await set(ref(db, `nametags/${tag}`), currentUser.uid);
-
-                userNametag = tag;
-                localStorage.setItem('cinemozi_logged_tag', tag);
-                document.getElementById('profileViewNametag').textContent = `@${tag}`;
-                document.getElementById('profileEditNametagInput').value = tag;
-                stepNametag.classList.add('hidden');
-                startApplication();
-            } catch (error) {
-                console.error("Erro ao salvar nametag:", error);
-                alert("Erro ao registrar a nametag.");
-            }
-        });
-
-        function startApplication() {
-            socialNavbar.classList.remove('hidden');
-            document.getElementById('view-session').classList.remove('hidden');
-            
-            initRoomSession(activeRoomId);
-            loadChatContacts();
-            loadLibrary();
+            notifyIsland("LOGIN", "AUTENTICANDO...", "fa-circle-notch", "loading", 2000);
+            await signInWithPopup(auth, googleProvider);
+        } catch (error) {
+            console.error("Erro no login com Google:", error);
+            notifyIsland("ERRO", "FALHA NO LOGIN", "fa-xmark", "error");
         }
+    }
 
-        // GESTÃO DA SALA E FILMES
-        const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
-        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    googleLoginBtn.addEventListener('click', () => handleGoogleLogin(false));
+    btnSwitchGoogleAccount.addEventListener('click', async () => {
+        localStorage.removeItem('cinemozi_logged_tag');
+        await signOut(auth);
+        handleGoogleLogin(true);
+    });
 
-        const movieSearchInput = document.getElementById('movieSearchInput');
-        const movieResults = document.getElementById('movieResults');
-        const selectedMovieContainer = document.getElementById('selectedMovieContainer');
-        const selectedMoviePoster = document.getElementById('selectedMoviePoster');
-        const selectedMovieTitle = document.getElementById('selectedMovieTitle');
-        const selectedMovieYear = document.getElementById('selectedMovieYear');
-        const movieSearchBoxWrapper = document.getElementById('movieSearchBoxWrapper');
-        const btnChangeMovie = document.getElementById('btnChangeMovie');
-        
-        const reviewForm = document.getElementById('reviewForm');
-        const starContainer = document.getElementById('starContainer');
-        const userRatingInput = document.getElementById('userRating');
-        const ratingFeedbackText = document.getElementById('ratingFeedbackText');
-        const userComment = document.getElementById('userComment');
-        const charCounter = document.getElementById('charCounter');
-        const ratingWrapperBox = document.getElementById('ratingWrapperBox');
+    quickTagLoginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const tag = quickTagInput.value.trim().toLowerCase();
+        if (!tag) return;
 
-        const stepReview = document.getElementById('step-review');
-        const stepResults = document.getElementById('step-results');
-        const activeRoomName = document.getElementById('activeRoomName');
-
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-notification';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function initRoomSession(rId) {
-            activeRoomId = rId;
-            activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Conjunta com Colega`;
-            
-            const roomRef = ref(db, `rooms/${activeRoomId}`);
-
-            onValue(roomRef, (snapshot) => {
-                const data = snapshot.val();
-                if (!data) {
-                    stepReview.classList.add('hidden');
-                    stepResults.classList.add('hidden');
-                    selectedMovieContainer.classList.add('hidden');
-                    movieSearchBoxWrapper.style.display = 'block';
-                    return;
-                }
-
-                if (data.movie) {
-                    selectedMoviePoster.src = data.movie.poster;
-                    selectedMovieTitle.textContent = data.movie.title;
-                    selectedMovieYear.textContent = `Lançamento: ${data.movie.year}`;
-                    selectedMovieContainer.classList.remove('hidden');
-                    movieSearchBoxWrapper.style.display = 'none';
-
-                    const reviews = data.reviews || {};
-                    const myReview = reviews[currentUser.uid];
-
-                    if (myReview) {
-                        userRatingInput.value = myReview.rating;
-                        userComment.value = myReview.comment;
-                        highlightStars(myReview.rating);
-                        updateCharCounter();
-                    }
-
-                    stepReview.classList.remove('hidden');
-
-                    const reviewKeys = Object.keys(reviews);
-                    if (reviewKeys.length >= 1) {
-                        if (reviewKeys.length >= 2) {
-                            showResultsAndMatch(reviews);
-                        }
-                        saveToLibrary(activeRoomId, data.movie, reviews);
-                    } else {
-                        stepResults.classList.add('hidden');
-                    }
-                } else {
-                    selectedMovieContainer.classList.add('hidden');
-                    movieSearchBoxWrapper.style.display = 'block';
-                    stepReview.classList.add('hidden');
-                    stepResults.classList.add('hidden');
-                }
-            });
-        }
-
-        btnChangeMovie.addEventListener('click', () => {
-            selectedMovieContainer.classList.add('hidden');
-            movieSearchBoxWrapper.style.display = 'block';
-            movieSearchInput.value = '';
-            movieSearchInput.focus();
-        });
-
-        document.getElementById('btnLeaveRoom').addEventListener('click', () => {
-            initRoomSession("sessao_filme_principal");
-        });
-
-        let searchTimeout;
-        movieSearchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-            if (query.length < 3) {
-                movieResults.style.display = 'none';
+        try {
+            const tagSnap = await get(ref(db, `nametags/${tag}`));
+            if (!tagSnap.exists()) {
+                notifyIsland("ERRO", "NAMETAG NÃO ENCONTRADA", "fa-ghost", "error");
                 return;
             }
 
-            searchTimeout = setTimeout(async () => {
+            const uid = tagSnap.val();
+            const userSnap = await get(ref(db, `users/${uid}`));
+            if (!userSnap.exists()) {
+                notifyIsland("ERRO", "DADOS NÃO ENCONTRADOS", "fa-ghost", "error");
+                return;
+            }
+
+            userNametag = tag;
+            localStorage.setItem('cinemozi_logged_tag', tag);
+            currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+            
+            document.getElementById('profileViewNametag').textContent = `@${tag.toUpperCase()}`;
+            document.getElementById('profileEditNametagInput').value = tag;
+            document.getElementById('profileViewEmail').textContent = currentUser.email;
+
+            stepAuth.classList.add('hidden');
+            startApplication();
+            notifyIsland("SUCESSO", "OLÁ, @" + tag.toUpperCase(), "fa-user-check");
+        } catch (error) {
+            console.error("Erro ao logar com nametag:", error);
+            notifyIsland("ERRO", "FALHA NO LOGIN", "fa-xmark", "error");
+        }
+    });
+
+    document.getElementById('profileUpdateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newTag = document.getElementById('profileEditNametagInput').value.trim().toLowerCase();
+        if (!newTag || newTag === userNametag) return;
+
+        try {
+            const tagSnap = await get(ref(db, `nametags/${newTag}`));
+            if (tagSnap.exists()) {
+                alert("ESTA NAMETAG JÁ ESTÁ EM USO.");
+                return;
+            }
+
+            await remove(ref(db, `nametags/${userNametag}`));
+            await set(ref(db, `nametags/${newTag}`), currentUser.uid);
+
+            const userRef = ref(db, `users/${currentUser.uid}`);
+            await update(userRef, { nametag: newTag });
+
+            userNametag = newTag;
+            localStorage.setItem('cinemozi_logged_tag', newTag);
+            document.getElementById('profileViewNametag').textContent = `@${newTag.toUpperCase()}`;
+            showToast("NAMETAG ATUALIZADA!");
+            notifyIsland("PERFIL", "ATUALIZADO", "fa-check");
+        } catch (error) {
+            console.error("Erro ao atualizar perfil:", error);
+        }
+    });
+
+    // SWIPE GESTURES
+    const viewsList = ["view-session", "view-chats", "view-library", "view-profile"];
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const mainContainerSwipe = document.getElementById('mainContainerSwipe');
+
+    mainContainerSwipe.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    mainContainerSwipe.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+    }, { passive: true });
+
+    function handleSwipeGesture() {
+        if (currentUser && !stepNametag.classList.contains('hidden')) return;
+        if (currentUser && stepAuth.classList.contains('hidden')) {
+            const threshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            let currentActiveIndex = 0;
+            navButtons.forEach((btn, idx) => {
+                if (btn.classList.contains('active')) currentActiveIndex = idx;
+            });
+
+            if (diff > threshold && currentActiveIndex < viewsList.length - 1) {
+                switchTab(viewsList[currentActiveIndex + 1]);
+            } else if (diff < -threshold && currentActiveIndex > 0) {
+                switchTab(viewsList[currentActiveIndex - 1]);
+            }
+        }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            stepAuth.classList.add('hidden');
+
+            if (user.photoURL) {
+                const profileViewAvatarImg = document.getElementById('profileViewAvatarImg');
+                profileViewAvatarImg.src = user.photoURL;
+                profileViewAvatarImg.style.display = 'block';
+                document.getElementById('profileViewAvatarFallback').style.display = 'none';
+            }
+            document.getElementById('profileViewEmail').textContent = user.email || '';
+
+            const userRef = ref(db, `users/${user.uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists() && snapshot.val().nametag) {
+                userNametag = snapshot.val().nametag;
+                localStorage.setItem('cinemozi_logged_tag', userNametag);
+                document.getElementById('profileViewNametag').textContent = `@${userNametag.toUpperCase()}`;
+                document.getElementById('profileEditNametagInput').value = userNametag;
+                await update(userRef, { lastLogin: Date.now() });
+                startApplication();
+            } else {
+                stepNametag.classList.remove('hidden');
+            }
+        } else {
+            const savedTag = localStorage.getItem('cinemozi_logged_tag');
+            if (savedTag && !currentUser) {
                 try {
-                    const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
-                    const data = await response.json();
-                    renderMovieResults(data.results.slice(0, 5));
-                } catch (error) {
-                    console.error('Erro ao buscar filmes:', error);
-                }
-            }, 300);
-        });
-
-        function renderMovieResults(movies) {
-            movieResults.innerHTML = '';
-            if (movies.length === 0) {
-                movieResults.style.display = 'none';
-                return;
-            }
-
-            movies.forEach(movie => {
-                const posterUrl = movie.poster_path 
-                    ? `https://image.tmdb.org/t/p/w92${movie.poster_path}` 
-                    : 'https://via.placeholder.com/40x60?text=No+Img';
-                const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
-
-                const div = document.createElement('div');
-                div.classList.add('movie-item');
-                div.innerHTML = `
-                    <img src="${posterUrl}" alt="${movie.title}">
-                    <div class="movie-info">
-                        <h4>${movie.title}</h4>
-                        <span>${year}</span>
-                    </div>
-                `;
-                div.addEventListener('click', () => selectMovieOnFirebase(movie, posterUrl, year));
-                movieResults.appendChild(div);
-            });
-            movieResults.style.display = 'block';
-        }
-
-        async function selectMovieOnFirebase(movie, posterUrl, year) {
-            const movieObj = {
-                id: movie.id,
-                title: movie.title,
-                year: year,
-                poster: posterUrl
-            };
-
-            const roomRef = ref(db, `rooms/${activeRoomId}`);
-            await update(roomRef, { movie: movieObj, reviews: null });
-            movieResults.style.display = 'none';
-            movieSearchInput.value = '';
-            showToast("Filme selecionado para a sessão!");
-        }
-
-        const ratingLabels = {
-            1: "⭐ Ruim (Precisa melhorar)",
-            2: "⭐⭐ Regular (Dá para assistir)",
-            3: "⭐⭐⭐ Bom (Curti a experiência)",
-            4: "⭐⭐⭐⭐ Muito Bom (Recomendo muito!)",
-            5: "⭐⭐⭐⭐⭐ Obra-Prima (Perfeito!)"
-        };
-
-        function highlightStars(val) {
-            stars.forEach(s => {
-                const sVal = parseInt(s.getAttribute('data-value'));
-                if (sVal <= val) {
-                    s.classList.add('active');
-                } else {
-                    s.classList.remove('active');
-                }
-            });
-            if (val > 0 && ratingLabels[val]) {
-                ratingFeedbackText.textContent = ratingLabels[val];
-            } else {
-                ratingFeedbackText.textContent = "Selecione sua nota";
-            }
-        }
-
-        const stars = starContainer.querySelectorAll('i');
-        
-        function calculateStarFromClientX(clientX) {
-            const rect = starContainer.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const starWidth = rect.width / stars.length;
-            let rating = Math.ceil(x / starWidth);
-            if (rating < 1) rating = 1;
-            if (rating > 5) rating = 5;
-            return rating;
-        }
-
-        let isDraggingStars = false;
-
-        starContainer.addEventListener('mousedown', (e) => {
-            isDraggingStars = true;
-            const val = calculateStarFromClientX(e.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDraggingStars) return;
-            const val = calculateStarFromClientX(e.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDraggingStars = false;
-        });
-
-        starContainer.addEventListener('touchstart', (e) => {
-            isDraggingStars = true;
-            const touch = e.touches[0];
-            const val = calculateStarFromClientX(touch.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        }, { passive: true });
-
-        starContainer.addEventListener('touchmove', (e) => {
-            if (!isDraggingStars) return;
-            const touch = e.touches[0];
-            const val = calculateStarFromClientX(touch.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        }, { passive: true });
-
-        starContainer.addEventListener('touchend', () => {
-            isDraggingStars = false;
-        });
-
-        stars.forEach(star => {
-            star.addEventListener('mouseover', () => {
-                if (isDraggingStars) return;
-                const val = parseInt(star.getAttribute('data-value'));
-                stars.forEach(s => {
-                    if (parseInt(s.getAttribute('data-value')) <= val) {
-                        s.classList.add('hovered');
-                    } else {
-                        s.classList.remove('hovered');
+                    const tagSnap = await get(ref(db, `nametags/${savedTag}`));
+                    if (tagSnap.exists()) {
+                        const uid = tagSnap.val();
+                        const userSnap = await get(ref(db, `users/${uid}`));
+                        if (userSnap.exists()) {
+                            userNametag = savedTag;
+                            currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+                            document.getElementById('profileViewNametag').textContent = `@${savedTag.toUpperCase()}`;
+                            document.getElementById('profileEditNametagInput').value = savedTag;
+                            document.getElementById('profileViewEmail').textContent = currentUser.email;
+                            stepAuth.classList.add('hidden');
+                            startApplication();
+                            return;
+                        }
                     }
-                });
-                ratingFeedbackText.textContent = ratingLabels[val];
-            });
-
-            star.addEventListener('mouseout', () => {
-                if (isDraggingStars) return;
-                stars.forEach(s => s.classList.remove('hovered'));
-                const currentVal = parseInt(userRatingInput.value) || 0;
-                if (currentVal > 0) {
-                    ratingFeedbackText.textContent = ratingLabels[currentVal];
-                } else {
-                    ratingFeedbackText.textContent = "Selecione sua nota";
+                } catch (e) {
+                    console.error("Erro ao recuperar sessão:", e);
                 }
-            });
+            }
 
-            star.addEventListener('click', () => {
-                const val = parseInt(star.getAttribute('data-value'));
-                userRatingInput.value = val;
-                highlightStars(val);
-            });
-        });
-
-        function updateCharCounter() {
-            const currentLen = userComment.value.length;
-            charCounter.textContent = `${currentLen} / 500 caracteres`;
+            currentUser = null;
+            stepAuth.classList.remove('hidden');
+            stepNametag.classList.add('hidden');
+            socialNavbar.classList.add('hidden');
+            appViews.forEach(v => v.classList.add('hidden'));
+            if (miniPlayerCount) miniPlayerCount.innerText = "OFFLINE";
         }
+    });
 
-        userComment.addEventListener('input', updateCharCounter);
+    nametagForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const tag = nametagInput.value.trim().toLowerCase();
+        if (!tag) return;
 
-        reviewForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const rating = parseInt(userRatingInput.value);
-            const comment = userComment.value.trim();
-
-            if (rating === 0) {
-                alert('Por favor, selecione ao menos uma estrela.');
+        try {
+            const tagSnap = await get(ref(db, `nametags/${tag}`));
+            if (tagSnap.exists()) {
+                alert("ESTA NAMETAG JÁ ESTÁ EM USO.");
                 return;
             }
 
-            const myReview = {
+            await set(ref(db, `users/${currentUser.uid}`), {
                 uid: currentUser.uid,
-                name: userNametag,
-                rating: rating,
-                comment: comment,
-                timestamp: Date.now()
-            };
+                email: currentUser.email,
+                nametag: tag,
+                lastLogin: Date.now()
+            });
+            await set(ref(db, `nametags/${tag}`), currentUser.uid);
 
-            try {
-                await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
-                
-                const roomSnap = await get(ref(db, `rooms/${activeRoomId}`));
-                if (roomSnap.exists()) {
-                    const roomData = roomSnap.val();
-                    const allReviews = roomData.reviews || {};
-                    if (roomData.movie) {
-                        await saveToLibrary(activeRoomId, roomData.movie, allReviews);
-                    }
+            userNametag = tag;
+            localStorage.setItem('cinemozi_logged_tag', tag);
+            document.getElementById('profileViewNametag').textContent = `@${tag.toUpperCase()}`;
+            document.getElementById('profileEditNametagInput').value = tag;
+            stepNametag.classList.add('hidden');
+            startApplication();
+            notifyIsland("SUCESSO", "BEM-VINDO, @" + tag.toUpperCase(), "fa-user-plus");
+        } catch (error) {
+            console.error("Erro ao salvar nametag:", error);
+        }
+    });
+
+    function startApplication() {
+        socialNavbar.classList.remove('hidden');
+        document.getElementById('view-session').classList.remove('hidden');
+        if (miniPlayerCount) miniPlayerCount.innerText = `@${userNametag.toUpperCase()}`;
+        notifyIsland("SISTEMA", "ONLINE", "fa-shield-halved");
+        
+        initRoomSession(activeRoomId);
+        loadChatContacts();
+        loadLibrary();
+    }
+
+    // GESTÃO DE FILMES E TMDB
+    const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+
+    const movieSearchInput = document.getElementById('movieSearchInput');
+    const movieResults = document.getElementById('movieResults');
+    const selectedMovieContainer = document.getElementById('selectedMovieContainer');
+    const selectedMoviePoster = document.getElementById('selectedMoviePoster');
+    const selectedMovieTitle = document.getElementById('selectedMovieTitle');
+    const selectedMovieYear = document.getElementById('selectedMovieYear');
+    const movieSearchBoxWrapper = document.getElementById('movieSearchBoxWrapper');
+    const btnChangeMovie = document.getElementById('btnChangeMovie');
+    
+    const reviewForm = document.getElementById('reviewForm');
+    const starContainer = document.getElementById('starContainer');
+    const userRatingInput = document.getElementById('userRating');
+    const ratingFeedbackText = document.getElementById('ratingFeedbackText');
+    const userComment = document.getElementById('userComment');
+    const charCounter = document.getElementById('charCounter');
+
+    const stepReview = document.getElementById('step-review');
+    const stepResults = document.getElementById('step-results');
+    const activeRoomName = document.getElementById('activeRoomName');
+
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function initRoomSession(rId) {
+        activeRoomId = rId;
+        activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Conjunta`;
+        
+        const roomRef = ref(db, `rooms/${activeRoomId}`);
+
+        onValue(roomRef, (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                stepReview.classList.add('hidden');
+                stepResults.classList.add('hidden');
+                selectedMovieContainer.classList.add('hidden');
+                movieSearchBoxWrapper.style.display = 'block';
+                return;
+            }
+
+            if (data.movie) {
+                selectedMoviePoster.src = data.movie.poster;
+                selectedMovieTitle.textContent = data.movie.title;
+                selectedMovieYear.textContent = `LANÇAMENTO: ${data.movie.year}`;
+                selectedMovieContainer.classList.remove('hidden');
+                movieSearchBoxWrapper.style.display = 'none';
+
+                const reviews = data.reviews || {};
+                const myReview = reviews[currentUser.uid];
+
+                if (myReview) {
+                    userRatingInput.value = myReview.rating;
+                    userComment.value = myReview.comment;
+                    highlightStars(myReview.rating);
+                    updateCharCounter();
                 }
 
-                showToast("Avaliação salva com sucesso!");
-            } catch (error) {
-                console.error("Erro ao enviar avaliação:", error);
-                alert("Erro ao salvar avaliação.");
+                stepReview.classList.remove('hidden');
+
+                const reviewKeys = Object.keys(reviews);
+                if (reviewKeys.length >= 1) {
+                    if (reviewKeys.length >= 2) {
+                        showResultsAndMatch(reviews);
+                    }
+                    saveToLibrary(activeRoomId, data.movie, reviews);
+                } else {
+                    stepResults.classList.add('hidden');
+                }
+            } else {
+                selectedMovieContainer.classList.add('hidden');
+                movieSearchBoxWrapper.style.display = 'block';
+                stepReview.classList.add('hidden');
+                stepResults.classList.add('hidden');
             }
         });
+    }
 
-        function showResultsAndMatch(reviewsObj) {
-            stepResults.classList.remove('hidden');
+    btnChangeMovie.addEventListener('click', () => {
+        selectedMovieContainer.classList.add('hidden');
+        movieSearchBoxWrapper.style.display = 'block';
+        movieSearchInput.value = '';
+        movieSearchInput.focus();
+    });
 
-            const reviewsArray = Object.values(reviewsObj);
-            if (reviewsArray.length < 2) return;
+    let searchTimeout;
+    movieSearchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        if (query.length < 3) {
+            movieResults.style.display = 'none';
+            return;
+        }
 
-            const [rev1, rev2] = reviewsArray;
-            
-            const ratingDiff = Math.abs(rev1.rating - rev2.rating);
-            let similarity = 100 - (ratingDiff * 20);
-            if (similarity < 10) similarity = 10;
+        searchTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                renderMovieResults(data.results.slice(0, 5));
+            } catch (error) {
+                console.error('Erro ao buscar filmes:', error);
+            }
+        }, 300);
+    });
 
-            const totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / 10) * 100);
+    function renderMovieResults(movies) {
+        movieResults.innerHTML = '';
+        if (movies.length === 0) {
+            movieResults.style.display = 'none';
+            return;
+        }
 
-            document.getElementById('matchPercentage').innerHTML = `${similarity}<span class="percent-symbol">%</span>`;
-            document.getElementById('totalRatingPercentage').innerHTML = `${totalRatingPercent}<span class="percent-symbol">%</span>`;
+        movies.forEach(movie => {
+            const posterUrl = movie.poster_path 
+                ? `https://image.tmdb.org/t/p/w92${movie.poster_path}` 
+                : 'https://via.placeholder.com/40x60?text=No+Img';
+            const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
 
-            const container = document.getElementById('comparisonContainer');
-            container.innerHTML = `
-                <div class="review-box">
-                    <h3>@${rev1.name} <span>${'★'.repeat(rev1.rating)}${'☆'.repeat(5 - rev1.rating)}</span></h3>
-                    <p style="color: #bf00ff; text-shadow: 0 0 4px #bf00ff; font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev1.rating} de 5 estrelas</p>
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-bright);">"${rev1.comment}"</p>
-                </div>
-                <div class="review-box">
-                    <h3>@${rev2.name} <span>${'★'.repeat(rev2.rating)}${'☆'.repeat(5 - rev2.rating)}</span></h3>
-                    <p style="color: #bf00ff; text-shadow: 0 0 4px #bf00ff; font-size: 0.85rem; margin-bottom: 0.6rem; font-weight: 600;">Nota: ${rev2.rating} de 5 estrelas</p>
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-bright);">"${rev2.comment}"</p>
+            const div = document.createElement('div');
+            div.classList.add('movie-item');
+            div.innerHTML = `
+                <img src="${posterUrl}" alt="${movie.title}">
+                <div class="movie-info">
+                    <h4>${movie.title}</h4>
+                    <span>${year}</span>
                 </div>
             `;
+            div.addEventListener('click', () => selectMovieOnFirebase(movie, posterUrl, year));
+            movieResults.appendChild(div);
+        });
+        movieResults.style.display = 'block';
+    }
+
+    async function selectMovieOnFirebase(movie, posterUrl, year) {
+        const movieObj = {
+            id: movie.id,
+            title: movie.title,
+            year: year,
+            poster: posterUrl
+        };
+
+        const roomRef = ref(db, `rooms/${activeRoomId}`);
+        await update(roomRef, { movie: movieObj, reviews: null });
+        movieResults.style.display = 'none';
+        movieSearchInput.value = '';
+        showToast("FILME SELECIONADO PARA A SESSÃO!");
+        notifyIsland("FILME", movie.title, "fa-film");
+    }
+
+    const ratingLabels = {
+        1: "⭐ RUIM",
+        2: "⭐⭐ REGULAR",
+        3: "⭐⭐⭐ BOM",
+        4: "⭐⭐⭐⭐ MUITO BOM",
+        5: "⭐⭐⭐⭐⭐ OBRA-PRIMA"
+    };
+
+    function highlightStars(val) {
+        stars.forEach(s => {
+            const sVal = parseInt(s.getAttribute('data-value'));
+            if (sVal <= val) {
+                s.classList.add('active');
+            } else {
+                s.classList.remove('active');
+            }
+        });
+        if (val > 0 && ratingLabels[val]) {
+            ratingFeedbackText.textContent = ratingLabels[val];
+        } else {
+            ratingFeedbackText.textContent = "SELECIONE SUA NOTA";
         }
+    }
 
-        async function saveToLibrary(rId, movie, reviews) {
-            const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
-            const libId = `${cleanRoomId}_movie_${movie.id}`;
-            
-            await remove(ref(db, `deleted_library/${libId}`));
+    const stars = starContainer.querySelectorAll('i');
+    
+    function calculateStarFromClientX(clientX) {
+        const rect = starContainer.getBoundingClientRect();
+        const x = clientX - rect.left;
+        const starWidth = rect.width / stars.length;
+        let rating = Math.ceil(x / starWidth);
+        if (rating < 1) rating = 1;
+        if (rating > 5) rating = 5;
+        return rating;
+    }
 
-            const libraryRef = ref(db, `library/${libId}`);
-            await set(libraryRef, {
-                roomId: rId,
-                movie: movie,
-                reviews: reviews,
-                updatedAt: Date.now()
+    let isDraggingStars = false;
+
+    starContainer.addEventListener('mousedown', (e) => {
+        isDraggingStars = true;
+        const val = calculateStarFromClientX(e.clientX);
+        userRatingInput.value = val;
+        highlightStars(val);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDraggingStars) return;
+        const val = calculateStarFromClientX(e.clientX);
+        userRatingInput.value = val;
+        highlightStars(val);
+    });
+
+    window.addEventListener('mouseup', () => { isDraggingStars = false; });
+
+    starContainer.addEventListener('touchstart', (e) => {
+        isDraggingStars = true;
+        const touch = e.touches[0];
+        const val = calculateStarFromClientX(touch.clientX);
+        userRatingInput.value = val;
+        highlightStars(val);
+    }, { passive: true });
+
+    starContainer.addEventListener('touchmove', (e) => {
+        if (!isDraggingStars) return;
+        const touch = e.touches[0];
+        const val = calculateStarFromClientX(touch.clientX);
+        userRatingInput.value = val;
+        highlightStars(val);
+    }, { passive: true });
+
+    starContainer.addEventListener('touchend', () => { isDraggingStars = false; });
+
+    stars.forEach(star => {
+        star.addEventListener('mouseover', () => {
+            if (isDraggingStars) return;
+            const val = parseInt(star.getAttribute('data-value'));
+            stars.forEach(s => {
+                if (parseInt(s.getAttribute('data-value')) <= val) s.classList.add('hovered');
+                else s.classList.remove('hovered');
             });
+            ratingFeedbackText.textContent = ratingLabels[val];
+        });
+
+        star.addEventListener('mouseout', () => {
+            if (isDraggingStars) return;
+            stars.forEach(s => s.classList.remove('hovered'));
+            const currentVal = parseInt(userRatingInput.value) || 0;
+            if (currentVal > 0) ratingFeedbackText.textContent = ratingLabels[currentVal];
+            else ratingFeedbackText.textContent = "SELECIONE SUA NOTA";
+        });
+
+        star.addEventListener('click', () => {
+            const val = parseInt(star.getAttribute('data-value'));
+            userRatingInput.value = val;
+            highlightStars(val);
+        });
+    });
+
+    function updateCharCounter() {
+        const currentLen = userComment.value.length;
+        charCounter.textContent = `${currentLen} / 500 CARACTERES`;
+    }
+
+    userComment.addEventListener('input', updateCharCounter);
+
+    reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rating = parseInt(userRatingInput.value);
+        const comment = userComment.value.trim();
+
+        if (rating === 0) {
+            alert('SELECIONE AO MENOS UMA ESTRELA.');
+            return;
         }
 
-        function loadLibrary() {
-            const libraryRef = ref(db, 'library');
-            onValue(libraryRef, (snapshot) => {
-                const data = snapshot.val() || {};
-                const container = document.getElementById('libraryGridContainer');
-                container.innerHTML = '';
+        const myReview = {
+            uid: currentUser.uid,
+            name: userNametag,
+            rating: rating,
+            comment: comment,
+            timestamp: Date.now()
+        };
 
-                // Correção para mapeamento de chaves únicas e remoção de duplicatas por ID de filme
-                const uniqueMoviesMap = new Map();
-                Object.keys(data).forEach(k => {
-                    const item = data[k];
-                    const reviews = Object.values(item.reviews || {});
-                    if (reviews.length === 0) return;
-
-                    const movieId = item.movie?.id || k;
-                    // Se já existir, prioriza o mais recente
-                    if (!uniqueMoviesMap.has(movieId) || item.updatedAt > uniqueMoviesMap.get(movieId).updatedAt) {
-                        uniqueMoviesMap.set(movieId, { key: k, item });
-                    }
-                });
-
-                const validLibraryItems = Array.from(uniqueMoviesMap.values());
-                document.getElementById('profileStatsCount').textContent = validLibraryItems.length;
-
-                if (validLibraryItems.length === 0) {
-                    container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">Nenhum filme na biblioteca ainda.</p>';
-                    return;
+        try {
+            await set(ref(db, `rooms/${activeRoomId}/reviews/${currentUser.uid}`), myReview);
+            const roomSnap = await get(ref(db, `rooms/${activeRoomId}`));
+            if (roomSnap.exists()) {
+                const roomData = roomSnap.val();
+                const allReviews = roomData.reviews || {};
+                if (roomData.movie) {
+                    await saveToLibrary(activeRoomId, roomData.movie, allReviews);
                 }
-
-                validLibraryItems.forEach(({ key: k, item }) => {
-                    const reviews = Object.values(item.reviews || {});
-
-                    let similarity = 100;
-                    if (reviews.length >= 2) {
-                        const [rev1, rev2] = reviews;
-                        const ratingDiff = Math.abs(rev1.rating - rev2.rating);
-                        similarity = 100 - (ratingDiff * 20);
-                        if (similarity < 10) similarity = 10;
-                    }
-
-                    const card = document.createElement('div');
-                    card.className = 'library-card';
-                    card.title = `${item.movie.title} - Clique para abrir avaliações`;
-
-                    card.innerHTML = `
-                        <button class="library-delete-btn" title="Excluir Filme" data-libkey="${k}"><i class="fa-solid fa-trash-can"></i></button>
-                        <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${k}')">
-                            <img src="${item.movie.poster}" alt="${item.movie.title}">
-                            <div class="library-card-match">
-                                <span>Match: ${similarity}<span class="percent-symbol">%</span></span>
-                            </div>
-                        </div>
-                    `;
-
-                    card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
-                        e.stopPropagation();
-                        if (confirm(`Deseja realmente excluir "${item.movie.title}" da biblioteca?`)) {
-                            try {
-                                await set(ref(db, `deleted_library/${k}`), true);
-                                await remove(ref(db, `library/${k}`));
-                                showToast("Filme excluído da biblioteca!");
-                            } catch (err) {
-                                console.error("Erro ao excluir filme:", err);
-                                alert("Erro ao excluir o filme.");
-                            }
-                        }
-                    });
-
-                    container.appendChild(card);
-                });
-            });
+            }
+            showToast("AVALIAÇÃO SALVA COM SUCESSO!");
+            notifyIsland("AVALIAÇÃO", "SALVA", "fa-star");
+        } catch (error) {
+            console.error("Erro ao enviar avaliação:", error);
         }
+    });
 
-        window.openLibraryModal = function(libKey) {
-            currentModalLibraryId = libKey;
-            const libraryRef = ref(db, `library/${currentModalLibraryId}`);
-            get(libraryRef).then((snapshot) => {
-                if (!snapshot.exists()) return;
-                const item = snapshot.val();
-                const reviewsObj = item.reviews || {};
-                const reviewsArray = Object.values(reviewsObj);
-                const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '' };
+    function showResultsAndMatch(reviewsObj) {
+        stepResults.classList.remove('hidden');
+        const reviewsArray = Object.values(reviewsObj);
+        if (reviewsArray.length < 2) return;
 
+        const [rev1, rev2] = reviewsArray;
+        const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+        let similarity = 100 - (ratingDiff * 20);
+        if (similarity < 10) similarity = 10;
+
+        const totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / 10) * 100);
+
+        document.getElementById('matchPercentage').innerText = `${similarity}%`;
+        document.getElementById('totalRatingPercentage').innerText = `${totalRatingPercent}%`;
+
+        const container = document.getElementById('comparisonContainer');
+        container.innerHTML = `
+            <div class="review-box">
+                <h3>@${rev1.name.toUpperCase()} <span>${'★'.repeat(rev1.rating)}${'☆'.repeat(5 - rev1.rating)}</span></h3>
+                <p style="color: #ff2a75; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 6px; font-weight: 800;">NOTA: ${rev1.rating} / 5</p>
+                <p style="font-size: 0.95rem; line-height: 1.4; color: #000;">"${rev1.comment}"</p>
+            </div>
+            <div class="review-box">
+                <h3>@${rev2.name.toUpperCase()} <span>${'★'.repeat(rev2.rating)}${'☆'.repeat(5 - rev2.rating)}</span></h3>
+                <p style="color: #ff2a75; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 6px; font-weight: 800;">NOTA: ${rev2.rating} / 5</p>
+                <p style="font-size: 0.95rem; line-height: 1.4; color: #000;">"${rev2.comment}"</p>
+            </div>
+        `;
+    }
+
+    async function saveToLibrary(rId, movie, reviews) {
+        const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
+        const libId = `${cleanRoomId}_movie_${movie.id}`;
+        await remove(ref(db, `deleted_library/${libId}`));
+
+        const libraryRef = ref(db, `library/${libId}`);
+        await set(libraryRef, {
+            roomId: rId,
+            movie: movie,
+            reviews: reviews,
+            updatedAt: Date.now()
+        });
+    }
+
+    function loadLibrary() {
+        const libraryRef = ref(db, 'library');
+        onValue(libraryRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            const container = document.getElementById('libraryGridContainer');
+            container.innerHTML = '';
+
+            const uniqueMoviesMap = new Map();
+            Object.keys(data).forEach(k => {
+                const item = data[k];
+                const reviews = Object.values(item.reviews || {});
+                if (reviews.length === 0) return;
+
+                const movieId = item.movie?.id || k;
+                if (!uniqueMoviesMap.has(movieId) || item.updatedAt > uniqueMoviesMap.get(movieId).updatedAt) {
+                    uniqueMoviesMap.set(movieId, { key: k, item });
+                }
+            });
+
+            const validLibraryItems = Array.from(uniqueMoviesMap.values());
+            document.getElementById('profileStatsCount').textContent = validLibraryItems.length;
+
+            if (validLibraryItems.length === 0) {
+                container.innerHTML = '<p style="color: #888; margin-top: 15px;">NENHUM FILME NA BIBLIOTECA AINDA.</p>';
+                return;
+            }
+
+            validLibraryItems.forEach(({ key: k, item }) => {
+                const reviews = Object.values(item.reviews || {});
                 let similarity = 100;
-                let totalRatingPercent = Math.round((myReview.rating / 5) * 100);
-                if (reviewsArray.length >= 2) {
-                    const [rev1, rev2] = reviewsArray;
+                if (reviews.length >= 2) {
+                    const [rev1, rev2] = reviews;
                     const ratingDiff = Math.abs(rev1.rating - rev2.rating);
                     similarity = 100 - (ratingDiff * 20);
                     if (similarity < 10) similarity = 10;
-                    totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / (reviewsArray.length * 5)) * 100);
                 }
 
-                const modalContent = document.getElementById('libraryModalContent');
-                modalContent.innerHTML = `
-                    <div class="selected-movie-preview" style="margin-bottom: 1rem;">
-                        <img src="${item.movie.poster}" alt="Poster">
-                        <div style="flex: 1; min-width: 0;">
-                            <h3 style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.movie.title}</h3>
-                            <p style="color:var(--text-muted); font-family: var(--font-retro-sub); font-size: 1.15rem; margin-top: 0.3rem; text-shadow: 0 0 4px #ffffff;">Lançamento: ${item.movie.year}</p>
+                const card = document.createElement('div');
+                card.className = 'library-card';
+                card.innerHTML = `
+                    <button class="library-delete-btn" title="Excluir Filme"><i class="fa-solid fa-trash-can"></i></button>
+                    <div style="width: 100%;" onclick="openLibraryModal('${k}')">
+                        <img src="${item.movie.poster}" alt="${item.movie.title}">
+                        <div class="library-card-match">
+                            <span>MATCH: ${similarity}%</span>
                         </div>
-                    </div>
-
-                    <div class="match-score-card" style="margin-bottom: 1rem; padding: 1rem;">
-                        <div class="scores-wrapper">
-                            <div class="score-block">
-                                <p style="color: #ffffff; text-shadow: 0 0 4px #ffffff; font-family: var(--font-pixel); font-size: 0.65rem; text-transform: uppercase;">Match</p>
-                                <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff; font-size: 2.2rem; text-shadow: 2px 2px 0px #bf00ff;">${similarity}<span class="percent-symbol">%</span></h2>
-                            </div>
-                            <div class="score-divider"></div>
-                            <div class="score-block">
-                                <p style="color: #bf00ff; text-shadow: 0 0 4px #bf00ff; font-family: var(--font-pixel); font-size: 0.65rem; text-transform: uppercase;">Média Avaliação</p>
-                                <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff; font-size: 2.2rem; text-shadow: 2px 2px 0px #bf00ff;">${totalRatingPercent}<span class="percent-symbol">%</span></h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="comparison-grid" style="margin-bottom: 1rem;">
-                        ${reviewsArray.map(rev => `
-                            <div class="review-box" style="margin-bottom: 0;">
-                                <h3>@${rev.name} <span>${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</span></h3>
-                                <p style="color: #bf00ff; text-shadow: 0 0 4px #bf00ff; font-size: 0.8rem; margin-bottom: 0.4rem; font-weight: 600;">Nota: ${rev.rating} / 5</p>
-                                <p style="font-size: 0.9rem; line-height: 1.4; color: var(--text-bright);">"${rev.comment}"</p>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div class="card" style="margin-bottom: 0; padding: 1.5rem 1rem 1rem 1rem;">
-                        <h3 style="margin-bottom: 1rem; font-size: 0.9rem;"><i class="fa-solid fa-pen-to-square" style="color: #ffffff; text-shadow: 0 0 6px #ffffff; margin-right: 6px;"></i> Editar Minha Avaliação</h3>
-                        <form id="modalReviewForm">
-                            <div class="rating-wrapper" style="padding: 1rem; margin-bottom: 1rem;">
-                                <label style="display: block; color: #ffffff; text-shadow: 0 0 6px rgba(255, 255, 255, 0.8); font-family: var(--font-pixel); font-size: 0.7rem; margin-bottom: 0.4rem;">Sua Nota</label>
-                                <div class="rating-stars" id="modalStarContainer" style="font-size: 1.8rem; gap: 0.6rem;">
-                                    <i class="fa-solid fa-star ${myReview.rating >= 1 ? 'active' : ''}" data-value="1"></i>
-                                    <i class="fa-solid fa-star ${myReview.rating >= 2 ? 'active' : ''}" data-value="2"></i>
-                                    <i class="fa-solid fa-star ${myReview.rating >= 3 ? 'active' : ''}" data-value="3"></i>
-                                    <i class="fa-solid fa-star ${myReview.rating >= 4 ? 'active' : ''}" data-value="4"></i>
-                                    <i class="fa-solid fa-star ${myReview.rating >= 5 ? 'active' : ''}" data-value="5"></i>
-                                </div>
-                                <div id="modalRatingFeedback" class="rating-feedback-text" style="font-size: 0.7rem;">${myReview.rating > 0 ? ratingLabels[myReview.rating] : 'Selecione sua nota'}</div>
-                                <input type="hidden" id="modalUserRating" value="${myReview.rating}">
-                            </div>
-
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label style="font-size: 0.7rem;">Seu Comentário</label>
-                                <textarea id="modalUserComment" maxlength="500" required style="min-height: 80px; font-size: 0.9rem;">${myReview.comment || ''}</textarea>
-                            </div>
-
-                            <button type="submit" class="btn" style="padding: 0.8rem; font-size: 0.75rem;"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Salvar Alterações</button>
-                        </form>
                     </div>
                 `;
 
-                const modalStars = document.querySelectorAll('#modalStarContainer i');
-                const modalRatingInput = document.getElementById('modalUserRating');
-                const modalFeedback = document.getElementById('modalRatingFeedback');
-
-                modalStars.forEach(star => {
-                    star.addEventListener('click', () => {
-                        const val = parseInt(star.getAttribute('data-value'));
-                        modalRatingInput.value = val;
-                        modalStars.forEach((s, idx) => {
-                            if (idx < val) s.classList.add('active');
-                            else s.classList.remove('active');
-                        });
-                        modalFeedback.textContent = ratingLabels[val];
-                    });
-                });
-
-                document.getElementById('modalReviewForm').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const newRating = parseInt(modalRatingInput.value);
-                    const newComment = document.getElementById('modalUserComment').value.trim();
-
-                    if (newRating === 0) {
-                        alert('Selecione uma nota.');
-                        return;
-                    }
-
-                    try {
-                        const updatedReviews = { ...item.reviews };
-                        updatedReviews[currentUser.uid] = {
-                            uid: currentUser.uid,
-                            name: userNametag,
-                            rating: newRating,
-                            comment: newComment,
-                            timestamp: Date.now()
-                        };
-
-                        await update(ref(db, `library/${currentModalLibraryId}`), {
-                            reviews: updatedReviews,
-                            updatedAt: Date.now()
-                        });
-
-                        showToast("Avaliação atualizada com sucesso!");
-                        document.getElementById('libraryModal').classList.add('hidden');
-                    } catch (err) {
-                        console.error("Erro ao atualizar avaliação no modal:", err);
-                        alert("Erro ao salvar alterações.");
+                card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    if (confirm(`EXCLUIR "${item.movie.title.toUpperCase()}" DA BIBLIOTECA?`)) {
+                        try {
+                            await set(ref(db, `deleted_library/${k}`), true);
+                            await remove(ref(db, `library/${k}`));
+                            showToast("FILME EXCLUÍDO!");
+                        } catch (err) {
+                            console.error("Erro ao excluir:", err);
+                        }
                     }
                 });
 
-                document.getElementById('libraryModal').classList.remove('hidden');
+                container.appendChild(card);
             });
-        };
-
-        document.getElementById('closeLibraryModalBtn').addEventListener('click', () => {
-            document.getElementById('libraryModal').classList.add('hidden');
         });
+    }
 
-        document.getElementById('modalDeleteMovieBtn').addEventListener('click', async () => {
-            if (!currentModalLibraryId) return;
-            if (confirm("Deseja realmente excluir este filme da biblioteca?")) {
-                try {
-                    await set(ref(db, `deleted_library/${currentModalLibraryId}`), true);
-                    await remove(ref(db, `library/${currentModalLibraryId}`));
-                    document.getElementById('libraryModal').classList.add('hidden');
-                    showToast("Filme excluído com sucesso!");
-                } catch (err) {
-                    console.error("Erro ao excluir filme do modal:", err);
-                    alert("Erro ao excluir o filme.");
-                }
+    window.openLibraryModal = function(libKey) {
+        currentModalLibraryId = libKey;
+        const libraryRef = ref(db, `library/${currentModalLibraryId}`);
+        get(libraryRef).then((snapshot) => {
+            if (!snapshot.exists()) return;
+            const item = snapshot.val();
+            const reviewsObj = item.reviews || {};
+            const reviewsArray = Object.values(reviewsObj);
+            const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '' };
+
+            let similarity = 100;
+            let totalRatingPercent = Math.round((myReview.rating / 5) * 100);
+            if (reviewsArray.length >= 2) {
+                const [rev1, rev2] = reviewsArray;
+                const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+                similarity = 100 - (ratingDiff * 20);
+                if (similarity < 10) similarity = 10;
+                totalRatingPercent = Math.round(((rev1.rating + rev2.rating) / (reviewsArray.length * 5)) * 100);
             }
+
+            const modalContent = document.getElementById('libraryModalContent');
+            modalContent.innerHTML = `
+                <div class="selected-movie-preview" style="margin-bottom: 15px;">
+                    <img src="${item.movie.poster}" alt="Poster">
+                    <div style="flex: 1; min-width: 0; text-align: left;">
+                        <h3 style="color:#000; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.movie.title}</h3>
+                        <p style="color:#5500ff; font-family: var(--font-mono); font-size: 1rem; margin-top: 5px; font-weight: 700;">LANÇAMENTO: ${item.movie.year}</p>
+                    </div>
+                </div>
+
+                <div class="match-score-card" style="margin-bottom: 15px; padding: 15px;">
+                    <div class="scores-wrapper">
+                        <div class="score-block">
+                            <p style="color: #000; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800;">MATCH</p>
+                            <h2 style="font-size: 2.2rem;">${similarity}%</h2>
+                        </div>
+                        <div class="score-divider"></div>
+                        <div class="score-block">
+                            <p style="color: #000; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800;">MÉDIA</p>
+                            <h2 style="font-size: 2.2rem;">${totalRatingPercent}%</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-grid" style="margin-bottom: 15px;">
+                    ${reviewsArray.map(rev => `
+                        <div class="review-box" style="margin-bottom: 0;">
+                            <h3>@${rev.name.toUpperCase()} <span>${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</span></h3>
+                            <p style="color: #ff2a75; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 4px; font-weight: 800;">NOTA: ${rev.rating} / 5</p>
+                            <p style="font-size: 0.9rem; line-height: 1.4; color: #000;">"${rev.comment}"</p>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="card" style="margin-bottom: 0; padding: 15px; background: #000;">
+                    <h3 style="margin-bottom: 10px; font-size: 0.9rem; color: #ffd600;"><i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> EDITAR AVALIAÇÃO</h3>
+                    <form id="modalReviewForm" style="max-width: 100%;">
+                        <div class="rating-wrapper" style="padding: 12px; margin-bottom: 10px;">
+                            <label>SUA NOTA</label>
+                            <div class="rating-stars" id="modalStarContainer" style="font-size: 1.8rem; gap: 8px;">
+                                <i class="fa-solid fa-star ${myReview.rating >= 1 ? 'active' : ''}" data-value="1"></i>
+                                <i class="fa-solid fa-star ${myReview.rating >= 2 ? 'active' : ''}" data-value="2"></i>
+                                <i class="fa-solid fa-star ${myReview.rating >= 3 ? 'active' : ''}" data-value="3"></i>
+                                <i class="fa-solid fa-star ${myReview.rating >= 4 ? 'active' : ''}" data-value="4"></i>
+                                <i class="fa-solid fa-star ${myReview.rating >= 5 ? 'active' : ''}" data-value="5"></i>
+                            </div>
+                            <div id="modalRatingFeedback" class="rating-feedback-text" style="font-size: 0.9rem;">${myReview.rating > 0 ? ratingLabels[myReview.rating] : 'SELECIONE SUA NOTA'}</div>
+                            <input type="hidden" id="modalUserRating" value="${myReview.rating}">
+                        </div>
+
+                        <div style="margin-bottom: 10px; width: 100%;">
+                            <textarea id="modalUserComment" maxlength="500" required style="min-height: 70px; font-size: 0.9rem;">${myReview.comment || ''}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn" style="padding: 12px; font-size: 0.8rem; margin-bottom:0;"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> SALVAR ALTERAÇÕES</button>
+                    </form>
+                </div>
+            `;
+
+            const modalStars = document.querySelectorAll('#modalStarContainer i');
+            const modalRatingInput = document.getElementById('modalUserRating');
+            const modalFeedback = document.getElementById('modalRatingFeedback');
+
+            modalStars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const val = parseInt(star.getAttribute('data-value'));
+                    modalRatingInput.value = val;
+                    modalStars.forEach((s, idx) => {
+                        if (idx < val) s.classList.add('active');
+                        else s.classList.remove('active');
+                    });
+                    modalFeedback.textContent = ratingLabels[val];
+                });
+            });
+
+            document.getElementById('modalReviewForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const newRating = parseInt(modalRatingInput.value);
+                const newComment = document.getElementById('modalUserComment').value.trim();
+
+                if (newRating === 0) {
+                    alert('SELECIONE UMA NOTA.');
+                    return;
+                }
+
+                try {
+                    const updatedReviews = { ...item.reviews };
+                    updatedReviews[currentUser.uid] = {
+                        uid: currentUser.uid,
+                        name: userNametag,
+                        rating: newRating,
+                        comment: newComment,
+                        timestamp: Date.now()
+                    };
+
+                    await update(ref(db, `library/${currentModalLibraryId}`), {
+                        reviews: updatedReviews,
+                        updatedAt: Date.now()
+                    });
+
+                    showToast("AVALIAÇÃO ATUALIZADA!");
+                    document.getElementById('libraryModal').classList.add('hidden');
+                } catch (err) {
+                    console.error("Erro ao atualizar modal:", err);
+                }
+            });
+
+            document.getElementById('libraryModal').classList.remove('hidden');
         });
+    };
 
-        // SISTEMA DE CHATS & AMIGOS
-        const addFriendForm = document.getElementById('addFriendForm');
-        const friendNametagInput = document.getElementById('friendNametagInput');
-        const chatContactsList = document.getElementById('chatContactsList');
-        const activeChatTitle = document.getElementById('activeChatTitle');
-        const chatMessagesContainer = document.getElementById('chatMessagesContainer');
-        const chatInputAreaWrapper = document.getElementById('chatInputAreaWrapper');
-        const chatInputMessage = document.getElementById('chatInputMessage');
-        const sendChatBtn = document.getElementById('sendChatBtn');
-        const btnEvaluateTogether = document.getElementById('btnEvaluateTogether');
+    document.getElementById('closeLibraryModalBtn').addEventListener('click', () => {
+        document.getElementById('libraryModal').classList.add('hidden');
+    });
 
-        addFriendForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const friendTag = friendNametagInput.value.trim().toLowerCase();
-            if (!friendTag || friendTag === userNametag) {
-                alert("Digite uma Nametag válida e diferente da sua.");
+    document.getElementById('modalDeleteMovieBtn').addEventListener('click', async () => {
+        if (!currentModalLibraryId) return;
+        if (confirm("EXCLUIR ESTE FILME DA BIBLIOTECA?")) {
+            try {
+                await set(ref(db, `deleted_library/${currentModalLibraryId}`), true);
+                await remove(ref(db, `library/${currentModalLibraryId}`));
+                document.getElementById('libraryModal').classList.add('hidden');
+                showToast("FILME EXCLUÍDO!");
+            } catch (err) {
+                console.error("Erro ao excluir:", err);
+            }
+        }
+    });
+
+    // SISTEMA DE CHATS & AMIGOS
+    const addFriendForm = document.getElementById('addFriendForm');
+    const friendNametagInput = document.getElementById('friendNametagInput');
+    const chatContactsList = document.getElementById('chatContactsList');
+    const activeChatTitle = document.getElementById('activeChatTitle');
+    const chatMessagesContainer = document.getElementById('chatMessagesContainer');
+    const chatInputAreaWrapper = document.getElementById('chatInputAreaWrapper');
+    const chatInputMessage = document.getElementById('chatInputMessage');
+    const sendChatBtn = document.getElementById('sendChatBtn');
+    const btnEvaluateTogether = document.getElementById('btnEvaluateTogether');
+
+    addFriendForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const friendTag = friendNametagInput.value.trim().toLowerCase();
+        if (!friendTag || friendTag === userNametag) {
+            alert("DIGITE UMA NAMETAG VÁLIDA.");
+            return;
+        }
+
+        try {
+            const tagSnap = await get(ref(db, `nametags/${friendTag}`));
+            if (!tagSnap.exists()) {
+                alert("NAMETAG NÃO ENCONTRADA.");
                 return;
             }
 
-            try {
-                const tagSnap = await get(ref(db, `nametags/${friendTag}`));
-                if (!tagSnap.exists()) {
-                    alert("Esta Nametag não foi encontrada.");
-                    return;
-                }
+            const friendUid = tagSnap.val();
+            await set(ref(db, `users/${currentUser.uid}/friends/${friendUid}`), {
+                uid: friendUid,
+                nametag: friendTag,
+                addedAt: Date.now()
+            });
 
-                const friendUid = tagSnap.val();
-                await set(ref(db, `users/${currentUser.uid}/friends/${friendUid}`), {
-                    uid: friendUid,
-                    nametag: friendTag,
-                    addedAt: Date.now()
+            friendNametagInput.value = '';
+            showToast(`@${friendTag.toUpperCase()} ADICIONADO!`);
+            notifyIsland("AMIGO", "ADICIONADO", "fa-user-plus");
+        } catch (err) {
+            console.error("Erro ao adicionar amigo:", err);
+        }
+    });
+
+    function loadChatContacts() {
+        const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
+        onValue(friendsRef, (snapshot) => {
+            const friends = snapshot.val() || {};
+            chatContactsList.innerHTML = '';
+
+            const keys = Object.keys(friends);
+            if (keys.length === 0) {
+                chatContactsList.innerHTML = '<p style="color: #888; font-size: 0.8rem; padding: 10px; text-align: center;">NENHUM AMIGO.</p>';
+                return;
+            }
+
+            keys.forEach(fUid => {
+                const friend = friends[fUid];
+                const item = document.createElement('div');
+                item.className = 'whatsapp-contact-item';
+                if (activeChatUserId === fUid) item.classList.add('active');
+
+                item.innerHTML = `
+                    <div class="whatsapp-avatar">${friend.nametag.charAt(0).toUpperCase()}</div>
+                    <div style="min-width: 0; flex: 1; text-align: left;">
+                        <h4 style="font-family: var(--font-display); font-size: 0.8rem; color: #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@${friend.nametag.toUpperCase()}</h4>
+                        <span style="font-size: 0.7rem; color: #444; font-weight: 700;">CONVERSAR</span>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => {
+                    setActiveChat(fUid, friend.nametag);
                 });
 
-                friendNametagInput.value = '';
-                showToast(`Amigo @${friendTag} adicionado com sucesso!`);
-            } catch (err) {
-                console.error("Erro ao adicionar amigo:", err);
-                alert("Erro ao adicionar amigo.");
+                chatContactsList.appendChild(item);
+            });
+        });
+    }
+
+    function setActiveChat(fUid, fNametag) {
+        activeChatUserId = fUid;
+        activeChatNametag = fNametag;
+        activeChatTitle.textContent = `@${fNametag.toUpperCase()}`;
+        chatInputAreaWrapper.style.display = 'flex';
+        btnEvaluateTogether.classList.remove('hidden');
+
+        document.querySelectorAll('.whatsapp-contact-item').forEach(el => {
+            el.classList.remove('active');
+            if (el.textContent.includes(`@${fNametag.toUpperCase()}`)) {
+                el.classList.add('active');
             }
         });
 
-        function loadChatContacts() {
-            const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
-            onValue(friendsRef, (snapshot) => {
-                const friends = snapshot.val() || {};
-                chatContactsList.innerHTML = '';
+        loadChatMessages();
+    }
 
-                const keys = Object.keys(friends);
-                if (keys.length === 0) {
-                    chatContactsList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem; padding: 0.5rem; text-align: center;">Nenhum amigo adicionado.</p>';
-                    return;
-                }
+    function getChatRoomId(uid1, uid2) {
+        return uid1 < uid2 ? `chat_${uid1}_${uid2}` : `chat_${uid2}_${uid1}`;
+    }
 
-                keys.forEach(fUid => {
-                    const friend = friends[fUid];
-                    const item = document.createElement('div');
-                    item.className = 'whatsapp-contact-item';
-                    if (activeChatUserId === fUid) item.classList.add('active');
+    function loadChatMessages() {
+        if (!activeChatUserId) return;
+        const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
+        const chatRef = ref(db, `chats/${chatId}/messages`);
 
-                    item.innerHTML = `
-                        <div class="whatsapp-avatar">${friend.nametag.charAt(0).toUpperCase()}</div>
-                        <div style="min-width: 0; flex: 1;">
-                            <h4 style="font-family: var(--font-pixel); font-size: 0.75rem; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@${friend.nametag}</h4>
-                            <span style="font-size: 0.7rem; color: var(--text-muted);">Clique para conversar</span>
-                        </div>
-                    `;
+        onValue(chatRef, (snapshot) => {
+            const msgs = snapshot.val() || {};
+            chatMessagesContainer.innerHTML = '';
 
-                    item.addEventListener('click', () => {
-                        setActiveChat(fUid, friend.nametag);
-                    });
-
-                    chatContactsList.appendChild(item);
-                });
-            });
-        }
-
-        function setActiveChat(fUid, fNametag) {
-            activeChatUserId = fUid;
-            activeChatNametag = fNametag;
-            activeChatTitle.textContent = `@${fNametag}`;
-            chatInputAreaWrapper.style.display = 'flex';
-            btnEvaluateTogether.classList.remove('hidden');
-
-            document.querySelectorAll('.whatsapp-contact-item').forEach(el => {
-                el.classList.remove('active');
-                if (el.textContent.includes(`@${fNametag}`)) {
-                    el.classList.add('active');
-                }
-            });
-
-            loadChatMessages();
-        }
-
-        function getChatRoomId(uid1, uid2) {
-            return uid1 < uid2 ? `chat_${uid1}_${uid2}` : `chat_${uid2}_${uid1}`;
-        }
-
-        function loadChatMessages() {
-            if (!activeChatUserId) return;
-            const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
-            const chatRef = ref(db, `chats/${chatId}/messages`);
-
-            onValue(chatRef, (snapshot) => {
-                const msgs = snapshot.val() || {};
-                chatMessagesContainer.innerHTML = '';
-
-                const keys = Object.keys(msgs);
-                if (keys.length === 0) {
-                    chatMessagesContainer.innerHTML = `
-                        <div class="chat-empty-state">
-                            <i class="fa-solid fa-comments"></i>
-                            <p>Inicie a conversa com @${activeChatNametag}</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                keys.forEach(k => {
-                    const m = msgs[k];
-                    const div = document.createElement('div');
-                    div.className = `message ${m.sender === currentUser.uid ? 'outgoing' : 'incoming'}`;
-                    div.textContent = m.text;
-                    chatMessagesContainer.appendChild(div);
-                });
-
-                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-            });
-        }
-
-        sendChatBtn.addEventListener('click', sendChatMessage);
-        chatInputMessage.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendChatMessage();
-        });
-
-        async function sendChatMessage() {
-            const text = chatInputMessage.value.trim();
-            if (!text || !activeChatUserId) return;
-
-            const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
-            const messagesRef = ref(db, `chats/${chatId}/messages`);
-
-            try {
-                await push(messagesRef, {
-                    sender: currentUser.uid,
-                    text: text,
-                    timestamp: Date.now()
-                });
-                chatInputMessage.value = '';
-            } catch (err) {
-                console.error("Erro ao enviar mensagem:", err);
+            const keys = Object.keys(msgs);
+            if (keys.length === 0) {
+                chatMessagesContainer.innerHTML = `
+                    <div class="chat-empty-state">
+                        <i class="fa-solid fa-comments"></i>
+                        <p>INICIE A CONVERSA COM @${activeChatNametag.toUpperCase()}</p>
+                    </div>
+                `;
+                return;
             }
-        }
 
-        btnEvaluateTogether.addEventListener('click', async () => {
-            if (!activeChatUserId) return;
-            const sharedRoomId = getChatRoomId(currentUser.uid, activeChatUserId);
-            
-            try {
-                await update(ref(db, `rooms/${sharedRoomId}`), {
-                    createdPair: [currentUser.uid, activeChatUserId],
-                    updatedAt: Date.now()
-                });
+            keys.forEach(k => {
+                const m = msgs[k];
+                const div = document.createElement('div');
+                div.className = `message ${m.sender === currentUser.uid ? 'outgoing' : 'incoming'}`;
+                div.textContent = m.text;
+                chatMessagesContainer.appendChild(div);
+            });
 
-                initRoomSession(sharedRoomId);
-                switchTab('view-session');
-                showToast("Sessão conjunta aberta com sucesso!");
-            } catch (err) {
-                console.error("Erro ao iniciar sessão conjunta:", err);
-                alert("Erro ao abrir sessão conjunta.");
-            }
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
         });
+    }
 
-    </script>
+    sendChatBtn.addEventListener('click', sendChatMessage);
+    chatInputMessage.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendChatMessage();
+    });
+
+    async function sendChatMessage() {
+        const text = chatInputMessage.value.trim();
+        if (!text || !activeChatUserId) return;
+
+        const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
+        const messagesRef = ref(db, `chats/${chatId}/messages`);
+
+        try {
+            await push(messagesRef, {
+                sender: currentUser.uid,
+                text: text,
+                timestamp: Date.now()
+            });
+            chatInputMessage.value = '';
+        } catch (err) {
+            console.error("Erro ao enviar mensagem:", err);
+        }
+    }
+
+    btnEvaluateTogether.addEventListener('click', async () => {
+        if (!activeChatUserId) return;
+        const sharedRoomId = getChatRoomId(currentUser.uid, activeChatUserId);
+        
+        try {
+            await update(ref(db, `rooms/${sharedRoomId}`), {
+                createdPair: [currentUser.uid, activeChatUserId],
+                updatedAt: Date.now()
+            });
+
+            initRoomSession(sharedRoomId);
+            switchTab('view-session');
+            showToast("SESSÃO CONJUNTA ABERTA!");
+            notifyIsland("SESSÃO", "CONJUNTA ATIVA", "fa-film");
+        } catch (err) {
+            console.error("Erro ao iniciar sessão conjunta:", err);
+        }
+    });
+</script>
 </body>
 </html>
