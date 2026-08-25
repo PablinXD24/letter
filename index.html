@@ -10,18 +10,19 @@
     
     <style>
         :root {
-            /* Estética Timeless / Neo-brutalist */
-            --bg-color: #f4f0e6;
+            /* Nova Paleta de Cores (Foco em Roxo / Cores da Imagem) */
+            --bg-color: #86F46F;        /* Fundo principal creme claro (#F3F3E0) */
             --card-bg: #ffffff;
             --border-color: #111111;
             --border-width: 3px;
             --box-shadow: 4px 4px 0px #111111;
             --box-shadow-lg: 6px 6px 0px #111111;
-            --yellow: #ffd43b;
-            --blue: #74c0fc;
-            --pink: #faa2c1;
-            --green: #b2f2bb;
-            --orange: #e8590c;
+            
+            --yellow: #F5EA48;        /* Amarelo da paleta (#F5EA48) */
+            --blue: #B05CF2;          /* Substituído por roxo secundário da paleta (#B05CF2) */
+            --pink: #DF39F4;          /* Roxo/Magenta principal em destaque (#DF39F4) */
+            --green: #86F46F;         /* Verde da paleta (#86F46F) */
+            --orange: #DF39F4;        /* Foco principal em roxo vibrante */
             --dark-card: #141414;
             
             --text-bright: #111111;
@@ -89,13 +90,58 @@
             background: var(--card-bg);
             border: var(--border-width) solid var(--border-color);
             border-radius: 16px;
-            padding: 24px 30px;
+            padding: 28px 30px;
             box-shadow: var(--box-shadow-lg);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
+        }
+
+        /* Animação da Fita de Rolo de Filme no Perímetro */
+        .floating-logo-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--border-color),
+                var(--border-color) 12px,
+                transparent 12px,
+                transparent 20px
+            );
+            animation: filmBorderTop 6s linear infinite;
+        }
+
+        .floating-logo-box::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 200%;
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--border-color),
+                var(--border-color) 12px,
+                transparent 12px,
+                transparent 20px
+            );
+            animation: filmBorderBottom 6s linear infinite;
+        }
+
+        @keyframes filmBorderTop {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); }
+        }
+
+        @keyframes filmBorderBottom {
+            0% { transform: translateX(50%); }
+            100% { transform: translateX(0); }
         }
 
         .hero-content-left {
@@ -111,7 +157,7 @@
         }
 
         header h1 span {
-            color: var(--orange);
+            color: var(--pink);
             background: transparent;
             padding: 0;
             border: none;
@@ -151,7 +197,8 @@
         }
 
         .nav-btn.active, .nav-btn:hover {
-            background: var(--yellow);
+            background: var(--pink);
+            color: #fff;
             transform: translate(-1px, -1px);
             box-shadow: 3px 3px 0px #111;
         }
@@ -182,8 +229,8 @@
         }
 
         .btn-google {
-            background: var(--yellow);
-            color: var(--border-color);
+            background: var(--pink);
+            color: #fff;
             border: var(--border-width) solid var(--border-color);
             width: 100%;
             max-width: 360px;
@@ -269,6 +316,7 @@
 
         .movie-item:hover {
             background: var(--blue);
+            color: #fff;
         }
 
         .movie-item img,
@@ -383,7 +431,7 @@
         .rating-stars i:hover,
         .rating-stars i.hovered,
         .rating-stars i.active {
-            color: #f59f00;
+            color: var(--pink);
             transform: scale(1.2) translateY(-2px);
         }
 
@@ -406,7 +454,8 @@
         }
 
         .btn {
-            background-color: var(--yellow);
+            background-color: var(--pink);
+            color: #fff;
             border: var(--border-width) solid var(--border-color);
             padding: 11px 18px;
             font-weight: 700;
@@ -416,7 +465,6 @@
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.1s;
             text-decoration: none;
-            color: var(--border-color);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -437,11 +485,12 @@
 
         .btn-secondary {
             background-color: var(--blue);
+            color: #fff;
             box-shadow: 2px 2px 0px #111;
         }
 
         .btn-danger {
-            background-color: var(--pink) !important;
+            background-color: var(--yellow) !important;
             color: var(--border-color) !important;
         }
 
@@ -517,13 +566,14 @@
         .whatsapp-sidebar-header {
             padding: 16px;
             border-bottom: var(--border-width) solid var(--border-color);
-            background: var(--yellow);
+            background: var(--pink);
+            color: #fff;
         }
 
         .whatsapp-sidebar-header h3 {
             font-size: 14px;
             font-weight: 800;
-            color: var(--border-color);
+            color: #fff;
             margin: 0;
             text-transform: uppercase;
         }
@@ -550,6 +600,7 @@
 
         .whatsapp-contact-item:hover, .whatsapp-contact-item.active {
             background: var(--blue);
+            color: #fff;
             border-color: var(--border-color);
             box-shadow: 2px 2px 0px #111;
         }
@@ -558,7 +609,7 @@
             width: 38px;
             height: 38px;
             background: var(--pink);
-            color: var(--border-color);
+            color: #fff;
             border: 2px solid var(--border-color);
             border-radius: 50%;
             display: flex;
@@ -614,8 +665,8 @@
         }
 
         .message.outgoing {
-            background: var(--yellow);
-            color: var(--border-color);
+            background: var(--pink);
+            color: #fff;
             align-self: flex-end;
         }
 
@@ -632,7 +683,7 @@
 
         .chat-empty-state i {
             font-size: 2.5rem;
-            color: var(--orange);
+            color: var(--pink);
             margin-bottom: 10px;
         }
 
@@ -790,7 +841,8 @@
             font-size: 11px;
             color: var(--border-color);
             text-align: center;
-            background: var(--yellow);
+            background: var(--pink);
+            color: #fff;
             border: 2px solid var(--border-color);
             border-radius: 6px;
             padding: 4px 6px;
@@ -802,7 +854,7 @@
             position: absolute;
             top: 14px;
             right: 14px;
-            background: var(--pink);
+            background: var(--yellow);
             color: var(--border-color);
             border: 2px solid var(--border-color);
             width: 26px;
@@ -922,8 +974,8 @@
             position: fixed;
             bottom: 28px;
             right: 28px;
-            background: var(--yellow);
-            color: var(--border-color);
+            background: var(--pink);
+            color: #fff;
             padding: 14px 18px;
             border: var(--border-width) solid var(--border-color);
             border-radius: 12px;
@@ -1004,10 +1056,10 @@
             </div>
 
             <!-- HUB / SALA DE BEM-VINDO (Box único inicial com o botão de ver a próxima sessão) -->
-            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--yellow); cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha de filme para avaliar juntos">
-                <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: var(--border-color); margin-bottom: 12px;"></i>
-                <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px;">Veja a próxima sessão com @amigo</h3>
-                <p style="font-size: 13px; font-weight: 700; color: var(--text-dark);">Clique aqui para escolher o filme e avaliarem juntos!</p>
+            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--pink); color: #fff; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha de filme para avaliar juntos">
+                <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: #fff; margin-bottom: 12px;"></i>
+                <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px; color: #fff;">Veja a próxima sessão com @amigo</h3>
+                <p style="font-size: 13px; font-weight: 700; color: #fdfbf7;">Clique aqui para escolher o filme e avaliarem juntos!</p>
             </div>
 
             <!-- Poster e Pesquisa de Filme (Conteúdo da Sessão) -->
@@ -1069,7 +1121,7 @@
                     <div class="scores-wrapper">
                         <div class="score-block">
                             <p style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #666;">Match de Gosto</p>
-                            <h2 id="matchPercentage" style="color: var(--orange);">0<span class="percent-symbol">%</span></h2>
+                            <h2 id="matchPercentage" style="color: var(--pink);">0<span class="percent-symbol">%</span></h2>
                         </div>
                         <div class="score-divider"></div>
                         <div class="score-block">
@@ -1147,7 +1199,7 @@
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.8rem; background: #fff; padding: 16px; border: var(--border-width) solid var(--border-color); border-radius: 12px; box-shadow: var(--box-shadow); flex-wrap: wrap;">
                     <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
                         <img id="profileViewAvatarImg" src="" alt="Avatar" style="width: 100%; height: 100%; display: none;">
-                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--border-color);"><i class="fa-solid fa-user"></i></div>
+                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--pink); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;"><i class="fa-solid fa-user"></i></div>
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <p style="font-weight: 800; font-size: 15px; color: var(--border-color);" id="profileViewNametag">@usuario</p>
@@ -1165,7 +1217,7 @@
                         <button type="button" id="btnSwitchGoogleAccount" class="btn btn-secondary" style="flex: 1; min-width: 180px;"><i class="fa-brands fa-google" style="margin-right: 6px;"></i> Trocar Conta Google</button>
                     </div>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                        <button type="button" id="menuSairConta" class="btn btn-secondary" style="flex: 1; min-width: 180px; background-color: #dee2e6;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Sair da Conta</button>
+                        <button type="button" id="menuSairConta" class="btn btn-secondary" style="flex: 1; min-width: 180px; background-color: #dee2e6; color: #111;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Sair da Conta</button>
                         <button type="button" id="btnProfileDeleteAccount" class="btn btn-danger" style="flex: 1; min-width: 180px;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Conta</button>
                     </div>
                 </form>
@@ -1382,45 +1434,6 @@
             }
         });
 
-        const viewsList = ["view-session", "view-chats", "view-library", "view-profile"];
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const mainContainerSwipe = document.getElementById('mainContainerSwipe');
-
-        mainContainerSwipe.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        mainContainerSwipe.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipeGesture();
-        }, { passive: true });
-
-        function handleSwipeGesture() {
-            if (currentUser && !stepNametag.classList.contains('hidden')) return;
-            if (currentUser && stepAuth.classList.contains('hidden')) {
-                const threshold = 50;
-                const diff = touchStartX - touchEndX;
-
-                let currentActiveIndex = 0;
-                navButtons.forEach((btn, idx) => {
-                    if (btn.classList.contains('active')) {
-                        currentActiveIndex = idx;
-                    }
-                });
-
-                if (diff > threshold) {
-                    if (currentActiveIndex < viewsList.length - 1) {
-                        switchTab(viewsList[currentActiveIndex + 1]);
-                    }
-                } else if (diff < -threshold) {
-                    if (currentActiveIndex > 0) {
-                        switchTab(viewsList[currentActiveIndex - 1]);
-                    }
-                }
-            }
-        }
-
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -1621,7 +1634,6 @@
             onValue(roomRef, (snapshot) => {
                 const data = snapshot.val();
                 
-                // Se não houver dados ou não houver filme selecionado na sala, garante que a interface inicial mostre apenas o carrossel e o hub
                 if (!data || !data.movie) {
                     stepMovie.classList.add('hidden');
                     stepReview.classList.add('hidden');
@@ -2033,7 +2045,7 @@
             });
         }
 
-        // Carrossel Coverflow infinito (Centro grande, 1º menor, 2º menor ainda dos dois lados)
+        // Carrossel Coverflow infinito
         function initCoverflowCarousel() {
             if (featuredInterval) clearInterval(featuredInterval);
             if (featuredMoviesList.length === 0) return;
@@ -2129,7 +2141,7 @@
                         <div class="scores-wrapper">
                             <div class="score-block">
                                 <p style="font-weight: 800; font-size: 10px; text-transform: uppercase; color: #666;">Match</p>
-                                <h2 style="color: var(--orange); font-size: 2rem;">${similarity}<span class="percent-symbol">%</span></h2>
+                                <h2 style="color: var(--pink); font-size: 2rem;">${similarity}<span class="percent-symbol">%</span></h2>
                             </div>
                             <div class="score-divider"></div>
                             <div class="score-block">
