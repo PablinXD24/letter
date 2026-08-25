@@ -929,23 +929,105 @@
             filter: brightness(1.15);
         }
 
-        /* Estilos para as faixas do álbum e avaliações unidas */
-        .tracks-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        /* ==========================================================================
+           ROLETA VERTICAL 3D (FLUTUANTE TOTALMENTE SEM CONTAINER EXTERNO)
+           ========================================================================== */
+        .roulette-wrapper {
+            position: relative;
+            width: 100%;
             margin-top: 1.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            overflow: visible;
+            user-select: none;
+        }
+
+        .roulette-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        .roulette-counter-badge {
+            background: var(--pink);
+            color: #fff;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 2px 2px 0px #111;
+            text-transform: uppercase;
+        }
+
+        .roulette-viewport {
+            height: 330px;
+            perspective: 1200px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: pan-x;
+        }
+
+        .roulette-viewport::before,
+        .roulette-viewport::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .roulette-viewport::before {
+            top: 0;
+            background: linear-gradient(to bottom, var(--card-bg) 15%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .roulette-viewport::after {
+            bottom: 0;
+            background: linear-gradient(to top, var(--card-bg) 15%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .roulette-stage-3d {
+            position: absolute;
+            width: 96%;
+            max-width: 580px;
+            height: 250px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .roulette-card-3d {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: opacity 0.4s ease, filter 0.4s ease;
         }
 
         .track-item-wrapper {
-            background: #faf7f0;
+            background: #fff;
             border: var(--border-width) solid var(--border-color);
             border-radius: 12px;
-            padding: 16px;
-            box-shadow: var(--box-shadow);
+            padding: 14px 16px;
+            box-shadow: var(--box-shadow-lg);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
+            height: 100%;
+            justify-content: space-between;
         }
 
         .track-header-info {
@@ -954,7 +1036,7 @@
             align-items: center;
             gap: 10px;
             border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         .track-title-num {
@@ -964,6 +1046,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .track-duration {
@@ -973,6 +1058,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .btn-play-track {
@@ -993,6 +1079,41 @@
 
         .btn-play-track:hover {
             transform: scale(1.1);
+        }
+
+        .roulette-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .roulette-nav-btn {
+            background: var(--yellow);
+            border: 2px solid var(--border-color);
+            color: var(--border-color);
+            font-weight: 800;
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 2px 2px 0px #111;
+            transition: all 0.1s ease;
+            text-transform: uppercase;
+        }
+
+        .roulette-nav-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #111;
+        }
+
+        .roulette-nav-btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 0px 0px 0px #111;
         }
 
         .toast-notification {
@@ -1125,10 +1246,20 @@
                     <div id="sessionAlbumResults" class="movie-results"></div>
                 </div>
 
-                <!-- Lista de faixas e avaliações unidas para Sessão Conjunta de Música -->
+                <!-- Roleta 3D flutuante de faixas para Sessão Conjunta (Sem box externo) -->
                 <div id="sessionTracksSection" class="hidden">
-                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 16px;"><i class="fa-solid fa-list-check" style="margin-right: 8px;"></i> Avaliação por Faixas do Álbum</h3>
-                    <div id="sessionTracksListContainer" class="tracks-container"></div>
+                    <div class="roulette-wrapper" id="sessionRouletteWrapper">
+                        <div class="roulette-header">
+                            <span class="roulette-counter-badge" id="sessionRouletteCounter">Faixa 1 de 1</span>
+                        </div>
+                        <div class="roulette-viewport" id="sessionRouletteViewport">
+                            <div class="roulette-stage-3d" id="sessionTracksListContainer"></div>
+                        </div>
+                        <div class="roulette-controls">
+                            <button type="button" class="roulette-nav-btn" id="sessionBtnPrev"><i class="fa-solid fa-chevron-up"></i> Anterior</button>
+                            <button type="button" class="roulette-nav-btn" id="sessionBtnNext">Próxima <i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1201,12 +1332,24 @@
                 </div>
             </div>
 
-            <!-- Seção de Faixas e Avaliações na aba de Música -->
+            <!-- Roleta 3D flutuante de Faixas e Avaliações na aba de Música (Sem box externo) -->
             <div id="step-album-review" class="card hidden">
-                <h3 style="margin-bottom: 1.4rem;"><i class="fa-solid fa-list-check" style="margin-right: 8px;"></i> Avaliação Individual das Faixas</h3>
-                <div id="albumTracksListContainer" class="tracks-container"></div>
+                <div class="roulette-wrapper" id="musicTabRouletteWrapper">
+                    <div class="roulette-header">
+                        <span class="roulette-counter-badge" id="musicTabRouletteCounter">Faixa 1 de 1</span>
+                    </div>
+                    
+                    <div class="roulette-viewport" id="musicTabRouletteViewport">
+                        <div class="roulette-stage-3d" id="albumTracksListContainer"></div>
+                    </div>
+
+                    <div class="roulette-controls">
+                        <button type="button" class="roulette-nav-btn" id="musicTabBtnPrev"><i class="fa-solid fa-chevron-up"></i> Anterior</button>
+                        <button type="button" class="roulette-nav-btn" id="musicTabBtnNext">Próxima <i class="fa-solid fa-chevron-down"></i></button>
+                    </div>
+                </div>
                 
-                <div style="margin-top: 2rem;">
+                <div style="margin-top: 1.5rem;">
                     <button type="button" id="saveAlbumCompleteBtn" class="btn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> Salvar Avaliações do Álbum na Biblioteca</button>
                 </div>
             </div>
@@ -1379,9 +1522,9 @@
         let connectedConnectionNametag = null;
         
         let featuredMoviesList = [];
-        let albumTracksData = []; // Armazena as faixas do álbum atual
-        let userTrackReviews = {}; // Armazena avaliações de faixas do usuário atual
-        let activeAudioElement = null; // Elemento de áudio global para gerenciar a reprodução
+        let albumTracksData = []; 
+        let userTrackReviews = {}; 
+        let activeAudioElement = null; 
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1860,15 +2003,14 @@
                         selectedSessionAlbumContainer.classList.remove('hidden');
                         sessionAlbumSearchBoxWrapper.style.display = 'none';
 
-                        // Carregar faixas do álbum para sessão conjunta se ainda não carregadas
                         if (!albumTracksData.length || albumTracksData[0]?.albumId !== data.album.id) {
                             fetchAlbumTracks(data.album.id).then(tracks => {
                                 albumTracksData = tracks;
-                                renderTracksList(tracks, sessionTracksListContainer, data.reviews || {});
+                                create3DTrackRoulette(tracks, sessionTracksListContainer, 'sessionRouletteCounter', 'sessionBtnPrev', 'sessionBtnNext', 'sessionRouletteViewport');
                                 sessionTracksSection.classList.remove('hidden');
                             });
                         } else {
-                            renderTracksList(albumTracksData, sessionTracksListContainer, data.reviews || {});
+                            create3DTrackRoulette(albumTracksData, sessionTracksListContainer, 'sessionRouletteCounter', 'sessionBtnPrev', 'sessionBtnNext', 'sessionRouletteViewport');
                             sessionTracksSection.classList.remove('hidden');
                         }
 
@@ -2004,7 +2146,6 @@
             showToast("Filme selecionado para a sessão!");
         }
 
-        // Função para buscar as faixas do álbum na API do iTunes / Apple Music (incluindo URL de preview de áudio)
         async function fetchAlbumTracks(collectionId) {
             try {
                 const response = await fetch(`https://itunes.apple.com/lookup?id=${collectionId}&entity=song`);
@@ -2032,7 +2173,6 @@
             return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
         }
 
-        // Função para alternar a reprodução do áudio da faixa
         function toggleTrackPreview(previewUrl, playButtonElement) {
             if (!previewUrl) {
                 showToast("Prévia de áudio indisponível para esta faixa.");
@@ -2070,64 +2210,85 @@
             });
         }
 
-        // Renderização das faixas e avaliações coladinhas
-        function renderTracksList(tracks, containerEl, reviewsObj) {
-            containerEl.innerHTML = '';
+        /* ==========================================================================
+           MOTOR DA ROLETA VERTICAL 3D
+           ========================================================================== */
+        function create3DTrackRoulette(tracks, stageEl, counterElId, prevBtnId, nextBtnId, viewportId) {
+            stageEl.innerHTML = '';
+            const counterEl = document.getElementById(counterElId);
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+            const viewportEl = document.getElementById(viewportId);
+
             if (!tracks || tracks.length === 0) {
-                containerEl.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">Nenhuma faixa encontrada para este álbum.</p>';
+                stageEl.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; text-align: center;">Nenhuma faixa encontrada para este álbum.</p>';
+                if (counterEl) counterEl.textContent = '0 de 0';
                 return;
             }
 
+            const total = tracks.length;
+            let currentIndex = 0;
+            const cardHeight = 250; 
+            const angleStep = 360 / Math.max(total, 6); 
+            const radius = Math.round((cardHeight / 2) / Math.tan(Math.PI / Math.max(total, 6))) + 45;
+
+            const cardElements = [];
+
             tracks.forEach((track, idx) => {
-                const trackWrapper = document.createElement('div');
-                trackWrapper.className = 'track-item-wrapper';
+                const card = document.createElement('div');
+                card.className = 'roulette-card-3d';
+                
+                const cardAngle = idx * angleStep;
+                card.style.transform = `rotateX(${cardAngle}deg) translateZ(${radius}px)`;
 
                 const existingTrackReview = userTrackReviews[track.trackId] || { rating: 0, comment: '' };
 
-                trackWrapper.innerHTML = `
-                    <div class="track-header-info">
-                        <div class="track-title-num">
-                            <span style="background: var(--pink); color: #fff; padding: 2px 6px; border-radius: 6px; font-size: 11px; border: 2px solid var(--border-color);">${track.trackNumber}</span>
-                            <span>${track.trackName}</span>
+                card.innerHTML = `
+                    <div class="track-item-wrapper">
+                        <div class="track-header-info">
+                            <div class="track-title-num">
+                                <span style="background: var(--pink); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px; border: 2px solid var(--border-color);">${track.trackNumber}</span>
+                                <span>${track.trackName}</span>
+                            </div>
+                            <div class="track-duration">
+                                ${track.previewUrl ? `<button type="button" class="btn-play-track" title="Ouvir prévia"><i class="fa-solid fa-play"></i></button>` : ''}
+                                <span>${track.trackTime}</span>
+                            </div>
                         </div>
-                        <div class="track-duration">
-                            ${track.previewUrl ? `<button type="button" class="btn-play-track" title="Ouvir prévia da faixa"><i class="fa-solid fa-play"></i></button>` : ''}
-                            <span>${track.trackTime}</span>
-                        </div>
-                    </div>
 
-                    <div class="rating-wrapper" style="padding: 12px; margin-bottom: 0;" data-trackid="${track.trackId}">
-                        <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 10px; margin-bottom: 4px; text-transform: uppercase;">Avaliar Faixa</label>
-                        <div class="rating-stars track-stars" data-trackid="${track.trackId}" style="font-size: 1.5rem; gap: 8px;">
-                            <i class="fa-solid fa-star ${existingTrackReview.rating >= 1 ? 'active' : ''}" data-value="1"></i>
-                            <i class="fa-solid fa-star ${existingTrackReview.rating >= 2 ? 'active' : ''}" data-value="2"></i>
-                            <i class="fa-solid fa-star ${existingTrackReview.rating >= 3 ? 'active' : ''}" data-value="3"></i>
-                            <i class="fa-solid fa-star ${existingTrackReview.rating >= 4 ? 'active' : ''}" data-value="4"></i>
-                            <i class="fa-solid fa-star ${existingTrackReview.rating >= 5 ? 'active' : ''}" data-value="5"></i>
-                        </div>
-                        <div class="rating-feedback-text track-feedback" style="font-size: 11px; min-height: 1rem;">${existingTrackReview.rating > 0 ? ratingLabels[existingTrackReview.rating] : 'Nota da faixa'}</div>
-                        
-                        <div class="form-group" style="margin-top: 8px; margin-bottom: 0; text-align: left;">
-                            <textarea class="track-comment-input" data-trackid="${track.trackId}" maxlength="200" placeholder="Comentário sobre esta faixa..." style="min-height: 50px; font-size: 12px; padding: 8px;">${existingTrackReview.comment || ''}</textarea>
+                        <div class="rating-wrapper" style="padding: 10px; margin-bottom: 0;" data-trackid="${track.trackId}">
+                            <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 10px; margin-bottom: 4px; text-transform: uppercase;">Avaliação da Faixa</label>
+                            <div class="rating-stars track-stars" data-trackid="${track.trackId}" style="font-size: 1.5rem; gap: 8px; margin-bottom: 4px;">
+                                <i class="fa-solid fa-star ${existingTrackReview.rating >= 1 ? 'active' : ''}" data-value="1"></i>
+                                <i class="fa-solid fa-star ${existingTrackReview.rating >= 2 ? 'active' : ''}" data-value="2"></i>
+                                <i class="fa-solid fa-star ${existingTrackReview.rating >= 3 ? 'active' : ''}" data-value="3"></i>
+                                <i class="fa-solid fa-star ${existingTrackReview.rating >= 4 ? 'active' : ''}" data-value="4"></i>
+                                <i class="fa-solid fa-star ${existingTrackReview.rating >= 5 ? 'active' : ''}" data-value="5"></i>
+                            </div>
+                            <div class="rating-feedback-text track-feedback" style="font-size: 11px; min-height: 1rem;">${existingTrackReview.rating > 0 ? ratingLabels[existingTrackReview.rating] : 'Selecione sua nota'}</div>
+                            
+                            <div class="form-group" style="margin-top: 6px; margin-bottom: 0; text-align: left;">
+                                <textarea class="track-comment-input" data-trackid="${track.trackId}" maxlength="200" placeholder="Comentário sobre esta faixa..." style="min-height: 48px; font-size: 12px; padding: 8px;">${existingTrackReview.comment || ''}</textarea>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                // Botão de reprodução de áudio
-                const playBtn = trackWrapper.querySelector('.btn-play-track');
+                const playBtn = card.querySelector('.btn-play-track');
                 if (playBtn) {
-                    playBtn.addEventListener('click', () => {
+                    playBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
                         toggleTrackPreview(track.previewUrl, playBtn);
                     });
                 }
 
-                // Interatividade das estrelas por faixa
-                const starElements = trackWrapper.querySelectorAll('.track-stars i');
-                const feedbackEl = trackWrapper.querySelector('.track-feedback');
-                const commentInput = trackWrapper.querySelector('.track-comment-input');
+                const starElements = card.querySelectorAll('.track-stars i');
+                const feedbackEl = card.querySelector('.track-feedback');
+                const commentInput = card.querySelector('.track-comment-input');
 
                 starElements.forEach(star => {
-                    star.addEventListener('click', () => {
+                    star.addEventListener('click', (e) => {
+                        e.stopPropagation();
                         const val = parseInt(star.getAttribute('data-value'));
                         if (!userTrackReviews[track.trackId]) userTrackReviews[track.trackId] = {};
                         userTrackReviews[track.trackId].rating = val;
@@ -2145,11 +2306,88 @@
                     userTrackReviews[track.trackId].comment = e.target.value.trim();
                 });
 
-                containerEl.appendChild(trackWrapper);
+                stageEl.appendChild(card);
+                cardElements.push(card);
             });
+
+            function updateRoulettePosition() {
+                const currentAngle = -currentIndex * angleStep;
+                stageEl.style.transform = `translateZ(-${radius}px) rotateX(${currentAngle}deg)`;
+
+                if (counterEl) {
+                    counterEl.textContent = `Faixa ${currentIndex + 1} de ${total}`;
+                }
+
+                cardElements.forEach((c, idx) => {
+                    const diff = Math.abs(idx - currentIndex);
+                    if (idx === currentIndex) {
+                        c.style.opacity = '1';
+                        c.style.pointerEvents = 'auto';
+                        c.style.filter = 'none';
+                    } else if (diff === 1 || diff === total - 1) {
+                        c.style.opacity = '0.55';
+                        c.style.pointerEvents = 'none';
+                        c.style.filter = 'blur(1px)';
+                    } else {
+                        c.style.opacity = '0.15';
+                        c.style.pointerEvents = 'none';
+                        c.style.filter = 'blur(3px)';
+                    }
+                });
+            }
+
+            function goNext() {
+                if (currentIndex < total - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                updateRoulettePosition();
+            }
+
+            function goPrev() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = total - 1;
+                }
+                updateRoulettePosition();
+            }
+
+            if (prevBtn) prevBtn.onclick = goPrev;
+            if (nextBtn) nextBtn.onclick = goNext;
+
+            if (viewportEl) {
+                let wheelTimeout;
+                viewportEl.onwheel = (e) => {
+                    e.preventDefault();
+                    if (wheelTimeout) return;
+                    if (e.deltaY > 0) {
+                        goNext();
+                    } else if (e.deltaY < 0) {
+                        goPrev();
+                    }
+                    wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 250);
+                };
+
+                let startY = 0;
+                let endY = 0;
+                viewportEl.ontouchstart = (e) => {
+                    startY = e.touches[0].clientY;
+                };
+                viewportEl.ontouchend = (e) => {
+                    endY = e.changedTouches[0].clientY;
+                    const diffY = startY - endY;
+                    if (Math.abs(diffY) > 35) {
+                        if (diffY > 0) goNext();
+                        else goPrev();
+                    }
+                };
+            }
+
+            updateRoulettePosition();
         }
 
-        // Pesquisa de álbuns para a sessão conjunta de música
         let sessionAlbumTimeout;
         sessionAlbumSearchInput.addEventListener('input', (e) => {
             clearTimeout(sessionAlbumTimeout);
@@ -2214,7 +2452,6 @@
             showToast("Álbum selecionado para a sessão!");
         }
 
-        // Pesquisa Apple Music para Álbuns (Aba de Música individual)
         let albumSearchTimeout;
         albumSearchInput.addEventListener('input', (e) => {
             clearTimeout(albumSearchTimeout);
@@ -2283,9 +2520,9 @@
             userTrackReviews = {};
             const tracks = await fetchAlbumTracks(album.collectionId);
             albumTracksData = tracks;
-            renderTracksList(tracks, albumTracksListContainer, {});
+            create3DTrackRoulette(tracks, albumTracksListContainer, 'musicTabRouletteCounter', 'musicTabBtnPrev', 'musicTabBtnNext', 'musicTabRouletteViewport');
             stepAlbumReview.classList.remove('hidden');
-            showToast("Álbum selecionado e faixas carregadas!");
+            showToast("Álbum selecionado e Roleta 3D carregada!");
         }
 
         btnChangeAlbum.addEventListener('click', () => {
@@ -2445,7 +2682,7 @@
                 uid: currentUser.uid,
                 name: userNametag,
                 rating: avgRating,
-                comment: "Avaliação completa de faixas do álbum.",
+                comment: "Avaliação completa das faixas na roleta 3D.",
                 tracks: userTrackReviews,
                 timestamp: Date.now()
             };
