@@ -796,7 +796,7 @@
 
         .library-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 16px;
             margin-top: 1.5rem;
         }
@@ -845,6 +845,30 @@
             padding: 4px 6px;
             width: 100%;
             box-shadow: 1px 1px 0px #111;
+        }
+
+        .library-share-btn {
+            margin-top: 6px;
+            font-weight: 800;
+            font-size: 11px;
+            background: var(--blue);
+            color: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 5px 6px;
+            width: 100%;
+            box-shadow: 1px 1px 0px #111;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-transform: uppercase;
+            transition: transform 0.1s;
+        }
+
+        .library-share-btn:hover {
+            transform: scale(1.05);
         }
 
         .library-delete-btn {
@@ -1464,6 +1488,42 @@
         </div>
     </div>
 
+    <!-- MODAL DE ESCOLHA DA REDE SOCIAL -->
+    <div id="sharePlatformModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div class="card" style="width: 100%; max-width: 380px; text-align: center; margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-share-nodes" style="margin-right: 6px;"></i> Escolha a Rede Social</h3>
+                <span id="closePlatformModalBtn" style="cursor: pointer; font-weight: 800; font-size: 16px; padding: 4px;">[ ✕ ]</span>
+            </div>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 16px;">O formato da imagem será ajustado automaticamente:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" class="btn" id="platformStoryBtn" style="background: var(--pink);"><i class="fa-brands fa-instagram"></i> Instagram Stories (9:16)</button>
+                <button type="button" class="btn btn-secondary" id="platformFeedBtn"><i class="fa-brands fa-instagram"></i> Instagram Feed (1:1)</button>
+                <button type="button" class="btn" id="platformTwitterBtn" style="background: var(--blue);"><i class="fa-brands fa-x-twitter"></i> Twitter / X (16:9)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE COMPARTILHAMENTO / POSTAGEM EM REDES SOCIAIS (CANVAS) -->
+    <div id="shareCanvasModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div class="card" style="width: 100%; max-width: 480px; text-align: center; margin-bottom: 0; background: var(--bg-color); max-height: 95vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3 id="canvasModalTitle" style="font-size: 15px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-image" style="margin-right: 6px;"></i> Visualizar Post</h3>
+                <span id="closeShareModalBtn" style="cursor: pointer; font-weight: 800; font-size: 16px; padding: 4px;">[ ✕ ]</span>
+            </div>
+            
+            <div style="background: #fff; border: 3px solid #111; border-radius: 12px; padding: 8px; box-shadow: 4px 4px 0px #111; display: inline-block; margin-bottom: 12px; max-width: 100%;">
+                <canvas id="socialShareCanvas" style="width: 100%; height: auto; max-height: 340px; object-fit: contain; display: block; border-radius: 8px; border: 2px solid #111; background: #fff;"></canvas>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="button" id="downloadShareImgBtn" class="btn" style="flex: 1; font-size: 12px; padding: 10px;"><i class="fa-solid fa-download"></i> Baixar Imagem</button>
+                <button type="button" id="copyShareTextBtn" class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;"><i class="fa-solid fa-copy"></i> Copiar Legenda</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE ESCOLHA DO TIPO (Música ou Filme) -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 420px; text-align: center; margin-bottom: 0;">
@@ -1525,6 +1585,7 @@
         let albumTracksData = []; 
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
+        let pendingShareItem = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -2860,6 +2921,7 @@
                         <span>Match: ${similarity}<span class="percent-symbol">%</span></span>
                     </div>
                 </div>
+                ${isMovieCard ? `<button class="library-share-btn" data-sharekey="${k}"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>` : ''}
             `;
 
             card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
@@ -2876,8 +2938,203 @@
                 }
             });
 
+            const shareBtn = card.querySelector('.library-share-btn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    pendingShareItem = item;
+                    document.getElementById('sharePlatformModal').classList.remove('hidden');
+                });
+            }
+
             container.appendChild(card);
         }
+
+        // Eventos para escolha da rede social
+        document.getElementById('closePlatformModalBtn').addEventListener('click', () => {
+            document.getElementById('sharePlatformModal').classList.add('hidden');
+        });
+
+        document.getElementById('platformStoryBtn').addEventListener('click', () => {
+            document.getElementById('sharePlatformModal').classList.add('hidden');
+            generateSocialPost('story');
+        });
+
+        document.getElementById('platformFeedBtn').addEventListener('click', () => {
+            document.getElementById('sharePlatformModal').classList.add('hidden');
+            generateSocialPost('feed');
+        });
+
+        document.getElementById('platformTwitterBtn').addEventListener('click', () => {
+            document.getElementById('sharePlatformModal').classList.add('hidden');
+            generateSocialPost('twitter');
+        });
+
+        // Função para desenhar no Canvas conforme o formato escolhido
+        function generateSocialPost(format) {
+            if (!pendingShareItem) return;
+            const item = pendingShareItem;
+
+            const canvas = document.getElementById('socialShareCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Definir dimensões baseadas na rede social escolhida
+            let canvasWidth = 1080;
+            let canvasHeight = 1080;
+            let titleSize = 48;
+            let posterW = 340;
+            let posterH = 510;
+            let subtitleSize = 32;
+            let starsSize = '38px sans-serif';
+            let platformLabel = "Instagram Feed (1:1)";
+
+            if (format === 'story') {
+                canvasWidth = 1080;
+                canvasHeight = 1920;
+                titleSize = 64;
+                posterW = 500;
+                posterH = 750;
+                subtitleSize = 40;
+                starsSize = '52px sans-serif';
+                platformLabel = "Instagram Stories (9:16)";
+            } else if (format === 'twitter') {
+                canvasWidth = 1200;
+                canvasHeight = 675;
+                titleSize = 40;
+                posterW = 220;
+                posterH = 330;
+                subtitleSize = 28;
+                starsSize = '32px sans-serif';
+                platformLabel = "Twitter / X (16:9)";
+            }
+
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            const reviews = Object.values(item.reviews || {});
+            let similarity = 100;
+            let avgRating = 5;
+            if (reviews.length >= 2) {
+                const [rev1, rev2] = reviews;
+                const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+                similarity = 100 - (ratingDiff * 20);
+                if (similarity < 10) similarity = 10;
+                avgRating = Math.round((rev1.rating + rev2.rating) / 2);
+            } else if (reviews.length === 1) {
+                avgRating = reviews[0].rating;
+            }
+
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = item.movie.poster;
+
+            img.onload = () => {
+                // Fundo Nebrutalist (CineMozi)
+                ctx.fillStyle = "#86F46F";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Caixa Branca Interna
+                const pad = 40;
+                ctx.fillStyle = "#ffffff";
+                ctx.strokeStyle = "#111111";
+                ctx.lineWidth = format === 'story' ? 10 : 8;
+                ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+                ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+
+                // Título do Site no Topo
+                ctx.fillStyle = "#111111";
+                ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.textAlign = "center";
+                const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
+                
+                // Desenhar CINE MOZI com cores separadas
+                ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
+                ctx.fillStyle = "#DF39F4";
+                ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
+
+                // Posicionamento do Poster no Centro
+                const posterX = (canvas.width - posterW) / 2;
+                const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
+
+                ctx.save();
+                ctx.shadowColor = "#111111";
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = format === 'story' ? 12 : 8;
+                ctx.shadowOffsetY = format === 'story' ? 12 : 8;
+                ctx.fillStyle = "#000";
+                ctx.fillRect(posterX, posterY, posterW, posterH);
+                ctx.strokeStyle = "#111111";
+                ctx.lineWidth = 6;
+                ctx.strokeRect(posterX, posterY, posterW, posterH);
+                ctx.drawImage(img, posterX, posterY, posterW, posterH);
+                ctx.restore();
+
+                // Título do Filme
+                const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
+                ctx.fillStyle = "#111111";
+                ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.textAlign = "center";
+                let movieTitle = item.movie.title;
+                if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
+                ctx.fillText(movieTitle, canvas.width / 2, titleY);
+
+                // Estrelas
+                const starsY = titleY + (format === 'story' ? 60 : 45);
+                const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
+                ctx.fillStyle = "#DF39F4";
+                ctx.font = starsSize;
+                ctx.fillText(starsText, canvas.width / 2, starsY);
+
+                // Notas e Match
+                const infoY = starsY + (format === 'story' ? 60 : 45);
+                ctx.fillStyle = "#111111";
+                ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
+
+                // Rodapé
+                const footerY = infoY + (format === 'story' ? 100 : 50);
+                const footerH = format === 'story' ? 140 : 80;
+                ctx.fillStyle = "#faf7f0";
+                ctx.fillRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
+                ctx.strokeStyle = "#111111";
+                ctx.lineWidth = 4;
+                ctx.strokeRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
+
+                ctx.fillStyle = "#555555";
+                ctx.font = `600 ${subtitleSize * 0.6}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
+                ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.fillStyle = "#111111";
+                ctx.fillText("Junte-se aos seus amigos e descubra seu match!", canvas.width / 2, footerY + (footerH * 0.78));
+
+                document.getElementById('canvasModalTitle').innerHTML = `<i class="fa-solid fa-image" style="margin-right: 6px;"></i> Post Otimizado (${platformLabel})`;
+                document.getElementById('shareCanvasModal').classList.remove('hidden');
+            };
+
+            img.onerror = () => {
+                showToast("Erro ao carregar a imagem do poster para compartilhamento.");
+            };
+        }
+
+        document.getElementById('closeShareModalBtn').addEventListener('click', () => {
+            document.getElementById('shareCanvasModal').classList.add('hidden');
+        });
+
+        document.getElementById('downloadShareImgBtn').addEventListener('click', () => {
+            const canvas = document.getElementById('socialShareCanvas');
+            const link = document.createElement('a');
+            link.download = 'cinemozi-post.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast("Imagem baixada com sucesso!");
+        });
+
+        document.getElementById('copyShareTextBtn').addEventListener('click', () => {
+            const text = `Acabei de avaliar um filme no CineMozi e o match foi incrível! Venha conferir também. 🎬✨`;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Legenda copiada para a área de transferência!");
+            });
+        });
 
         function renderCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
