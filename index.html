@@ -970,6 +970,29 @@
             font-size: 12px;
             font-weight: 700;
             color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-play-track {
+            background: var(--blue);
+            color: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0px #111;
+            transition: transform 0.1s;
+        }
+
+        .btn-play-track:hover {
+            transform: scale(1.1);
         }
 
         .toast-notification {
@@ -1358,6 +1381,7 @@
         let featuredMoviesList = [];
         let albumTracksData = []; // Armazena as faixas do álbum atual
         let userTrackReviews = {}; // Armazena avaliações de faixas do usuário atual
+        let activeAudioElement = null; // Elemento de áudio global para gerenciar a reprodução
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1980,19 +2004,19 @@
             showToast("Filme selecionado para a sessão!");
         }
 
-        // Função para buscar as faixas do álbum na API do iTunes / Apple Music
+        // Função para buscar as faixas do álbum na API do iTunes / Apple Music (incluindo URL de preview de áudio)
         async function fetchAlbumTracks(collectionId) {
             try {
                 const response = await fetch(`https://itunes.apple.com/lookup?id=${collectionId}&entity=song`);
                 const data = await response.json();
                 if (data.results && data.results.length > 1) {
-                    // O primeiro resultado é o álbum, os demais são as faixas (songs)
                     return data.results.slice(1).map((song, index) => ({
                         albumId: collectionId,
                         trackId: song.trackId || index,
                         trackNumber: song.trackNumber || index + 1,
                         trackName: song.trackName || `Faixa ${index + 1}`,
-                        trackTime: song.trackTimeMillis ? formatMillis(song.trackTimeMillis) : ''
+                        trackTime: song.trackTimeMillis ? formatMillis(song.trackTimeMillis) : '',
+                        previewUrl: song.previewUrl || ''
                     }));
                 }
                 return [];
@@ -2006,6 +2030,44 @@
             const minutes = Math.floor(millis / 60000);
             const seconds = ((millis % 60000) / 1000).toFixed(0);
             return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+        }
+
+        // Função para alternar a reprodução do áudio da faixa
+        function toggleTrackPreview(previewUrl, playButtonElement) {
+            if (!previewUrl) {
+                showToast("Prévia de áudio indisponível para esta faixa.");
+                return;
+            }
+
+            if (activeAudioElement && activeAudioElement.src === previewUrl) {
+                if (activeAudioElement.paused) {
+                    activeAudioElement.play();
+                    playButtonElement.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                } else {
+                    activeAudioElement.pause();
+                    playButtonElement.innerHTML = '<i class="fa-solid fa-play"></i>';
+                }
+                return;
+            }
+
+            if (activeAudioElement) {
+                activeAudioElement.pause();
+                document.querySelectorAll('.btn-play-track').forEach(btn => {
+                    btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                });
+            }
+
+            activeAudioElement = new Audio(previewUrl);
+            activeAudioElement.play().then(() => {
+                playButtonElement.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            }).catch(err => {
+                console.error("Erro ao reproduzir áudio:", err);
+                showToast("Não foi possível reproduzir a faixa.");
+            });
+
+            activeAudioElement.addEventListener('ended', () => {
+                playButtonElement.innerHTML = '<i class="fa-solid fa-play"></i>';
+            });
         }
 
         // Renderização das faixas e avaliações coladinhas
@@ -2028,7 +2090,10 @@
                             <span style="background: var(--pink); color: #fff; padding: 2px 6px; border-radius: 6px; font-size: 11px; border: 2px solid var(--border-color);">${track.trackNumber}</span>
                             <span>${track.trackName}</span>
                         </div>
-                        <span class="track-duration">${track.trackTime}</span>
+                        <div class="track-duration">
+                            ${track.previewUrl ? `<button type="button" class="btn-play-track" title="Ouvir prévia da faixa"><i class="fa-solid fa-play"></i></button>` : ''}
+                            <span>${track.trackTime}</span>
+                        </div>
                     </div>
 
                     <div class="rating-wrapper" style="padding: 12px; margin-bottom: 0;" data-trackid="${track.trackId}">
@@ -2047,6 +2112,14 @@
                         </div>
                     </div>
                 `;
+
+                // Botão de reprodução de áudio
+                const playBtn = trackWrapper.querySelector('.btn-play-track');
+                if (playBtn) {
+                    playBtn.addEventListener('click', () => {
+                        toggleTrackPreview(track.previewUrl, playBtn);
+                    });
+                }
 
                 // Interatividade das estrelas por faixa
                 const starElements = trackWrapper.querySelectorAll('.track-stars i');
@@ -2363,7 +2436,6 @@
                 return;
             }
 
-            // Calcular média geral das faixas avaliadas para definir nota do álbum
             const ratedTracks = Object.values(userTrackReviews).filter(t => t.rating > 0);
             const avgRating = ratedTracks.length > 0 
                 ? Math.round(ratedTracks.reduce((acc, t) => acc + t.rating, 0) / ratedTracks.length) 
@@ -2502,7 +2574,6 @@
                 featuredMoviesList = allValidItems;
                 renderCircularCarousel();
 
-                // Renderizar Filmes
                 if (validMovies.length === 0) {
                     movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
                 } else {
@@ -2511,7 +2582,6 @@
                     });
                 }
 
-                // Renderizar Músicas
                 if (validMusic.length === 0) {
                     musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
                 } else {
