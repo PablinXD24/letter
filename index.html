@@ -989,12 +989,12 @@
 
         .roulette-viewport::before {
             top: 0;
-            background: linear-gradient(to bottom, var(--card-bg) 15%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to bottom, var(--bg-color) 15%, rgba(134, 244, 111, 0) 100%);
         }
 
         .roulette-viewport::after {
             bottom: 0;
-            background: linear-gradient(to top, var(--card-bg) 15%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to top, var(--bg-color) 15%, rgba(134, 244, 111, 0) 100%);
         }
 
         .roulette-stage-3d {
@@ -1333,7 +1333,7 @@
             </div>
 
             <!-- Roleta 3D flutuante de Faixas e Avaliações na aba de Música (Sem box externo) -->
-            <div id="step-album-review" class="card hidden">
+            <div id="step-album-review" class="hidden">
                 <div class="roulette-wrapper" id="musicTabRouletteWrapper">
                     <div class="roulette-header">
                         <span class="roulette-counter-badge" id="musicTabRouletteCounter">Faixa 1 de 1</span>
@@ -2325,13 +2325,17 @@
                         c.style.pointerEvents = 'auto';
                         c.style.filter = 'none';
                     } else if (diff === 1 || diff === total - 1) {
-                        c.style.opacity = '0.55';
-                        c.style.pointerEvents = 'none';
-                        c.style.filter = 'blur(1px)';
+                        c.style.opacity = '0.7';
+                        c.style.pointerEvents = 'auto';
+                        c.style.filter = 'none';
+                    } else if (diff === 2 || diff === total - 2) {
+                        c.style.opacity = '0.4';
+                        c.style.pointerEvents = 'auto';
+                        c.style.filter = 'none';
                     } else {
-                        c.style.opacity = '0.15';
-                        c.style.pointerEvents = 'none';
-                        c.style.filter = 'blur(3px)';
+                        c.style.opacity = '0.2';
+                        c.style.pointerEvents = 'auto';
+                        c.style.filter = 'none';
                     }
                 });
             }
