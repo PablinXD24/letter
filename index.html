@@ -873,7 +873,7 @@
             transform: scale(1.1);
         }
 
-        /* CARROSSEL COVERFLOW 3D ESTILO NEO-BRUTALIST (SEM BOX DE FUNDO) */
+        /* CARROSSEL CIRCULAR 3D COM ROTAÇÃO CONTÍNUA LENTA E RAIO DINÂMICO */
         .featured-hero-carousel {
             background: transparent;
             border: none;
@@ -881,7 +881,8 @@
             padding: 0;
             margin-bottom: 24px;
             text-align: center;
-            overflow: hidden;
+            overflow: visible;
+            perspective: 1200px;
         }
 
         .coverflow-stage {
@@ -891,19 +892,26 @@
             position: relative;
             height: 310px;
             width: 100%;
-            gap: 12px;
+            transform-style: preserve-3d;
+            animation: slowCirlceRotate 40s linear infinite;
+        }
+
+        @keyframes slowCirlceRotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
 
         .coverflow-item {
             position: absolute;
             cursor: pointer;
-            border: var(--border-width) solid var(--border-color);
+            border: none;
             border-radius: 12px;
-            background: #000;
-            overflow: hidden;
-            box-shadow: var(--box-shadow);
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            background: transparent;
+            overflow: visible;
+            box-shadow: none;
+            width: 140px;
             aspect-ratio: 2 / 3;
+            transition: filter 0.3s ease;
         }
 
         .coverflow-item img {
@@ -911,63 +919,13 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--box-shadow);
         }
 
-        /* Camadas de posicionamento e tamanhos relativos do Coverflow */
-        .coverflow-item.center {
-            width: 190px;
-            z-index: 5;
-            transform: translateX(0) scale(1);
-            box-shadow: var(--box-shadow-lg);
-            filter: brightness(1);
-        }
-
-        .coverflow-item.left-1 {
-            width: 150px;
-            z-index: 4;
-            transform: translateX(-120px) scale(0.9);
-            filter: brightness(0.85);
-        }
-
-        .coverflow-item.left-2 {
-            width: 115px;
-            z-index: 3;
-            transform: translateX(-235px) scale(0.78);
-            filter: brightness(0.7);
-        }
-
-        .coverflow-item.right-1 {
-            width: 150px;
-            z-index: 4;
-            transform: translateX(120px) scale(0.9);
-            filter: brightness(0.85);
-        }
-
-        .coverflow-item.right-2 {
-            width: 115px;
-            z-index: 3;
-            transform: translateX(235px) scale(0.78);
-            filter: brightness(0.7);
-        }
-
-        .coverflow-item.hidden-side {
-            display: none;
-        }
-
-        .coverflow-title-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(17, 17, 17, 0.9);
-            color: #fff;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: 800;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .coverflow-item:hover {
+            filter: brightness(1.15);
         }
 
         .toast-notification {
@@ -1043,7 +1001,7 @@
         <!-- VIEW 1: SESSÃO ATIVA (HUB DE BEM-VINDO & CARROSSEL) -->
         <div id="view-session" class="app-view hidden">
             
-            <!-- CARROSSEL COVERFLOW 3D INFINITO -->
+            <!-- CARROSSEL CIRCULAR 3D COM ROTAÇÃO CONTÍNUA -->
             <div class="featured-hero-carousel" id="featuredHeroCarouselSection">
                 <div class="coverflow-stage" id="coverflowStage">
                     <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>
@@ -1274,10 +1232,8 @@
         let connectedConnectionUid = null;
         let connectedConnectionNametag = null;
         
-        // Controle do Carrossel Coverflow Infinito
+        // Controle do Carrossel Circular 3D
         let featuredMoviesList = [];
-        let currentFeaturedIndex = 0;
-        let featuredInterval = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1989,12 +1945,11 @@
                     container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
                     featuredMoviesList = [];
-                    if (featuredInterval) clearInterval(featuredInterval);
                     return;
                 }
 
                 featuredMoviesList = validLibraryItems;
-                initCoverflowCarousel();
+                renderCircularCarousel();
 
                 validLibraryItems.forEach(({ key: k, item }) => {
                     const reviews = Object.values(item.reviews || {});
@@ -2045,42 +2000,20 @@
             });
         }
 
-        // Carrossel Coverflow infinito
-        function initCoverflowCarousel() {
-            if (featuredInterval) clearInterval(featuredInterval);
-            if (featuredMoviesList.length === 0) return;
-
-            if (currentFeaturedIndex >= featuredMoviesList.length) {
-                currentFeaturedIndex = 0;
-            }
-
-            renderCoverflowStage();
-
-            featuredInterval = setInterval(() => {
-                currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredMoviesList.length;
-                renderCoverflowStage();
-            }, 4000);
-        }
-
-        function renderCoverflowStage() {
+        // Renderiza o Carrossel em Círculo 3D dimensionando dinamicamente o raio conforme a quantidade de filmes
+        function renderCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
             if (!stage || featuredMoviesList.length === 0) return;
 
             stage.innerHTML = '';
             const total = featuredMoviesList.length;
+            
+            // Cálculo dinâmico do raio para garantir espaçamento proporcional automático a novos filmes
+            const baseRadius = 200;
+            const dynamicRadius = Math.max(baseRadius, total * 38);
 
             featuredMoviesList.forEach((entry, idx) => {
-                let diff = idx - currentFeaturedIndex;
-
-                if (diff > total / 2) diff -= total;
-                if (diff < -total / 2) diff += total;
-
-                let posClass = 'hidden-side';
-                if (diff === 0) posClass = 'center';
-                else if (diff === 1) posClass = 'right-1';
-                else if (diff === 2) posClass = 'right-2';
-                else if (diff === -1) posClass = 'left-1';
-                else if (diff === -2) posClass = 'left-2';
+                const angle = (idx / total) * 360;
 
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
@@ -2088,12 +2021,16 @@
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `coverflow-item ${posClass}`;
+                itemDiv.className = 'coverflow-item';
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
+                
+                // Distribuição trigonométrica espaçada independentemente do volume de cards
+                itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
+
                 itemDiv.innerHTML = `
                     <img src="${posterUrl}" alt="${entry.item.movie.title}">
-                    <div class="coverflow-title-overlay">${entry.item.movie.title}</div>
                 `;
+
                 itemDiv.addEventListener('click', () => {
                     openLibraryModal(entry.key);
                 });
@@ -2396,7 +2333,7 @@
             const text = chatInputMessage.value.trim();
             if (!text || !activeChatUserId) return;
 
-            const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
+            const chatId = getCardRoomId ? getChatRoomId(currentUser.uid, activeChatUserId) : getChatRoomId(currentUser.uid, activeChatUserId);
             const messagesRef = ref(db, `chats/${chatId}/messages`);
 
             try {
