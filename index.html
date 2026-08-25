@@ -10,19 +10,18 @@
     
     <style>
         :root {
-            /* Nova Paleta de Cores (Foco em Roxo / Cores da Imagem) */
-            --bg-color: #86F46F;        /* Fundo principal creme claro (#F3F3E0) */
+            --bg-color: #86F46F;        
             --card-bg: #ffffff;
             --border-color: #111111;
             --border-width: 3px;
             --box-shadow: 4px 4px 0px #111111;
             --box-shadow-lg: 6px 6px 0px #111111;
             
-            --yellow: #F5EA48;        /* Amarelo da paleta (#F5EA48) */
-            --blue: #B05CF2;          /* Substituído por roxo secundário da paleta (#B05CF2) */
-            --pink: #DF39F4;          /* Roxo/Magenta principal em destaque (#DF39F4) */
-            --green: #86F46F;         /* Verde da paleta (#86F46F) */
-            --orange: #DF39F4;        /* Foco principal em roxo vibrante */
+            --yellow: #F5EA48;        
+            --blue: #B05CF2;          
+            --pink: #DF39F4;          
+            --green: #86F46F;         
+            --orange: #DF39F4;        
             --dark-card: #141414;
             
             --text-bright: #111111;
@@ -79,7 +78,6 @@
             z-index: 2;
         }
 
-        /* Header / Hero Principal Estilo Timeless (Apenas Título) */
         header {
             text-align: center;
             margin-bottom: 0;
@@ -99,7 +97,6 @@
             overflow: hidden;
         }
 
-        /* Animação da Fita de Rolo de Filme no Perímetro */
         .floating-logo-box::before {
             content: "";
             position: absolute;
@@ -165,7 +162,6 @@
             box-shadow: none;
         }
 
-        /* Navegação Abas Estilo Timeless Pill / Tags */
         .nav-bar {
             display: flex;
             justify-content: flex-start;
@@ -203,7 +199,6 @@
             box-shadow: 3px 3px 0px #111;
         }
 
-        /* Cards Estilo Timeless */
         .card {
             background: var(--card-bg);
             border: var(--border-width) solid var(--border-color);
@@ -221,7 +216,6 @@
             margin-bottom: 16px;
         }
 
-        /* Tela de Autenticação */
         .auth-container {
             text-align: center;
             padding: 40px 24px;
@@ -253,7 +247,6 @@
             box-shadow: 5px 5px 0px #111;
         }
 
-        /* Busca de Filmes */
         .search-box {
             position: relative;
             margin-bottom: 1.2rem;
@@ -829,10 +822,14 @@
 
         .library-card img {
             width: 100%;
-            aspect-ratio: 2 / 3;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border: 2px solid var(--border-color) !important;
             border-radius: 8px;
+        }
+
+        .library-card.movie-card img {
+            aspect-ratio: 2 / 3;
         }
 
         .library-card-match {
@@ -873,7 +870,6 @@
             transform: scale(1.1);
         }
 
-        /* CARROSSEL CIRCULAR 3D COM ROTAÇÃO CONTÍNUA LENTA E RAIO DINÂMICO */
         .featured-hero-carousel {
             background: transparent;
             border: none;
@@ -912,6 +908,11 @@
             width: 140px;
             aspect-ratio: 2 / 3;
             transition: filter 0.3s ease;
+        }
+
+        .coverflow-item.music-cover-item {
+            aspect-ratio: 1 / 1;
+            width: 130px;
         }
 
         .coverflow-item img {
@@ -953,7 +954,6 @@
 <body>
 
     <div class="container" id="mainContainerSwipe">
-        <!-- HEADER / HERO (Apenas Título) -->
         <header>
             <div class="floating-logo-box">
                 <div class="hero-content-left">
@@ -962,15 +962,14 @@
             </div>
         </header>
 
-        <!-- Menu de Navegação Superior Integrado -->
         <div id="socialNavbar" class="nav-bar hidden">
             <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
-            <button class="nav-btn" data-target="view-chats" data-index="1"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
-            <button class="nav-btn" data-target="view-library" data-index="2"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
-            <button class="nav-btn" data-target="view-profile" data-index="3"><i class="fa-solid fa-user-gear"></i> Perfil</button>
+            <button class="nav-btn" data-target="view-music" data-index="1"><i class="fa-solid fa-music"></i> Música</button>
+            <button class="nav-btn" data-target="view-chats" data-index="2"><i class="fa-solid fa-comments"></i> Chats & Conexões</button>
+            <button class="nav-btn" data-target="view-library" data-index="3"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
+            <button class="nav-btn" data-target="view-profile" data-index="4"><i class="fa-solid fa-user-gear"></i> Perfil</button>
         </div>
 
-        <!-- ETAPA 0: Login com Google / Login rápido por Nametag -->
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMozi</h3>
             <button id="googleLoginBtn" class="btn-google">
@@ -986,7 +985,6 @@
             </div>
         </div>
 
-        <!-- ETAPA 0.1: Escolha da Nametag -->
         <div id="step-nametag" class="card hidden">
             <h3>Escolha sua Nametag</h3>
             <form id="nametagForm" style="margin-top: 1.2rem;">
@@ -998,13 +996,11 @@
             </form>
         </div>
 
-        <!-- VIEW 1: SESSÃO ATIVA (HUB DE BEM-VINDO & CARROSSEL) -->
         <div id="view-session" class="app-view hidden">
             
-            <!-- CARROSSEL CIRCULAR 3D COM ROTAÇÃO CONTÍNUA -->
             <div class="featured-hero-carousel" id="featuredHeroCarouselSection">
                 <div class="coverflow-stage" id="coverflowStage">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum item no destaque ainda.</p>
                 </div>
             </div>
 
@@ -1013,14 +1009,12 @@
                 <button id="btnLeaveRoom"></button>
             </div>
 
-            <!-- HUB / SALA DE BEM-VINDO (Box único inicial com o botão de ver a próxima sessão) -->
             <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--pink); color: #fff; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha de filme para avaliar juntos">
                 <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: #fff; margin-bottom: 12px;"></i>
                 <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px; color: #fff;">Veja a próxima sessão com @amigo</h3>
                 <p style="font-size: 13px; font-weight: 700; color: #fdfbf7;">Clique aqui para escolher o filme e avaliarem juntos!</p>
             </div>
 
-            <!-- Poster e Pesquisa de Filme (Conteúdo da Sessão) -->
             <div id="step-movie" class="card hidden" style="margin-top: 0;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
                     <h3 style="margin-bottom: 0;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
@@ -1043,7 +1037,6 @@
                 </div>
             </div>
 
-            <!-- ETAPA 2: Avaliação Intuitiva -->
             <div id="step-review" class="card hidden">
                 <h3 style="margin-bottom: 1.4rem;" id="reviewCardTitle"><i class="fa-solid fa-star-half-stroke" style="margin-right: 8px;"></i> Sua Avaliação</h3>
                 
@@ -1071,7 +1064,6 @@
                 </form>
             </div>
 
-            <!-- ETAPA 4: Comparação e Afinidade -->
             <div id="step-results" class="card hidden">
                 <h3 style="margin-bottom: 1.2rem; text-align: center;"><i class="fa-solid fa-fire" style="margin-right: 8px;"></i> Resultado do Match</h3>
                 
@@ -1093,10 +1085,57 @@
             </div>
         </div>
 
-        <!-- VIEW 2: CHATS & CONEXÕES -->
+        <!-- VIEW: ABA DE MÚSICA (Apple Music API) -->
+        <div id="view-music" class="app-view hidden">
+            <div class="card">
+                <h3 style="margin-bottom: 1.2rem;"><i class="fa-solid fa-music" style="margin-right: 8px;"></i> Avaliar Álbum de Música</h3>
+                
+                <div id="selectedAlbumContainer" class="selected-movie-preview hidden">
+                    <img id="selectedAlbumCover" src="" alt="Capa do Álbum">
+                    <div style="flex: 1; min-width: 0;">
+                        <h3 id="selectedAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
+                        <p id="selectedAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
+                    </div>
+                    <button id="btnChangeAlbum" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                </div>
+
+                <div class="search-box" id="albumSearchBoxWrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="albumSearchInput" placeholder="Busque por qualquer álbum na Apple Music..." autocomplete="off">
+                    <div id="albumResults" class="movie-results"></div>
+                </div>
+            </div>
+
+            <div id="step-album-review" class="card hidden">
+                <h3 style="margin-bottom: 1.4rem;"><i class="fa-solid fa-star-half-stroke" style="margin-right: 8px;"></i> Sua Avaliação do Álbum</h3>
+                
+                <form id="albumReviewForm">
+                    <div class="rating-wrapper" id="albumRatingWrapperBox">
+                        <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">Toque e arraste nas estrelas para avaliar</label>
+                        <div class="rating-stars" id="albumStarContainer">
+                            <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
+                            <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
+                            <i class="fa-solid fa-star" data-value="3" title="Bom"></i>
+                            <i class="fa-solid fa-star" data-value="4" title="Muito Bom"></i>
+                            <i class="fa-solid fa-star" data-value="5" title="Obra-Prima"></i>
+                        </div>
+                        <div id="albumRatingFeedbackText" class="rating-feedback-text">Selecione sua nota</div>
+                        <input type="hidden" id="albumUserRating" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sua Crítica / Feedback sobre o Álbum</label>
+                        <textarea id="albumUserComment" maxlength="500" required placeholder="O que você achou das produções, letras, conceito..."></textarea>
+                        <span id="albumCharCounter" class="char-counter">0 / 500 caracteres</span>
+                    </div>
+
+                    <button type="submit" class="btn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> Enviar Avaliação do Álbum</button>
+                </form>
+            </div>
+        </div>
+
         <div id="view-chats" class="app-view hidden">
             <div class="whatsapp-chat-layout">
-                <!-- Sidebar de Contatos -->
                 <div class="whatsapp-sidebar">
                     <div class="whatsapp-sidebar-header">
                         <h3>Conversas & Amigos</h3>
@@ -1111,7 +1150,6 @@
                     <div class="whatsapp-contacts-list" id="chatContactsList"></div>
                 </div>
 
-                <!-- Janela Principal de Mensagens -->
                 <div class="whatsapp-main-chat">
                     <div class="whatsapp-chat-header">
                         <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
@@ -1139,17 +1177,15 @@
             </div>
         </div>
 
-        <!-- VIEW 3: BIBLIOTECA DE AVALIAÇÕES -->
         <div id="view-library" class="app-view hidden">
             <div class="card">
-                <h3 style="margin-bottom: 0.6rem;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> Biblioteca de Filmes Avaliados</h3>
+                <h3 style="margin-bottom: 0.6rem;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> Biblioteca de Filmes & Álbuns Avaliados</h3>
                 <div class="library-grid" id="libraryGridContainer">
-                    <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>
+                    <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum item na biblioteca ainda.</p>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW 4: PERFIL & CADASTRO -->
         <div id="view-profile" class="app-view hidden">
             <div class="card" style="max-width: 650px; margin: 0 auto;">
                 <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i> Meu Perfil & Cadastro</h3>
@@ -1182,13 +1218,12 @@
 
                 <div style="margin-top: 2rem; border-top: 2px dashed var(--border-color); padding-top: 1.2rem;">
                     <h4 style="font-weight: 800; font-size: 12px; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Estatísticas da Conta</h4>
-                    <p style="font-size: 14px; color: var(--text-muted); font-weight: 700;">Filmes avaliados salvos: <strong id="profileStatsCount" style="color: var(--border-color);">0</strong></p>
+                    <p style="font-size: 14px; color: var(--text-muted); font-weight: 700;">Itens avaliados salvos: <strong id="profileStatsCount" style="color: var(--border-color);">0</strong></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- POPUP MODAL DA BIBLIOTECA PARA DETALHES E EDIÇÃO -->
     <div id="libraryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 650px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
@@ -1197,12 +1232,11 @@
             </div>
             <div id="libraryModalContent"></div>
             <div style="margin-top: 1rem; text-align: right;">
-                <button type="button" id="modalDeleteMovieBtn" class="btn btn-danger" style="width: auto; padding: 10px 16px; font-size: 12px;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Filme da Biblioteca</button>
+                <button type="button" id="modalDeleteMovieBtn" class="btn btn-danger" style="width: auto; padding: 10px 16px; font-size: 12px;"><i class="fa-solid fa-trash-can" style="margin-right: 6px;"></i> Excluir Item da Biblioteca</button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDKs e Lógica Completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -1232,7 +1266,6 @@
         let connectedConnectionUid = null;
         let connectedConnectionNametag = null;
         
-        // Controle do Carrossel Circular 3D
         let featuredMoviesList = [];
 
         const stepAuth = document.getElementById('step-auth');
@@ -1508,7 +1541,6 @@
         const ratingFeedbackText = document.getElementById('ratingFeedbackText');
         const userComment = document.getElementById('userComment');
         const charCounter = document.getElementById('charCounter');
-        const ratingWrapperBox = document.getElementById('ratingWrapperBox');
 
         const stepReview = document.getElementById('step-review');
         const stepResults = document.getElementById('step-results');
@@ -1517,6 +1549,25 @@
         const hubWelcomeBox = document.getElementById('hubWelcomeBox');
         const hubWelcomeTitle = document.getElementById('hubWelcomeTitle');
         const btnBackToHub = document.getElementById('btnBackToHub');
+
+        // Lógica de Músicas (Apple Music API)
+        const albumSearchInput = document.getElementById('albumSearchInput');
+        const albumResults = document.getElementById('albumResults');
+        const selectedAlbumContainer = document.getElementById('selectedAlbumContainer');
+        const selectedAlbumCover = document.getElementById('selectedAlbumCover');
+        const selectedAlbumTitle = document.getElementById('selectedAlbumTitle');
+        const selectedAlbumArtist = document.getElementById('selectedAlbumArtist');
+        const albumSearchBoxWrapper = document.getElementById('albumSearchBoxWrapper');
+        const btnChangeAlbum = document.getElementById('btnChangeAlbum');
+        const stepAlbumReview = document.getElementById('step-album-review');
+        const albumReviewForm = document.getElementById('albumReviewForm');
+        const albumStarContainer = document.getElementById('albumStarContainer');
+        const albumUserRating = document.getElementById('albumUserRating');
+        const albumRatingFeedbackText = document.getElementById('albumRatingFeedbackText');
+        const albumUserComment = document.getElementById('albumUserComment');
+        const albumCharCounter = document.getElementById('albumCharCounter');
+
+        let selectedAlbumData = null;
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -1615,7 +1666,7 @@
                     if (myReview) {
                         userRatingInput.value = myReview.rating;
                         userComment.value = myReview.comment;
-                        highlightStars(myReview.rating);
+                        highlightStars(myReview.rating, starContainer, ratingFeedbackText);
                         updateCharCounter();
                     }
 
@@ -1626,7 +1677,7 @@
                         if (reviewKeys.length >= 2) {
                             showResultsAndMatch(reviews);
                         }
-                        saveToLibrary(activeRoomId, data.movie, reviews);
+                        saveToLibrary(activeRoomId, data.movie, reviews, 'movie');
                     } else {
                         stepResults.classList.add('hidden');
                     }
@@ -1709,16 +1760,94 @@
             showToast("Filme selecionado para a sessão!");
         }
 
+        // Pesquisa Apple Music para Álbuns
+        let albumSearchTimeout;
+        albumSearchInput.addEventListener('input', (e) => {
+            clearTimeout(albumSearchTimeout);
+            const query = e.target.value.trim();
+            if (query.length < 3) {
+                albumResults.style.display = 'none';
+                return;
+            }
+
+            albumSearchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=album&limit=5&country=BR`);
+                    const data = await response.json();
+                    renderAlbumResults(data.results || []);
+                } catch (error) {
+                    console.error('Erro ao buscar álbuns na Apple Music:', error);
+                }
+            }, 300);
+        });
+
+        function renderAlbumResults(albums) {
+            albumResults.innerHTML = '';
+            if (albums.length === 0) {
+                albumResults.style.display = 'none';
+                return;
+            }
+
+            albums.forEach(album => {
+                const artworkUrl = album.artworkUrl100 
+                    ? album.artworkUrl100.replace('100x100bb', '300x300bb') 
+                    : 'https://via.placeholder.com/60x60?text=No+Img';
+                const releaseYear = album.releaseDate ? album.releaseDate.split('-')[0] : 'N/A';
+
+                const div = document.createElement('div');
+                div.classList.add('movie-item');
+                div.innerHTML = `
+                    <img src="${artworkUrl}" alt="${album.collectionName}" style="width: 50px; height: 50px; border-radius: 6px;">
+                    <div class="movie-info">
+                        <h4>${album.collectionName}</h4>
+                        <span>${album.artistName} (${releaseYear})</span>
+                    </div>
+                `;
+                div.addEventListener('click', () => selectAlbum(album, artworkUrl, releaseYear));
+                albumResults.appendChild(div);
+            });
+            albumResults.style.display = 'block';
+        }
+
+        function selectAlbum(album, artworkUrl, year) {
+            selectedAlbumData = {
+                id: album.collectionId,
+                title: album.collectionName,
+                artist: album.artistName,
+                year: year,
+                poster: artworkUrl
+            };
+
+            selectedAlbumCover.src = artworkUrl;
+            selectedAlbumTitle.textContent = album.collectionName;
+            selectedAlbumArtist.textContent = `${album.artistName} (${year})`;
+            selectedAlbumContainer.classList.remove('hidden');
+            albumSearchBoxWrapper.style.display = 'none';
+            albumResults.style.display = 'none';
+            albumSearchInput.value = '';
+            stepAlbumReview.classList.remove('hidden');
+            showToast("Álbum selecionado para avaliação!");
+        }
+
+        btnChangeAlbum.addEventListener('click', () => {
+            selectedAlbumContainer.classList.add('hidden');
+            albumSearchBoxWrapper.style.display = 'block';
+            stepAlbumReview.classList.add('hidden');
+            albumSearchInput.value = '';
+            albumSearchInput.focus();
+        });
+
         const ratingLabels = {
             1: "⭐ Ruim (Precisa melhorar)",
-            2: "⭐⭐ Regular (Dá para assistir)",
-            3: "⭐⭐⭐ Bom (Curti a experiência)",
+            2: "⭐⭐ Regular (Dá para escutar)",
+            3: "⭐⭐⭐ Bom (Curti o som)",
             4: "⭐⭐⭐⭐ Muito Bom (Recomendo muito!)",
             5: "⭐⭐⭐⭐⭐ Obra-Prima (Perfeito!)"
         };
 
-        function highlightStars(val) {
-            stars.forEach(s => {
+        function highlightStars(val, container, feedbackEl) {
+            const sList = container.querySelectorAll('i');
+            sList.forEach(s => {
                 const sVal = parseInt(s.getAttribute('data-value'));
                 if (sVal <= val) {
                     s.classList.add('active');
@@ -1727,102 +1856,79 @@
                 }
             });
             if (val > 0 && ratingLabels[val]) {
-                ratingFeedbackText.textContent = ratingLabels[val];
+                feedbackEl.textContent = ratingLabels[val];
             } else {
-                ratingFeedbackText.textContent = "Selecione sua nota";
+                feedbackEl.textContent = "Selecione sua nota";
             }
         }
 
-        const stars = starContainer.querySelectorAll('i');
-        
-        function calculateStarFromClientX(clientX) {
-            const rect = starContainer.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const starWidth = rect.width / stars.length;
-            let rating = Math.ceil(x / starWidth);
-            if (rating < 1) rating = 1;
-            if (rating > 5) rating = 5;
-            return rating;
+        function setupStarRating(container, inputEl, feedbackEl) {
+            const sList = container.querySelectorAll('i');
+            let isDragging = false;
+
+            function getVal(clientX) {
+                const rect = container.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const starWidth = rect.width / sList.length;
+                let rating = Math.ceil(x / starWidth);
+                if (rating < 1) rating = 1;
+                if (rating > 5) rating = 5;
+                return rating;
+            }
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                const val = getVal(e.clientX);
+                inputEl.value = val;
+                highlightStars(val, container, feedbackEl);
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const val = getVal(e.clientX);
+                inputEl.value = val;
+                highlightStars(val, container, feedbackEl);
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                const val = getVal(e.touches[0].clientX);
+                inputEl.value = val;
+                highlightStars(val, container, feedbackEl);
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const val = getVal(e.touches[0].clientX);
+                inputEl.value = val;
+                highlightStars(val, container, feedbackEl);
+            }, { passive: true });
+
+            container.addEventListener('touchend', () => { isDragging = false; });
+
+            sList.forEach(star => {
+                star.addEventListener('click', () => {
+                    const val = parseInt(star.getAttribute('data-value'));
+                    inputEl.value = val;
+                    highlightStars(val, container, feedbackEl);
+                });
+            });
         }
 
-        let isDraggingStars = false;
-
-        starContainer.addEventListener('mousedown', (e) => {
-            isDraggingStars = true;
-            const val = calculateStarFromClientX(e.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDraggingStars) return;
-            const val = calculateStarFromClientX(e.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDraggingStars = false;
-        });
-
-        starContainer.addEventListener('touchstart', (e) => {
-            isDraggingStars = true;
-            const touch = e.touches[0];
-            const val = calculateStarFromClientX(touch.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        }, { passive: true });
-
-        starContainer.addEventListener('touchmove', (e) => {
-            if (!isDraggingStars) return;
-            const touch = e.touches[0];
-            const val = calculateStarFromClientX(touch.clientX);
-            userRatingInput.value = val;
-            highlightStars(val);
-        }, { passive: true });
-
-        starContainer.addEventListener('touchend', () => {
-            isDraggingStars = false;
-        });
-
-        stars.forEach(star => {
-            star.addEventListener('mouseover', () => {
-                if (isDraggingStars) return;
-                const val = parseInt(star.getAttribute('data-value'));
-                stars.forEach(s => {
-                    if (parseInt(s.getAttribute('data-value')) <= val) {
-                        s.classList.add('hovered');
-                    } else {
-                        s.classList.remove('hovered');
-                    }
-                });
-                ratingFeedbackText.textContent = ratingLabels[val];
-            });
-
-            star.addEventListener('mouseout', () => {
-                if (isDraggingStars) return;
-                stars.forEach(s => s.classList.remove('hovered'));
-                const currentVal = parseInt(userRatingInput.value) || 0;
-                if (currentVal > 0) {
-                    ratingFeedbackText.textContent = ratingLabels[currentVal];
-                } else {
-                    ratingFeedbackText.textContent = "Selecione sua nota";
-                }
-            });
-
-            star.addEventListener('click', () => {
-                const val = parseInt(star.getAttribute('data-value'));
-                userRatingInput.value = val;
-                highlightStars(val);
-            });
-        });
+        setupStarRating(starContainer, userRatingInput, ratingFeedbackText);
+        setupStarRating(albumStarContainer, albumUserRating, albumRatingFeedbackText);
 
         function updateCharCounter() {
             const currentLen = userComment.value.length;
             charCounter.textContent = `${currentLen} / 500 caracteres`;
         }
-
         userComment.addEventListener('input', updateCharCounter);
+
+        albumUserComment.addEventListener('input', () => {
+            albumCharCounter.textContent = `${albumUserComment.value.length} / 500 caracteres`;
+        });
 
         reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1855,7 +1961,7 @@
                             highResPoster = highResPoster.replace('/w92/', '/w500/');
                         }
                         const updatedMovieObj = { ...roomData.movie, poster: highResPoster };
-                        await saveToLibrary(activeRoomId, updatedMovieObj, allReviews);
+                        await saveToLibrary(activeRoomId, updatedMovieObj, allReviews, 'movie');
                     }
                 }
 
@@ -1863,6 +1969,46 @@
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
                 alert("Erro ao salvar avaliação.");
+            }
+        });
+
+        albumReviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const rating = parseInt(albumUserRating.value);
+            const comment = albumUserComment.value.trim();
+
+            if (rating === 0 || !selectedAlbumData) {
+                alert('Selecione o álbum e uma nota em estrelas.');
+                return;
+            }
+
+            const myReview = {
+                uid: currentUser.uid,
+                name: userNametag,
+                rating: rating,
+                comment: comment,
+                timestamp: Date.now()
+            };
+
+            const albumLibId = `album_${selectedAlbumData.id}`;
+            try {
+                const existingRef = ref(db, `library/${albumLibId}/reviews`);
+                const snap = await get(existingRef);
+                let currentReviews = snap.exists() ? snap.val() : {};
+                currentReviews[currentUser.uid] = myReview;
+
+                await set(ref(db, `library/${albumLibId}`), {
+                    type: 'music',
+                    movie: selectedAlbumData,
+                    reviews: currentReviews,
+                    updatedAt: Date.now()
+                });
+
+                showToast("Avaliação de álbum salva com sucesso!");
+                switchTab('view-library');
+            } catch (err) {
+                console.error("Erro ao salvar álbum:", err);
+                alert("Erro ao salvar avaliação do álbum.");
             }
         });
 
@@ -1898,22 +2044,23 @@
             `;
         }
 
-        async function saveToLibrary(rId, movie, reviews) {
+        async function saveToLibrary(rId, itemData, reviews, type = 'movie') {
             const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
-            const libId = `${cleanRoomId}_movie_${movie.id}`;
+            const libId = `${cleanRoomId}_${type}_${itemData.id}`;
             
-            let posterUrl = movie.poster;
+            let posterUrl = itemData.poster;
             if (posterUrl && posterUrl.includes('/w92/')) {
                 posterUrl = posterUrl.replace('/w92/', '/w500/');
             }
-            const cleanMovie = { ...movie, poster: posterUrl };
+            const cleanItem = { ...itemData, poster: posterUrl };
 
             await remove(ref(db, `deleted_library/${libId}`));
 
             const libraryRef = ref(db, `library/${libId}`);
             await set(libraryRef, {
+                type: type,
                 roomId: rId,
-                movie: cleanMovie,
+                movie: cleanItem,
                 reviews: reviews,
                 updatedAt: Date.now()
             });
@@ -1926,24 +2073,24 @@
                 const container = document.getElementById('libraryGridContainer');
                 container.innerHTML = '';
 
-                const uniqueMoviesMap = new Map();
+                const uniqueItemsMap = new Map();
                 Object.keys(data).forEach(k => {
                     const item = data[k];
                     const reviews = Object.values(item.reviews || {});
                     if (reviews.length === 0) return;
 
-                    const movieId = item.movie?.id || k;
-                    if (!uniqueMoviesMap.has(movieId) || item.updatedAt > uniqueMoviesMap.get(movieId).updatedAt) {
-                        uniqueMoviesMap.set(movieId, { key: k, item });
+                    const itemId = item.movie?.id || k;
+                    if (!uniqueItemsMap.has(itemId) || item.updatedAt > uniqueItemsMap.get(itemId).updatedAt) {
+                        uniqueItemsMap.set(itemId, { key: k, item });
                     }
                 });
 
-                const validLibraryItems = Array.from(uniqueMoviesMap.values());
+                const validLibraryItems = Array.from(uniqueItemsMap.values());
                 document.getElementById('profileStatsCount').textContent = validLibraryItems.length;
 
                 if (validLibraryItems.length === 0) {
-                    container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
-                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
+                    container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum item na biblioteca ainda.</p>';
+                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum item no destaque ainda.</p>';
                     featuredMoviesList = [];
                     return;
                 }
@@ -1953,6 +2100,7 @@
 
                 validLibraryItems.forEach(({ key: k, item }) => {
                     const reviews = Object.values(item.reviews || {});
+                    const isMusic = item.type === 'music';
 
                     let similarity = 100;
                     if (reviews.length >= 2) {
@@ -1968,11 +2116,11 @@
                     }
 
                     const card = document.createElement('div');
-                    card.className = 'library-card';
+                    card.className = `library-card ${isMusic ? '' : 'movie-card'}`;
                     card.title = `${item.movie.title} - Clique para abrir avaliações`;
 
                     card.innerHTML = `
-                        <button class="library-delete-btn" title="Excluir Filme" data-libkey="${k}"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="library-delete-btn" title="Excluir Item" data-libkey="${k}"><i class="fa-solid fa-trash-can"></i></button>
                         <div style="width: 100%; cursor: pointer;" onclick="openLibraryModal('${k}')">
                             <img src="${posterHighRes}" alt="${item.movie.title}">
                             <div class="library-card-match">
@@ -1987,10 +2135,10 @@
                             try {
                                 await set(ref(db, `deleted_library/${k}`), true);
                                 await remove(ref(db, `library/${k}`));
-                                showToast("Filme excluído da biblioteca!");
+                                showToast("Item excluído da biblioteca!");
                             } catch (err) {
-                                console.error("Erro ao excluir filme:", err);
-                                alert("Erro ao excluir o filme.");
+                                console.error("Erro ao excluir item:", err);
+                                alert("Erro ao excluir o item.");
                             }
                         }
                     });
@@ -2000,20 +2148,18 @@
             });
         }
 
-        // Renderiza o Carrossel em Círculo 3D dimensionando dinamicamente o raio conforme a quantidade de filmes
         function renderCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
             if (!stage || featuredMoviesList.length === 0) return;
 
             stage.innerHTML = '';
             const total = featuredMoviesList.length;
-            
-            // Cálculo dinâmico do raio para garantir espaçamento proporcional automático a novos filmes
             const baseRadius = 200;
             const dynamicRadius = Math.max(baseRadius, total * 38);
 
             featuredMoviesList.forEach((entry, idx) => {
                 const angle = (idx / total) * 360;
+                const isMusic = entry.item.type === 'music';
 
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
@@ -2021,10 +2167,8 @@
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'coverflow-item';
+                itemDiv.className = `coverflow-item ${isMusic ? 'music-cover-item' : ''}`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
-                
-                // Distribuição trigonométrica espaçada independentemente do volume de cards
                 itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
 
                 itemDiv.innerHTML = `
@@ -2070,7 +2214,7 @@
                         <img src="${posterUrlModal}" alt="Poster">
                         <div style="flex: 1; min-width: 0;">
                             <h3 style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${item.movie.title}</h3>
-                            <p style="color:var(--text-muted); font-size: 13px; font-weight: 700;">Lançamento: ${item.movie.year}</p>
+                            <p style="color:var(--text-muted); font-size: 13px; font-weight: 700;">Ano: ${item.movie.year}</p>
                         </div>
                     </div>
 
@@ -2183,15 +2327,15 @@
 
         document.getElementById('modalDeleteMovieBtn').addEventListener('click', async () => {
             if (!currentModalLibraryId) return;
-            if (confirm("Deseja realmente excluir este filme da biblioteca?")) {
+            if (confirm("Deseja realmente excluir este item da biblioteca?")) {
                 try {
                     await set(ref(db, `deleted_library/${currentModalLibraryId}`), true);
                     await remove(ref(db, `library/${currentModalLibraryId}`));
                     document.getElementById('libraryModal').classList.add('hidden');
-                    showToast("Filme excluído com sucesso!");
+                    showToast("Item excluído com sucesso!");
                 } catch (err) {
-                    console.error("Erro ao excluir filme do modal:", err);
-                    alert("Erro ao excluir o filme.");
+                    console.error("Erro ao excluir item do modal:", err);
+                    alert("Erro ao excluir o item.");
                 }
             }
         });
@@ -2333,7 +2477,7 @@
             const text = chatInputMessage.value.trim();
             if (!text || !activeChatUserId) return;
 
-            const chatId = getCardRoomId ? getChatRoomId(currentUser.uid, activeChatUserId) : getChatRoomId(currentUser.uid, activeChatUserId);
+            const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
             const messagesRef = ref(db, `chats/${chatId}/messages`);
 
             try {
