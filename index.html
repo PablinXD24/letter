@@ -1504,25 +1504,40 @@
         </div>
     </div>
 
-    <!-- MODAL DE ESCOLHA DA REDE SOCIAL (APENAS ÍCONES) -->
-    <div id="sharePlatformModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div class="card" style="width: 100%; max-width: 320px; text-align: center; margin-bottom: 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-share-nodes" style="margin-right: 6px;"></i> Compartilhar</h3>
+    <!-- MODAL DE COMPARTILHAMENTO: IMAGEM EM CIMA DOS ÍCONES E BOTÃO DE ENVIO EMBAIXO -->
+    <div id="sharePlatformModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div class="card" style="width: 100%; max-width: 420px; text-align: center; margin-bottom: 0; display: flex; flex-direction: column; gap: 14px; max-height: 94vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-share-nodes" style="margin-right: 6px;"></i> Compartilhar Card</h3>
                 <span id="closePlatformModalBtn" style="cursor: pointer; font-weight: 800; font-size: 16px; padding: 4px;">[ ✕ ]</span>
             </div>
             
+            <!-- PRÉ-VISUALIZAÇÃO DA IMAGEM EM CIMA DOS ÍCONES -->
+            <div style="width: 100%; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; display: flex; justify-content: center; align-items: center; box-shadow: 2px 2px 0px #111;">
+                <img id="sharePreviewImage" src="" alt="Prévia do Card" style="max-width: 100%; max-height: 280px; object-fit: contain; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111;">
+            </div>
+
+            <p style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 0;">Selecione a rede social:</p>
+
+            <!-- OPÇÕES DE REDES DE COMPARTILHAR NO MEIO -->
             <div style="display: flex; justify-content: center; gap: 14px; align-items: center;">
-                <button type="button" class="btn platform-icon-btn" id="platformStoryBtn" title="Instagram Stories" style="background: var(--pink);">
+                <button type="button" class="btn platform-icon-btn network-tab-btn active-network" data-network="story" title="Instagram Stories" style="background: var(--pink);">
                     <i class="fa-brands fa-instagram"></i>
                 </button>
-                <button type="button" class="btn platform-icon-btn" id="platformWhatsAppBtn" title="WhatsApp" style="background: var(--whatsapp-green);">
+                <button type="button" class="btn platform-icon-btn network-tab-btn" data-network="whatsapp" title="WhatsApp" style="background: var(--whatsapp-green);">
                     <i class="fa-brands fa-whatsapp"></i>
                 </button>
-                <button type="button" class="btn platform-icon-btn" id="platformTwitterBtn" title="Twitter / X" style="background: var(--blue);">
+                <button type="button" class="btn platform-icon-btn network-tab-btn" data-network="twitter" title="Twitter / X" style="background: var(--blue);">
                     <i class="fa-brands fa-x-twitter"></i>
                 </button>
             </div>
+
+            <div id="networkSelectedLabel" style="font-size: 12px; font-weight: 800; color: var(--border-color); text-transform: uppercase;">Rede Selecionada: Instagram Stories</div>
+
+            <!-- BOTÃO DE ENVIO EMBAIXO -->
+            <button type="button" id="confirmSendShareBtn" class="btn" style="background: var(--green); color: var(--border-color); margin-top: 4px;">
+                <i class="fa-solid fa-paper-plane" style="margin-right: 6px;"></i> Enviar para Postar
+            </button>
         </div>
     </div>
 
@@ -1591,6 +1606,7 @@
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
         let pendingShareItem = null;
+        let selectedShareNetwork = 'story';
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -2937,6 +2953,9 @@
                 shareBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     pendingShareItem = item;
+                    selectedShareNetwork = 'story';
+                    updateNetworkSelectionUI();
+                    generatePreviewImageForNetwork(selectedShareNetwork);
                     document.getElementById('sharePlatformModal').classList.remove('hidden');
                 });
             }
@@ -2949,24 +2968,39 @@
             document.getElementById('sharePlatformModal').classList.add('hidden');
         });
 
-        // EVENTOS DE CLIQUE DIRETO NAS REDES (INSTAGRAM STORIES, WHATSAPP, TWITTER/X)
-        document.getElementById('platformStoryBtn').addEventListener('click', () => {
-            document.getElementById('sharePlatformModal').classList.add('hidden');
-            processDirectShare('story');
+        // ALTERNAR REDE SOCIAL NO MODAL E ATUALIZAR PRÉVIA DA IMAGEM EM CIMA
+        const networkButtons = document.querySelectorAll('.network-tab-btn');
+        networkButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                networkButtons.forEach(b => b.classList.remove('active-network'));
+                btn.classList.add('active-network');
+                selectedShareNetwork = btn.getAttribute('data-network');
+                
+                let networkName = 'Instagram Stories';
+                if (selectedShareNetwork === 'whatsapp') networkName = 'WhatsApp';
+                if (selectedShareNetwork === 'twitter') networkName = 'Twitter / X';
+                document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
+
+                generatePreviewImageForNetwork(selectedShareNetwork);
+            });
         });
 
-        document.getElementById('platformWhatsAppBtn').addEventListener('click', () => {
-            document.getElementById('sharePlatformModal').classList.add('hidden');
-            processDirectShare('whatsapp');
-        });
+        function updateNetworkSelectionUI() {
+            networkButtons.forEach(b => {
+                if (b.getAttribute('data-network') === selectedShareNetwork) {
+                    b.classList.add('active-network');
+                } else {
+                    b.classList.remove('active-network');
+                }
+            });
+            let networkName = 'Instagram Stories';
+            if (selectedShareNetwork === 'whatsapp') networkName = 'WhatsApp';
+            if (selectedShareNetwork === 'twitter') networkName = 'Twitter / X';
+            document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
+        }
 
-        document.getElementById('platformTwitterBtn').addEventListener('click', () => {
-            document.getElementById('sharePlatformModal').classList.add('hidden');
-            processDirectShare('twitter');
-        });
-
-        // GERAÇÃO NO CANVAS COM AJUSTE DE FORMATO E REDIRECIONAMENTO DIRETO
-        function processDirectShare(format) {
+        // GERAR CANVAS E ATUALIZAR PREVIEW NO TOPO DO MODAL
+        function generatePreviewImageForNetwork(format) {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
 
@@ -3097,58 +3131,84 @@
                 ctx.fillStyle = "#111111";
                 ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
 
-                // EXECUÇÃO DO DOWNLOAD E REDIRECIONAMENTO DIRETO PARA A REDE SOCIAL
-                canvas.toBlob(async (blob) => {
-                    const shareText = `Acabei de avaliar "${item.movie.title}" no CineMozi! Nota: ${avgRating}/5 ⭐ (Match: ${similarity}%). Veja você também! 🎬✨`;
-                    const fileName = `cinemozi-${item.movie.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png`;
-                    const file = new File([blob], fileName, { type: 'image/png' });
-
-                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                        try {
-                            await navigator.share({
-                                title: `CineMozi - ${item.movie.title}`,
-                                text: shareText,
-                                files: [file]
-                            });
-                            showToast("Compartilhando...");
-                            return;
-                        } catch (err) {
-                            // Prossegue para o fluxo direto
-                        }
-                    }
-
-                    // Download automático da arte otimizada
-                    const link = document.createElement('a');
-                    link.download = fileName;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-
-                    // Redirecionamento Direto
-                    if (format === 'story') {
-                        showToast("Imagem salva! Abrindo Instagram...");
-                        setTimeout(() => {
-                            window.open('https://www.instagram.com/', '_blank');
-                        }, 800);
-                    } else if (format === 'whatsapp') {
-                        showToast("Imagem salva! Abrindo WhatsApp...");
-                        setTimeout(() => {
-                            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-                            window.open(waUrl, '_blank');
-                        }, 800);
-                    } else if (format === 'twitter') {
-                        showToast("Imagem salva! Abrindo Twitter / X...");
-                        setTimeout(() => {
-                            const twUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-                            window.open(twUrl, '_blank');
-                        }, 800);
-                    }
-                }, 'image/png');
+                // Atualiza a imagem de pré-visualização no modal
+                const dataUrl = canvas.toDataURL('image/png');
+                document.getElementById('sharePreviewImage').src = dataUrl;
             };
 
             img.onerror = () => {
-                showToast("Erro ao carregar a imagem do poster.");
+                showToast("Erro ao carregar a imagem do poster para pré-visualização.");
             };
         }
+
+        // CLICAR NO BOTÃO DE ENVIO EMBAIXO: BAIXA A ARTE E ENCAMINHA PARA A REDE SELECIONADA
+        document.getElementById('confirmSendShareBtn').addEventListener('click', async () => {
+            if (!pendingShareItem) return;
+            const item = pendingShareItem;
+            const format = selectedShareNetwork;
+
+            const canvas = document.getElementById('socialShareCanvas');
+            const reviews = Object.values(item.reviews || {});
+            let similarity = 100;
+            let avgRating = 5;
+            if (reviews.length >= 2) {
+                const [rev1, rev2] = reviews;
+                const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+                similarity = 100 - (ratingDiff * 20);
+                if (similarity < 10) similarity = 10;
+                avgRating = Math.round((rev1.rating + rev2.rating) / 2);
+            } else if (reviews.length === 1) {
+                avgRating = reviews[0].rating;
+            }
+
+            const shareText = `Acabei de avaliar "${item.movie.title}" no CineMozi! Nota: ${avgRating}/5 ⭐ (Match: ${similarity}%). Veja você também! 🎬✨`;
+            const fileName = `cinemozi-${item.movie.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png`;
+
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], fileName, { type: 'image/png' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            title: `CineMozi - ${item.movie.title}`,
+                            text: shareText,
+                            files: [file]
+                        });
+                        document.getElementById('sharePlatformModal').classList.add('hidden');
+                        showToast("Compartilhando...");
+                        return;
+                    } catch (err) {
+                        // Segue para o fluxo padrão de download e redirecionamento
+                    }
+                }
+
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                document.getElementById('sharePlatformModal').classList.add('hidden');
+
+                if (format === 'story') {
+                    showToast("Imagem salva! Abrindo Instagram...");
+                    setTimeout(() => {
+                        window.open('https://www.instagram.com/', '_blank');
+                    }, 800);
+                } else if (format === 'whatsapp') {
+                    showToast("Imagem salva! Abrindo WhatsApp...");
+                    setTimeout(() => {
+                        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+                        window.open(waUrl, '_blank');
+                    }, 800);
+                } else if (format === 'twitter') {
+                    showToast("Imagem salva! Abrindo Twitter / X...");
+                    setTimeout(() => {
+                        const twUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+                        window.open(twUrl, '_blank');
+                    }, 800);
+                }
+            }, 'image/png');
+        });
 
         function renderCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
