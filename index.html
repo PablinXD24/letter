@@ -2809,6 +2809,7 @@
                 rating: rating,
                 comment: comment,
                 tracks: userTrackReviews,
+                likes: {}, // Nova propriedade incluída
                 timestamp: Date.now()
             };
 
@@ -2856,6 +2857,7 @@
                 rating: avgRating,
                 comment: "Avaliação completa das faixas na roleta 3D.",
                 tracks: userTrackReviews,
+                likes: {}, // Nova propriedade incluída
                 timestamp: Date.now()
             };
 
@@ -3136,7 +3138,7 @@
                 const item = snapshot.val();
                 const reviewsObj = item.reviews || {};
                 const reviewsArray = Object.values(reviewsObj);
-                const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '', tracks: {} };
+                const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '', tracks: {}, likes: {} };
 
                 let similarity = 100;
                 let totalRatingPercent = Math.round((myReview.rating / 5) * 100);
@@ -3218,14 +3220,24 @@
                     </div>
 
                     <div class="comparison-grid" style="margin-bottom: 1rem;">
-                        ${reviewsArray.map(rev => `
-                            <div class="review-box" style="margin-bottom: 0; position: relative;">
+                        ${reviewsArray.map(rev => {
+                            const likesCount = rev.likes ? Object.keys(rev.likes).length : 0;
+                            const hasLiked = rev.likes && rev.likes[currentUser.uid];
+                            
+                            return `
+                            <div class="review-box review-box-dblclick" data-revuid="${rev.uid}" style="margin-bottom: 0; position: relative; cursor: pointer; user-select: none;" title="Dê 2 cliques para curtir!">
                                 <h3 style="padding-right: 28px;">@${rev.name} <span>${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</span></h3>
                                 <p style="font-size: 12px; margin-bottom: 4px; font-weight: 700;">Nota Geral: ${rev.rating} / 5</p>
-                                <p style="font-size: 13px; line-height: 1.4; color: var(--text-bright); font-weight: 600;">"${rev.comment}"</p>
+                                <p style="font-size: 13px; line-height: 1.4; color: var(--text-bright); font-weight: 600; margin-bottom: 12px;">"${rev.comment}"</p>
+                                
+                                <div class="like-container" style="position: absolute; bottom: 12px; right: 16px; font-size: 18px; color: ${hasLiked ? 'var(--pink)' : '#ccc'}; transition: transform 0.2s;">
+                                    <i class="${hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="filter: drop-shadow(2px 2px 0px #111);"></i> <span style="font-size: 13px; font-weight: 800; color: var(--border-color);">${likesCount > 0 ? likesCount : ''}</span>
+                                </div>
+                                
                                 ${rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
                             </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
 
                     ${tracksHTML}
@@ -3255,6 +3267,62 @@
                         </form>
                     </div>
                 `;
+
+                // Adiciona lógica de detecção de dois cliques para a curtida
+                const reviewBoxes = modalContent.querySelectorAll('.review-box-dblclick');
+                reviewBoxes.forEach(box => {
+                    let lastClickTime = 0;
+                    box.addEventListener('click', async (e) => {
+                        // Ignora clique no botão de edição
+                        if (e.target.closest('#toggleEditBtn')) return;
+                        
+                        const currentTime = new Date().getTime();
+                        if (currentTime - lastClickTime < 400) {
+                            const revUid = box.getAttribute('data-revuid');
+                            if(!revUid) return;
+                            
+                            const revRef = ref(db, `library/${currentModalLibraryId}/reviews/${revUid}/likes/${currentUser.uid}`);
+                            
+                            // Cria coração para animação visual
+                            const heartAnim = document.createElement('i');
+                            heartAnim.className = 'fa-solid fa-heart';
+                            heartAnim.style.position = 'absolute';
+                            heartAnim.style.color = 'var(--pink)';
+                            heartAnim.style.fontSize = '50px';
+                            heartAnim.style.left = '50%';
+                            heartAnim.style.top = '50%';
+                            heartAnim.style.transform = 'translate(-50%, -50%) scale(0)';
+                            heartAnim.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s';
+                            heartAnim.style.filter = 'drop-shadow(4px 4px 0px #111)';
+                            heartAnim.style.zIndex = '100';
+                            box.appendChild(heartAnim);
+                            
+                            // Gatilhos de animação
+                            setTimeout(() => {
+                                heartAnim.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                            }, 10);
+                            
+                            setTimeout(() => {
+                                heartAnim.style.opacity = '0';
+                                heartAnim.style.transform = 'translate(-50%, -50%) scale(2)';
+                                setTimeout(() => heartAnim.remove(), 400);
+                            }, 600);
+                            
+                            // Verifica status atual e salva no Firebase
+                            const isLiked = box.querySelector('.like-container i').classList.contains('fa-solid');
+                            
+                            if (isLiked) {
+                                await remove(revRef);
+                            } else {
+                                await set(revRef, true);
+                            }
+                            
+                            // Recarrega o modal para exibir status da curtida limpo
+                            setTimeout(() => openLibraryModal(currentModalLibraryId), 600);
+                        }
+                        lastClickTime = currentTime;
+                    });
+                });
 
                 if (item.type === 'music') {
                     const playBtns = modalContent.querySelectorAll('.modal-play-btn');
@@ -3307,6 +3375,7 @@
                             rating: newRating,
                             comment: newComment,
                             tracks: myReview.tracks || {},
+                            likes: myReview.likes || {}, // Manter dados de curtidas!
                             timestamp: Date.now()
                         };
 
