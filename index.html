@@ -1618,12 +1618,13 @@
 
         let currentUser = null;
         let userNametag = null;
-        let activeRoomId = "sessao_filme_principal";
+        let activeRoomId = null;
         let activeChatUserId = null;
         let activeChatNametag = null;
         let currentModalLibraryId = null;
         let connectedConnectionUid = null;
         let connectedConnectionNametag = null;
+        let roomSessionUnsubscribe = null;
         
         let featuredMoviesList = [];
         let albumTracksData = []; 
@@ -1881,7 +1882,9 @@
             socialNavbar.classList.remove('hidden');
             document.getElementById('view-session').classList.remove('hidden');
             
-            initRoomSession(activeRoomId);
+            // Não inicializa nenhuma sala de sessão automaticamente 
+            // garantindo que apenas o botão do Hub apareça de início.
+            
             loadChatContacts();
             loadLibrary();
             loadHubConnection();
@@ -2058,7 +2061,11 @@
             stepReview.classList.add('hidden');
             stepResults.classList.add('hidden');
             hubWelcomeBox.classList.remove('hidden');
-            activeRoomId = "sessao_filme_principal";
+            activeRoomId = null;
+            if (roomSessionUnsubscribe) {
+                roomSessionUnsubscribe();
+                roomSessionUnsubscribe = null;
+            }
         });
 
         btnBackToHubMusic.addEventListener('click', () => {
@@ -2067,16 +2074,24 @@
             stepReview.classList.add('hidden');
             stepResults.classList.add('hidden');
             hubWelcomeBox.classList.remove('hidden');
-            activeRoomId = "sessao_filme_principal";
+            activeRoomId = null;
+            if (roomSessionUnsubscribe) {
+                roomSessionUnsubscribe();
+                roomSessionUnsubscribe = null;
+            }
         });
 
         function initRoomSession(rId) {
+            if (roomSessionUnsubscribe) {
+                roomSessionUnsubscribe();
+                roomSessionUnsubscribe = null;
+            }
             activeRoomId = rId;
             activeRoomName.textContent = rId === "sessao_filme_principal" ? "Sessão Principal" : `Sala Conjunta com Colega`;
             
             const roomRef = ref(db, `rooms/${activeRoomId}`);
 
-            onValue(roomRef, (snapshot) => {
+            roomSessionUnsubscribe = onValue(roomRef, (snapshot) => {
                 const data = snapshot.val();
                 
                 if (!data || (!data.movie && !data.album)) {
