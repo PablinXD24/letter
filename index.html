@@ -885,6 +885,33 @@
             transform: scale(1.1);
         }
 
+        /* --- ESTILOS DA LISTA DE ESPERA --- */
+        .waitlist-card {
+            border-style: dashed !important;
+            background: #faf7f0 !important;
+            transform: scale(0.95);
+            opacity: 0.85;
+            box-shadow: 2px 2px 0px #111;
+        }
+        .waitlist-card:hover {
+            opacity: 1;
+            transform: scale(0.98) translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #111;
+        }
+        .waitlist-badge {
+            margin-top: 8px;
+            font-weight: 800;
+            font-size: 11px;
+            text-align: center;
+            background: var(--yellow);
+            color: var(--border-color);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 4px 6px;
+            width: 100%;
+            box-shadow: 1px 1px 0px #111;
+        }
+
         .featured-hero-carousel {
             background: transparent;
             border: none;
@@ -1229,7 +1256,10 @@
                         <h3 id="selectedMovieTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
-                    <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                        <button id="btnWaitlistMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                    </div>
                 </div>
 
                 <div class="search-box" id="movieSearchBoxWrapper">
@@ -1252,7 +1282,10 @@
                         <h3 id="selectedSessionAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedSessionAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
-                    <button id="btnChangeSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button id="btnChangeSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                        <button id="btnWaitlistSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                    </div>
                 </div>
 
                 <div class="search-box" id="sessionAlbumSearchBoxWrapper">
@@ -1344,7 +1377,10 @@
                         <h3 id="selectedAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
-                    <button id="btnChangeAlbum" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button id="btnChangeAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
+                        <button id="btnWaitlistAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                    </div>
                 </div>
 
                 <div class="search-box" id="albumSearchBoxWrapper">
@@ -1430,6 +1466,13 @@
                 </div>
 
                 <div id="libSectionMovies">
+                    <div style="margin-bottom: 2rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 1.5rem;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Assistir</h4>
+                        <div class="library-grid" id="waitlistMoviesGrid">
+                            <p style="color: var(--text-muted); font-weight: 600;">Nenhum filme na lista de espera.</p>
+                        </div>
+                    </div>
+                    
                     <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Filmes Avaliados</h4>
                     <div class="library-grid" id="libraryGridContainer">
                         <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>
@@ -1437,6 +1480,13 @@
                 </div>
 
                 <div id="libSectionMusic" class="hidden">
+                    <div style="margin-bottom: 2rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 1.5rem;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Ouvir</h4>
+                        <div class="library-grid" id="waitlistMusicGrid">
+                            <p style="color: var(--text-muted); font-weight: 600;">Nenhum álbum na lista de espera.</p>
+                        </div>
+                    </div>
+                    
                     <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Álbuns de Música Avaliados</h4>
                     <div class="library-grid" id="libraryMusicGridContainer">
                         <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>
@@ -1546,6 +1596,11 @@
         let albumTracksData = []; 
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
+
+        // Temporários para Lista de Espera
+        let tempMovieData = null;
+        let tempSessionAlbumData = null;
+        let selectedAlbumData = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -1796,12 +1851,10 @@
             socialNavbar.classList.remove('hidden');
             document.getElementById('view-session').classList.remove('hidden');
             
-            // Não inicializa nenhuma sala de sessão automaticamente 
-            // garantindo que apenas o botão do Hub apareça de início.
-            
             loadChatContacts();
             loadLibrary();
             loadHubConnection();
+            loadWaitlist();
         }
 
         const TMDB_API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
@@ -1880,7 +1933,94 @@
         const albumTracksListContainer = document.getElementById('albumTracksListContainer');
         const saveAlbumCompleteBtn = document.getElementById('saveAlbumCompleteBtn');
 
-        let selectedAlbumData = null;
+
+        // --------- LISTA DE ESPERA (WAITLIST) --------- //
+        async function addToWaitlist(item, type) {
+            if(!currentUser) return;
+            const waitlistRef = ref(db, `users/${currentUser.uid}/waitlist/${item.id}`);
+            await set(waitlistRef, {
+                id: item.id,
+                title: item.title,
+                poster: item.poster,
+                year: item.year,
+                type: type,
+                addedAt: Date.now()
+            });
+            showToast(`${item.title} adicionado à sua fila!`);
+        }
+
+        document.getElementById('btnWaitlistMovie').addEventListener('click', async () => {
+            if(!tempMovieData) return;
+            await addToWaitlist(tempMovieData, 'movie');
+        });
+
+        document.getElementById('btnWaitlistSessionAlbum').addEventListener('click', async () => {
+            if(!tempSessionAlbumData) return;
+            await addToWaitlist(tempSessionAlbumData, 'music');
+        });
+
+        document.getElementById('btnWaitlistAlbum').addEventListener('click', async () => {
+            if(!selectedAlbumData) return;
+            await addToWaitlist(selectedAlbumData, 'music');
+        });
+
+        function loadWaitlist() {
+            if(!currentUser) return;
+            const waitlistRef = ref(db, `users/${currentUser.uid}/waitlist`);
+            onValue(waitlistRef, (snapshot) => {
+                const data = snapshot.val() || {};
+                const moviesGrid = document.getElementById('waitlistMoviesGrid');
+                const musicGrid = document.getElementById('waitlistMusicGrid');
+                
+                moviesGrid.innerHTML = '';
+                musicGrid.innerHTML = '';
+                
+                let hasMovies = false;
+                let hasMusic = false;
+
+                Object.keys(data).forEach(k => {
+                    const item = data[k];
+                    if(item.type === 'movie') {
+                        renderWaitlistCard(k, item, moviesGrid);
+                        hasMovies = true;
+                    } else {
+                        renderWaitlistCard(k, item, musicGrid);
+                        hasMusic = true;
+                    }
+                });
+
+                if(!hasMovies) moviesGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum filme na lista de espera.</p>';
+                if(!hasMusic) musicGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum álbum na lista de espera.</p>';
+            });
+        }
+
+        function renderWaitlistCard(key, item, container) {
+            const card = document.createElement('div');
+            card.className = `library-card waitlist-card ${item.type === 'movie' ? 'movie-card' : ''}`;
+            card.title = `${item.title} - Na lista de espera`;
+
+            card.innerHTML = `
+                <button class="library-delete-btn" title="Remover da Fila" data-key="${key}"><i class="fa-solid fa-xmark"></i></button>
+                <div style="width: 100%; cursor: default;">
+                    <img src="${item.poster}" alt="${item.title}">
+                    <div class="waitlist-badge">
+                        <span><i class="fa-solid fa-clock"></i> Espera</span>
+                    </div>
+                </div>
+            `;
+
+            card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (confirm(`Remover "${item.title}" da lista de espera?`)) {
+                    await remove(ref(db, `users/${currentUser.uid}/waitlist/${key}`));
+                    showToast("Item removido da fila!");
+                }
+            });
+
+            container.appendChild(card);
+        }
+        // --------- FIM LISTA DE ESPERA --------- //
+
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -2028,6 +2168,7 @@
                     stepSessionMusic.classList.remove('hidden');
 
                     if (data.album) {
+                        tempSessionAlbumData = data.album;
                         selectedSessionAlbumPoster.src = data.album.poster;
                         selectedSessionAlbumTitle.textContent = data.album.title;
                         selectedSessionAlbumArtist.textContent = `${data.album.artist} (${data.album.year})`;
@@ -2062,6 +2203,7 @@
                     stepMovie.classList.remove('hidden');
 
                     if (data.movie) {
+                        tempMovieData = data.movie;
                         selectedMoviePoster.src = data.movie.poster;
                         selectedMovieTitle.textContent = data.movie.title;
                         selectedMovieYear.textContent = `Lançamento: ${data.movie.year}`;
@@ -2165,6 +2307,7 @@
                 year: year,
                 poster: highQualityPoster
             };
+            tempMovieData = movieObj;
 
             const roomRef = ref(db, `rooms/${activeRoomId}`);
             await update(roomRef, { movie: movieObj, reviews: null });
@@ -2472,6 +2615,7 @@
                 year: year,
                 poster: artworkUrl
             };
+            tempSessionAlbumData = albumObj;
 
             const roomRef = ref(db, `rooms/${activeRoomId}`);
             await update(roomRef, { album: albumObj, reviews: null });
