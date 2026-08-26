@@ -3130,7 +3130,8 @@
         window.openLibraryModal = function(libKey) {
             currentModalLibraryId = libKey;
             const libraryRef = ref(db, `library/${currentModalLibraryId}`);
-            get(libraryRef).then((snapshot) => {
+            
+            get(libraryRef).then(async (snapshot) => {
                 if (!snapshot.exists()) return;
                 const item = snapshot.val();
                 const reviewsObj = item.reviews || {};
@@ -3150,6 +3151,46 @@
                 let posterUrlModal = item.movie.poster;
                 if (posterUrlModal && posterUrlModal.includes('/w92/')) {
                     posterUrlModal = posterUrlModal.replace('/w92/', '/w500/');
+                }
+
+                let tracksHTML = '';
+                if (item.type === 'music') {
+                    const tracks = await fetchAlbumTracks(item.movie.id);
+                    tracksHTML = `<div style="margin-top: 1rem; margin-bottom: 1rem; background: #fdfbf7; border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; box-shadow: 2px 2px 0px #111;">
+                        <h4 style="font-size: 13px; font-weight: 800; margin-bottom: 8px; text-transform: uppercase;">Faixas Avaliadas</h4>
+                        <div style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px;">`;
+                    
+                    let hasRatedTracks = false;
+                    tracks.forEach(track => {
+                        let ratedByUsersHTML = '';
+                        reviewsArray.forEach(rev => {
+                            const tr = rev.tracks && rev.tracks[track.trackId];
+                            if (tr && tr.rating > 0) {
+                                hasRatedTracks = true;
+                                ratedByUsersHTML += `<div style="font-size: 11px; font-weight: 700; color: var(--text-muted); background: #fff; padding: 4px 6px; border-radius: 6px; border: 1px solid #ddd;">@${rev.name}: <span style="color: var(--pink);">${'★'.repeat(tr.rating)}</span> ${tr.comment ? `<span style="font-weight:600; color:var(--text-dark); display:block; margin-top:2px;">"${tr.comment}"</span>` : ''}</div>`;
+                            }
+                        });
+
+                        if (ratedByUsersHTML) {
+                            tracksHTML += `
+                                <div style="display: flex; flex-direction: column; padding: 8px; border: 2px solid var(--border-color); border-radius: 8px; background: #faf7f0; box-shadow: 1px 1px 0px #111;">
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                        ${track.previewUrl ? `<button type="button" class="btn-play-track modal-play-btn" data-url="${track.previewUrl}" style="width: 24px; height: 24px; font-size: 10px; flex-shrink: 0;"><i class="fa-solid fa-play"></i></button>` : ''}
+                                        <span style="font-size: 12px; font-weight: 800; color: var(--border-color);">${track.trackNumber}. ${track.trackName}</span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                                        ${ratedByUsersHTML}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    if (!hasRatedTracks) {
+                        tracksHTML += `<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhuma faixa foi avaliada individualmente.</p>`;
+                    }
+                    
+                    tracksHTML += `</div></div>`;
                 }
 
                 const modalContent = document.getElementById('libraryModalContent');
@@ -3187,6 +3228,8 @@
                         `).join('')}
                     </div>
 
+                    ${tracksHTML}
+
                     <div id="editReviewSection" class="card hidden" style="margin-bottom: 0; padding: 1.5rem 1rem 1rem 1rem;">
                         <h3 style="margin-bottom: 1rem; font-size: 15px;"><i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> Editar Minha Avaliação</h3>
                         <form id="modalReviewForm">
@@ -3212,6 +3255,16 @@
                         </form>
                     </div>
                 `;
+
+                if (item.type === 'music') {
+                    const playBtns = modalContent.querySelectorAll('.modal-play-btn');
+                    playBtns.forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            toggleTrackPreview(btn.getAttribute('data-url'), btn);
+                        });
+                    });
+                }
 
                 const toggleEditBtn = document.getElementById('toggleEditBtn');
                 if (toggleEditBtn) {
