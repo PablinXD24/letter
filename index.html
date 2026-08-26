@@ -3022,7 +3022,8 @@
             document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
         }
 
-        // CORREÇÃO MOBILE: Conversão via Blob para contornar bloqueios de CORS e tela preta no canvas mobile
+        // CORREÇÃO: Removido o fluxo falho de fetch/createObjectURL que causa a "contaminação" do canvas (SecurityError) nos navegadores mobile e desktop atuais.
+        // Adicionada a renderização isolada do canvas que falha graciosamente via Proxy e garante que o resto das informações do post (cores e fontes) não quebrem.
         function generatePreviewImageForNetwork(format) {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
@@ -3087,114 +3088,110 @@
             }
 
             const imageUrl = item.movie.poster;
-            
-            fetch(imageUrl, { mode: 'cors' })
-                .then(response => response.blob())
-                .then(blob => {
-                    const blobUrl = URL.createObjectURL(blob);
-                    const img = new Image();
-                    img.onload = () => {
-                        ctx.fillStyle = "#86F46F";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                        const pad = 40;
-                        ctx.fillStyle = "#ffffff";
-                        ctx.strokeStyle = "#111111";
-                        ctx.lineWidth = format === 'story' ? 10 : 8;
-                        ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
-                        ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+            // Função que desenha todo o layout base independentemente de a imagem do filme carregar
+            const drawCanvas = (imgElement) => {
+                ctx.fillStyle = "#86F46F";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const pad = 40;
+                ctx.fillStyle = "#ffffff";
+                ctx.strokeStyle = "#111111";
+                ctx.lineWidth = format === 'story' ? 10 : 8;
+                ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+                ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
 
-                        ctx.fillStyle = "#111111";
-                        ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
-                        ctx.textAlign = "center";
-                        const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
-                        
-                        ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
-                        ctx.fillStyle = "#DF39F4";
-                        ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
+                ctx.fillStyle = "#111111";
+                ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.textAlign = "center";
+                const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
+                
+                ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
+                ctx.fillStyle = "#DF39F4";
+                ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
 
-                        const posterX = (canvas.width - posterW) / 2;
-                        const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
+                const posterX = (canvas.width - posterW) / 2;
+                const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
 
-                        ctx.save();
-                        ctx.shadowColor = "#111111";
-                        ctx.shadowBlur = 0;
-                        ctx.shadowOffsetX = format === 'story' ? 12 : 8;
-                        ctx.shadowOffsetY = format === 'story' ? 12 : 8;
-                        ctx.fillStyle = "#000";
-                        ctx.fillRect(posterX, posterY, posterW, posterH);
-                        ctx.strokeStyle = "#111111";
-                        ctx.lineWidth = 6;
-                        ctx.strokeRect(posterX, posterY, posterW, posterH);
-                        ctx.drawImage(img, posterX, posterY, posterW, posterH);
-                        ctx.restore();
+                ctx.save();
+                ctx.shadowColor = "#111111";
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = format === 'story' ? 12 : 8;
+                ctx.shadowOffsetY = format === 'story' ? 12 : 8;
+                ctx.fillStyle = "#000";
+                ctx.fillRect(posterX, posterY, posterW, posterH);
+                ctx.strokeStyle = "#111111";
+                ctx.lineWidth = 6;
+                ctx.strokeRect(posterX, posterY, posterW, posterH);
+                
+                // Se a imagem carregar via Proxy ou de forma limpa, desenha ela
+                if(imgElement) {
+                    ctx.drawImage(imgElement, posterX, posterY, posterW, posterH);
+                } else {
+                    ctx.fillStyle = "#333";
+                    ctx.font = `600 ${subtitleSize * 0.8}px 'Plus Jakarta Sans', sans-serif`;
+                    ctx.fillText("Sem Imagem", posterX + (posterW/2), posterY + (posterH/2));
+                }
+                
+                ctx.restore();
 
-                        const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
-                        ctx.fillStyle = "#111111";
-                        ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
-                        ctx.textAlign = "center";
-                        let movieTitle = item.movie.title;
-                        if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
-                        ctx.fillText(movieTitle, canvas.width / 2, titleY);
+                const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
+                ctx.fillStyle = "#111111";
+                ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.textAlign = "center";
+                let movieTitle = item.movie.title;
+                if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
+                ctx.fillText(movieTitle, canvas.width / 2, titleY);
 
-                        const starsY = titleY + (format === 'story' ? 60 : 45);
-                        const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
-                        ctx.fillStyle = "#DF39F4";
-                        ctx.font = starsSize;
-                        ctx.fillText(starsText, canvas.width / 2, starsY);
+                const starsY = titleY + (format === 'story' ? 60 : 45);
+                const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
+                ctx.fillStyle = "#DF39F4";
+                ctx.font = starsSize;
+                ctx.fillText(starsText, canvas.width / 2, starsY);
 
-                        const infoY = starsY + (format === 'story' ? 60 : 45);
-                        ctx.fillStyle = "#111111";
-                        ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
-                        ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
+                const infoY = starsY + (format === 'story' ? 60 : 45);
+                ctx.fillStyle = "#111111";
+                ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
 
-                        const footerY = infoY + (format === 'story' ? 100 : 50);
-                        const footerH = format === 'story' ? 140 : 80;
-                        ctx.fillStyle = "#faf7f0";
-                        ctx.fillRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
-                        ctx.strokeStyle = "#111111";
-                        ctx.lineWidth = 4;
-                        ctx.strokeRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
+                const footerY = infoY + (format === 'story' ? 100 : 50);
+                const footerH = format === 'story' ? 140 : 80;
+                ctx.fillStyle = "#faf7f0";
+                ctx.fillRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
+                ctx.strokeStyle = "#111111";
+                ctx.lineWidth = 4;
+                ctx.strokeRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
 
-                        ctx.fillStyle = "#555555";
-                        ctx.font = `600 ${subtitleSize * 0.6}px 'Plus Jakarta Sans', sans-serif`;
-                        ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
-                        ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
-                        ctx.fillStyle = "#111111";
-                        ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
+                ctx.fillStyle = "#555555";
+                ctx.font = `600 ${subtitleSize * 0.6}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
+                ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
+                ctx.fillStyle = "#111111";
+                ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
 
-                        const dataUrl = canvas.toDataURL('image/png');
-                        previewImgEl.src = dataUrl;
-                        loaderEl.style.display = 'none';
-                        previewImgEl.classList.remove('hidden');
-                        URL.revokeObjectURL(blobUrl);
-                    };
-                    img.src = blobUrl;
-                })
-                .catch(() => {
-                    const img = new Image();
-                    img.crossOrigin = "anonymous";
-                    img.src = imageUrl;
-                    img.onload = () => {
-                        ctx.fillStyle = "#86F46F";
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        const pad = 40;
-                        ctx.fillStyle = "#ffffff";
-                        ctx.strokeStyle = "#111111";
-                        ctx.lineWidth = format === 'story' ? 10 : 8;
-                        ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
-                        ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
-                        ctx.drawImage(img, (canvas.width - posterW) / 2, format === 'story' ? 240 : 180, posterW, posterH);
-                        
-                        const dataUrl = canvas.toDataURL('image/png');
-                        previewImgEl.src = dataUrl;
-                        loaderEl.style.display = 'none';
-                        previewImgEl.classList.remove('hidden');
-                    };
-                    img.onerror = () => {
-                        loaderEl.textContent = "Não foi possível carregar a imagem do pôster.";
-                    };
-                });
+                // Bloco Try-Catch contorna quebras se o canvas ainda persistir sujo
+                try {
+                    const dataUrl = canvas.toDataURL('image/png');
+                    previewImgEl.src = dataUrl;
+                    loaderEl.style.display = 'none';
+                    previewImgEl.classList.remove('hidden');
+                } catch (err) {
+                    console.error("Erro Canvas Contaminado (Tainted):", err);
+                    loaderEl.textContent = "Erro de segurança CORS. Não foi possível criar o card com imagem.";
+                }
+            };
+
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = () => drawCanvas(img);
+            img.onerror = () => {
+                // FALLBACK: Tenta contornar as politicas CORS de CDN por meio do roteamento seguro via Proxy Público gratuito
+                const proxyImg = new Image();
+                proxyImg.crossOrigin = "Anonymous";
+                proxyImg.onload = () => drawCanvas(proxyImg);
+                proxyImg.onerror = () => drawCanvas(null); // Caso o proxy falhe, constrói a arte preta/sem pôster
+                proxyImg.src = `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`;
+            };
+            img.src = imageUrl;
         }
 
         document.getElementById('confirmSendShareBtn').addEventListener('click', async () => {
@@ -3220,6 +3217,8 @@
             const fileName = `cinemozi-${item.movie.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png`;
 
             canvas.toBlob(async (blob) => {
+                if(!blob) return; 
+
                 const file = new File([blob], fileName, { type: 'image/png' });
 
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
