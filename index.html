@@ -1164,20 +1164,29 @@
 
         /* Botões Redondos Neobrutalistas para Escolha de Rede */
         .platform-icon-btn {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             border-radius: 16px;
-            font-size: 26px;
+            font-size: 24px;
             padding: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
+            border: 2px solid var(--border-color);
+            box-shadow: 2px 2px 0px #111;
+            cursor: pointer;
+        }
+
+        .platform-icon-btn.active-network {
+            transform: scale(1.1) translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #111;
+            filter: brightness(1.1);
         }
 
         .platform-icon-btn:hover {
-            transform: scale(1.1) translate(-2px, -2px);
-            box-shadow: 5px 5px 0px #111;
+            transform: scale(1.08) translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #111;
         }
     </style>
 </head>
@@ -1513,8 +1522,9 @@
             </div>
             
             <!-- PRÉ-VISUALIZAÇÃO DA IMAGEM EM CIMA DOS ÍCONES -->
-            <div style="width: 100%; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; display: flex; justify-content: center; align-items: center; box-shadow: 2px 2px 0px #111;">
-                <img id="sharePreviewImage" src="" alt="Prévia do Card" style="max-width: 100%; max-height: 280px; object-fit: contain; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111;">
+            <div style="width: 100%; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; display: flex; justify-content: center; align-items: center; box-shadow: 2px 2px 0px #111; min-height: 200px;">
+                <div id="sharePreviewLoader" style="font-size: 12px; font-weight: 800; color: var(--text-muted);">Gerando arte...</div>
+                <img id="sharePreviewImage" src="" alt="Prévia do Card" class="hidden" style="max-width: 100%; max-height: 280px; object-fit: contain; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111;">
             </div>
 
             <p style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 0;">Selecione a rede social:</p>
@@ -2955,8 +2965,10 @@
                     pendingShareItem = item;
                     selectedShareNetwork = 'story';
                     updateNetworkSelectionUI();
-                    generatePreviewImageForNetwork(selectedShareNetwork);
+                    
+                    // Exibe modal e carrega a prévia da imagem de forma compatível com celular
                     document.getElementById('sharePlatformModal').classList.remove('hidden');
+                    generatePreviewImageForNetwork(selectedShareNetwork);
                 });
             }
 
@@ -2999,10 +3011,16 @@
             document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
         }
 
-        // GERAR CANVAS E ATUALIZAR PREVIEW NO TOPO DO MODAL
+        // GERAR CANVAS E ATUALIZAR PREVIEW NO TOPO DO MODAL (Com suporte a celulares e CORS)
         function generatePreviewImageForNetwork(format) {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
+
+            const loaderEl = document.getElementById('sharePreviewLoader');
+            const previewImgEl = document.getElementById('sharePreviewImage');
+            
+            loaderEl.style.display = 'block';
+            previewImgEl.classList.add('hidden');
 
             const canvas = document.getElementById('socialShareCanvas');
             const ctx = canvas.getContext('2d');
@@ -3131,13 +3149,14 @@
                 ctx.fillStyle = "#111111";
                 ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
 
-                // Atualiza a imagem de pré-visualização no modal
                 const dataUrl = canvas.toDataURL('image/png');
-                document.getElementById('sharePreviewImage').src = dataUrl;
+                previewImgEl.src = dataUrl;
+                loaderEl.style.display = 'none';
+                previewImgEl.classList.remove('hidden');
             };
 
             img.onerror = () => {
-                showToast("Erro ao carregar a imagem do poster para pré-visualização.");
+                loaderEl.textContent = "Erro ao carregar imagem para visualização.";
             };
         }
 
@@ -3519,7 +3538,7 @@
                     return;
                 }
 
-                keys.forEach(k => {
+keys.forEach(k => {
                     const m = msgs[k];
                     const div = document.createElement('div');
                     div.className = `message ${m.sender === currentUser.uid ? 'outgoing' : 'incoming'}`;
