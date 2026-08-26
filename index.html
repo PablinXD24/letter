@@ -862,30 +862,6 @@
             box-shadow: 1px 1px 0px #111;
         }
 
-        .library-share-btn {
-            margin-top: 6px;
-            font-weight: 800;
-            font-size: 11px;
-            background: var(--blue);
-            color: #fff;
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
-            padding: 5px 6px;
-            width: 100%;
-            box-shadow: 1px 1px 0px #111;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            text-transform: uppercase;
-            transition: transform 0.1s;
-        }
-
-        .library-share-btn:hover {
-            transform: scale(1.05);
-        }
-
         .library-delete-btn {
             position: absolute;
             top: 14px;
@@ -1174,33 +1150,6 @@
 
         .hidden {
             display: none !important;
-        }
-
-        /* Botões Redondos Neobrutalistas para Escolha de Rede */
-        .platform-icon-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            font-size: 24px;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            border: 2px solid var(--border-color);
-            box-shadow: 2px 2px 0px #111;
-            cursor: pointer;
-        }
-
-        .platform-icon-btn.active-network {
-            transform: scale(1.1) translate(-2px, -2px);
-            box-shadow: 4px 4px 0px #111;
-            filter: brightness(1.1);
-        }
-
-        .platform-icon-btn:hover {
-            transform: scale(1.08) translate(-1px, -1px);
-            box-shadow: 4px 4px 0px #111;
         }
     </style>
 </head>
@@ -1527,47 +1476,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE COMPARTILHAMENTO: IMAGEM EM CIMA DOS ÍCONES E BOTÃO DE ENVIO EMBAIXO -->
-    <div id="sharePlatformModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div class="card" style="width: 100%; max-width: 420px; text-align: center; margin-bottom: 0; display: flex; flex-direction: column; gap: 14px; max-height: 94vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-share-nodes" style="margin-right: 6px;"></i> Compartilhar Card</h3>
-                <span id="closePlatformModalBtn" style="cursor: pointer; font-weight: 800; font-size: 16px; padding: 4px;">[ ✕ ]</span>
-            </div>
-            
-            <!-- PRÉ-VISUALIZAÇÃO DA IMAGEM EM CIMA DOS ÍCONES -->
-            <div style="width: 100%; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; display: flex; justify-content: center; align-items: center; box-shadow: 2px 2px 0px #111; min-height: 200px;">
-                <div id="sharePreviewLoader" style="font-size: 12px; font-weight: 800; color: var(--text-muted);">Gerando arte...</div>
-                <img id="sharePreviewImage" src="" alt="Prévia do Card" class="hidden" style="max-width: 100%; max-height: 280px; object-fit: contain; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111;">
-            </div>
-
-            <p style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 0;">Selecione a rede social:</p>
-
-            <!-- OPÇÕES DE REDES DE COMPARTILHAR NO MEIO -->
-            <div style="display: flex; justify-content: center; gap: 14px; align-items: center;">
-                <button type="button" class="btn platform-icon-btn network-tab-btn active-network" data-network="story" title="Instagram Stories" style="background: var(--pink);">
-                    <i class="fa-brands fa-instagram"></i>
-                </button>
-                <button type="button" class="btn platform-icon-btn network-tab-btn" data-network="whatsapp" title="WhatsApp" style="background: var(--whatsapp-green);">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </button>
-                <button type="button" class="btn platform-icon-btn network-tab-btn" data-network="twitter" title="Twitter / X" style="background: var(--blue);">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </button>
-            </div>
-
-            <div id="networkSelectedLabel" style="font-size: 12px; font-weight: 800; color: var(--border-color); text-transform: uppercase;">Rede Selecionada: Instagram Stories</div>
-
-            <!-- BOTÃO DE ENVIO EMBAIXO -->
-            <button type="button" id="confirmSendShareBtn" class="btn" style="background: var(--green); color: var(--border-color); margin-top: 4px;">
-                <i class="fa-solid fa-paper-plane" style="margin-right: 6px;"></i> Enviar para Postar
-            </button>
-        </div>
-    </div>
-
-    <!-- CANVAS OCULTO PARA GERAR IMAGEM -->
-    <canvas id="socialShareCanvas" style="display: none;"></canvas>
-
     <!-- MODAL DE ESCOLHA DO TIPO (Música ou Filme) -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 420px; text-align: center; margin-bottom: 0;">
@@ -1630,8 +1538,6 @@
         let albumTracksData = []; 
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
-        let pendingShareItem = null;
-        let selectedShareNetwork = 'story';
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -2970,7 +2876,6 @@
                         <span>Match: ${similarity}<span class="percent-symbol">%</span></span>
                     </div>
                 </div>
-                ${isMovieCard ? `<button class="library-share-btn" data-sharekey="${k}"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>` : ''}
             `;
 
             card.querySelector('.library-delete-btn').addEventListener('click', async (e) => {
@@ -2987,297 +2892,8 @@
                 }
             });
 
-            const shareBtn = card.querySelector('.library-share-btn');
-            if (shareBtn) {
-                shareBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    pendingShareItem = item;
-                    selectedShareNetwork = 'story';
-                    updateNetworkSelectionUI();
-                    
-                    document.getElementById('sharePlatformModal').classList.remove('hidden');
-                    generatePreviewImageForNetwork(selectedShareNetwork);
-                });
-            }
-
             container.appendChild(card);
         }
-
-        document.getElementById('closePlatformModalBtn').addEventListener('click', () => {
-            document.getElementById('sharePlatformModal').classList.add('hidden');
-        });
-
-        const networkButtons = document.querySelectorAll('.network-tab-btn');
-        networkButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                networkButtons.forEach(b => b.classList.remove('active-network'));
-                btn.classList.add('active-network');
-                selectedShareNetwork = btn.getAttribute('data-network');
-                
-                let networkName = 'Instagram Stories';
-                if (selectedShareNetwork === 'whatsapp') networkName = 'WhatsApp';
-                if (selectedShareNetwork === 'twitter') networkName = 'Twitter / X';
-                document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
-
-                generatePreviewImageForNetwork(selectedShareNetwork);
-            });
-        });
-
-        function updateNetworkSelectionUI() {
-            networkButtons.forEach(b => {
-                if (b.getAttribute('data-network') === selectedShareNetwork) {
-                    b.classList.add('active-network');
-                } else {
-                    b.classList.remove('active-network');
-                }
-            });
-            let networkName = 'Instagram Stories';
-            if (selectedShareNetwork === 'whatsapp') networkName = 'WhatsApp';
-            if (selectedShareNetwork === 'twitter') networkName = 'Twitter / X';
-            document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
-        }
-
-        // CORREÇÃO: Removido o fluxo falho de fetch/createObjectURL que causa a "contaminação" do canvas (SecurityError) nos navegadores mobile e desktop atuais.
-        // Adicionada a renderização isolada do canvas que falha graciosamente via Proxy e garante que o resto das informações do post (cores e fontes) não quebrem.
-        function generatePreviewImageForNetwork(format) {
-            if (!pendingShareItem) return;
-            const item = pendingShareItem;
-
-            const loaderEl = document.getElementById('sharePreviewLoader');
-            const previewImgEl = document.getElementById('sharePreviewImage');
-            
-            loaderEl.style.display = 'block';
-            previewImgEl.classList.add('hidden');
-
-            const canvas = document.getElementById('socialShareCanvas');
-            const ctx = canvas.getContext('2d');
-
-            let canvasWidth = 1080;
-            let canvasHeight = 1080;
-            let titleSize = 48;
-            let posterW = 340;
-            let posterH = 510;
-            let subtitleSize = 32;
-            let starsSize = '38px sans-serif';
-
-            if (format === 'story') {
-                canvasWidth = 1080;
-                canvasHeight = 1920;
-                titleSize = 64;
-                posterW = 500;
-                posterH = 750;
-                subtitleSize = 40;
-                starsSize = '52px sans-serif';
-            } else if (format === 'whatsapp') {
-                canvasWidth = 1080;
-                canvasHeight = 1080;
-                titleSize = 48;
-                posterW = 340;
-                posterH = 510;
-                subtitleSize = 32;
-                starsSize = '38px sans-serif';
-            } else if (format === 'twitter') {
-                canvasWidth = 1200;
-                canvasHeight = 675;
-                titleSize = 40;
-                posterW = 220;
-                posterH = 330;
-                subtitleSize = 28;
-                starsSize = '32px sans-serif';
-            }
-
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-
-            const reviews = Object.values(item.reviews || {});
-            let similarity = 100;
-            let avgRating = 5;
-            if (reviews.length >= 2) {
-                const [rev1, rev2] = reviews;
-                const ratingDiff = Math.abs(rev1.rating - rev2.rating);
-                similarity = 100 - (ratingDiff * 20);
-                if (similarity < 10) similarity = 10;
-                avgRating = Math.round((rev1.rating + rev2.rating) / 2);
-            } else if (reviews.length === 1) {
-                avgRating = reviews[0].rating;
-            }
-
-            const imageUrl = item.movie.poster;
-
-            // Função que desenha todo o layout base independentemente de a imagem do filme carregar
-            const drawCanvas = (imgElement) => {
-                ctx.fillStyle = "#86F46F";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                const pad = 40;
-                ctx.fillStyle = "#ffffff";
-                ctx.strokeStyle = "#111111";
-                ctx.lineWidth = format === 'story' ? 10 : 8;
-                ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
-                ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
-
-                ctx.fillStyle = "#111111";
-                ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.textAlign = "center";
-                const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
-                
-                ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
-                ctx.fillStyle = "#DF39F4";
-                ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
-
-                const posterX = (canvas.width - posterW) / 2;
-                const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
-
-                ctx.save();
-                ctx.shadowColor = "#111111";
-                ctx.shadowBlur = 0;
-                ctx.shadowOffsetX = format === 'story' ? 12 : 8;
-                ctx.shadowOffsetY = format === 'story' ? 12 : 8;
-                ctx.fillStyle = "#000";
-                ctx.fillRect(posterX, posterY, posterW, posterH);
-                ctx.strokeStyle = "#111111";
-                ctx.lineWidth = 6;
-                ctx.strokeRect(posterX, posterY, posterW, posterH);
-                
-                // Se a imagem carregar via Proxy ou de forma limpa, desenha ela
-                if(imgElement) {
-                    ctx.drawImage(imgElement, posterX, posterY, posterW, posterH);
-                } else {
-                    ctx.fillStyle = "#333";
-                    ctx.font = `600 ${subtitleSize * 0.8}px 'Plus Jakarta Sans', sans-serif`;
-                    ctx.fillText("Sem Imagem", posterX + (posterW/2), posterY + (posterH/2));
-                }
-                
-                ctx.restore();
-
-                const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
-                ctx.fillStyle = "#111111";
-                ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.textAlign = "center";
-                let movieTitle = item.movie.title;
-                if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
-                ctx.fillText(movieTitle, canvas.width / 2, titleY);
-
-                const starsY = titleY + (format === 'story' ? 60 : 45);
-                const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
-                ctx.fillStyle = "#DF39F4";
-                ctx.font = starsSize;
-                ctx.fillText(starsText, canvas.width / 2, starsY);
-
-                const infoY = starsY + (format === 'story' ? 60 : 45);
-                ctx.fillStyle = "#111111";
-                ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
-
-                const footerY = infoY + (format === 'story' ? 100 : 50);
-                const footerH = format === 'story' ? 140 : 80;
-                ctx.fillStyle = "#faf7f0";
-                ctx.fillRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
-                ctx.strokeStyle = "#111111";
-                ctx.lineWidth = 4;
-                ctx.strokeRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
-
-                ctx.fillStyle = "#555555";
-                ctx.font = `600 ${subtitleSize * 0.6}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
-                ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.fillStyle = "#111111";
-                ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
-
-                // Bloco Try-Catch contorna quebras se o canvas ainda persistir sujo
-                try {
-                    const dataUrl = canvas.toDataURL('image/png');
-                    previewImgEl.src = dataUrl;
-                    loaderEl.style.display = 'none';
-                    previewImgEl.classList.remove('hidden');
-                } catch (err) {
-                    console.error("Erro Canvas Contaminado (Tainted):", err);
-                    loaderEl.textContent = "Erro de segurança CORS. Não foi possível criar o card com imagem.";
-                }
-            };
-
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => drawCanvas(img);
-            img.onerror = () => {
-                // FALLBACK: Tenta contornar as politicas CORS de CDN por meio do roteamento seguro via Proxy Público gratuito
-                const proxyImg = new Image();
-                proxyImg.crossOrigin = "Anonymous";
-                proxyImg.onload = () => drawCanvas(proxyImg);
-                proxyImg.onerror = () => drawCanvas(null); // Caso o proxy falhe, constrói a arte preta/sem pôster
-                proxyImg.src = `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`;
-            };
-            img.src = imageUrl;
-        }
-
-        document.getElementById('confirmSendShareBtn').addEventListener('click', async () => {
-            if (!pendingShareItem) return;
-            const item = pendingShareItem;
-            const format = selectedShareNetwork;
-
-            const canvas = document.getElementById('socialShareCanvas');
-            const reviews = Object.values(item.reviews || {});
-            let similarity = 100;
-            let avgRating = 5;
-            if (reviews.length >= 2) {
-                const [rev1, rev2] = reviews;
-                const ratingDiff = Math.abs(rev1.rating - rev2.rating);
-                similarity = 100 - (ratingDiff * 20);
-                if (similarity < 10) similarity = 10;
-                avgRating = Math.round((rev1.rating + rev2.rating) / 2);
-            } else if (reviews.length === 1) {
-                avgRating = reviews[0].rating;
-            }
-
-            const shareText = `Acabei de avaliar "${item.movie.title}" no CineMozi! Nota: ${avgRating}/5 ⭐ (Match: ${similarity}%). Veja você também! 🎬✨`;
-            const fileName = `cinemozi-${item.movie.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png`;
-
-            canvas.toBlob(async (blob) => {
-                if(!blob) return; 
-
-                const file = new File([blob], fileName, { type: 'image/png' });
-
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try {
-                        await navigator.share({
-                            title: `CineMozi - ${item.movie.title}`,
-                            text: shareText,
-                            files: [file]
-                        });
-                        document.getElementById('sharePlatformModal').classList.add('hidden');
-                        showToast("Compartilhando...");
-                        return;
-                    } catch (err) {
-                        // Segue para download normal
-                    }
-                }
-
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-
-                document.getElementById('sharePlatformModal').classList.add('hidden');
-
-                if (format === 'story') {
-                    showToast("Imagem salva! Abrindo Instagram...");
-                    setTimeout(() => {
-                        window.open('https://www.instagram.com/', '_blank');
-                    }, 800);
-                } else if (format === 'whatsapp') {
-                    showToast("Imagem salva! Abrindo WhatsApp...");
-                    setTimeout(() => {
-                        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-                        window.open(waUrl, '_blank');
-                    }, 800);
-                } else if (format === 'twitter') {
-                    showToast("Imagem salva! Abrindo Twitter / X...");
-                    setTimeout(() => {
-                        const twUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-                        window.open(twUrl, '_blank');
-                    }, 800);
-                }
-            }, 'image/png');
-        });
 
         function renderCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
