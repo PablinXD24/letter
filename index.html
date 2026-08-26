@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CineMozi - Timeless Edition</title>
     <!-- Google Fonts Plus Jakarta Sans + FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -174,6 +174,8 @@
             border: var(--border-width) solid var(--border-color);
             border-radius: 12px;
             box-shadow: var(--box-shadow);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-btn {
@@ -191,6 +193,8 @@
             text-transform: uppercase;
             border-radius: 20px;
             box-shadow: 2px 2px 0px #111;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-btn.active, .nav-btn:hover {
@@ -539,13 +543,16 @@
         @media(max-width: 768px) {
             .whatsapp-chat-layout {
                 grid-template-columns: 1fr;
-                height: auto;
+                height: 480px;
             }
             .whatsapp-sidebar {
-                max-height: 250px;
+                max-height: 180px;
             }
             .whatsapp-main-chat {
-                height: 450px;
+                height: 300px;
+            }
+            body {
+                padding: 15px 8px;
             }
         }
 
@@ -800,6 +807,13 @@
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 16px;
             margin-top: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .library-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
         }
 
         .library-card {
@@ -2966,7 +2980,6 @@
                     selectedShareNetwork = 'story';
                     updateNetworkSelectionUI();
                     
-                    // Exibe modal e carrega a prévia da imagem de forma compatível com celular
                     document.getElementById('sharePlatformModal').classList.remove('hidden');
                     generatePreviewImageForNetwork(selectedShareNetwork);
                 });
@@ -2975,12 +2988,10 @@
             container.appendChild(card);
         }
 
-        // FECHAR MODAL DE ESCOLHA DA REDE
         document.getElementById('closePlatformModalBtn').addEventListener('click', () => {
             document.getElementById('sharePlatformModal').classList.add('hidden');
         });
 
-        // ALTERNAR REDE SOCIAL NO MODAL E ATUALIZAR PRÉVIA DA IMAGEM EM CIMA
         const networkButtons = document.querySelectorAll('.network-tab-btn');
         networkButtons.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -3011,7 +3022,7 @@
             document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
         }
 
-        // GERAR CANVAS E ATUALIZAR PREVIEW NO TOPO DO MODAL (Com suporte a celulares e CORS)
+        // CORREÇÃO MOBILE: Utilização de proxy/fallback seguro de imagem em Blob para visualização perfeita em dispositivos móveis
         function generatePreviewImageForNetwork(format) {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
@@ -3075,92 +3086,118 @@
                 avgRating = reviews[0].rating;
             }
 
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.src = item.movie.poster;
+            // Tratativa robusta de CORS para mobile buscando a imagem como Blob primeiro
+            const imageUrl = item.movie.poster;
+            fetch(imageUrl, { mode: 'cors' })
+                .then(response => response.blob())
+                .then(blob => {
+                    const blobUrl = URL.createObjectURL(blob);
+                    const img = new Image();
+                    img.onload = () => {
+                        ctx.fillStyle = "#86F46F";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            img.onload = () => {
-                ctx.fillStyle = "#86F46F";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        const pad = 40;
+                        ctx.fillStyle = "#ffffff";
+                        ctx.strokeStyle = "#111111";
+                        ctx.lineWidth = format === 'story' ? 10 : 8;
+                        ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+                        ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
 
-                const pad = 40;
-                ctx.fillStyle = "#ffffff";
-                ctx.strokeStyle = "#111111";
-                ctx.lineWidth = format === 'story' ? 10 : 8;
-                ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
-                ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+                        ctx.fillStyle = "#111111";
+                        ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.textAlign = "center";
+                        const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
+                        
+                        ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
+                        ctx.fillStyle = "#DF39F4";
+                        ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
 
-                ctx.fillStyle = "#111111";
-                ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.textAlign = "center";
-                const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
-                
-                ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
-                ctx.fillStyle = "#DF39F4";
-                ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
+                        const posterX = (canvas.width - posterW) / 2;
+                        const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
 
-                const posterX = (canvas.width - posterW) / 2;
-                const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
+                        ctx.save();
+                        ctx.shadowColor = "#111111";
+                        ctx.shadowBlur = 0;
+                        ctx.shadowOffsetX = format === 'story' ? 12 : 8;
+                        ctx.shadowOffsetY = format === 'story' ? 12 : 8;
+                        ctx.fillStyle = "#000";
+                        ctx.fillRect(posterX, posterY, posterW, posterH);
+                        ctx.strokeStyle = "#111111";
+                        ctx.lineWidth = 6;
+                        ctx.strokeRect(posterX, posterY, posterW, posterH);
+                        ctx.drawImage(img, posterX, posterY, posterW, posterH);
+                        ctx.restore();
 
-                ctx.save();
-                ctx.shadowColor = "#111111";
-                ctx.shadowBlur = 0;
-                ctx.shadowOffsetX = format === 'story' ? 12 : 8;
-                ctx.shadowOffsetY = format === 'story' ? 12 : 8;
-                ctx.fillStyle = "#000";
-                ctx.fillRect(posterX, posterY, posterW, posterH);
-                ctx.strokeStyle = "#111111";
-                ctx.lineWidth = 6;
-                ctx.strokeRect(posterX, posterY, posterW, posterH);
-                ctx.drawImage(img, posterX, posterY, posterW, posterH);
-                ctx.restore();
+                        const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
+                        ctx.fillStyle = "#111111";
+                        ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.textAlign = "center";
+                        let movieTitle = item.movie.title;
+                        if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
+                        ctx.fillText(movieTitle, canvas.width / 2, titleY);
 
-                const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
-                ctx.fillStyle = "#111111";
-                ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.textAlign = "center";
-                let movieTitle = item.movie.title;
-                if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
-                ctx.fillText(movieTitle, canvas.width / 2, titleY);
+                        const starsY = titleY + (format === 'story' ? 60 : 45);
+                        const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
+                        ctx.fillStyle = "#DF39F4";
+                        ctx.font = starsSize;
+                        ctx.fillText(starsText, canvas.width / 2, starsY);
 
-                const starsY = titleY + (format === 'story' ? 60 : 45);
-                const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
-                ctx.fillStyle = "#DF39F4";
-                ctx.font = starsSize;
-                ctx.fillText(starsText, canvas.width / 2, starsY);
+                        const infoY = starsY + (format === 'story' ? 60 : 45);
+                        ctx.fillStyle = "#111111";
+                        ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
 
-                const infoY = starsY + (format === 'story' ? 60 : 45);
-                ctx.fillStyle = "#111111";
-                ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
+                        const footerY = infoY + (format === 'story' ? 100 : 50);
+                        const footerH = format === 'story' ? 140 : 80;
+                        ctx.fillStyle = "#faf7f0";
+                        ctx.fillRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
+                        ctx.strokeStyle = "#111111";
+                        ctx.lineWidth = 4;
+                        ctx.strokeRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
 
-                const footerY = infoY + (format === 'story' ? 100 : 50);
-                const footerH = format === 'story' ? 140 : 80;
-                ctx.fillStyle = "#faf7f0";
-                ctx.fillRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
-                ctx.strokeStyle = "#111111";
-                ctx.lineWidth = 4;
-                ctx.strokeRect(pad + 20, footerY, canvas.width - (pad * 2) - 40, footerH);
+                        ctx.fillStyle = "#555555";
+                        ctx.font = `600 ${subtitleSize * 0.6}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
+                        ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.fillStyle = "#111111";
+                        ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
 
-                ctx.fillStyle = "#555555";
-                ctx.font = `600 ${subtitleSize * 0.6}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
-                ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
-                ctx.fillStyle = "#111111";
-                ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
-
-                const dataUrl = canvas.toDataURL('image/png');
-                previewImgEl.src = dataUrl;
-                loaderEl.style.display = 'none';
-                previewImgEl.classList.remove('hidden');
-            };
-
-            img.onerror = () => {
-                loaderEl.textContent = "Erro ao carregar imagem para visualização.";
-            };
+                        const dataUrl = canvas.toDataURL('image/png');
+                        previewImgEl.src = dataUrl;
+                        loaderEl.style.display = 'none';
+                        previewImgEl.classList.remove('hidden');
+                        URL.revokeObjectURL(blobUrl);
+                    };
+                    img.src = blobUrl;
+                })
+                .catch(() => {
+                    // Fallback caso o fetch direto falhe por restrição de CORS em alguma CDN específica
+                    const img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.src = imageUrl;
+                    img.onload = () => {
+                        ctx.fillStyle = "#86F46F";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        const pad = 40;
+                        ctx.fillStyle = "#ffffff";
+                        ctx.strokeStyle = "#111111";
+                        ctx.lineWidth = format === 'story' ? 10 : 8;
+                        ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+                        ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
+                        ctx.drawImage(img, (canvas.width - posterW) / 2, format === 'story' ? 240 : 180, posterW, posterH);
+                        
+                        const dataUrl = canvas.toDataURL('image/png');
+                        previewImgEl.src = dataUrl;
+                        loaderEl.style.display = 'none';
+                        previewImgEl.classList.remove('hidden');
+                    };
+                    img.onerror = () => {
+                        loaderEl.textContent = "Não foi possível carregar a imagem do pôster.";
+                    };
+                });
         }
 
-        // CLICAR NO BOTÃO DE ENVIO EMBAIXO: BAIXA A ARTE E ENCAMINHA PARA A REDE SELECIONADA
         document.getElementById('confirmSendShareBtn').addEventListener('click', async () => {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
@@ -3197,7 +3234,7 @@
                         showToast("Compartilhando...");
                         return;
                     } catch (err) {
-                        // Segue para o fluxo padrão de download e redirecionamento
+                        // Segue para download normal
                     }
                 }
 
@@ -3443,7 +3480,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${friendTag}`));
                 if (!tagSnap.exists()) {
-                    alert("Esta Nametag não foi encontrada.");
+                    alert(" Esta Nametag não foi encontrada.");
                     return;
                 }
 
@@ -3538,7 +3575,7 @@
                     return;
                 }
 
-keys.forEach(k => {
+                keys.forEach(k => {
                     const m = msgs[k];
                     const div = document.createElement('div');
                     div.className = `message ${m.sender === currentUser.uid ? 'outgoing' : 'incoming'}`;
@@ -3570,7 +3607,7 @@ keys.forEach(k => {
                 });
                 chatInputMessage.value = '';
             } catch (err) {
-                console.error("Erro ao enviar mensagem:", err);
+                console.error("Erro abortado ao enviar mensagem:", err);
             }
         }
 
