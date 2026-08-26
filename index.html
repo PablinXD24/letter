@@ -22,6 +22,7 @@
             --pink: #DF39F4;          
             --green: #86F46F;         
             --orange: #DF39F4;        
+            --whatsapp-green: #25D366;
             --dark-card: #141414;
             
             --text-bright: #111111;
@@ -954,7 +955,7 @@
         }
 
         /* ==========================================================================
-           ROLETA VERTICAL 3D (FLUTUANTE TOTALMENTE SEM CONTAINER EXTERNO)
+           ROLETA VERTICAL 3D
            ========================================================================== */
         .roulette-wrapper {
             position: relative;
@@ -1160,6 +1161,24 @@
         .hidden {
             display: none !important;
         }
+
+        /* Botões Redondos Neobrutalistas para Escolha de Rede */
+        .platform-icon-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
+            font-size: 26px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .platform-icon-btn:hover {
+            transform: scale(1.1) translate(-2px, -2px);
+            box-shadow: 5px 5px 0px #111;
+        }
     </style>
 </head>
 <body>
@@ -1270,7 +1289,7 @@
                     <div id="sessionAlbumResults" class="movie-results"></div>
                 </div>
 
-                <!-- Roleta 3D flutuante de faixas para Sessão Conjunta (Sem box externo) -->
+                <!-- Roleta 3D flutuante de faixas para Sessão Conjunta -->
                 <div id="sessionTracksSection" class="hidden">
                     <div class="roulette-wrapper" id="sessionRouletteWrapper">
                         <div class="roulette-header">
@@ -1335,7 +1354,7 @@
             </div>
         </div>
 
-        <!-- VIEW: ABA DE MÚSICA (Apple Music API) -->
+        <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
             <div class="card">
                 <h3 style="margin-bottom: 1.2rem;"><i class="fa-solid fa-music" style="margin-right: 8px;"></i> Avaliar Álbum de Música</h3>
@@ -1356,7 +1375,7 @@
                 </div>
             </div>
 
-            <!-- Roleta 3D flutuante de Faixas e Avaliações na aba de Música (Sem box externo) -->
+            <!-- Roleta 3D flutuante de Faixas e Avaliações -->
             <div id="step-album-review" class="hidden">
                 <div class="roulette-wrapper" id="musicTabRouletteWrapper">
                     <div class="roulette-header">
@@ -1426,13 +1445,11 @@
             <div class="card">
                 <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> Biblioteca de Avaliações</h3>
                 
-                <!-- Abas da Biblioteca (Filmes e Músicas) -->
                 <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
                     <button type="button" id="libTabMoviesBtn" class="btn" style="flex: 1;"><i class="fa-solid fa-film"></i> Filmes</button>
                     <button type="button" id="libTabMusicBtn" class="btn btn-secondary" style="flex: 1;"><i class="fa-solid fa-music"></i> Músicas</button>
                 </div>
 
-                <!-- Seção de Filmes na Biblioteca -->
                 <div id="libSectionMovies">
                     <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Filmes Avaliados</h4>
                     <div class="library-grid" id="libraryGridContainer">
@@ -1440,7 +1457,6 @@
                     </div>
                 </div>
 
-                <!-- Seção de Músicas na Biblioteca -->
                 <div id="libSectionMusic" class="hidden">
                     <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Álbuns de Música Avaliados</h4>
                     <div class="library-grid" id="libraryMusicGridContainer">
@@ -1488,41 +1504,30 @@
         </div>
     </div>
 
-    <!-- MODAL DE ESCOLHA DA REDE SOCIAL -->
+    <!-- MODAL DE ESCOLHA DA REDE SOCIAL (APENAS ÍCONES) -->
     <div id="sharePlatformModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div class="card" style="width: 100%; max-width: 380px; text-align: center; margin-bottom: 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-share-nodes" style="margin-right: 6px;"></i> Escolha a Rede Social</h3>
+        <div class="card" style="width: 100%; max-width: 320px; text-align: center; margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-share-nodes" style="margin-right: 6px;"></i> Compartilhar</h3>
                 <span id="closePlatformModalBtn" style="cursor: pointer; font-weight: 800; font-size: 16px; padding: 4px;">[ ✕ ]</span>
             </div>
-            <p style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 16px;">O formato da imagem será ajustado automaticamente:</p>
             
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button type="button" class="btn" id="platformStoryBtn" style="background: var(--pink);"><i class="fa-brands fa-instagram"></i> Instagram Stories (9:16)</button>
-                <button type="button" class="btn btn-secondary" id="platformFeedBtn"><i class="fa-brands fa-instagram"></i> Instagram Feed (1:1)</button>
-                <button type="button" class="btn" id="platformTwitterBtn" style="background: var(--blue);"><i class="fa-brands fa-x-twitter"></i> Twitter / X (16:9)</button>
+            <div style="display: flex; justify-content: center; gap: 14px; align-items: center;">
+                <button type="button" class="btn platform-icon-btn" id="platformStoryBtn" title="Instagram Stories" style="background: var(--pink);">
+                    <i class="fa-brands fa-instagram"></i>
+                </button>
+                <button type="button" class="btn platform-icon-btn" id="platformWhatsAppBtn" title="WhatsApp" style="background: var(--whatsapp-green);">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </button>
+                <button type="button" class="btn platform-icon-btn" id="platformTwitterBtn" title="Twitter / X" style="background: var(--blue);">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE COMPARTILHAMENTO / POSTAGEM EM REDES SOCIAIS (CANVAS) -->
-    <div id="shareCanvasModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div class="card" style="width: 100%; max-width: 480px; text-align: center; margin-bottom: 0; background: var(--bg-color); max-height: 95vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <h3 id="canvasModalTitle" style="font-size: 15px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-image" style="margin-right: 6px;"></i> Visualizar Post</h3>
-                <span id="closeShareModalBtn" style="cursor: pointer; font-weight: 800; font-size: 16px; padding: 4px;">[ ✕ ]</span>
-            </div>
-            
-            <div style="background: #fff; border: 3px solid #111; border-radius: 12px; padding: 8px; box-shadow: 4px 4px 0px #111; display: inline-block; margin-bottom: 12px; max-width: 100%;">
-                <canvas id="socialShareCanvas" style="width: 100%; height: auto; max-height: 340px; object-fit: contain; display: block; border-radius: 8px; border: 2px solid #111; background: #fff;"></canvas>
-            </div>
-
-            <div style="display: flex; gap: 10px;">
-                <button type="button" id="downloadShareImgBtn" class="btn" style="flex: 1; font-size: 12px; padding: 10px;"><i class="fa-solid fa-download"></i> Baixar Imagem</button>
-                <button type="button" id="copyShareTextBtn" class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;"><i class="fa-solid fa-copy"></i> Copiar Legenda</button>
-            </div>
-        </div>
-    </div>
+    <!-- CANVAS OCULTO PARA GERAR IMAGEM -->
+    <canvas id="socialShareCanvas" style="display: none;"></canvas>
 
     <!-- MODAL DE ESCOLHA DO TIPO (Música ou Filme) -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
@@ -1869,7 +1874,6 @@
         const hubWelcomeTitle = document.getElementById('hubWelcomeTitle');
         const btnBackToHub = document.getElementById('btnBackToHub');
 
-        // Seleção de Música na Sessão Conjunta
         const stepSessionMusic = document.getElementById('step-session-music');
         const btnBackToHubMusic = document.getElementById('btnBackToHubMusic');
         const sessionAlbumSearchInput = document.getElementById('sessionAlbumSearchInput');
@@ -1883,13 +1887,11 @@
         const sessionTracksSection = document.getElementById('sessionTracksSection');
         const sessionTracksListContainer = document.getElementById('sessionTracksListContainer');
 
-        // Modal de Escolha do Tipo (Filme ou Música)
         const typeChoiceModal = document.getElementById('typeChoiceModal');
         const chooseTypeMovie = document.getElementById('chooseTypeMovie');
         const chooseTypeMusic = document.getElementById('chooseTypeMusic');
         const closeTypeChoiceModal = document.getElementById('closeTypeChoiceModal');
 
-        // Abas da Biblioteca
         const libTabMoviesBtn = document.getElementById('libTabMoviesBtn');
         const libTabMusicBtn = document.getElementById('libTabMusicBtn');
         const libSectionMovies = document.getElementById('libSectionMovies');
@@ -1909,7 +1911,6 @@
             libSectionMovies.classList.add('hidden');
         });
 
-        // Lógica de Músicas (Apple Music API) na Aba de Música
         const albumSearchInput = document.getElementById('albumSearchInput');
         const albumResults = document.getElementById('albumResults');
         const selectedAlbumContainer = document.getElementById('selectedAlbumContainer');
@@ -2139,10 +2140,6 @@
             sessionAlbumSearchInput.focus();
         });
 
-        document.getElementById('btnLeaveRoom').addEventListener('click', () => {
-            initRoomSession("sessao_filme_principal");
-        });
-
         let searchTimeout;
         movieSearchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -2271,9 +2268,6 @@
             });
         }
 
-        /* ==========================================================================
-           MOTOR DA ROLETA VERTICAL 3D
-           ========================================================================== */
         function create3DTrackRoulette(tracks, stageEl, counterElId, prevBtnId, nextBtnId, viewportId) {
             stageEl.innerHTML = '';
             const counterEl = document.getElementById(counterElId);
@@ -2950,35 +2944,35 @@
             container.appendChild(card);
         }
 
-        // Eventos para escolha da rede social
+        // FECHAR MODAL DE ESCOLHA DA REDE
         document.getElementById('closePlatformModalBtn').addEventListener('click', () => {
             document.getElementById('sharePlatformModal').classList.add('hidden');
         });
 
+        // EVENTOS DE CLIQUE DIRETO NAS REDES (INSTAGRAM STORIES, WHATSAPP, TWITTER/X)
         document.getElementById('platformStoryBtn').addEventListener('click', () => {
             document.getElementById('sharePlatformModal').classList.add('hidden');
-            generateSocialPost('story');
+            processDirectShare('story');
         });
 
-        document.getElementById('platformFeedBtn').addEventListener('click', () => {
+        document.getElementById('platformWhatsAppBtn').addEventListener('click', () => {
             document.getElementById('sharePlatformModal').classList.add('hidden');
-            generateSocialPost('feed');
+            processDirectShare('whatsapp');
         });
 
         document.getElementById('platformTwitterBtn').addEventListener('click', () => {
             document.getElementById('sharePlatformModal').classList.add('hidden');
-            generateSocialPost('twitter');
+            processDirectShare('twitter');
         });
 
-        // Função para desenhar no Canvas conforme o formato escolhido
-        function generateSocialPost(format) {
+        // GERAÇÃO NO CANVAS COM AJUSTE DE FORMATO E REDIRECIONAMENTO DIRETO
+        function processDirectShare(format) {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
 
             const canvas = document.getElementById('socialShareCanvas');
             const ctx = canvas.getContext('2d');
 
-            // Definir dimensões baseadas na rede social escolhida
             let canvasWidth = 1080;
             let canvasHeight = 1080;
             let titleSize = 48;
@@ -2986,7 +2980,6 @@
             let posterH = 510;
             let subtitleSize = 32;
             let starsSize = '38px sans-serif';
-            let platformLabel = "Instagram Feed (1:1)";
 
             if (format === 'story') {
                 canvasWidth = 1080;
@@ -2996,7 +2989,14 @@
                 posterH = 750;
                 subtitleSize = 40;
                 starsSize = '52px sans-serif';
-                platformLabel = "Instagram Stories (9:16)";
+            } else if (format === 'whatsapp') {
+                canvasWidth = 1080;
+                canvasHeight = 1080;
+                titleSize = 48;
+                posterW = 340;
+                posterH = 510;
+                subtitleSize = 32;
+                starsSize = '38px sans-serif';
             } else if (format === 'twitter') {
                 canvasWidth = 1200;
                 canvasHeight = 675;
@@ -3005,7 +3005,6 @@
                 posterH = 330;
                 subtitleSize = 28;
                 starsSize = '32px sans-serif';
-                platformLabel = "Twitter / X (16:9)";
             }
 
             canvas.width = canvasWidth;
@@ -3029,11 +3028,9 @@
             img.src = item.movie.poster;
 
             img.onload = () => {
-                // Fundo Nebrutalist (CineMozi)
                 ctx.fillStyle = "#86F46F";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Caixa Branca Interna
                 const pad = 40;
                 ctx.fillStyle = "#ffffff";
                 ctx.strokeStyle = "#111111";
@@ -3041,18 +3038,15 @@
                 ctx.fillRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
                 ctx.strokeRect(pad, pad, canvas.width - (pad * 2), canvas.height - (pad * 2));
 
-                // Título do Site no Topo
                 ctx.fillStyle = "#111111";
                 ctx.font = `800 ${titleSize}px 'Plus Jakarta Sans', sans-serif`;
                 ctx.textAlign = "center";
                 const topTextY = format === 'story' ? 140 : (format === 'twitter' ? 105 : 120);
                 
-                // Desenhar CINE MOZI com cores separadas
                 ctx.fillText("CINE", canvas.width / 2 - (titleSize * 1.2), topTextY);
                 ctx.fillStyle = "#DF39F4";
                 ctx.fillText("MOZI", canvas.width / 2 + (titleSize * 0.8), topTextY);
 
-                // Posicionamento do Poster no Centro
                 const posterX = (canvas.width - posterW) / 2;
                 const posterY = format === 'story' ? 240 : (format === 'twitter' ? 145 : 180);
 
@@ -3069,7 +3063,6 @@
                 ctx.drawImage(img, posterX, posterY, posterW, posterH);
                 ctx.restore();
 
-                // Título do Filme
                 const titleY = posterY + posterH + (format === 'story' ? 70 : 50);
                 ctx.fillStyle = "#111111";
                 ctx.font = `800 ${subtitleSize}px 'Plus Jakarta Sans', sans-serif`;
@@ -3078,20 +3071,17 @@
                 if (movieTitle.length > 32) movieTitle = movieTitle.substring(0, 30) + "...";
                 ctx.fillText(movieTitle, canvas.width / 2, titleY);
 
-                // Estrelas
                 const starsY = titleY + (format === 'story' ? 60 : 45);
                 const starsText = "★".repeat(avgRating) + "☆".repeat(5 - avgRating);
                 ctx.fillStyle = "#DF39F4";
                 ctx.font = starsSize;
                 ctx.fillText(starsText, canvas.width / 2, starsY);
 
-                // Notas e Match
                 const infoY = starsY + (format === 'story' ? 60 : 45);
                 ctx.fillStyle = "#111111";
                 ctx.font = `700 ${subtitleSize * 0.7}px 'Plus Jakarta Sans', sans-serif`;
                 ctx.fillText(`Nota Média: ${avgRating} / 5  |  Match: ${similarity}%`, canvas.width / 2, infoY);
 
-                // Rodapé
                 const footerY = infoY + (format === 'story' ? 100 : 50);
                 const footerH = format === 'story' ? 140 : 80;
                 ctx.fillStyle = "#faf7f0";
@@ -3105,36 +3095,60 @@
                 ctx.fillText(`Avaliado por @${userNametag || 'usuario'} no CineMozi`, canvas.width / 2, footerY + (footerH * 0.45));
                 ctx.font = `700 ${subtitleSize * 0.5}px 'Plus Jakarta Sans', sans-serif`;
                 ctx.fillStyle = "#111111";
-                ctx.fillText("Junte-se aos seus amigos e descubra seu match!", canvas.width / 2, footerY + (footerH * 0.78));
+                ctx.fillText("Descubra o seu match no CineMozi!", canvas.width / 2, footerY + (footerH * 0.78));
 
-                document.getElementById('canvasModalTitle').innerHTML = `<i class="fa-solid fa-image" style="margin-right: 6px;"></i> Post Otimizado (${platformLabel})`;
-                document.getElementById('shareCanvasModal').classList.remove('hidden');
+                // EXECUÇÃO DO DOWNLOAD E REDIRECIONAMENTO DIRETO PARA A REDE SOCIAL
+                canvas.toBlob(async (blob) => {
+                    const shareText = `Acabei de avaliar "${item.movie.title}" no CineMozi! Nota: ${avgRating}/5 ⭐ (Match: ${similarity}%). Veja você também! 🎬✨`;
+                    const fileName = `cinemozi-${item.movie.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png`;
+                    const file = new File([blob], fileName, { type: 'image/png' });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                title: `CineMozi - ${item.movie.title}`,
+                                text: shareText,
+                                files: [file]
+                            });
+                            showToast("Compartilhando...");
+                            return;
+                        } catch (err) {
+                            // Prossegue para o fluxo direto
+                        }
+                    }
+
+                    // Download automático da arte otimizada
+                    const link = document.createElement('a');
+                    link.download = fileName;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    // Redirecionamento Direto
+                    if (format === 'story') {
+                        showToast("Imagem salva! Abrindo Instagram...");
+                        setTimeout(() => {
+                            window.open('https://www.instagram.com/', '_blank');
+                        }, 800);
+                    } else if (format === 'whatsapp') {
+                        showToast("Imagem salva! Abrindo WhatsApp...");
+                        setTimeout(() => {
+                            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+                            window.open(waUrl, '_blank');
+                        }, 800);
+                    } else if (format === 'twitter') {
+                        showToast("Imagem salva! Abrindo Twitter / X...");
+                        setTimeout(() => {
+                            const twUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+                            window.open(twUrl, '_blank');
+                        }, 800);
+                    }
+                }, 'image/png');
             };
 
             img.onerror = () => {
-                showToast("Erro ao carregar a imagem do poster para compartilhamento.");
+                showToast("Erro ao carregar a imagem do poster.");
             };
         }
-
-        document.getElementById('closeShareModalBtn').addEventListener('click', () => {
-            document.getElementById('shareCanvasModal').classList.add('hidden');
-        });
-
-        document.getElementById('downloadShareImgBtn').addEventListener('click', () => {
-            const canvas = document.getElementById('socialShareCanvas');
-            const link = document.createElement('a');
-            link.download = 'cinemozi-post.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            showToast("Imagem baixada com sucesso!");
-        });
-
-        document.getElementById('copyShareTextBtn').addEventListener('click', () => {
-            const text = `Acabei de avaliar um filme no CineMozi e o match foi incrível! Venha conferir também. 🎬✨`;
-            navigator.clipboard.writeText(text).then(() => {
-                showToast("Legenda copiada para a área de transferência!");
-            });
-        });
 
         function renderCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
