@@ -3022,7 +3022,7 @@
             document.getElementById('networkSelectedLabel').textContent = `Rede Selecionada: ${networkName}`;
         }
 
-        // CORREÇÃO MOBILE: Utilização de proxy/fallback seguro de imagem em Blob para visualização perfeita em dispositivos móveis
+        // CORREÇÃO MOBILE: Conversão via Blob para contornar bloqueios de CORS e tela preta no canvas mobile
         function generatePreviewImageForNetwork(format) {
             if (!pendingShareItem) return;
             const item = pendingShareItem;
@@ -3086,8 +3086,8 @@
                 avgRating = reviews[0].rating;
             }
 
-            // Tratativa robusta de CORS para mobile buscando a imagem como Blob primeiro
             const imageUrl = item.movie.poster;
+            
             fetch(imageUrl, { mode: 'cors' })
                 .then(response => response.blob())
                 .then(blob => {
@@ -3172,7 +3172,6 @@
                     img.src = blobUrl;
                 })
                 .catch(() => {
-                    // Fallback caso o fetch direto falhe por restrição de CORS em alguma CDN específica
                     const img = new Image();
                     img.crossOrigin = "anonymous";
                     img.src = imageUrl;
@@ -3480,7 +3479,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${friendTag}`));
                 if (!tagSnap.exists()) {
-                    alert(" Esta Nametag não foi encontrada.");
+                    alert("Esta Nametag não foi encontrada.");
                     return;
                 }
 
@@ -3607,7 +3606,7 @@
                 });
                 chatInputMessage.value = '';
             } catch (err) {
-                console.error("Erro abortado ao enviar mensagem:", err);
+                console.error("Erro ao enviar mensagem:", err);
             }
         }
 
