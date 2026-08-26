@@ -1202,7 +1202,7 @@
             
             <div class="featured-hero-carousel" id="featuredHeroCarouselSection">
                 <div class="coverflow-stage" id="coverflowStage">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum item no destaque ainda.</p>
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>
                 </div>
             </div>
 
@@ -1328,6 +1328,13 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
+            <!-- NOVO CARROSSEL PARA MÚSICA -->
+            <div class="featured-hero-carousel" id="musicHeroCarouselSection">
+                <div class="coverflow-stage" id="musicCoverflowStage">
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>
+                </div>
+            </div>
+
             <div class="card">
                 <h3 style="margin-bottom: 1.2rem;"><i class="fa-solid fa-music" style="margin-right: 8px;"></i> Avaliar Álbum de Música</h3>
                 
@@ -1534,7 +1541,8 @@
         let connectedConnectionNametag = null;
         let roomSessionUnsubscribe = null;
         
-        let featuredMoviesList = [];
+        let featuredMoviesOnly = [];
+        let featuredMusicOnly = [];
         let albumTracksData = []; 
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
@@ -2823,13 +2831,17 @@
                 if (allValidItems.length === 0) {
                     movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
                     musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
-                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum item no destaque ainda.</p>';
-                    featuredMoviesList = [];
+                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
+                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>';
+                    featuredMoviesOnly = [];
+                    featuredMusicOnly = [];
                     return;
                 }
 
-                featuredMoviesList = allValidItems;
-                renderCircularCarousel();
+                featuredMoviesOnly = validMovies;
+                featuredMusicOnly = validMusic;
+                renderMovieCircularCarousel();
+                renderMusicCircularCarousel();
 
                 if (validMovies.length === 0) {
                     movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
@@ -2895,18 +2907,21 @@
             container.appendChild(card);
         }
 
-        function renderCircularCarousel() {
+        function renderMovieCircularCarousel() {
             const stage = document.getElementById('coverflowStage');
-            if (!stage || featuredMoviesList.length === 0) return;
+            if (!stage) return;
+            if (featuredMoviesOnly.length === 0) {
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
+                return;
+            }
 
             stage.innerHTML = '';
-            const total = featuredMoviesList.length;
+            const total = featuredMoviesOnly.length;
             const baseRadius = 200;
             const dynamicRadius = Math.max(baseRadius, total * 38);
 
-            featuredMoviesList.forEach((entry, idx) => {
+            featuredMoviesOnly.forEach((entry, idx) => {
                 const angle = (idx / total) * 360;
-                const isMusic = entry.item.type === 'music';
 
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
@@ -2914,7 +2929,45 @@
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `coverflow-item ${isMusic ? 'music-cover-item' : ''}`;
+                itemDiv.className = `coverflow-item`;
+                itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
+                itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
+
+                itemDiv.innerHTML = `
+                    <img src="${posterUrl}" alt="${entry.item.movie.title}">
+                `;
+
+                itemDiv.addEventListener('click', () => {
+                    openLibraryModal(entry.key);
+                });
+
+                stage.appendChild(itemDiv);
+            });
+        }
+
+        function renderMusicCircularCarousel() {
+            const stage = document.getElementById('musicCoverflowStage');
+            if (!stage) return;
+            if (featuredMusicOnly.length === 0) {
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>';
+                return;
+            }
+
+            stage.innerHTML = '';
+            const total = featuredMusicOnly.length;
+            const baseRadius = 200;
+            const dynamicRadius = Math.max(baseRadius, total * 38);
+
+            featuredMusicOnly.forEach((entry, idx) => {
+                const angle = (idx / total) * 360;
+
+                let posterUrl = entry.item.movie.poster;
+                if (posterUrl && posterUrl.includes('/w92/')) {
+                    posterUrl = posterUrl.replace('/w92/', '/w500/');
+                }
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `coverflow-item music-cover-item`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
                 itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
 
