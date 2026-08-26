@@ -1123,6 +1123,27 @@
             transform: scale(1.1);
         }
 
+        .btn-spotify-track {
+            background: #1DB954;
+            color: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0px #111;
+            transition: transform 0.1s;
+            text-decoration: none;
+        }
+
+        .btn-spotify-track:hover {
+            transform: scale(1.1);
+        }
+
         .roulette-controls {
             display: flex;
             justify-content: center;
@@ -2418,6 +2439,7 @@
                                 <span>${track.trackName}</span>
                             </div>
                             <div class="track-duration">
+                                <a href="https://open.spotify.com/search/${encodeURIComponent(track.trackName)}" target="_blank" class="btn-spotify-track" title="Ouvir no Spotify"><i class="fa-brands fa-spotify"></i></a>
                                 ${track.previewUrl ? `<button type="button" class="btn-play-track" title="Ouvir prévia"><i class="fa-solid fa-play"></i></button>` : ''}
                                 <span>${track.trackTime}</span>
                             </div>
@@ -3177,6 +3199,7 @@
                             tracksHTML += `
                                 <div style="display: flex; flex-direction: column; padding: 8px; border: 2px solid var(--border-color); border-radius: 8px; background: #faf7f0; box-shadow: 1px 1px 0px #111;">
                                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                        <a href="https://open.spotify.com/search/${encodeURIComponent(track.trackName)}" target="_blank" class="btn-spotify-track" style="width: 24px; height: 24px; font-size: 12px; flex-shrink: 0;" title="Ouvir no Spotify"><i class="fa-brands fa-spotify"></i></a>
                                         ${track.previewUrl ? `<button type="button" class="btn-play-track modal-play-btn" data-url="${track.previewUrl}" style="width: 24px; height: 24px; font-size: 10px; flex-shrink: 0;"><i class="fa-solid fa-play"></i></button>` : ''}
                                         <span style="font-size: 12px; font-weight: 800; color: var(--border-color);">${track.trackNumber}. ${track.trackName}</span>
                                     </div>
