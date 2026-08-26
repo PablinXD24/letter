@@ -2981,15 +2981,16 @@
 
                     <div class="comparison-grid" style="margin-bottom: 1rem;">
                         ${reviewsArray.map(rev => `
-                            <div class="review-box" style="margin-bottom: 0;">
-                                <h3>@${rev.name} <span>${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</span></h3>
+                            <div class="review-box" style="margin-bottom: 0; position: relative;">
+                                <h3 style="padding-right: 28px;">@${rev.name} <span>${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</span></h3>
                                 <p style="font-size: 12px; margin-bottom: 4px; font-weight: 700;">Nota Geral: ${rev.rating} / 5</p>
                                 <p style="font-size: 13px; line-height: 1.4; color: var(--text-bright); font-weight: 600;">"${rev.comment}"</p>
+                                ${rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
                             </div>
                         `).join('')}
                     </div>
 
-                    <div class="card" style="margin-bottom: 0; padding: 1.5rem 1rem 1rem 1rem;">
+                    <div id="editReviewSection" class="card hidden" style="margin-bottom: 0; padding: 1.5rem 1rem 1rem 1rem;">
                         <h3 style="margin-bottom: 1rem; font-size: 15px;"><i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> Editar Minha Avaliação</h3>
                         <form id="modalReviewForm">
                             <div class="rating-wrapper" style="padding: 1rem; margin-bottom: 1rem;">
@@ -3014,6 +3015,13 @@
                         </form>
                     </div>
                 `;
+
+                const toggleEditBtn = document.getElementById('toggleEditBtn');
+                if (toggleEditBtn) {
+                    toggleEditBtn.addEventListener('click', () => {
+                        document.getElementById('editReviewSection').classList.toggle('hidden');
+                    });
+                }
 
                 const modalStars = document.querySelectorAll('#modalStarContainer i');
                 const modalRatingInput = document.getElementById('modalUserRating');
