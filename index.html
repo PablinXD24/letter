@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CineMozi - Timeless Edition</title>
+    <title>CineMozi</title>
     <!-- Google Fonts Plus Jakarta Sans + FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1791,17 +1791,22 @@
                 }
                 document.getElementById('profileViewEmail').textContent = user.email || '';
 
-                const userRef = ref(db, `users/${user.uid}`);
-                const snapshot = await get(userRef);
+                try {
+                    const userRef = ref(db, `users/${user.uid}`);
+                    const snapshot = await get(userRef);
 
-                if (snapshot.exists() && snapshot.val().nametag) {
-                    userNametag = snapshot.val().nametag;
-                    localStorage.setItem('cinemozi_logged_tag', userNametag);
-                    document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
-                    document.getElementById('profileEditNametagInput').value = userNametag;
-                    await update(userRef, { lastLogin: Date.now() });
-                    startApplication();
-                } else {
+                    if (snapshot.exists() && snapshot.val().nametag) {
+                        userNametag = snapshot.val().nametag;
+                        localStorage.setItem('cinemozi_logged_tag', userNametag);
+                        document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
+                        document.getElementById('profileEditNametagInput').value = userNametag;
+                        await update(userRef, { lastLogin: Date.now() });
+                        startApplication();
+                    } else {
+                        stepNametag.classList.remove('hidden');
+                    }
+                } catch (err) {
+                    console.error("Erro ao ler dados do usuário após login:", err);
                     stepNametag.classList.remove('hidden');
                 }
             } else {
@@ -2831,7 +2836,7 @@
                 rating: rating,
                 comment: comment,
                 tracks: userTrackReviews,
-                likes: {}, // Nova propriedade incluída
+                likes: {},
                 timestamp: Date.now()
             };
 
@@ -2879,7 +2884,7 @@
                 rating: avgRating,
                 comment: "Avaliação completa das faixas na roleta 3D.",
                 tracks: userTrackReviews,
-                likes: {}, // Nova propriedade incluída
+                likes: {},
                 timestamp: Date.now()
             };
 
@@ -3291,12 +3296,10 @@
                     </div>
                 `;
 
-                // Adiciona lógica de detecção de dois cliques para a curtida
                 const reviewBoxes = modalContent.querySelectorAll('.review-box-dblclick');
                 reviewBoxes.forEach(box => {
                     let lastClickTime = 0;
                     box.addEventListener('click', async (e) => {
-                        // Ignora clique no botão de edição
                         if (e.target.closest('#toggleEditBtn')) return;
                         
                         const currentTime = new Date().getTime();
@@ -3306,7 +3309,6 @@
                             
                             const revRef = ref(db, `library/${currentModalLibraryId}/reviews/${revUid}/likes/${currentUser.uid}`);
                             
-                            // Cria coração para animação visual
                             const heartAnim = document.createElement('i');
                             heartAnim.className = 'fa-solid fa-heart';
                             heartAnim.style.position = 'absolute';
@@ -3320,7 +3322,6 @@
                             heartAnim.style.zIndex = '100';
                             box.appendChild(heartAnim);
                             
-                            // Gatilhos de animação
                             setTimeout(() => {
                                 heartAnim.style.transform = 'translate(-50%, -50%) scale(1.5)';
                             }, 10);
@@ -3331,7 +3332,6 @@
                                 setTimeout(() => heartAnim.remove(), 400);
                             }, 600);
                             
-                            // Verifica status atual e salva no Firebase
                             const isLiked = box.querySelector('.like-container i').classList.contains('fa-solid');
                             
                             if (isLiked) {
@@ -3340,7 +3340,6 @@
                                 await set(revRef, true);
                             }
                             
-                            // Recarrega o modal para exibir status da curtida limpo
                             setTimeout(() => openLibraryModal(currentModalLibraryId), 600);
                         }
                         lastClickTime = currentTime;
@@ -3398,7 +3397,7 @@
                             rating: newRating,
                             comment: newComment,
                             tracks: myReview.tracks || {},
-                            likes: myReview.likes || {}, // Manter dados de curtidas!
+                            likes: myReview.likes || {},
                             timestamp: Date.now()
                         };
 
@@ -3416,6 +3415,8 @@
                 });
 
                 document.getElementById('libraryModal').classList.remove('hidden');
+            }).catch(err => {
+                console.error("Erro ao carregar modal da biblioteca:", err);
             });
         };
 
@@ -3510,6 +3511,8 @@
 
                     chatContactsList.appendChild(item);
                 });
+            }, (error) => {
+                console.error("Erro ao ler contatos:", error);
             });
         }
 
@@ -3563,6 +3566,8 @@
                 });
 
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            }, (error) => {
+                console.error("Erro ao ler mensagens de chat:", error);
             });
         }
 
