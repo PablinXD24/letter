@@ -1746,7 +1746,7 @@
                 showToast(`Bem-vindo de volta, @${tag}!`);
             } catch (error) {
                 console.error("Erro ao logar com nametag:", error);
-                alert("Erro ao efetuar login com a nametag.");
+                alert("Erro de permissão ou conexão ao efetuar login com a nametag. Verifique as regras do Firebase.");
             }
         });
 
@@ -1792,16 +1792,21 @@
                 document.getElementById('profileViewEmail').textContent = user.email || '';
 
                 const userRef = ref(db, `users/${user.uid}`);
-                const snapshot = await get(userRef);
+                try {
+                    const snapshot = await get(userRef);
 
-                if (snapshot.exists() && snapshot.val().nametag) {
-                    userNametag = snapshot.val().nametag;
-                    localStorage.setItem('cinemozi_logged_tag', userNametag);
-                    document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
-                    document.getElementById('profileEditNametagInput').value = userNametag;
-                    await update(userRef, { lastLogin: Date.now() });
-                    startApplication();
-                } else {
+                    if (snapshot.exists() && snapshot.val().nametag) {
+                        userNametag = snapshot.val().nametag;
+                        localStorage.setItem('cinemozi_logged_tag', userNametag);
+                        document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
+                        document.getElementById('profileEditNametagInput').value = userNametag;
+                        await update(userRef, { lastLogin: Date.now() });
+                        startApplication();
+                    } else {
+                        stepNametag.classList.remove('hidden');
+                    }
+                } catch (err) {
+                    console.error("Erro de permissão ao buscar dados do usuário:", err);
                     stepNametag.classList.remove('hidden');
                 }
             } else {
@@ -1864,7 +1869,7 @@
                 startApplication();
             } catch (error) {
                 console.error("Erro ao salvar nametag:", error);
-                alert("Erro ao registrar a nametag.");
+                alert("Erro ao registrar a nametag. Verifique as regras de segurança do Firebase Database.");
             }
         });
 
@@ -1958,16 +1963,21 @@
         // --------- LISTA DE ESPERA (WAITLIST) --------- //
         async function addToWaitlist(item, type) {
             if(!currentUser) return;
-            const waitlistRef = ref(db, `users/${currentUser.uid}/waitlist/${item.id}`);
-            await set(waitlistRef, {
-                id: item.id,
-                title: item.title,
-                poster: item.poster,
-                year: item.year,
-                type: type,
-                addedAt: Date.now()
-            });
-            showToast(`${item.title} adicionado à sua fila!`);
+            try {
+                const waitlistRef = ref(db, `users/${currentUser.uid}/waitlist/${item.id}`);
+                await set(waitlistRef, {
+                    id: item.id,
+                    title: item.title,
+                    poster: item.poster,
+                    year: item.year,
+                    type: type,
+                    addedAt: Date.now()
+                });
+                showToast(`${item.title} adicionado à sua fila!`);
+            } catch(err) {
+                console.error("Erro ao adicionar à fila:", err);
+                alert("Erro de permissão ao salvar na lista de espera.");
+            }
         }
 
         document.getElementById('btnWaitlistMovie').addEventListener('click', async () => {
@@ -2012,6 +2022,8 @@
 
                 if(!hasMovies) moviesGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum filme na lista de espera.</p>';
                 if(!hasMusic) musicGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum álbum na lista de espera.</p>';
+            }, (error) => {
+                console.error("Erro ao carregar lista de espera (permissão negada):", error);
             });
         }
 
@@ -2070,6 +2082,8 @@
                     connectedConnectionNametag = null;
                     hubWelcomeTitle.textContent = "Adicione amigos para ver a próxima sessão";
                 }
+            }, (error) => {
+                console.error("Erro ao carregar conexões do hub:", error);
             });
         }
 
@@ -2104,7 +2118,7 @@
                 showToast(`Sessão conjunta de Filme aberta com @${connectedConnectionNametag}!`);
             } catch (err) {
                 console.error("Erro ao abrir sala conjunta de filme:", err);
-                alert("Erro ao abrir sessão.");
+                alert("Erro ao abrir sessão conjunta. Verifique as permissões.");
             }
         });
 
@@ -2126,7 +2140,7 @@
                 showToast(`Sessão conjunta de Música aberta com @${connectedConnectionNametag}!`);
             } catch (err) {
                 console.error("Erro ao abrir sala conjunta de música:", err);
-                alert("Erro ao abrir sessão.");
+                alert("Erro ao abrir sessão conjunta. Verifique as permissões.");
             }
         });
 
@@ -2254,6 +2268,8 @@
                         }
                     }
                 }
+            }, (error) => {
+                console.error("Erro de permissão ao escutar sala:", error);
             });
         }
 
@@ -2330,11 +2346,16 @@
             };
             tempMovieData = movieObj;
 
-            const roomRef = ref(db, `rooms/${activeRoomId}`);
-            await update(roomRef, { movie: movieObj, reviews: null });
-            movieResults.style.display = 'none';
-            movieSearchInput.value = '';
-            showToast("Filme selecionado para a sessão!");
+            try {
+                const roomRef = ref(db, `rooms/${activeRoomId}`);
+                await update(roomRef, { movie: movieObj, reviews: null });
+                movieResults.style.display = 'none';
+                movieSearchInput.value = '';
+                showToast("Filme selecionado para a sessão!");
+            } catch (err) {
+                console.error("Erro ao selecionar filme:", err);
+                alert("Erro de permissão ao atualizar sala.");
+            }
         }
 
         async function fetchAlbumTracks(collectionId) {
@@ -2639,11 +2660,16 @@
             };
             tempSessionAlbumData = albumObj;
 
-            const roomRef = ref(db, `rooms/${activeRoomId}`);
-            await update(roomRef, { album: albumObj, reviews: null });
-            sessionAlbumResults.style.display = 'none';
-            sessionAlbumSearchInput.value = '';
-            showToast("Álbum selecionado para a sessão!");
+            try {
+                const roomRef = ref(db, `rooms/${activeRoomId}`);
+                await update(roomRef, { album: albumObj, reviews: null });
+                sessionAlbumResults.style.display = 'none';
+                sessionAlbumSearchInput.value = '';
+                showToast("Álbum selecionado para a sessão!");
+            } catch (err) {
+                console.error("Erro ao selecionar álbum:", err);
+                alert("Erro de permissão ao atualizar sala.");
+            }
         }
 
         let albumSearchTimeout;
@@ -2831,7 +2857,7 @@
                 rating: rating,
                 comment: comment,
                 tracks: userTrackReviews,
-                likes: {}, // Nova propriedade incluída
+                likes: {}, 
                 timestamp: Date.now()
             };
 
@@ -2858,7 +2884,7 @@
                 showToast("Avaliação salva com sucesso!");
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
-                alert("Erro ao salvar avaliação.");
+                alert("Erro ao salvar avaliação. Verifique as permissões de segurança.");
             }
         });
 
@@ -2879,7 +2905,7 @@
                 rating: avgRating,
                 comment: "Avaliação completa das faixas na roleta 3D.",
                 tracks: userTrackReviews,
-                likes: {}, // Nova propriedade incluída
+                likes: {}, 
                 timestamp: Date.now()
             };
 
@@ -2901,7 +2927,7 @@
                 switchTab('view-library');
             } catch (err) {
                 console.error("Erro ao salvar álbum:", err);
-                alert("Erro ao salvar avaliação do álbum.");
+                alert("Erro ao salvar avaliação do álbum. Verifique as permissões.");
             }
         });
 
@@ -2938,25 +2964,29 @@
         }
 
         async function saveToLibrary(rId, itemData, reviews, type = 'movie') {
-            const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
-            const libId = `${cleanRoomId}_${type}_${itemData.id}`;
-            
-            let posterUrl = itemData.poster;
-            if (posterUrl && posterUrl.includes('/w92/')) {
-                posterUrl = posterUrl.replace('/w92/', '/w500/');
+            try {
+                const cleanRoomId = rId.replace(/[^a-zA-Z0-9_]/g, '_');
+                const libId = `${cleanRoomId}_${type}_${itemData.id}`;
+                
+                let posterUrl = itemData.poster;
+                if (posterUrl && posterUrl.includes('/w92/')) {
+                    posterUrl = posterUrl.replace('/w92/', '/w500/');
+                }
+                const cleanItem = { ...itemData, poster: posterUrl };
+
+                await remove(ref(db, `deleted_library/${libId}`));
+
+                const libraryRef = ref(db, `library/${libId}`);
+                await set(libraryRef, {
+                    type: type,
+                    roomId: rId,
+                    movie: cleanItem,
+                    reviews: reviews,
+                    updatedAt: Date.now()
+                });
+            } catch (err) {
+                console.error("Erro ao salvar na biblioteca:", err);
             }
-            const cleanItem = { ...itemData, poster: posterUrl };
-
-            await remove(ref(db, `deleted_library/${libId}`));
-
-            const libraryRef = ref(db, `library/${libId}`);
-            await set(libraryRef, {
-                type: type,
-                roomId: rId,
-                movie: cleanItem,
-                reviews: reviews,
-                updatedAt: Date.now()
-            });
         }
 
         function loadLibrary() {
@@ -3026,6 +3056,8 @@
                         renderLibraryCard(k, item, musicContainer, false);
                     });
                 }
+            }, (error) => {
+                console.error("Erro ao carregar biblioteca (permissão negada):", error);
             });
         }
 
@@ -3291,12 +3323,10 @@
                     </div>
                 `;
 
-                // Adiciona lógica de detecção de dois cliques para a curtida
                 const reviewBoxes = modalContent.querySelectorAll('.review-box-dblclick');
                 reviewBoxes.forEach(box => {
                     let lastClickTime = 0;
                     box.addEventListener('click', async (e) => {
-                        // Ignora clique no botão de edição
                         if (e.target.closest('#toggleEditBtn')) return;
                         
                         const currentTime = new Date().getTime();
@@ -3306,7 +3336,6 @@
                             
                             const revRef = ref(db, `library/${currentModalLibraryId}/reviews/${revUid}/likes/${currentUser.uid}`);
                             
-                            // Cria coração para animação visual
                             const heartAnim = document.createElement('i');
                             heartAnim.className = 'fa-solid fa-heart';
                             heartAnim.style.position = 'absolute';
@@ -3320,7 +3349,6 @@
                             heartAnim.style.zIndex = '100';
                             box.appendChild(heartAnim);
                             
-                            // Gatilhos de animação
                             setTimeout(() => {
                                 heartAnim.style.transform = 'translate(-50%, -50%) scale(1.5)';
                             }, 10);
@@ -3331,17 +3359,18 @@
                                 setTimeout(() => heartAnim.remove(), 400);
                             }, 600);
                             
-                            // Verifica status atual e salva no Firebase
                             const isLiked = box.querySelector('.like-container i').classList.contains('fa-solid');
                             
-                            if (isLiked) {
-                                await remove(revRef);
-                            } else {
-                                await set(revRef, true);
+                            try {
+                                if (isLiked) {
+                                    await remove(revRef);
+                                } else {
+                                    await set(revRef, true);
+                                }
+                                setTimeout(() => openLibraryModal(currentModalLibraryId), 600);
+                            } catch (err) {
+                                console.error("Erro ao curtir:", err);
                             }
-                            
-                            // Recarrega o modal para exibir status da curtida limpo
-                            setTimeout(() => openLibraryModal(currentModalLibraryId), 600);
                         }
                         lastClickTime = currentTime;
                     });
@@ -3398,7 +3427,7 @@
                             rating: newRating,
                             comment: newComment,
                             tracks: myReview.tracks || {},
-                            likes: myReview.likes || {}, // Manter dados de curtidas!
+                            likes: myReview.likes || {}, 
                             timestamp: Date.now()
                         };
 
@@ -3416,6 +3445,8 @@
                 });
 
                 document.getElementById('libraryModal').classList.remove('hidden');
+            }).catch(err => {
+                console.error("Erro de permissão ao abrir modal da biblioteca:", err);
             });
         };
 
@@ -3474,7 +3505,7 @@
                 showToast(`Amigo @${friendTag} adicionado com sucesso!`);
             } catch (err) {
                 console.error("Erro ao adicionar amigo:", err);
-                alert("Erro ao adicionar amigo.");
+                alert("Erro ao adicionar amigo. Verifique as permissões.");
             }
         });
 
@@ -3510,6 +3541,8 @@
 
                     chatContactsList.appendChild(item);
                 });
+            }, (error) => {
+                console.error("Erro ao carregar contatos de chat:", error);
             });
         }
 
@@ -3563,6 +3596,8 @@
                 });
 
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            }, (error) => {
+                console.error("Erro ao carregar mensagens do chat:", error);
             });
         }
 
