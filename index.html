@@ -971,6 +971,146 @@
             filter: brightness(1.15);
         }
 
+        /* --- NOVO ESTILO: PRATELEIRA DE LIVROS --- */
+        .bookshelf-wrapper {
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 20px 18px 20px;
+            box-shadow: var(--box-shadow-lg);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .bookshelf-title {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--border-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bookshelf-shelf {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            gap: 14px;
+            overflow-x: auto;
+            padding: 40px 16px 0px 16px;
+            position: relative;
+            min-height: 220px;
+            border-bottom: 14px solid #8B5A2B;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0px 6px 0px var(--border-color);
+            background: repeating-linear-gradient(
+                90deg,
+                #f7f2e7,
+                #f7f2e7 20px,
+                #f1eadb 20px,
+                #f1eadb 40px
+            );
+        }
+
+        .bookshelf-item {
+            position: relative;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: bottom center;
+        }
+
+        .bookshelf-item img {
+            width: 110px;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            border: 3px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 4px 4px 0px #111;
+            transition: all 0.2s ease;
+        }
+
+        .bookshelf-item:hover {
+            transform: translateY(-16px) scale(1.06) rotate(-2deg);
+            z-index: 100;
+        }
+
+        .bookshelf-item:hover img {
+            box-shadow: 8px 12px 0px #111;
+            border-color: var(--pink);
+        }
+
+        /* Tooltip flutuante ao passar por cima do livro */
+        .bookshelf-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px) scale(0.9);
+            background: #111111;
+            color: #ffffff;
+            border: 2px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 4px 4px 0px var(--pink);
+            z-index: 200;
+            text-align: center;
+        }
+
+        .bookshelf-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: #111111 transparent transparent transparent;
+        }
+
+        .bookshelf-item:hover .bookshelf-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-14px) scale(1);
+        }
+
+        .bookshelf-tooltip-title {
+            color: var(--yellow);
+            font-weight: 800;
+            display: block;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bookshelf-tooltip-sub {
+            color: #ccc;
+            font-size: 10px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .bookshelf-tooltip-match {
+            background: var(--pink);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 800;
+            display: inline-block;
+            margin-top: 4px;
+            border: 1px solid #fff;
+        }
+
         /* ==========================================================================
            ROLETA VERTICAL 3D
            ========================================================================== */
@@ -1463,10 +1603,13 @@
 
         <!-- VIEW: ABA DE LIVROS (OPEN LIBRARY) -->
         <div id="view-books" class="app-view hidden">
-            <!-- CARROSSEL PARA LIVROS -->
-            <div class="featured-hero-carousel" id="booksHeroCarouselSection">
-                <div class="coverflow-stage" id="booksCoverflowStage">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>
+            <!-- NOVA PRATELEIRA PARA LIVROS -->
+            <div class="bookshelf-wrapper" id="booksHeroCarouselSection">
+                <div class="bookshelf-title">
+                    <i class="fa-solid fa-book-bookmark" style="color: var(--pink);"></i> Prateleira de Livros Avaliados
+                </div>
+                <div class="bookshelf-shelf" id="booksCoverflowStage">
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>
                 </div>
             </div>
 
@@ -3454,7 +3597,7 @@
                     if (booksContainer) booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
                     document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>';
-                    if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>';
+                    if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                     featuredMoviesOnly = [];
                     featuredMusicOnly = [];
                     featuredBooksOnly = [];
@@ -3467,7 +3610,7 @@
 
                 renderMovieCircularCarousel();
                 renderMusicCircularCarousel();
-                renderBooksCircularCarousel();
+                renderBooksShelf();
 
                 if (validMovies.length === 0) {
                     movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
@@ -3621,31 +3764,41 @@
             });
         }
 
-        function renderBooksCircularCarousel() {
+        /* --- RENDERIZAÇÃO DA ESTANTE DA ABA DE LIVROS --- */
+        function renderBooksShelf() {
             const stage = document.getElementById('booksCoverflowStage');
             if (!stage) return;
             if (featuredBooksOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                 return;
             }
 
             stage.innerHTML = '';
-            const total = featuredBooksOnly.length;
-            const baseRadius = 200;
-            const dynamicRadius = Math.max(baseRadius, total * 38);
 
-            featuredBooksOnly.forEach((entry, idx) => {
-                const angle = (idx / total) * 360;
+            featuredBooksOnly.forEach((entry) => {
+                const item = entry.item;
+                const reviews = Object.values(item.reviews || {});
+                let similarity = 100;
+                if (reviews.length >= 2) {
+                    const [rev1, rev2] = reviews;
+                    const ratingDiff = Math.abs(rev1.rating - rev2.rating);
+                    similarity = 100 - (ratingDiff * 20);
+                    if (similarity < 10) similarity = 10;
+                }
 
-                let posterUrl = entry.item.movie.poster;
+                const posterUrl = item.movie.poster;
+                const authorYearText = item.movie.author ? `${item.movie.author} (${item.movie.year})` : `Ano: ${item.movie.year}`;
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `coverflow-item`;
-                itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
-                itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
-
+                itemDiv.className = `bookshelf-item`;
+                
                 itemDiv.innerHTML = `
-                    <img src="${posterUrl}" alt="${entry.item.movie.title}">
+                    <div class="bookshelf-tooltip">
+                        <span class="bookshelf-tooltip-title">${item.movie.title}</span>
+                        <span class="bookshelf-tooltip-sub">${authorYearText}</span>
+                        <span class="bookshelf-tooltip-match">Match: ${similarity}%</span>
+                    </div>
+                    <img src="${posterUrl}" alt="${item.movie.title}">
                 `;
 
                 itemDiv.addEventListener('click', () => {
