@@ -1725,21 +1725,17 @@
                     return;
                 }
 
-                const tagVal = tagSnap.val();
-                const uid = (typeof tagVal === 'object' && tagVal !== null) ? tagVal.uid : tagVal;
-                const tagEmail = (typeof tagVal === 'object' && tagVal !== null) ? (tagVal.email || '') : '';
-
+                const uid = tagSnap.val();
                 const userSnap = await get(ref(db, `users/${uid}`));
-                const userData = userSnap.exists() ? userSnap.val() : {};
+                if (!userSnap.exists()) {
+                    alert("Dados do usuário não encontrados.");
+                    return;
+                }
 
                 userNametag = tag;
                 localStorage.setItem('cinemozi_logged_tag', tag);
                 
-                currentUser = { 
-                    uid: uid, 
-                    email: userData.email || tagEmail || '', 
-                    photoURL: userData.photoURL || null 
-                };
+                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
                 
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
                 document.getElementById('profileEditNametagInput').value = tag;
@@ -1766,17 +1762,11 @@
                     return;
                 }
 
-                if (userNametag) {
-                    await remove(ref(db, `nametags/${userNametag}`));
-                }
-
-                await set(ref(db, `nametags/${newTag}`), {
-                    uid: currentUser.uid,
-                    email: currentUser.email || ''
-                });
+                await remove(ref(db, `nametags/${userNametag}`));
+                await set(ref(db, `nametags/${newTag}`), currentUser.uid);
 
                 const userRef = ref(db, `users/${currentUser.uid}`);
-                await update(userRef, { nametag: newTag, email: currentUser.email || '' });
+                await update(userRef, { nametag: newTag });
 
                 userNametag = newTag;
                 localStorage.setItem('cinemozi_logged_tag', newTag);
@@ -1825,25 +1815,18 @@
                     try {
                         const tagSnap = await get(ref(db, `nametags/${savedTag}`));
                         if (tagSnap.exists()) {
-                            const tagVal = tagSnap.val();
-                            const uid = (typeof tagVal === 'object' && tagVal !== null) ? tagVal.uid : tagVal;
-                            const tagEmail = (typeof tagVal === 'object' && tagVal !== null) ? (tagVal.email || '') : '';
-
+                            const uid = tagSnap.val();
                             const userSnap = await get(ref(db, `users/${uid}`));
-                            const userData = userSnap.exists() ? userSnap.val() : {};
-
-                            userNametag = savedTag;
-                            currentUser = { 
-                                uid: uid, 
-                                email: userData.email || tagEmail || '', 
-                                photoURL: userData.photoURL || null 
-                            };
-                            document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
-                            document.getElementById('profileEditNametagInput').value = savedTag;
-                            document.getElementById('profileViewEmail').textContent = currentUser.email;
-                            stepAuth.classList.add('hidden');
-                            startApplication();
-                            return;
+                            if (userSnap.exists()) {
+                                userNametag = savedTag;
+                                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+                                document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
+                                document.getElementById('profileEditNametagInput').value = savedTag;
+                                document.getElementById('profileViewEmail').textContent = currentUser.email;
+                                stepAuth.classList.add('hidden');
+                                startApplication();
+                                return;
+                            }
                         }
                     } catch (e) {
                         console.error("Erro ao recuperar sessão por nametag:", e);
@@ -1872,14 +1855,11 @@
 
                 await set(ref(db, `users/${currentUser.uid}`), {
                     uid: currentUser.uid,
-                    email: currentUser.email || '',
+                    email: currentUser.email,
                     nametag: tag,
                     lastLogin: Date.now()
                 });
-                await set(ref(db, `nametags/${tag}`), {
-                    uid: currentUser.uid,
-                    email: currentUser.email || ''
-                });
+                await set(ref(db, `nametags/${tag}`), currentUser.uid);
 
                 userNametag = tag;
                 localStorage.setItem('cinemozi_logged_tag', tag);
@@ -3212,7 +3192,7 @@
                 const item = snapshot.val();
                 const reviewsObj = item.reviews || {};
                 const reviewsArray = Object.values(reviewsObj);
-                const myReview = reviewsObj[currentUser?.uid] || { rating: 0, comment: '', tracks: {}, likes: {} };
+                const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '', tracks: {}, likes: {} };
 
                 let similarity = 100;
                 let totalRatingPercent = Math.round((myReview.rating / 5) * 100);
@@ -3297,7 +3277,7 @@
                     <div class="comparison-grid" style="margin-bottom: 1rem;">
                         ${reviewsArray.map(rev => {
                             const likesCount = rev.likes ? Object.keys(rev.likes).length : 0;
-                            const hasLiked = currentUser && rev.likes && rev.likes[currentUser.uid];
+                            const hasLiked = rev.likes && rev.likes[currentUser.uid];
                             
                             return `
                             <div class="review-box review-box-dblclick" data-revuid="${rev.uid}" style="margin-bottom: 0; position: relative; cursor: pointer; user-select: none;" title="Dê 2 cliques para curtir!">
@@ -3309,7 +3289,7 @@
                                     <i class="${hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="filter: drop-shadow(2px 2px 0px #111);"></i> <span style="font-size: 13px; font-weight: 800; color: var(--border-color);">${likesCount > 0 ? likesCount : ''}</span>
                                 </div>
                                 
-                                ${currentUser && rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
+                                ${rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
                             </div>
                             `;
                         }).join('')}
@@ -3348,10 +3328,6 @@
                     let lastClickTime = 0;
                     box.addEventListener('click', async (e) => {
                         if (e.target.closest('#toggleEditBtn')) return;
-                        if (!currentUser) {
-                            alert("Faça login para curtir avaliações.");
-                            return;
-                        }
                         
                         const currentTime = new Date().getTime();
                         if (currentTime - lastClickTime < 400) {
@@ -3435,7 +3411,6 @@
 
                 document.getElementById('modalReviewForm').addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    if (!currentUser) return;
                     const newRating = parseInt(modalRatingInput.value);
                     const newComment = document.getElementById('modalUserComment').value.trim();
 
@@ -3519,9 +3494,7 @@
                     return;
                 }
 
-                const tagVal = tagSnap.val();
-                const friendUid = (typeof tagVal === 'object' && tagVal !== null) ? tagVal.uid : tagVal;
-
+                const friendUid = tagSnap.val();
                 await set(ref(db, `users/${currentUser.uid}/friends/${friendUid}`), {
                     uid: friendUid,
                     nametag: friendTag,
@@ -3537,7 +3510,6 @@
         });
 
         function loadChatContacts() {
-            if (!currentUser) return;
             const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
             onValue(friendsRef, (snapshot) => {
                 const friends = snapshot.val() || {};
@@ -3596,7 +3568,7 @@
         }
 
         function loadChatMessages() {
-            if (!activeChatUserId || !currentUser) return;
+            if (!activeChatUserId) return;
             const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
             const chatRef = ref(db, `chats/${chatId}/messages`);
 
@@ -3636,7 +3608,7 @@
 
         async function sendChatMessage() {
             const text = chatInputMessage.value.trim();
-            if (!text || !activeChatUserId || !currentUser) return;
+            if (!text || !activeChatUserId) return;
 
             const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
             const messagesRef = ref(db, `chats/${chatId}/messages`);
