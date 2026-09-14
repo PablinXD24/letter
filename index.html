@@ -972,27 +972,33 @@
         }
 
         /* ==========================================================================
-           ESTILOS DOS DISCOS DE VINIL COM A CAPA NO CENTRO
+           ESTILOS DA PILHA CRIATIVA DE DISCOS DE VINIL
            ========================================================================== */
-        .vinyl-stage {
+        .vinyl-stack-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            height: 320px;
+            height: 280px;
             width: 100%;
-            transform-style: preserve-3d;
+            padding: 20px 0;
         }
 
-        .vinyl-item-wrapper {
-            position: absolute;
+        .vinyl-stack-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
             cursor: pointer;
-            width: 250px;
-            height: 250px;
-            transition: transform 0.5s ease, filter 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .vinyl-stack-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 240px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .vinyl-record {
@@ -1006,7 +1012,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: spinVinyl 6s linear infinite;
+            animation: spinVinyl 8s linear infinite;
         }
 
         /* Sulcos do Vinil (Grooves) */
@@ -1056,8 +1062,12 @@
             object-fit: cover;
         }
 
-        .vinyl-item-wrapper:hover .vinyl-record {
-            animation-duration: 2s; /* Acelera ao passar o mouse */
+        /* Ao passar o mouse na pilha, eles se espalham de forma criativa e elegante para ver todos os álbuns */
+        .vinyl-stack-container:hover .vinyl-stack-item {
+            transform: var(--hover-transform) !important;
+        }
+        .vinyl-stack-container:hover .vinyl-record {
+            animation-duration: 3s;
         }
 
 
@@ -1703,10 +1713,12 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
-            <!-- CARROSSEL DE DISCOS DE VINIL COM A CAPA NO CENTRO -->
+            <!-- PILHA CRIATIVA DE DISCOS DE VINIL -->
             <div class="featured-hero-carousel" id="musicHeroCarouselSection">
-                <div class="vinyl-stage" id="musicCoverflowStage">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>
+                <div class="vinyl-stack-wrapper">
+                    <div class="vinyl-stack-container" id="musicCoverflowStage">
+                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>
+                    </div>
                 </div>
             </div>
 
@@ -3753,7 +3765,7 @@
                     musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
                     if (booksContainer) booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
-                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>';
+                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
                     if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                     featuredMoviesOnly = [];
                     featuredMusicOnly = [];
@@ -3766,7 +3778,7 @@
                 featuredBooksOnly = validBooks;
 
                 renderMovieCircularCarousel();
-                renderMusicVinylCarousel();
+                renderMusicVinylStack();
                 renderBooksShelf();
 
                 if (validMovies.length === 0) {
@@ -3883,32 +3895,38 @@
             });
         }
 
-        /* --- RENDERIZAÇÃO DOS DISCOS DE VINIL COM A CAPA NO CENTRO --- */
-        function renderMusicVinylCarousel() {
+        /* --- RENDERIZAÇÃO DA PILHA CRIATIVA DE DISCOS DE VINIL --- */
+        function renderMusicVinylStack() {
             const stage = document.getElementById('musicCoverflowStage');
             if (!stage) return;
             if (featuredMusicOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
                 return;
             }
 
             stage.innerHTML = '';
             const total = featuredMusicOnly.length;
-            const baseRadius = 190;
-            const dynamicRadius = Math.max(baseRadius, total * 45);
 
             featuredMusicOnly.forEach((entry, idx) => {
-                const angle = (idx / total) * 360;
-
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
                     posterUrl = posterUrl.replace('/w92/', '/w500/');
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `vinyl-item-wrapper`;
+                itemDiv.className = `vinyl-stack-item`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
-                itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
+                
+                // Posição padrão empilhada no centro com leve variação de escala/posição para dar efeito 3D de pilha
+                const baseZIndex = total - idx;
+                const baseRotate = (idx * 5) % 15 - 7; // Rotações suaves alternadas
+                itemDiv.style.zIndex = baseZIndex;
+                itemDiv.style.transform = `translateY(${idx * -6}px) rotate(${baseRotate}deg) scale(${1 - (idx * 0.03)})`;
+
+                // Posição expandida criativa ao passar o mouse na pilha
+                const angleSpread = (idx - (total - 1) / 2) * 55; // Espalha os vinis em leque horizontal
+                const offsetYSpread = -15 - (idx * 5);
+                itemDiv.style.setProperty('--hover-transform', `translateX(${angleSpread}px) translateY(${offsetYSpread}px) rotate(${angleSpread * 0.25}deg) scale(1.05)`);
 
                 itemDiv.innerHTML = `
                     <div class="vinyl-record">
@@ -3918,7 +3936,8 @@
                     </div>
                 `;
 
-                itemDiv.addEventListener('click', () => {
+                itemDiv.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     openLibraryModal(entry.key);
                 });
 
