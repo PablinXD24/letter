@@ -1584,7 +1584,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
         import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -1719,6 +1719,10 @@
             if (!tag) return;
 
             try {
+                if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                }
+
                 const tagSnap = await get(ref(db, `nametags/${tag}`));
                 if (!tagSnap.exists()) {
                     alert("Nametag não encontrada. Verifique ou entre com o Google.");
@@ -1742,6 +1746,7 @@
                 document.getElementById('profileViewEmail').textContent = currentUser.email;
 
                 stepAuth.classList.add('hidden');
+                stepNametag.classList.add('hidden');
                 startApplication();
                 showToast(`Bem-vindo de volta, @${tag}!`);
             } catch (error) {
@@ -1802,6 +1807,26 @@
                         document.getElementById('profileEditNametagInput').value = userNametag;
                         await update(userRef, { lastLogin: Date.now() });
                         startApplication();
+                    } else if (localStorage.getItem('cinemozi_logged_tag')) {
+                        const savedTag = localStorage.getItem('cinemozi_logged_tag');
+                        const tagSnap = await get(ref(db, `nametags/${savedTag}`));
+                        if (tagSnap.exists()) {
+                            const uid = tagSnap.val();
+                            const userSnap = await get(ref(db, `users/${uid}`));
+                            if (userSnap.exists()) {
+                                userNametag = savedTag;
+                                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+                                document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
+                                document.getElementById('profileEditNametagInput').value = savedTag;
+                                document.getElementById('profileViewEmail').textContent = currentUser.email || '';
+                                stepNametag.classList.add('hidden');
+                                startApplication();
+                            } else {
+                                stepNametag.classList.remove('hidden');
+                            }
+                        } else {
+                            stepNametag.classList.remove('hidden');
+                        }
                     } else {
                         stepNametag.classList.remove('hidden');
                     }
@@ -1813,6 +1838,9 @@
                 const savedTag = localStorage.getItem('cinemozi_logged_tag');
                 if (savedTag && !currentUser) {
                     try {
+                        if (!auth.currentUser) {
+                            await signInAnonymously(auth);
+                        }
                         const tagSnap = await get(ref(db, `nametags/${savedTag}`));
                         if (tagSnap.exists()) {
                             const uid = tagSnap.val();
