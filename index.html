@@ -1409,7 +1409,7 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
-            <!-- NOVO CARROSSEL PARA MÚSICA -->
+            <!-- CARROSSEL PARA MÚSICA -->
             <div class="featured-hero-carousel" id="musicHeroCarouselSection">
                 <div class="coverflow-stage" id="musicCoverflowStage">
                     <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>
@@ -1461,11 +1461,11 @@
             </div>
         </div>
 
-        <!-- VIEW: ABA DE LIVROS (OPEN LIBRARY API) -->
+        <!-- VIEW: ABA DE LIVROS (NOVA) -->
         <div id="view-books" class="app-view hidden">
             <!-- CARROSSEL PARA LIVROS -->
-            <div class="featured-hero-carousel" id="booksHeroCarouselSection">
-                <div class="coverflow-stage" id="booksCoverflowStage">
+            <div class="featured-hero-carousel" id="bookHeroCarouselSection">
+                <div class="coverflow-stage" id="bookCoverflowStage">
                     <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>
                 </div>
             </div>
@@ -1478,6 +1478,7 @@
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedBookTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
+                        <p id="selectedBookYear" style="color:var(--text-muted); font-size: 12px; font-weight: 600;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <button id="btnChangeBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
@@ -1487,12 +1488,11 @@
 
                 <div class="search-box" id="bookSearchBoxWrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="bookSearchInput" placeholder="Busque por qualquer livro na Open Library..." autocomplete="off">
+                    <input type="text" id="bookSearchInput" placeholder="Busque por título ou autor no Open Library..." autocomplete="off">
                     <div id="bookResults" class="movie-results"></div>
                 </div>
             </div>
 
-            <!-- Formulário de Avaliação do Livro -->
             <div id="step-book-review" class="card hidden" style="margin-top: 1.5rem;">
                 <h3 style="margin-bottom: 1.4rem;"><i class="fa-solid fa-star-half-stroke" style="margin-right: 8px;"></i> Sua Avaliação do Livro</h3>
                 
@@ -1511,12 +1511,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Sua Resenha / Opinião</label>
-                        <textarea id="bookUserComment" maxlength="500" required placeholder="O que você achou da leitura..."></textarea>
+                        <label>Sua Resenha / Crítica</label>
+                        <textarea id="bookUserComment" maxlength="500" required placeholder="O que você achou desta leitura..."></textarea>
                         <span id="bookCharCounter" class="char-counter">0 / 500 caracteres</span>
                     </div>
 
-                    <button type="submit" class="btn" id="saveBookCompleteBtn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> Salvar Avaliação na Biblioteca</button>
+                    <button type="submit" class="btn" id="saveBookReviewBtn"><i class="fa-solid fa-check" style="margin-right: 8px;"></i> Salvar Avaliação do Livro na Biblioteca</button>
                 </form>
             </div>
         </div>
@@ -1569,9 +1569,9 @@
                 <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> Biblioteca de Avaliações</h3>
                 
                 <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                    <button type="button" id="libTabMoviesBtn" class="btn" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-film"></i> Filmes</button>
-                    <button type="button" id="libTabMusicBtn" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-music"></i> Músicas</button>
-                    <button type="button" id="libTabBooksBtn" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-book"></i> Livros</button>
+                    <button type="button" id="libTabMoviesBtn" class="btn" style="flex: 1; min-width: 100px;"><i class="fa-solid fa-film"></i> Filmes</button>
+                    <button type="button" id="libTabMusicBtn" class="btn btn-secondary" style="flex: 1; min-width: 100px;"><i class="fa-solid fa-music"></i> Músicas</button>
+                    <button type="button" id="libTabBooksBtn" class="btn btn-secondary" style="flex: 1; min-width: 100px;"><i class="fa-solid fa-book"></i> Livros</button>
                 </div>
 
                 <div id="libSectionMovies">
@@ -1656,15 +1656,15 @@
         </div>
     </div>
 
-    <!-- MODAL DE ESCOLHA DO TIPO (Música, Filme ou Livro) -->
+    <!-- MODAL DE ESCOLHA DO TIPO (Filme, Música ou Livro) -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div class="card" style="width: 100%; max-width: 440px; text-align: center; margin-bottom: 0;">
+        <div class="card" style="width: 100%; max-width: 480px; text-align: center; margin-bottom: 0;">
             <h3 style="font-size: 18px; color: var(--border-color); margin-bottom: 16px;"><i class="fa-solid fa-circle-question" style="margin-right: 8px;"></i> O que vocês querem avaliar?</h3>
             <p style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 24px;">Escolha a categoria para iniciar a sessão conjunta:</p>
             <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                <button type="button" id="chooseTypeMovie" class="btn" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-film"></i> Filme</button>
-                <button type="button" id="chooseTypeMusic" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-music"></i> Música</button>
-                <button type="button" id="chooseTypeBook" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-book"></i> Livro</button>
+                <button type="button" id="chooseTypeMovie" class="btn" style="flex: 1; min-width: 110px;"><i class="fa-solid fa-film"></i> Filme</button>
+                <button type="button" id="chooseTypeMusic" class="btn btn-secondary" style="flex: 1; min-width: 110px;"><i class="fa-solid fa-music"></i> Música</button>
+                <button type="button" id="chooseTypeBook" class="btn btn-secondary" style="flex: 1; min-width: 110px;"><i class="fa-solid fa-book"></i> Livro</button>
             </div>
             <div style="margin-top: 16px;">
                 <button type="button" id="closeTypeChoiceModal" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; width: auto;"><i class="fa-solid fa-xmark"></i> Fechar</button>
@@ -1722,7 +1722,7 @@
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
 
-        // Temporários para Lista de Espera e Avaliações
+        // Temporários para Lista de Espera e Seleção
         let tempMovieData = null;
         let tempSessionAlbumData = null;
         let tempSessionBookData = null;
@@ -2029,7 +2029,6 @@
         const sessionTracksSection = document.getElementById('sessionTracksSection');
         const sessionTracksListContainer = document.getElementById('sessionTracksListContainer');
 
-        // ELEMENTOS PARA SESSÃO CONJUNTA DE LIVROS
         const stepSessionBook = document.getElementById('step-session-book');
         const btnBackToHubBook = document.getElementById('btnBackToHubBook');
         const sessionBookSearchInput = document.getElementById('sessionBookSearchInput');
@@ -2093,23 +2092,23 @@
         const albumTracksListContainer = document.getElementById('albumTracksListContainer');
         const saveAlbumCompleteBtn = document.getElementById('saveAlbumCompleteBtn');
 
-        // ELEMENTOS DA ABA DE LIVROS (OPEN LIBRARY API)
+        // ELEMENTOS DA ABA DE LIVROS
         const bookSearchInput = document.getElementById('bookSearchInput');
         const bookResults = document.getElementById('bookResults');
         const selectedBookContainer = document.getElementById('selectedBookContainer');
         const selectedBookCover = document.getElementById('selectedBookCover');
         const selectedBookTitle = document.getElementById('selectedBookTitle');
         const selectedBookAuthor = document.getElementById('selectedBookAuthor');
+        const selectedBookYear = document.getElementById('selectedBookYear');
         const bookSearchBoxWrapper = document.getElementById('bookSearchBoxWrapper');
         const btnChangeBook = document.getElementById('btnChangeBook');
         const stepBookReview = document.getElementById('step-book-review');
         const bookReviewForm = document.getElementById('bookReviewForm');
         const bookStarContainer = document.getElementById('bookStarContainer');
-        const bookUserRating = document.getElementById('bookUserRating');
+        const bookUserRatingInput = document.getElementById('bookUserRating');
         const bookRatingFeedbackText = document.getElementById('bookRatingFeedbackText');
-        const bookUserComment = document.getElementById('bookUserComment');
+        const bookUserCommentInput = document.getElementById('bookUserComment');
         const bookCharCounter = document.getElementById('bookCharCounter');
-        const saveBookCompleteBtn = document.getElementById('saveBookCompleteBtn');
 
 
         // --------- LISTA DE ESPERA (WAITLIST) --------- //
@@ -2121,7 +2120,7 @@
                     id: item.id,
                     title: item.title,
                     poster: item.poster,
-                    year: item.year || '',
+                    year: item.year,
                     type: type,
                     addedAt: Date.now()
                 });
@@ -2142,11 +2141,6 @@
             await addToWaitlist(tempSessionAlbumData, 'music');
         });
 
-        document.getElementById('btnWaitlistSessionBook').addEventListener('click', async () => {
-            if(!tempSessionBookData) return;
-            await addToWaitlist(tempSessionBookData, 'book');
-        });
-
         document.getElementById('btnWaitlistAlbum').addEventListener('click', async () => {
             if(!selectedAlbumData) return;
             await addToWaitlist(selectedAlbumData, 'music');
@@ -2155,6 +2149,11 @@
         document.getElementById('btnWaitlistBook').addEventListener('click', async () => {
             if(!selectedBookData) return;
             await addToWaitlist(selectedBookData, 'book');
+        });
+
+        document.getElementById('btnWaitlistSessionBook').addEventListener('click', async () => {
+            if(!tempSessionBookData) return;
+            await addToWaitlist(tempSessionBookData, 'book');
         });
 
         function loadWaitlist() {
@@ -2338,7 +2337,11 @@
             }
         });
 
-        function resetSessionViews() {
+        btnBackToHub.addEventListener('click', resetAndBackToHub);
+        btnBackToHubMusic.addEventListener('click', resetAndBackToHub);
+        btnBackToHubBook.addEventListener('click', resetAndBackToHub);
+
+        function resetAndBackToHub() {
             stepMovie.classList.add('hidden');
             stepSessionMusic.classList.add('hidden');
             stepSessionBook.classList.add('hidden');
@@ -2351,10 +2354,6 @@
                 roomSessionUnsubscribe = null;
             }
         }
-
-        btnBackToHub.addEventListener('click', resetSessionViews);
-        btnBackToHubMusic.addEventListener('click', resetSessionViews);
-        btnBackToHubBook.addEventListener('click', resetSessionViews);
 
         function initRoomSession(rId) {
             if (roomSessionUnsubscribe) {
@@ -2590,6 +2589,187 @@
                 alert("Erro de permissão ao atualizar sala.");
             }
         }
+
+        // ==========================================
+        // INTEGRAÇÃO COM A OPEN LIBRARY API (LIVROS)
+        // ==========================================
+        let bookSearchTimeout;
+        bookSearchInput.addEventListener('input', (e) => {
+            clearTimeout(bookSearchTimeout);
+            const query = e.target.value.trim();
+            if (query.length < 3) {
+                bookResults.style.display = 'none';
+                return;
+            }
+
+            bookSearchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=6`);
+                    const data = await response.json();
+                    renderBookResults(data.docs || [], bookResults, false);
+                } catch (error) {
+                    console.error('Erro ao buscar livros na Open Library:', error);
+                }
+            }, 400);
+        });
+
+        let sessionBookSearchTimeout;
+        sessionBookSearchInput.addEventListener('input', (e) => {
+            clearTimeout(sessionBookSearchTimeout);
+            const query = e.target.value.trim();
+            if (query.length < 3) {
+                sessionBookResults.style.display = 'none';
+                return;
+            }
+
+            sessionBookSearchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=6`);
+                    const data = await response.json();
+                    renderBookResults(data.docs || [], sessionBookResults, true);
+                } catch (error) {
+                    console.error('Erro ao buscar livros na Open Library:', error);
+                }
+            }, 400);
+        });
+
+        function renderBookResults(docs, containerEl, isJointSession) {
+            containerEl.innerHTML = '';
+            if (docs.length === 0) {
+                containerEl.style.display = 'none';
+                return;
+            }
+
+            docs.forEach(doc => {
+                const author = doc.author_name ? doc.author_name.join(', ') : 'Autor desconhecido';
+                const year = doc.first_publish_year || 'N/A';
+                const coverUrl = doc.cover_i
+                    ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`
+                    : 'https://via.placeholder.com/48x68?text=Sem+Capa';
+
+                const cleanId = doc.key ? doc.key.replace(/[^a-zA-Z0-9_]/g, '_') : `ol_${Date.now()}_${Math.floor(Math.random()*1000)}`;
+
+                const div = document.createElement('div');
+                div.classList.add('movie-item');
+                div.innerHTML = `
+                    <img src="${coverUrl}" alt="${doc.title}" style="width: 48px; height: 68px; object-fit: cover;">
+                    <div class="movie-info">
+                        <h4>${doc.title}</h4>
+                        <span>${author} (${year})</span>
+                    </div>
+                `;
+
+                const bookObj = {
+                    id: cleanId,
+                    title: doc.title,
+                    author: author,
+                    artist: author,
+                    year: year,
+                    poster: doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` : coverUrl
+                };
+
+                div.addEventListener('click', () => {
+                    if (isJointSession) {
+                        selectSessionBookOnFirebase(bookObj);
+                    } else {
+                        selectBook(bookObj);
+                    }
+                });
+
+                containerEl.appendChild(div);
+            });
+            containerEl.style.display = 'block';
+        }
+
+        function selectBook(book) {
+            selectedBookData = book;
+            selectedBookCover.src = book.poster;
+            selectedBookTitle.textContent = book.title;
+            selectedBookAuthor.textContent = book.author;
+            selectedBookYear.textContent = `Ano: ${book.year}`;
+            selectedBookContainer.classList.remove('hidden');
+            bookSearchBoxWrapper.style.display = 'none';
+            bookResults.style.display = 'none';
+            bookSearchInput.value = '';
+
+            stepBookReview.classList.remove('hidden');
+            showToast("Livro selecionado!");
+        }
+
+        btnChangeBook.addEventListener('click', () => {
+            selectedBookContainer.classList.add('hidden');
+            bookSearchBoxWrapper.style.display = 'block';
+            stepBookReview.classList.add('hidden');
+            bookSearchInput.value = '';
+            bookSearchInput.focus();
+        });
+
+        async function selectSessionBookOnFirebase(book) {
+            tempSessionBookData = book;
+            try {
+                const roomRef = ref(db, `rooms/${activeRoomId}`);
+                await update(roomRef, { book: book, reviews: null });
+                sessionBookResults.style.display = 'none';
+                sessionBookSearchInput.value = '';
+                showToast("Livro selecionado para a sessão!");
+            } catch (err) {
+                console.error("Erro ao selecionar livro:", err);
+                alert("Erro de permissão ao atualizar sala.");
+            }
+        }
+
+        setupStarRating(bookStarContainer, bookUserRatingInput, bookRatingFeedbackText);
+
+        bookUserCommentInput.addEventListener('input', () => {
+            bookCharCounter.textContent = `${bookUserCommentInput.value.length} / 500 caracteres`;
+        });
+
+        bookReviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedBookData) {
+                alert('Selecione um livro primeiro.');
+                return;
+            }
+
+            const rating = parseInt(bookUserRatingInput.value);
+            const comment = bookUserCommentInput.value.trim();
+
+            if (rating === 0) {
+                alert('Por favor, selecione ao menos uma estrela.');
+                return;
+            }
+
+            const myReview = {
+                uid: currentUser.uid,
+                name: userNametag,
+                rating: rating,
+                comment: comment,
+                likes: {},
+                timestamp: Date.now()
+            };
+
+            const bookLibId = `book_${selectedBookData.id}`;
+            try {
+                const existingRef = ref(db, `library/${bookLibId}/reviews`);
+                const snap = await get(existingRef);
+                let currentReviews = snap.exists() ? snap.val() : {};
+                currentReviews[currentUser.uid] = myReview;
+
+                await set(ref(db, `library/${bookLibId}`), {
+                    type: 'book',
+                    movie: selectedBookData,
+                    reviews: currentReviews,
+                    updatedAt: Date.now()
+                });
+
+                showToast("Avaliação do livro salva com sucesso!");
+                switchTab('view-library');
+            } catch (err) {
+                console.error("Erro ao salvar livro:", err);
+                alert("Erro ao salvar avaliação do livro. Verifique as permissões.");
+            }
+        });
+
 
         async function fetchAlbumTracks(collectionId) {
             try {
@@ -2905,219 +3085,6 @@
             }
         }
 
-        // ---------- LÓGICA DA OPEN LIBRARY API (LIVROS) ---------- //
-        let sessionBookTimeout;
-        sessionBookSearchInput.addEventListener('input', (e) => {
-            clearTimeout(sessionBookTimeout);
-            const query = e.target.value.trim();
-            if (query.length < 3) {
-                sessionBookResults.style.display = 'none';
-                return;
-            }
-
-            sessionBookTimeout = setTimeout(async () => {
-                try {
-                    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`);
-                    const data = await response.json();
-                    renderSessionBookResults(data.docs || []);
-                } catch (error) {
-                    console.error('Erro ao buscar livros na Open Library:', error);
-                }
-            }, 300);
-        });
-
-        function renderSessionBookResults(docs) {
-            sessionBookResults.innerHTML = '';
-            if (docs.length === 0) {
-                sessionBookResults.style.display = 'none';
-                return;
-            }
-
-            docs.forEach(doc => {
-                const coverId = doc.cover_i;
-                const posterUrl = coverId 
-                    ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` 
-                    : 'https://via.placeholder.com/50x70?text=Sem+Capa';
-                const author = doc.author_name ? doc.author_name.slice(0, 2).join(', ') : 'Autor desconhecido';
-                const year = doc.first_publish_year || 'N/A';
-
-                const div = document.createElement('div');
-                div.classList.add('movie-item');
-                div.innerHTML = `
-                    <img src="${posterUrl}" alt="${doc.title}" style="width: 45px; height: 65px;">
-                    <div class="movie-info">
-                        <h4>${doc.title}</h4>
-                        <span>${author} (${year})</span>
-                    </div>
-                `;
-                div.addEventListener('click', () => selectSessionBookOnFirebase(doc, posterUrl, author, year));
-                sessionBookResults.appendChild(div);
-            });
-            sessionBookResults.style.display = 'block';
-        }
-
-        async function selectSessionBookOnFirebase(doc, posterUrl, author, year) {
-            const highResPoster = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` : posterUrl;
-            const bookId = doc.key ? doc.key.replace('/works/', '') : (doc.cover_i || 'b_' + Date.now());
-            
-            const bookObj = {
-                id: bookId,
-                title: doc.title,
-                author: author,
-                artist: author,
-                year: year,
-                poster: highResPoster
-            };
-            tempSessionBookData = bookObj;
-
-            try {
-                const roomRef = ref(db, `rooms/${activeRoomId}`);
-                await update(roomRef, { book: bookObj, reviews: null });
-                sessionBookResults.style.display = 'none';
-                sessionBookSearchInput.value = '';
-                showToast("Livro selecionado para a sessão!");
-            } catch (err) {
-                console.error("Erro ao selecionar livro:", err);
-                alert("Erro de permissão ao atualizar sala.");
-            }
-        }
-
-        let bookSearchTimeout;
-        bookSearchInput.addEventListener('input', (e) => {
-            clearTimeout(bookSearchTimeout);
-            const query = e.target.value.trim();
-            if (query.length < 3) {
-                bookResults.style.display = 'none';
-                return;
-            }
-
-            bookSearchTimeout = setTimeout(async () => {
-                try {
-                    const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=8`);
-                    const data = await response.json();
-                    renderBookResults(data.docs || []);
-                } catch (error) {
-                    console.error('Erro ao buscar livros na Open Library:', error);
-                }
-            }, 300);
-        });
-
-        function renderBookResults(docs) {
-            bookResults.innerHTML = '';
-            if (docs.length === 0) {
-                bookResults.style.display = 'none';
-                return;
-            }
-
-            docs.forEach(doc => {
-                const coverId = doc.cover_i;
-                const posterUrl = coverId 
-                    ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` 
-                    : 'https://via.placeholder.com/50x70?text=Sem+Capa';
-                const author = doc.author_name ? doc.author_name.slice(0, 2).join(', ') : 'Autor desconhecido';
-                const year = doc.first_publish_year || 'N/A';
-
-                const div = document.createElement('div');
-                div.classList.add('movie-item');
-                div.innerHTML = `
-                    <img src="${posterUrl}" alt="${doc.title}" style="width: 45px; height: 65px;">
-                    <div class="movie-info">
-                        <h4>${doc.title}</h4>
-                        <span>${author} (${year})</span>
-                    </div>
-                `;
-                div.addEventListener('click', () => selectBook(doc, author, year));
-                bookResults.appendChild(div);
-            });
-            bookResults.style.display = 'block';
-        }
-
-        function selectBook(doc, author, year) {
-            const highResPoster = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg` : 'https://via.placeholder.com/150x220?text=Sem+Capa';
-            const bookId = doc.key ? doc.key.replace('/works/', '') : (doc.cover_i || 'b_' + Date.now());
-
-            selectedBookData = {
-                id: bookId,
-                title: doc.title,
-                author: author,
-                artist: author,
-                year: year,
-                poster: highResPoster
-            };
-
-            selectedBookCover.src = highResPoster;
-            selectedBookTitle.textContent = doc.title;
-            selectedBookAuthor.textContent = `${author} (${year})`;
-            selectedBookContainer.classList.remove('hidden');
-            bookSearchBoxWrapper.style.display = 'none';
-            bookResults.style.display = 'none';
-            bookSearchInput.value = '';
-            
-            stepBookReview.classList.remove('hidden');
-            showToast("Livro selecionado para avaliação!");
-        }
-
-        btnChangeBook.addEventListener('click', () => {
-            selectedBookContainer.classList.add('hidden');
-            bookSearchBoxWrapper.style.display = 'block';
-            stepBookReview.classList.add('hidden');
-            bookSearchInput.value = '';
-            bookSearchInput.focus();
-        });
-
-        // Configuração das estrelas na Aba de Livros
-        setupStarRating(bookStarContainer, bookUserRating, bookRatingFeedbackText);
-
-        bookUserComment.addEventListener('input', () => {
-            bookCharCounter.textContent = `${bookUserComment.value.length} / 500 caracteres`;
-        });
-
-        bookReviewForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!selectedBookData) {
-                alert('Selecione um livro primeiro.');
-                return;
-            }
-
-            const rating = parseInt(bookUserRating.value);
-            const comment = bookUserComment.value.trim();
-
-            if (rating === 0) {
-                alert('Por favor, selecione ao menos uma estrela para o livro.');
-                return;
-            }
-
-            const myReview = {
-                uid: currentUser.uid,
-                name: userNametag,
-                rating: rating,
-                comment: comment,
-                likes: {}, 
-                timestamp: Date.now()
-            };
-
-            const bookLibId = `book_${selectedBookData.id}`;
-            try {
-                const existingRef = ref(db, `library/${bookLibId}/reviews`);
-                const snap = await get(existingRef);
-                let currentReviews = snap.exists() ? snap.val() : {};
-                currentReviews[currentUser.uid] = myReview;
-
-                await set(ref(db, `library/${bookLibId}`), {
-                    type: 'book',
-                    movie: selectedBookData,
-                    reviews: currentReviews,
-                    updatedAt: Date.now()
-                });
-
-                showToast("Avaliação do livro salva com sucesso!");
-                switchTab('view-library');
-            } catch (err) {
-                console.error("Erro ao salvar livro:", err);
-                alert("Erro ao salvar avaliação do livro. Verifique as permissões.");
-            }
-        });
-
         let albumSearchTimeout;
         albumSearchInput.addEventListener('input', (e) => {
             clearTimeout(albumSearchTimeout);
@@ -3201,7 +3168,7 @@
 
         const ratingLabels = {
             1: "⭐ Ruim (Precisa melhorar)",
-            2: "⭐⭐ Regular (Dá para escutar/ler)",
+            2: "⭐⭐ Regular (Dá para aguentar)",
             3: "⭐⭐⭐ Bom (Curti)",
             4: "⭐⭐⭐⭐ Muito Bom (Recomendo!)",
             5: "⭐⭐⭐⭐⭐ Obra-Prima (Perfeito!)"
@@ -3315,10 +3282,7 @@
                     const roomData = roomSnap.val();
                     const allReviews = roomData.reviews || {};
                     const evalType = roomData.evaluationType || 'movie';
-                    
-                    let targetItem = roomData.movie;
-                    if (evalType === 'music') targetItem = roomData.album;
-                    else if (evalType === 'book') targetItem = roomData.book;
+                    const targetItem = evalType === 'music' ? roomData.album : (evalType === 'book' ? roomData.book : roomData.movie);
 
                     if (targetItem) {
                         let highResPoster = targetItem.poster;
@@ -3460,12 +3424,13 @@
                     if (reviews.length === 0) return;
 
                     const itemId = item.movie?.id || k;
+                    const type = item.type || 'movie';
 
-                    if (item.type === 'music') {
+                    if (type === 'music') {
                         if (!uniqueMusicMap.has(itemId) || item.updatedAt > uniqueMusicMap.get(itemId).updatedAt) {
                             uniqueMusicMap.set(itemId, { key: k, item });
                         }
-                    } else if (item.type === 'book') {
+                    } else if (type === 'book') {
                         if (!uniqueBooksMap.has(itemId) || item.updatedAt > uniqueBooksMap.get(itemId).updatedAt) {
                             uniqueBooksMap.set(itemId, { key: k, item });
                         }
@@ -3489,7 +3454,7 @@
                     bookContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
                     document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>';
-                    document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>';
+                    document.getElementById('bookCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>';
                     featuredMoviesOnly = [];
                     featuredMusicOnly = [];
                     featuredBooksOnly = [];
@@ -3502,7 +3467,7 @@
                 
                 renderMovieCircularCarousel();
                 renderMusicCircularCarousel();
-                renderBooksCircularCarousel();
+                renderBookCircularCarousel();
 
                 if (validMovies.length === 0) {
                     movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
@@ -3532,7 +3497,7 @@
             });
         }
 
-        function renderLibraryCard(k, item, container, isMovieCard) {
+        function renderLibraryCard(k, item, container, isVerticalCard) {
             const reviews = Object.values(item.reviews || {});
             let similarity = 100;
             if (reviews.length >= 2) {
@@ -3548,7 +3513,7 @@
             }
 
             const card = document.createElement('div');
-            card.className = `library-card ${isMovieCard ? 'movie-card' : ''}`;
+            card.className = `library-card ${isVerticalCard ? 'movie-card' : ''}`;
             card.title = `${item.movie.title} - Clique para abrir avaliações`;
 
             card.innerHTML = `
@@ -3654,8 +3619,8 @@
             });
         }
 
-        function renderBooksCircularCarousel() {
-            const stage = document.getElementById('booksCoverflowStage');
+        function renderBookCircularCarousel() {
+            const stage = document.getElementById('bookCoverflowStage');
             if (!stage) return;
             if (featuredBooksOnly.length === 0) {
                 stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum livro no destaque ainda.</p>';
@@ -3762,7 +3727,7 @@
                         <img src="${posterUrlModal}" alt="Poster">
                         <div style="flex: 1; min-width: 0;">
                             <h3 style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${item.movie.title}</h3>
-                            <p style="color:var(--text-muted); font-size: 13px; font-weight: 700;">${item.movie.author || item.movie.artist ? (item.movie.author || item.movie.artist) + ' • ' : ''}Ano: ${item.movie.year}</p>
+                            <p style="color:var(--text-muted); font-size: 13px; font-weight: 700;">${item.movie.author ? 'Autor: ' + item.movie.author + ' | ' : ''}Ano: ${item.movie.year}</p>
                         </div>
                     </div>
 
