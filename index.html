@@ -971,6 +971,120 @@
             filter: brightness(1.15);
         }
 
+        /* ==========================================================================
+           ESTILOS DOS DISCOS DE VINIL GIRATÓRIOS PARA MÚSICA
+           ========================================================================== */
+        .vinyl-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: 340px;
+            width: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .vinyl-item-wrapper {
+            position: absolute;
+            cursor: pointer;
+            width: 250px;
+            height: 250px;
+            transition: transform 0.5s ease, filter 0.3s ease;
+        }
+
+        .vinyl-record {
+            width: 240px;
+            height: 240px;
+            background: #111111;
+            border-radius: 50%;
+            border: 4px solid var(--border-color);
+            box-shadow: var(--box-shadow-lg);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: spinVinyl 6s linear infinite;
+        }
+
+        /* Sulcos do Vinil (Grooves) */
+        .vinyl-record::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px dashed rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 45px;
+            left: 45px;
+            right: 45px;
+            bottom: 45px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vinyl-cover-center {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .vinyl-cover-center img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Capa do disco saindo levemente para o lado com efeito brutalista */
+        .vinyl-sleeve-peek {
+            position: absolute;
+            right: -35px;
+            top: 20px;
+            width: 180px;
+            height: 180px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            background: #fff;
+            z-index: 5;
+            transition: transform 0.3s ease;
+        }
+
+        .vinyl-sleeve-peek img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .vinyl-item-wrapper:hover .vinyl-sleeve-peek {
+            transform: translateX(10px) scale(1.05);
+        }
+
+        .vinyl-item-wrapper:hover .vinyl-record {
+            animation-duration: 2.5s; /* Gira mais rápido ao passar o mouse */
+        }
+
+
         /* --- ESTANTE DE LIVROS REALISTA COM LOMBADAS VERTICAIS --- */
         .bookshelf-wrapper {
             background: var(--card-bg);
@@ -1613,9 +1727,9 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
-            <!-- CARROSSEL PARA MÚSICA -->
+            <!-- CARROSSEL DE DISCOS DE VINIL PARA MÚSICA -->
             <div class="featured-hero-carousel" id="musicHeroCarouselSection">
-                <div class="coverflow-stage" id="musicCoverflowStage">
+                <div class="vinyl-stage" id="musicCoverflowStage">
                     <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum álbum no destaque ainda.</p>
                 </div>
             </div>
@@ -3676,7 +3790,7 @@
                 featuredBooksOnly = validBooks;
 
                 renderMovieCircularCarousel();
-                renderMusicCircularCarousel();
+                renderMusicVinylCarousel();
                 renderBooksShelf();
 
                 if (validMovies.length === 0) {
@@ -3793,7 +3907,8 @@
             });
         }
 
-        function renderMusicCircularCarousel() {
+        /* --- RENDERIZAÇÃO DOS DISCOS DE VINIL GIRATÓRIOS --- */
+        function renderMusicVinylCarousel() {
             const stage = document.getElementById('musicCoverflowStage');
             if (!stage) return;
             if (featuredMusicOnly.length === 0) {
@@ -3803,8 +3918,8 @@
 
             stage.innerHTML = '';
             const total = featuredMusicOnly.length;
-            const baseRadius = 200;
-            const dynamicRadius = Math.max(baseRadius, total * 38);
+            const baseRadius = 190;
+            const dynamicRadius = Math.max(baseRadius, total * 45);
 
             featuredMusicOnly.forEach((entry, idx) => {
                 const angle = (idx / total) * 360;
@@ -3815,12 +3930,19 @@
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `coverflow-item music-cover-item`;
+                itemDiv.className = `vinyl-item-wrapper`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
                 itemDiv.style.transform = `rotateY(${angle}deg) translateZ(${dynamicRadius}px)`;
 
                 itemDiv.innerHTML = `
-                    <img src="${posterUrl}" alt="${entry.item.movie.title}">
+                    <div class="vinyl-record">
+                        <div class="vinyl-cover-center">
+                            <img src="${posterUrl}" alt="${entry.item.movie.title}">
+                        </div>
+                    </div>
+                    <div class="vinyl-sleeve-peek">
+                        <img src="${posterUrl}" alt="${entry.item.movie.title}">
+                    </div>
                 `;
 
                 itemDiv.addEventListener('click', () => {
