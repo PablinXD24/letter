@@ -1729,24 +1729,27 @@
                     return;
                 }
 
-                const uid = tagSnap.val();
+                const tagVal = tagSnap.val();
+                const uid = (typeof tagVal === 'object' && tagVal !== null) ? tagVal.uid : tagVal;
+                const tagEmail = (typeof tagVal === 'object' && tagVal !== null) ? (tagVal.email || '') : '';
+
                 const userSnap = await get(ref(db, `users/${uid}`));
-                if (!userSnap.exists()) {
-                    alert("Dados do usuário não encontrados.");
-                    return;
-                }
+                const userData = userSnap.exists() ? userSnap.val() : {};
 
                 userNametag = tag;
                 localStorage.setItem('cinemozi_logged_tag', tag);
                 
-                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
+                currentUser = { 
+                    uid: uid, 
+                    email: userData.email || tagEmail || '', 
+                    photoURL: userData.photoURL || null 
+                };
                 
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
                 document.getElementById('profileEditNametagInput').value = tag;
                 document.getElementById('profileViewEmail').textContent = currentUser.email;
 
                 stepAuth.classList.add('hidden');
-                stepNametag.classList.add('hidden');
                 startApplication();
                 showToast(`Bem-vindo de volta, @${tag}!`);
             } catch (error) {
@@ -1767,11 +1770,17 @@
                     return;
                 }
 
-                await remove(ref(db, `nametags/${userNametag}`));
-                await set(ref(db, `nametags/${newTag}`), currentUser.uid);
+                if (userNametag) {
+                    await remove(ref(db, `nametags/${userNametag}`));
+                }
+
+                await set(ref(db, `nametags/${newTag}`), {
+                    uid: currentUser.uid,
+                    email: currentUser.email || ''
+                });
 
                 const userRef = ref(db, `users/${currentUser.uid}`);
-                await update(userRef, { nametag: newTag });
+                await update(userRef, { nametag: newTag, email: currentUser.email || '' });
 
                 userNametag = newTag;
                 localStorage.setItem('cinemozi_logged_tag', newTag);
@@ -1807,26 +1816,6 @@
                         document.getElementById('profileEditNametagInput').value = userNametag;
                         await update(userRef, { lastLogin: Date.now() });
                         startApplication();
-                    } else if (localStorage.getItem('cinemozi_logged_tag')) {
-                        const savedTag = localStorage.getItem('cinemozi_logged_tag');
-                        const tagSnap = await get(ref(db, `nametags/${savedTag}`));
-                        if (tagSnap.exists()) {
-                            const uid = tagSnap.val();
-                            const userSnap = await get(ref(db, `users/${uid}`));
-                            if (userSnap.exists()) {
-                                userNametag = savedTag;
-                                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
-                                document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
-                                document.getElementById('profileEditNametagInput').value = savedTag;
-                                document.getElementById('profileViewEmail').textContent = currentUser.email || '';
-                                stepNametag.classList.add('hidden');
-                                startApplication();
-                            } else {
-                                stepNametag.classList.remove('hidden');
-                            }
-                        } else {
-                            stepNametag.classList.remove('hidden');
-                        }
                     } else {
                         stepNametag.classList.remove('hidden');
                     }
@@ -1843,18 +1832,25 @@
                         }
                         const tagSnap = await get(ref(db, `nametags/${savedTag}`));
                         if (tagSnap.exists()) {
-                            const uid = tagSnap.val();
+                            const tagVal = tagSnap.val();
+                            const uid = (typeof tagVal === 'object' && tagVal !== null) ? tagVal.uid : tagVal;
+                            const tagEmail = (typeof tagVal === 'object' && tagVal !== null) ? (tagVal.email || '') : '';
+
                             const userSnap = await get(ref(db, `users/${uid}`));
-                            if (userSnap.exists()) {
-                                userNametag = savedTag;
-                                currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
-                                document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
-                                document.getElementById('profileEditNametagInput').value = savedTag;
-                                document.getElementById('profileViewEmail').textContent = currentUser.email;
-                                stepAuth.classList.add('hidden');
-                                startApplication();
-                                return;
-                            }
+                            const userData = userSnap.exists() ? userSnap.val() : {};
+
+                            userNametag = savedTag;
+                            currentUser = { 
+                                uid: uid, 
+                                email: userData.email || tagEmail || '', 
+                                photoURL: userData.photoURL || null 
+                            };
+                            document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
+                            document.getElementById('profileEditNametagInput').value = savedTag;
+                            document.getElementById('profileViewEmail').textContent = currentUser.email;
+                            stepAuth.classList.add('hidden');
+                            startApplication();
+                            return;
                         }
                     } catch (e) {
                         console.error("Erro ao recuperar sessão por nametag:", e);
@@ -1875,6 +1871,10 @@
             if (!tag) return;
 
             try {
+                if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                }
+
                 const tagSnap = await get(ref(db, `nametags/${tag}`));
                 if (tagSnap.exists()) {
                     alert("Esta Nametag já está em uso. Escolha outra.");
@@ -1883,11 +1883,14 @@
 
                 await set(ref(db, `users/${currentUser.uid}`), {
                     uid: currentUser.uid,
-                    email: currentUser.email,
+                    email: currentUser.email || '',
                     nametag: tag,
                     lastLogin: Date.now()
                 });
-                await set(ref(db, `nametags/${tag}`), currentUser.uid);
+                await set(ref(db, `nametags/${tag}`), {
+                    uid: currentUser.uid,
+                    email: currentUser.email || ''
+                });
 
                 userNametag = tag;
                 localStorage.setItem('cinemozi_logged_tag', tag);
@@ -3522,7 +3525,9 @@
                     return;
                 }
 
-                const friendUid = tagSnap.val();
+                const tagVal = tagSnap.val();
+                const friendUid = (typeof tagVal === 'object' && tagVal !== null) ? tagVal.uid : tagVal;
+
                 await set(ref(db, `users/${currentUser.uid}/friends/${friendUid}`), {
                     uid: friendUid,
                     nametag: friendTag,
