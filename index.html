@@ -972,102 +972,145 @@
         }
 
         /* ==========================================================================
-           ESTILOS DA PILHA CRIATIVA DE DISCOS DE VINIL
+           NOVO CARROSSEL DE VINIS EM FILEIRA HORIZONTAL COM ANIMAÇÃO DE MOVIMENTO
            ========================================================================== */
-        .vinyl-stack-wrapper {
+        .vinyl-marquee-wrapper {
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 16px;
+            box-shadow: var(--box-shadow-lg);
+            margin-bottom: 24px;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .vinyl-marquee-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .vinyl-marquee-title {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--border-color);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            height: 280px;
-            width: 100%;
-            padding: 20px 0;
+            gap: 8px;
+            padding-left: 8px;
         }
 
-        .vinyl-stack-container {
-            position: relative;
-            width: 240px;
-            height: 240px;
+        .vinyl-marquee-track {
+            display: flex;
+            gap: 24px;
+            width: max-content;
+            animation: marqueeSlide 25s linear infinite;
+            padding: 10px 0;
+        }
+
+        /* Pausa a animação automática ao passar o mouse ou focar no mobile */
+        .vinyl-marquee-wrapper:hover .vinyl-marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .vinyl-marquee-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 180px;
+            flex-shrink: 0;
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: var(--box-shadow);
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .vinyl-stack-item {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 240px;
-            height: 240px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .vinyl-marquee-item:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 6px 6px 0px #111;
         }
 
-        .vinyl-record {
-            width: 240px;
-            height: 240px;
+        .vinyl-marquee-disc {
+            width: 140px;
+            height: 140px;
             background: #111111;
             border-radius: 50%;
-            border: 4px solid var(--border-color);
-            box-shadow: var(--box-shadow-lg);
+            border: 3px solid var(--border-color);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
             animation: spinVinyl 8s linear infinite;
         }
 
-        /* Sulcos do Vinil (Grooves) */
-        .vinyl-record::before {
+        .vinyl-marquee-wrapper:hover .vinyl-marquee-disc {
+            animation-duration: 3s;
+        }
+
+        .vinyl-marquee-disc::before {
             content: '';
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
             border: 2px dashed rgba(255, 255, 255, 0.12);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        .vinyl-record::after {
-            content: '';
-            position: absolute;
-            top: 50px;
-            left: 50px;
-            right: 50px;
-            bottom: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        @keyframes spinVinyl {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .vinyl-cover-center {
-            width: 96px;
-            height: 96px;
+        .vinyl-marquee-label {
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             overflow: hidden;
             border: 2px solid var(--border-color);
             position: relative;
             z-index: 2;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
 
-        .vinyl-cover-center img {
+        .vinyl-marquee-label img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* Ao passar o mouse na pilha, eles se espalham de forma criativa e elegante para ver todos os álbuns */
-        .vinyl-stack-container:hover .vinyl-stack-item {
-            transform: var(--hover-transform) !important;
+        .vinyl-marquee-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--border-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            text-align: center;
+            margin-top: 4px;
         }
-        .vinyl-stack-container:hover .vinyl-record {
-            animation-duration: 3s;
+
+        .vinyl-marquee-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            text-align: center;
+        }
+
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
 
@@ -1713,12 +1756,13 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
-            <!-- PILHA CRIATIVA DE DISCOS DE VINIL -->
-            <div class="featured-hero-carousel" id="musicHeroCarouselSection">
-                <div class="vinyl-stack-wrapper">
-                    <div class="vinyl-stack-container" id="musicCoverflowStage">
-                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>
-                    </div>
+            <!-- CARROSSEL DE VINIS EM FILEIRA HORIZONTAL (MARQUEE) -->
+            <div class="vinyl-marquee-wrapper" id="musicHeroCarouselSection">
+                <div class="vinyl-marquee-title">
+                    <i class="fa-solid fa-record-vinyl" style="color: var(--pink);"></i> Coleção de Vinis Avaliados
+                </div>
+                <div id="musicCoverflowStage" style="overflow: hidden; width: 100%;">
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding: 20px 0;">Nenhum álbum avaliado ainda.</p>
                 </div>
             </div>
 
@@ -3765,7 +3809,7 @@
                     musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
                     if (booksContainer) booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
-                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
+                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding: 20px 0;">Nenhum álbum avaliado ainda.</p>';
                     if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                     featuredMoviesOnly = [];
                     featuredMusicOnly = [];
@@ -3778,7 +3822,7 @@
                 featuredBooksOnly = validBooks;
 
                 renderMovieCircularCarousel();
-                renderMusicVinylStack();
+                renderMusicVinylMarquee();
                 renderBooksShelf();
 
                 if (validMovies.length === 0) {
@@ -3895,54 +3939,87 @@
             });
         }
 
-        /* --- RENDERIZAÇÃO DA PILHA CRIATIVA DE DISCOS DE VINIL --- */
-        function renderMusicVinylStack() {
+        /* --- RENDERIZAÇÃO DO CARROSSEL DE VINIS (MARQUEE HORIZONTAL COM SCROLL E ARRASTE MOBILE) --- */
+        function renderMusicVinylMarquee() {
             const stage = document.getElementById('musicCoverflowStage');
-            if (!stage) return;
+            const wrapper = document.getElementById('musicHeroCarouselSection');
+            if (!stage || !wrapper) return;
             if (featuredMusicOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding: 20px 0;">Nenhum álbum avaliado ainda.</p>';
                 return;
             }
 
             stage.innerHTML = '';
-            const total = featuredMusicOnly.length;
+            
+            const trackDiv = document.createElement('div');
+            trackDiv.className = 'vinyl-marquee-track';
 
-            featuredMusicOnly.forEach((entry, idx) => {
+            // Duplicamos os itens para garantir o efeito de looping infinito contínuo da fileira
+            const itemsToRender = [...featuredMusicOnly, ...featuredMusicOnly, ...featuredMusicOnly];
+
+            itemsToRender.forEach((entry) => {
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
                     posterUrl = posterUrl.replace('/w92/', '/w500/');
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `vinyl-stack-item`;
+                itemDiv.className = `vinyl-marquee-item`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
-                
-                // Posição padrão empilhada no centro com leve variação de escala/posição para dar efeito 3D de pilha
-                const baseZIndex = total - idx;
-                const baseRotate = (idx * 5) % 15 - 7; // Rotações suaves alternadas
-                itemDiv.style.zIndex = baseZIndex;
-                itemDiv.style.transform = `translateY(${idx * -6}px) rotate(${baseRotate}deg) scale(${1 - (idx * 0.03)})`;
-
-                // Posição expandida criativa ao passar o mouse na pilha
-                const angleSpread = (idx - (total - 1) / 2) * 55; // Espalha os vinis em leque horizontal
-                const offsetYSpread = -15 - (idx * 5);
-                itemDiv.style.setProperty('--hover-transform', `translateX(${angleSpread}px) translateY(${offsetYSpread}px) rotate(${angleSpread * 0.25}deg) scale(1.05)`);
 
                 itemDiv.innerHTML = `
-                    <div class="vinyl-record">
-                        <div class="vinyl-cover-center">
+                    <div class="vinyl-marquee-disc">
+                        <div class="vinyl-marquee-label">
                             <img src="${posterUrl}" alt="${entry.item.movie.title}">
                         </div>
                     </div>
+                    <span class="vinyl-marquee-name">${entry.item.movie.title}</span>
+                    <span class="vinyl-marquee-sub">${entry.item.movie.artist || entry.item.movie.year || ''}</span>
                 `;
 
-                itemDiv.addEventListener('click', (e) => {
-                    e.stopPropagation();
+                itemDiv.addEventListener('click', () => {
                     openLibraryModal(entry.key);
                 });
 
-                stage.appendChild(itemDiv);
+                trackDiv.appendChild(itemDiv);
             });
+
+            stage.appendChild(trackDiv);
+
+            // Suporte a interatividade mobile e scroll (girar scroll ou arrastar com o dedo para passar os discos)
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            wrapper.onpointerdown = (e) => {
+                isDown = true;
+                wrapper.setPointerCapture(e.pointerId);
+                startX = e.clientX - wrapper.offsetLeft;
+                scrollLeft = wrapper.scrollLeft;
+            };
+
+            wrapper.onpointermove = (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.clientX - wrapper.offsetLeft;
+                const walk = (x - startX) * 2; // Velocidade de arrasto
+                wrapper.scrollLeft = scrollLeft - walk;
+            };
+
+            wrapper.onpointerup = (e) => {
+                isDown = false;
+                try { wrapper.releasePointerCapture(e.pointerId); } catch(err) {}
+            };
+
+            wrapper.onpointercancel = (e) => {
+                isDown = false;
+            };
+
+            // Girar o scroll do mouse ou gesto vertical/horizontal no trackpad/mobile move o carrossel fluentemente
+            wrapper.onwheel = (e) => {
+                e.preventDefault();
+                wrapper.scrollLeft += (e.deltaY !== 0 ? e.deltaY : e.deltaX);
+            };
         }
 
         /* --- RENDERIZAÇÃO DA ESTANTE DE LOMBADAS VERTICAIS --- */
