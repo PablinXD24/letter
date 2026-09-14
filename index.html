@@ -1584,7 +1584,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
         import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -1719,10 +1719,6 @@
             if (!tag) return;
 
             try {
-                if (!auth.currentUser) {
-                    await signInAnonymously(auth);
-                }
-
                 const tagSnap = await get(ref(db, `nametags/${tag}`));
                 if (!tagSnap.exists()) {
                     alert("Nametag não encontrada. Verifique ou entre com o Google.");
@@ -1827,9 +1823,6 @@
                 const savedTag = localStorage.getItem('cinemozi_logged_tag');
                 if (savedTag && !currentUser) {
                     try {
-                        if (!auth.currentUser) {
-                            await signInAnonymously(auth);
-                        }
                         const tagSnap = await get(ref(db, `nametags/${savedTag}`));
                         if (tagSnap.exists()) {
                             const tagVal = tagSnap.val();
@@ -1871,10 +1864,6 @@
             if (!tag) return;
 
             try {
-                if (!auth.currentUser) {
-                    await signInAnonymously(auth);
-                }
-
                 const tagSnap = await get(ref(db, `nametags/${tag}`));
                 if (tagSnap.exists()) {
                     alert("Esta Nametag já está em uso. Escolha outra.");
@@ -3223,7 +3212,7 @@
                 const item = snapshot.val();
                 const reviewsObj = item.reviews || {};
                 const reviewsArray = Object.values(reviewsObj);
-                const myReview = reviewsObj[currentUser.uid] || { rating: 0, comment: '', tracks: {}, likes: {} };
+                const myReview = reviewsObj[currentUser?.uid] || { rating: 0, comment: '', tracks: {}, likes: {} };
 
                 let similarity = 100;
                 let totalRatingPercent = Math.round((myReview.rating / 5) * 100);
@@ -3308,7 +3297,7 @@
                     <div class="comparison-grid" style="margin-bottom: 1rem;">
                         ${reviewsArray.map(rev => {
                             const likesCount = rev.likes ? Object.keys(rev.likes).length : 0;
-                            const hasLiked = rev.likes && rev.likes[currentUser.uid];
+                            const hasLiked = currentUser && rev.likes && rev.likes[currentUser.uid];
                             
                             return `
                             <div class="review-box review-box-dblclick" data-revuid="${rev.uid}" style="margin-bottom: 0; position: relative; cursor: pointer; user-select: none;" title="Dê 2 cliques para curtir!">
@@ -3320,7 +3309,7 @@
                                     <i class="${hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="filter: drop-shadow(2px 2px 0px #111);"></i> <span style="font-size: 13px; font-weight: 800; color: var(--border-color);">${likesCount > 0 ? likesCount : ''}</span>
                                 </div>
                                 
-                                ${rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
+                                ${currentUser && rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
                             </div>
                             `;
                         }).join('')}
@@ -3359,6 +3348,10 @@
                     let lastClickTime = 0;
                     box.addEventListener('click', async (e) => {
                         if (e.target.closest('#toggleEditBtn')) return;
+                        if (!currentUser) {
+                            alert("Faça login para curtir avaliações.");
+                            return;
+                        }
                         
                         const currentTime = new Date().getTime();
                         if (currentTime - lastClickTime < 400) {
@@ -3442,6 +3435,7 @@
 
                 document.getElementById('modalReviewForm').addEventListener('submit', async (e) => {
                     e.preventDefault();
+                    if (!currentUser) return;
                     const newRating = parseInt(modalRatingInput.value);
                     const newComment = document.getElementById('modalUserComment').value.trim();
 
@@ -3543,6 +3537,7 @@
         });
 
         function loadChatContacts() {
+            if (!currentUser) return;
             const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
             onValue(friendsRef, (snapshot) => {
                 const friends = snapshot.val() || {};
@@ -3601,7 +3596,7 @@
         }
 
         function loadChatMessages() {
-            if (!activeChatUserId) return;
+            if (!activeChatUserId || !currentUser) return;
             const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
             const chatRef = ref(db, `chats/${chatId}/messages`);
 
@@ -3641,7 +3636,7 @@
 
         async function sendChatMessage() {
             const text = chatInputMessage.value.trim();
-            if (!text || !activeChatUserId) return;
+            if (!text || !activeChatUserId || !currentUser) return;
 
             const chatId = getChatRoomId(currentUser.uid, activeChatUserId);
             const messagesRef = ref(db, `chats/${chatId}/messages`);
