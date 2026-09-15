@@ -972,7 +972,7 @@
         }
 
         /* ==========================================================================
-           ESTILOS DA PILHA CRIATIVA E CARROSSEL DINÂMICO DE DISCOS DE VINIL
+           ESTILOS DA PILHA DE VINIS & CARROSSEL EXATO DOS ÁLBUNS ESCUTADOS
            ========================================================================== */
         .vinyl-stack-wrapper {
             display: flex;
@@ -993,6 +993,9 @@
             height: 240px;
             cursor: pointer;
             transition: transform 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .vinyl-stack-item {
@@ -1065,25 +1068,26 @@
             object-fit: cover;
         }
 
-        /* Animação contínua da fileira andando para o lado quando expandido */
-        @keyframes vinylCarouselSlide {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
+        /* Modo carrossel ativo com a quantidade exata de álbuns escutados */
         .vinyl-stack-wrapper.carousel-active .vinyl-stack-container {
-            width: 100%;
+            width: auto;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            animation: vinylCarouselSlide 20s linear infinite;
+            gap: 25px;
+            animation: vinylCarouselSlide 25s linear infinite;
+        }
+
+        @keyframes vinylCarouselSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .vinyl-stack-wrapper.carousel-active .vinyl-stack-item {
             position: relative !important;
             transform: none !important;
             flex-shrink: 0;
-            margin-right: 25px;
+            margin-right: 0;
             width: 200px !important;
             height: 200px !important;
         }
@@ -1094,7 +1098,6 @@
             animation-duration: 4s;
         }
 
-        /* Pausa a animação automática ao passar o mouse para explorar tranquilamente */
         .vinyl-stack-wrapper.carousel-active:hover .vinyl-stack-container {
             animation-play-state: paused;
         }
@@ -1145,7 +1148,6 @@
             z-index: 1;
         }
 
-        /* Estrutura de Madeira Brutalista */
         .bookshelf-wooden-plank {
             height: 18px;
             background: #D4A373;
@@ -1157,7 +1159,6 @@
             z-index: 5;
         }
 
-        /* Livro individual em formato de lombada na prateleira */
         .bookshelf-spine-item {
             position: relative;
             flex-shrink: 0;
@@ -1221,7 +1222,6 @@
             flex-shrink: 0;
         }
 
-        /* Efeito ao passar o mouse: Livro puxado para fora da estante */
         .bookshelf-spine-item:hover {
             transform: translateY(-24px) scale(1.15) rotate(-3deg);
             z-index: 100;
@@ -1229,7 +1229,6 @@
             border-color: #ffffff;
         }
 
-        /* Card Preview Flutuante com Animação ao Passar o Mouse */
         .bookshelf-preview-card {
             position: absolute;
             bottom: 100%;
@@ -1742,7 +1741,7 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
-            <!-- PILHA DE VINIS & CARROSSEL DINÂMICO -->
+            <!-- PILHA DE VINIS & CARROSSEL EXATO DOS ÁLBUNS -->
             <div class="featured-hero-carousel" id="musicHeroCarouselSection">
                 <div class="vinyl-stack-wrapper" id="vinylStackWrapperBox">
                     <div class="vinyl-stack-container" id="musicCoverflowStage">
@@ -3924,7 +3923,7 @@
             });
         }
 
-        /* --- RENDERIZAÇÃO DA PILHA DE VINIS COM CARROSSEL DINÂMICO E SUPORTE MOBILE --- */
+        /* --- RENDERIZAÇÃO DA PILHA DE VINIS & CARROSSEL EXATO DOS ÁLBUNS ESCUTADOS --- */
         function renderMusicVinylStack() {
             const stage = document.getElementById('musicCoverflowStage');
             const wrapper = document.getElementById('vinylStackWrapperBox');
@@ -3939,10 +3938,8 @@
             stage.innerHTML = '';
             const total = featuredMusicOnly.length;
 
-            // Duplicamos os itens se forem poucos para o carrossel contínuo deslizar perfeitamente
-            const renderList = total < 4 ? [...featuredMusicOnly, ...featuredMusicOnly, ...featuredMusicOnly] : [...featuredMusicOnly, ...featuredMusicOnly];
-
-            renderList.forEach((entry, idx) => {
+            // Renderiza exatamente a quantidade de álbuns avaliados/escutados (sem duplicações extras)
+            featuredMusicOnly.forEach((entry, idx) => {
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
                     posterUrl = posterUrl.replace('/w92/', '/w500/');
@@ -3952,11 +3949,11 @@
                 itemDiv.className = `vinyl-stack-item`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
                 
-                // Posição padrão de pilha empilhada no centro
-                const baseZIndex = total - (idx % total);
-                const baseRotate = ((idx % total) * 5) % 15 - 7;
+                // Posição padrão em pilha no centro
+                const baseZIndex = total - idx;
+                const baseRotate = (idx * 5) % 15 - 7;
                 itemDiv.style.zIndex = baseZIndex;
-                itemDiv.style.transform = `translateY(${(idx % total) * -5}px) rotate(${baseRotate}deg) scale(${1 - ((idx % total) * 0.02)})`;
+                itemDiv.style.transform = `translateY(${idx * -5}px) rotate(${baseRotate}deg) scale(${1 - (idx * 0.02)})`;
 
                 itemDiv.innerHTML = `
                     <div class="vinyl-record">
@@ -4392,7 +4389,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${friendTag}`));
                 if (!tagSnap.exists()) {
-                    alert(" Esta Nametag não foi encontrada.");
+                    alert("Esta Nametag não foi encontrada.");
                     return;
                 }
 
