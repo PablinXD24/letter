@@ -972,145 +972,131 @@
         }
 
         /* ==========================================================================
-           NOVO CARROSSEL DE VINIS EM FILEIRA HORIZONTAL COM ANIMAÇÃO DE MOVIMENTO
+           ESTILOS DA PILHA CRIATIVA E CARROSSEL DINÂMICO DE DISCOS DE VINIL
            ========================================================================== */
-        .vinyl-marquee-wrapper {
-            background: var(--card-bg);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px 16px;
-            box-shadow: var(--box-shadow-lg);
-            margin-bottom: 24px;
-            overflow: hidden;
+        .vinyl-stack-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            cursor: grab;
+            height: 290px;
+            width: 100%;
+            padding: 20px 0;
+            overflow: hidden;
+            touch-action: pan-y;
             user-select: none;
         }
 
-        .vinyl-marquee-wrapper:active {
-            cursor: grabbing;
-        }
-
-        .vinyl-marquee-title {
-            font-size: 14px;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--border-color);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding-left: 8px;
-        }
-
-        .vinyl-marquee-track {
-            display: flex;
-            gap: 24px;
-            width: max-content;
-            animation: marqueeSlide 25s linear infinite;
-            padding: 10px 0;
-        }
-
-        /* Pausa a animação automática ao passar o mouse ou focar no mobile */
-        .vinyl-marquee-wrapper:hover .vinyl-marquee-track {
-            animation-play-state: paused;
-        }
-
-        @keyframes marqueeSlide {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .vinyl-marquee-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 180px;
-            flex-shrink: 0;
-            background: #fff;
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: var(--box-shadow);
+        .vinyl-stack-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.4s ease;
         }
 
-        .vinyl-marquee-item:hover {
-            transform: translateY(-6px) scale(1.03);
-            box-shadow: 6px 6px 0px #111;
+        .vinyl-stack-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 240px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .vinyl-marquee-disc {
-            width: 140px;
-            height: 140px;
+        .vinyl-record {
+            width: 240px;
+            height: 240px;
             background: #111111;
             border-radius: 50%;
-            border: 3px solid var(--border-color);
+            border: 4px solid var(--border-color);
+            box-shadow: var(--box-shadow-lg);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
-            box-shadow: var(--box-shadow);
             animation: spinVinyl 8s linear infinite;
         }
 
-        .vinyl-marquee-wrapper:hover .vinyl-marquee-disc {
-            animation-duration: 3s;
-        }
-
-        .vinyl-marquee-disc::before {
+        /* Sulcos do Vinil (Grooves) */
+        .vinyl-record::before {
             content: '';
             position: absolute;
-            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
             border: 2px dashed rgba(255, 255, 255, 0.12);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        .vinyl-marquee-label {
-            width: 54px;
-            height: 54px;
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            right: 50px;
+            bottom: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid var(--border-color);
-            position: relative;
-            z-index: 2;
-        }
-
-        .vinyl-marquee-label img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .vinyl-marquee-name {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--border-color);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-            text-align: center;
-            margin-top: 4px;
-        }
-
-        .vinyl-marquee-sub {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-            text-align: center;
+            pointer-events: none;
         }
 
         @keyframes spinVinyl {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+
+        .vinyl-cover-center {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .vinyl-cover-center img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Animação contínua da fileira andando para o lado quando expandido */
+        @keyframes vinylCarouselSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .vinyl-stack-wrapper.carousel-active .vinyl-stack-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            animation: vinylCarouselSlide 20s linear infinite;
+        }
+
+        .vinyl-stack-wrapper.carousel-active .vinyl-stack-item {
+            position: relative !important;
+            transform: none !important;
+            flex-shrink: 0;
+            margin-right: 25px;
+            width: 200px !important;
+            height: 200px !important;
+        }
+
+        .vinyl-stack-wrapper.carousel-active .vinyl-record {
+            width: 200px !important;
+            height: 200px !important;
+            animation-duration: 4s;
+        }
+
+        /* Pausa a animação automática ao passar o mouse para explorar tranquilamente */
+        .vinyl-stack-wrapper.carousel-active:hover .vinyl-stack-container {
+            animation-play-state: paused;
         }
 
 
@@ -1620,7 +1606,7 @@
                 </div>
                 
                 <div id="selectedMovieContainer" class="selected-movie-preview hidden">
-                    <img id="selectedMoviePoster" src="" alt="Poster">
+                    <img id="selectedMoviePoster" alt="Poster">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedMovieTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
@@ -1646,7 +1632,7 @@
                 </div>
                 
                 <div id="selectedSessionAlbumContainer" class="selected-movie-preview hidden">
-                    <img id="selectedSessionAlbumPoster" src="" alt="Capa">
+                    <img id="selectedSessionAlbumPoster" alt="Capa">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedSessionAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedSessionAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
@@ -1688,7 +1674,7 @@
                 </div>
                 
                 <div id="selectedSessionBookContainer" class="selected-movie-preview hidden">
-                    <img id="selectedSessionBookPoster" src="" alt="Capa">
+                    <img id="selectedSessionBookPoster" alt="Capa">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedSessionBookTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedSessionBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
@@ -1756,13 +1742,12 @@
 
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
-            <!-- CARROSSEL DE VINIS EM FILEIRA HORIZONTAL (MARQUEE) -->
-            <div class="vinyl-marquee-wrapper" id="musicHeroCarouselSection">
-                <div class="vinyl-marquee-title">
-                    <i class="fa-solid fa-record-vinyl" style="color: var(--pink);"></i> Coleção de Vinis Avaliados
-                </div>
-                <div id="musicCoverflowStage" style="overflow: hidden; width: 100%;">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding: 20px 0;">Nenhum álbum avaliado ainda.</p>
+            <!-- PILHA DE VINIS & CARROSSEL DINÂMICO -->
+            <div class="featured-hero-carousel" id="musicHeroCarouselSection">
+                <div class="vinyl-stack-wrapper" id="vinylStackWrapperBox">
+                    <div class="vinyl-stack-container" id="musicCoverflowStage">
+                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>
+                    </div>
                 </div>
             </div>
 
@@ -1770,7 +1755,7 @@
                 <h3 style="margin-bottom: 1.2rem;"><i class="fa-solid fa-music" style="margin-right: 8px;"></i> Avaliar Álbum de Música</h3>
                 
                 <div id="selectedAlbumContainer" class="selected-movie-preview hidden">
-                    <img id="selectedAlbumCover" src="" alt="Capa do Álbum">
+                    <img id="selectedAlbumCover" alt="Capa do Álbum">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
@@ -1813,7 +1798,7 @@
 
         <!-- VIEW: ABA DE LIVROS (OPEN LIBRARY) -->
         <div id="view-books" class="app-view hidden">
-            <!-- NOVA PRATELEIRA REALISTA PARA LIVROS -->
+            <!-- PRATELEIRA REALISTA PARA LIVROS -->
             <div class="bookshelf-wrapper" id="booksHeroCarouselSection">
                 <div class="bookshelf-title">
                     <i class="fa-solid fa-book-bookmark" style="color: var(--pink);"></i> Prateleira de Livros
@@ -1830,7 +1815,7 @@
                 <h3 style="margin-bottom: 1.2rem;"><i class="fa-solid fa-book" style="margin-right: 8px;"></i> Avaliar Livro</h3>
                 
                 <div id="selectedBookContainer" class="selected-movie-preview hidden">
-                    <img id="selectedBookCover" src="" alt="Capa do Livro">
+                    <img id="selectedBookCover" alt="Capa do Livro">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedBookTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
                         <p id="selectedBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
@@ -1980,7 +1965,7 @@
                 
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.8rem; background: #fff; padding: 16px; border: var(--border-width) solid var(--border-color); border-radius: 12px; box-shadow: var(--box-shadow); flex-wrap: wrap;">
                     <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
-                        <img id="profileViewAvatarImg" src="" alt="Avatar" style="width: 100%; height: 100%; display: none;">
+                        <img id="profileViewAvatarImg" alt="Avatar" style="width: 100%; height: 100%; display: none;">
                         <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--pink); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;"><i class="fa-solid fa-user"></i></div>
                     </div>
                     <div style="flex: 1; min-width: 0;">
@@ -3809,7 +3794,7 @@
                     musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
                     if (booksContainer) booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
                     document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
-                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding: 20px 0;">Nenhum álbum avaliado ainda.</p>';
+                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
                     if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                     featuredMoviesOnly = [];
                     featuredMusicOnly = [];
@@ -3822,7 +3807,7 @@
                 featuredBooksOnly = validBooks;
 
                 renderMovieCircularCarousel();
-                renderMusicVinylMarquee();
+                renderMusicVinylStack();
                 renderBooksShelf();
 
                 if (validMovies.length === 0) {
@@ -3939,86 +3924,106 @@
             });
         }
 
-        /* --- RENDERIZAÇÃO DO CARROSSEL DE VINIS (MARQUEE HORIZONTAL COM SCROLL E ARRASTE MOBILE) --- */
-        function renderMusicVinylMarquee() {
+        /* --- RENDERIZAÇÃO DA PILHA DE VINIS COM CARROSSEL DINÂMICO E SUPORTE MOBILE --- */
+        function renderMusicVinylStack() {
             const stage = document.getElementById('musicCoverflowStage');
-            const wrapper = document.getElementById('musicHeroCarouselSection');
+            const wrapper = document.getElementById('vinylStackWrapperBox');
             if (!stage || !wrapper) return;
+            
             if (featuredMusicOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding: 20px 0;">Nenhum álbum avaliado ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
+                wrapper.classList.remove('carousel-active');
                 return;
             }
 
             stage.innerHTML = '';
-            
-            const trackDiv = document.createElement('div');
-            trackDiv.className = 'vinyl-marquee-track';
+            const total = featuredMusicOnly.length;
 
-            // Duplicamos os itens para garantir o efeito de looping infinito contínuo da fileira
-            const itemsToRender = [...featuredMusicOnly, ...featuredMusicOnly, ...featuredMusicOnly];
+            // Duplicamos os itens se forem poucos para o carrossel contínuo deslizar perfeitamente
+            const renderList = total < 4 ? [...featuredMusicOnly, ...featuredMusicOnly, ...featuredMusicOnly] : [...featuredMusicOnly, ...featuredMusicOnly];
 
-            itemsToRender.forEach((entry) => {
+            renderList.forEach((entry, idx) => {
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
                     posterUrl = posterUrl.replace('/w92/', '/w500/');
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `vinyl-marquee-item`;
+                itemDiv.className = `vinyl-stack-item`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
+                
+                // Posição padrão de pilha empilhada no centro
+                const baseZIndex = total - (idx % total);
+                const baseRotate = ((idx % total) * 5) % 15 - 7;
+                itemDiv.style.zIndex = baseZIndex;
+                itemDiv.style.transform = `translateY(${(idx % total) * -5}px) rotate(${baseRotate}deg) scale(${1 - ((idx % total) * 0.02)})`;
 
                 itemDiv.innerHTML = `
-                    <div class="vinyl-marquee-disc">
-                        <div class="vinyl-marquee-label">
+                    <div class="vinyl-record">
+                        <div class="vinyl-cover-center">
                             <img src="${posterUrl}" alt="${entry.item.movie.title}">
                         </div>
                     </div>
-                    <span class="vinyl-marquee-name">${entry.item.movie.title}</span>
-                    <span class="vinyl-marquee-sub">${entry.item.movie.artist || entry.item.movie.year || ''}</span>
                 `;
 
-                itemDiv.addEventListener('click', () => {
+                itemDiv.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     openLibraryModal(entry.key);
                 });
 
-                trackDiv.appendChild(itemDiv);
+                stage.appendChild(itemDiv);
             });
 
-            stage.appendChild(trackDiv);
+            // Ativa o carrossel animado ao passar o mouse (Desktop)
+            wrapper.onmouseenter = () => {
+                wrapper.classList.add('carousel-active');
+            };
+            wrapper.onmouseleave = () => {
+                wrapper.classList.remove('carousel-active');
+            };
 
-            // Suporte a interatividade mobile e scroll (girar scroll ou arrastar com o dedo para passar os discos)
+            // Controles interativos para Mobile e Scroll do Mouse (Arrastar ou girar scroll passa os discos)
             let isDown = false;
             let startX;
             let scrollLeft;
 
-            wrapper.onpointerdown = (e) => {
+            wrapper.onmousedown = (e) => {
                 isDown = true;
-                wrapper.setPointerCapture(e.pointerId);
-                startX = e.clientX - wrapper.offsetLeft;
-                scrollLeft = wrapper.scrollLeft;
+                wrapper.classList.add('carousel-active');
+                startX = e.pageX - wrapper.offsetLeft;
+                scrollLeft = stage.scrollLeft;
             };
-
-            wrapper.onpointermove = (e) => {
-                if (!isDown) return;
+            wrapper.onmouseleave = () => {
+                isDown = false;
+            };
+            wrapper.onmouseup = () => {
+                isDown = false;
+            };
+            wrapper.onmousemove = (e) => {
+                if(!isDown) return;
                 e.preventDefault();
-                const x = e.clientX - wrapper.offsetLeft;
-                const walk = (x - startX) * 2; // Velocidade de arrasto
-                wrapper.scrollLeft = scrollLeft - walk;
+                const x = e.pageX - wrapper.offsetLeft;
+                const walk = (x - startX) * 2;
+                stage.parentElement.scrollLeft = scrollLeft - walk;
             };
 
-            wrapper.onpointerup = (e) => {
-                isDown = false;
-                try { wrapper.releasePointerCapture(e.pointerId); } catch(err) {}
+            // Suporte Touch Mobile (Arrastar com o dedo)
+            wrapper.ontouchstart = (e) => {
+                wrapper.classList.add('carousel-active');
+                startX = e.touches[0].pageX - wrapper.offsetLeft;
+                scrollLeft = stage.scrollLeft;
+            };
+            wrapper.ontouchmove = (e) => {
+                const x = e.touches[0].pageX - wrapper.offsetLeft;
+                const walk = (x - startX) * 2;
+                stage.parentElement.scrollLeft = scrollLeft - walk;
             };
 
-            wrapper.onpointercancel = (e) => {
-                isDown = false;
-            };
-
-            // Girar o scroll do mouse ou gesto vertical/horizontal no trackpad/mobile move o carrossel fluentemente
+            // Girar o scroll em cima passa os discos horizontalmente
             wrapper.onwheel = (e) => {
                 e.preventDefault();
-                wrapper.scrollLeft += (e.deltaY !== 0 ? e.deltaY : e.deltaX);
+                wrapper.classList.add('carousel-active');
+                stage.parentElement.scrollLeft += e.deltaY;
             };
         }
 
@@ -4033,7 +4038,6 @@
 
             stage.innerHTML = '';
 
-            // Paleta de cores vibrantes no tema para as lombadas
             const spineColors = ['#DF39F4', '#B05CF2', '#F5EA48', '#86F46F', '#FF6B6B', '#4D96FF', '#FF9F45'];
 
             featuredBooksOnly.forEach((entry, idx) => {
@@ -4050,9 +4054,8 @@
                 const posterUrl = item.movie.poster;
                 const authorYearText = item.movie.author ? `${item.movie.author} (${item.movie.year})` : `Ano: ${item.movie.year}`;
 
-                // Variações aleatórias calculadas para parecerem livros reais variados
-                const randomHeight = 160 + ((idx * 13) % 40); // 160px a 200px
-                const randomWidth = 32 + ((idx * 7) % 18);   // 32px a 50px
+                const randomHeight = 160 + ((idx * 13) % 40);
+                const randomWidth = 32 + ((idx * 7) % 18);
                 const bgColor = spineColors[idx % spineColors.length];
 
                 const itemDiv = document.createElement('div');
@@ -4389,7 +4392,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${friendTag}`));
                 if (!tagSnap.exists()) {
-                    alert("Esta Nametag não foi encontrada.");
+                    alert(" Esta Nametag não foi encontrada.");
                     return;
                 }
 
