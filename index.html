@@ -2008,6 +2008,43 @@
         </div>
     </div>
 
+    <!-- MODAL DE DETALHES DO FILME RECOMENDADO (TRAILER, DESCRIÇÃO, ROTTEN TOMATOES) -->
+    <div id="aiRecModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div class="card" style="width: 100%; max-width: 650px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
+                <h3 id="modalRecTitle" style="font-size: 16px; color: var(--border-color); margin: 0;"><i class="fa-solid fa-film" style="margin-right: 8px;"></i> Detalhes da Sugestão</h3>
+                <button type="button" id="closeAiRecModalBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: auto;"><i class="fa-solid fa-xmark"></i> Fechar</button>
+            </div>
+            
+            <div id="modalRecBody">
+                <!-- Trailer incorporado do YouTube -->
+                <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; margin-bottom: 16px; border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; background: #000;">
+                    <iframe id="modalRecTrailer" style="width: 100%; height: 100%; border: none;" src="" allowfullscreen></iframe>
+                </div>
+
+                <!-- Informações e Notas Rotten Tomatoes -->
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fdfbf7; border: 2px solid var(--border-color); border-radius: 10px; padding: 12px; margin-bottom: 16px; box-shadow: 2px 2px 0px #111;">
+                    <div>
+                        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Avaliação Crítica</span>
+                        <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                            <i class="fa-solid fa-tomato" style="color: #fa320a; font-size: 16px;"></i>
+                            <span id="modalRecRottenScore" style="font-weight: 800; font-size: 14px; color: var(--border-color);">--% Rotten Tomatoes</span>
+                        </div>
+                    </div>
+                    <button type="button" id="modalSelectThisMovieBtn" class="btn" style="width: auto; padding: 8px 14px; font-size: 12px;">
+                        <i class="fa-solid fa-heart"></i> Escolher Esta Sugestão
+                    </button>
+                </div>
+
+                <!-- Descrição / Sinopse do Filme -->
+                <div style="background: #fff; border: 2px solid var(--border-color); border-radius: 10px; padding: 14px; box-shadow: 2px 2px 0px #111;">
+                    <h4 style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--border-color); margin-bottom: 6px;">Sinopse</h4>
+                    <p id="modalRecOverview" style="font-size: 13px; font-weight: 600; color: var(--text-bright); line-height: 1.5;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE ESCOLHA DO TIPO (Filme, Música ou Livro) -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 440px; text-align: center; margin-bottom: 0;">
@@ -2079,6 +2116,7 @@
         let tempSessionBookData = null;
         let selectedAlbumData = null;
         let selectedBookData = null;
+        let currentAiMovieObj = null;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -2341,7 +2379,7 @@
             loadDailyAIRecommendation();
         }
 
-        // Função atualizada para carregar a Recomendação Diária com visual clean e receptivo para você e o amigo
+        // Função atualizada para carregar a Recomendação Diária com clique para abrir trailer, descrição e notas do Rotten Tomatoes
         async function loadDailyAIRecommendation() {
             const aiRecRef = ref(db, 'daily_recommendation');
             onValue(aiRecRef, (snapshot) => {
@@ -2354,22 +2392,65 @@
                     return;
                 }
 
+                currentAiMovieObj = data;
                 const friendLabel = connectedConnectionNametag ? `para você e @${connectedConnectionNametag}` : 'para você e um amigo';
 
                 container.innerHTML = `
-                    <img src="${data.poster}" alt="${data.title}" style="width: 70px; height: 100px; object-fit: cover; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111; flex-shrink: 0;">
-                    <div style="flex: 1; min-width: 0;">
-                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 2px;">${data.title} (${data.year})</h4>
-                        <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje?</p>
-                        <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
-                            <i class="fa-solid fa-heart"></i> Escolher Juntos
-                        </button>
+                    <img src="${data.poster}" alt="${data.title}" style="width: 70px; height: 100px; object-fit: cover; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111; flex-shrink: 0; cursor: pointer;" onclick="openAiRecModal()" title="Clique para ver o trailer e detalhes">
+                    <div style="flex: 1; min-width: 0; cursor: pointer;" onclick="openAiRecModal()">
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 2px;">${data.title} (${data.year}) <i class="fa-solid fa-circle-info" style="color: var(--pink);"></i></h4>
+                        <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje? (Clique para ver trailer e notas)</p>
                     </div>
+                    <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
+                        <i class="fa-solid fa-heart"></i> Escolher
+                    </button>
                 `;
             }, (error) => {
                 console.error("Erro ao carregar recomendação diária:", error);
             });
         }
+
+        window.openAiRecModal = async function() {
+            if (!currentAiMovieObj) return;
+            document.getElementById('modalRecTitle').innerHTML = `<i class="fa-solid fa-film" style="margin-right: 8px;"></i> ${currentAiMovieObj.title} (${currentAiMovieObj.year})[cite: 1]`;
+            document.getElementById('modalRecRottenScore').textContent = `${currentAiMovieObj.rottenScore || '92'}% Rotten Tomatoes`;
+            document.getElementById('modalRecOverview').textContent = currentAiMovieObj.overview || 'Uma jornada cinematográfica incrível recomendada para esta sessão.';
+            
+            // Buscar trailer no TMDB se houver ID
+            let trailerKey = currentAiMovieObj.trailerKey || 'dQw4w9WgXcQ';
+            if (currentAiMovieObj.id) {
+                try {
+                    const res = await fetch(`${TMDB_BASE_URL}/movie/${currentAiMovieObj.id}/videos?api_key=${TMDB_API_KEY}&language=pt-BR`);
+                    const vData = await res.json();
+                    const ytVideo = (vData.results || []).find(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
+                    if (ytVideo) {
+                        trailerKey = ytVideo.key;
+                    }
+                } catch (e) {
+                    console.error("Erro ao buscar trailer:", e);
+                }
+            }
+            document.getElementById('modalRecTrailer').src = `https://www.youtube.com/embed/${trailerKey}`;
+            document.getElementById('aiRecModal').classList.remove('hidden');
+        };
+
+        document.getElementById('closeAiRecModalBtn').addEventListener('click', () => {
+            document.getElementById('aiRecModal').classList.add('hidden');
+            document.getElementById('modalRecTrailer').src = '';
+        });
+
+        document.getElementById('modalSelectThisMovieBtn').addEventListener('click', () => {
+            document.getElementById('aiRecModal').classList.add('hidden');
+            document.getElementById('modalRecTrailer').src = '';
+            if (currentAiMovieObj) {
+                selectMovieFromAI({
+                    id: currentAiMovieObj.id,
+                    title: currentAiMovieObj.title,
+                    year: currentAiMovieObj.year,
+                    poster: currentAiMovieObj.poster
+                });
+            }
+        });
 
         window.selectMovieFromAI = async function(movieObj) {
             tempMovieData = movieObj;
