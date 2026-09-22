@@ -1581,11 +1581,15 @@
 
         <div id="view-session" class="app-view hidden">
             
-            <!-- Bloco de Recomendação Diária da IA -->
-            <div class="card" id="aiDailyCard" style="background: var(--yellow); border: var(--border-width) solid var(--border-color); margin-bottom: 24px;">
-                <h3 style="margin-bottom: 12px; font-size: 18px;"><i class="fa-solid fa-robot"></i> Recomendação Diária da IA</h3>
-                <div id="aiRecContent" style="display: flex; gap: 14px; align-items: center;">
-                    <p style="font-weight: 600; font-size: 13px;">Carregando sugestão inteligente do dia...</p>
+            <!-- Bloco de Recomendação Diária Mais Clean e Receptivo -->
+            <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
+                        <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
+                    </span>
+                </div>
+                <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center;">
+                    <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
                 </div>
             </div>
 
@@ -2070,7 +2074,6 @@
         let userTrackReviews = {}; 
         let activeAudioElement = null; 
 
-        // Temporários para Lista de Espera e Seleção
         let tempMovieData = null;
         let tempSessionAlbumData = null;
         let tempSessionBookData = null;
@@ -2338,7 +2341,7 @@
             loadDailyAIRecommendation();
         }
 
-        // Função para carregar a Recomendação Diária da IA do Firebase/Render
+        // Função atualizada para carregar a Recomendação Diária com visual clean e receptivo para você e o amigo
         async function loadDailyAIRecommendation() {
             const aiRecRef = ref(db, 'daily_recommendation');
             onValue(aiRecRef, (snapshot) => {
@@ -2347,17 +2350,19 @@
                 if (!container) return;
 
                 if (!data || !data.title) {
-                    container.innerHTML = `<p style="font-weight: 600; font-size: 13px;">Nenhuma sugestão diária disponível no momento.</p>`;
+                    container.innerHTML = `<p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Nenhuma sugestão diária disponível no momento.</p>`;
                     return;
                 }
 
+                const friendLabel = connectedConnectionNametag ? `para você e @${connectedConnectionNametag}` : 'para você e um amigo';
+
                 container.innerHTML = `
-                    <img src="${data.poster}" alt="${data.title}" style="width: 80px; height: 120px; object-fit: cover; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111; flex-shrink: 0;">
+                    <img src="${data.poster}" alt="${data.title}" style="width: 70px; height: 100px; object-fit: cover; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111; flex-shrink: 0;">
                     <div style="flex: 1; min-width: 0;">
-                        <h4 style="font-size: 15px; font-weight: 800; color: var(--border-color); margin-bottom: 4px;">${data.title} (${data.year})</h4>
-                        <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px;">${data.overview || 'Sugestão diária baseada nas suas avaliações.'}</p>
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 2px;">${data.title} (${data.year})</h4>
+                        <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje?</p>
                         <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
-                            <i class="fa-solid fa-film"></i> Avaliar Esta Sugestão
+                            <i class="fa-solid fa-heart"></i> Escolher Juntos
                         </button>
                     </div>
                 `;
@@ -2369,7 +2374,7 @@
         window.selectMovieFromAI = async function(movieObj) {
             tempMovieData = movieObj;
             if (!activeRoomId) {
-                activeRoomId = "sessao_filme_principal";
+                activeRoomId = connectedConnectionUid ? getChatRoomId(currentUser.uid, connectedConnectionUid) : "sessao_filme_principal";
             }
             try {
                 const roomRef = ref(db, `rooms/${activeRoomId}`);
@@ -2382,7 +2387,7 @@
                 selectedMovieContainer.classList.remove('hidden');
                 movieSearchBoxWrapper.style.display = 'none';
                 stepReview.classList.remove('hidden');
-                showToast("Filme sugerido pela IA selecionado para a sessão!");
+                showToast("Sugestão selecionada para a sessão!");
             } catch (err) {
                 console.error("Erro ao selecionar filme da IA:", err);
                 alert("Erro ao selecionar o filme.");
@@ -2429,7 +2434,6 @@
         const sessionTracksSection = document.getElementById('sessionTracksSection');
         const sessionTracksListContainer = document.getElementById('sessionTracksListContainer');
 
-        // ELEMENTOS PARA LIVROS DA SESSÃO CONJUNTA
         const stepSessionBook = document.getElementById('step-session-book');
         const btnBackToHubBook = document.getElementById('btnBackToHubBook');
         const sessionBookSearchInput = document.getElementById('sessionBookSearchInput');
@@ -2493,7 +2497,6 @@
         const albumTracksListContainer = document.getElementById('albumTracksListContainer');
         const saveAlbumCompleteBtn = document.getElementById('saveAlbumCompleteBtn');
 
-        // ELEMENTOS PARA A ABA DE LIVROS
         const bookSearchInput = document.getElementById('bookSearchInput');
         const bookResults = document.getElementById('bookResults');
         const selectedBookContainer = document.getElementById('selectedBookContainer');
@@ -2510,7 +2513,6 @@
         const bookUserCommentInput = document.getElementById('bookUserComment');
         const bookCharCounter = document.getElementById('bookCharCounter');
 
-        // --------- LISTA DE ESPERA (WAITLIST) --------- //
         async function addToWaitlist(item, type) {
             if(!currentUser) return;
             try {
@@ -2590,7 +2592,7 @@
                 if(!hasMusic) musicGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum álbum na lista de espera.</p>';
                 if(booksGrid && !hasBooks) booksGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum livro na lista de espera.</p>';
             }, (error) => {
-                console.error("Erro ao carregar lista de espera (permissão negada):", error);
+                console.error("Erro ao carregar lista de espera:", error);
             });
         }
 
@@ -2619,8 +2621,6 @@
 
             container.appendChild(card);
         }
-        // --------- FIM LISTA DE ESPERA --------- //
-
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -2893,7 +2893,7 @@
                     }
                 }
             }, (error) => {
-                console.error("Erro de permissão ao escutar sala:", error);
+                console.error("Erro ao escutar sala:", error);
             });
         }
 
@@ -3303,7 +3303,6 @@
             }
         }
 
-        // INTEGRACAO DA API DA OPEN LIBRARY (LIVROS)
         async function searchOpenLibraryBooks(query) {
             const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`);
             const data = await response.json();
@@ -3461,7 +3460,6 @@
             albumSearchInput.focus();
         });
 
-        // BUSCA DE LIVROS DA ABA "LIVROS"
         let bookSearchTimeout;
         bookSearchInput.addEventListener('input', (e) => {
             clearTimeout(bookSearchTimeout);
@@ -3895,7 +3893,7 @@
                     }
                 }
             }, (error) => {
-                console.error("Erro ao carregar biblioteca (permissão negada):", error);
+                console.error("Erro ao carregar biblioteca:", error);
             });
         }
 
@@ -3983,7 +3981,6 @@
             });
         }
 
-        /* --- RENDERIZAÇÃO DA PILHA DE VINIS & CARROSSEL EXATO DOS ÁLBUNS ESCUTADOS --- */
         function renderMusicVinylStack() {
             const stage = document.getElementById('musicCoverflowStage');
             const wrapper = document.getElementById('vinylStackWrapperBox');
@@ -3998,7 +3995,6 @@
             stage.innerHTML = '';
             const total = featuredMusicOnly.length;
 
-            // Renderiza exatamente a quantidade de álbuns avaliados/escutados (sem duplicações extras)
             featuredMusicOnly.forEach((entry, idx) => {
                 let posterUrl = entry.item.movie.poster;
                 if (posterUrl && posterUrl.includes('/w92/')) {
@@ -4009,7 +4005,6 @@
                 itemDiv.className = `vinyl-stack-item`;
                 itemDiv.title = `${entry.item.movie.title} - Clique para ver detalhes`;
                 
-                // Posição padrão em pilha no centro
                 const baseZIndex = total - idx;
                 const baseRotate = (idx * 5) % 15 - 7;
                 itemDiv.style.zIndex = baseZIndex;
@@ -4031,7 +4026,6 @@
                 stage.appendChild(itemDiv);
             });
 
-            // Ativa o carrossel animado ao passar o mouse (Desktop)
             wrapper.onmouseenter = () => {
                 wrapper.classList.add('carousel-active');
             };
@@ -4039,7 +4033,6 @@
                 wrapper.classList.remove('carousel-active');
             };
 
-            // Controles interativos para Mobile e Scroll do Mouse (Arrastar ou girar scroll passa os discos)
             let isDown = false;
             let startX;
             let scrollLeft;
@@ -4064,7 +4057,6 @@
                 stage.parentElement.scrollLeft = scrollLeft - walk;
             };
 
-            // Suporte Touch Mobile (Arrastar com o dedo)
             wrapper.ontouchstart = (e) => {
                 wrapper.classList.add('carousel-active');
                 startX = e.touches[0].pageX - wrapper.offsetLeft;
@@ -4076,7 +4068,6 @@
                 stage.parentElement.scrollLeft = scrollLeft - walk;
             };
 
-            // Girar o scroll em cima passa os discos horizontalmente
             wrapper.onwheel = (e) => {
                 e.preventDefault();
                 wrapper.classList.add('carousel-active');
@@ -4084,7 +4075,6 @@
             };
         }
 
-        /* --- RENDERIZAÇÃO DA ESTANTE DE LOMBADAS VERTICAIS --- */
         function renderBooksShelf() {
             const stage = document.getElementById('booksCoverflowStage');
             if (!stage) return;
@@ -4405,7 +4395,7 @@
 
                 document.getElementById('libraryModal').classList.remove('hidden');
             }).catch(err => {
-                console.error("Erro de permissão ao abrir modal da biblioteca:", err);
+                console.error("Erro ao abrir modal da biblioteca:", err);
             });
         };
 
