@@ -12,7 +12,6 @@ if not firebase_admin._apps:
     if os.path.exists(firebase_cred_path):
         cred = credentials.Certificate(firebase_cred_path)
     else:
-        # Configuração alternativa caso utilize variáveis de ambiente individuais no Render
         cred = credentials.ApplicationDefault()
     
     firebase_admin.initialize_app(cred, {
