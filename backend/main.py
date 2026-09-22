@@ -1,4 +1,5 @@
 import os
+import json
 import random
 import requests
 from fastapi import FastAPI, HTTPException
@@ -6,13 +7,19 @@ from fastapi.middleware.cors import CORSMiddleware
 import firebase_admin
 from firebase_admin import credentials, db
 
-# Inicialização do Firebase Admin usando variáveis de ambiente do Render ou arquivo local
+# Inicialização do Firebase Admin no Render via Variável de Ambiente
 if not firebase_admin._apps:
-    firebase_cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH", "serviceAccountKey.json")
-    if os.path.exists(firebase_cred_path):
-        cred = credentials.Certificate(firebase_cred_path)
+    cred_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
+    if cred_json:
+        cred_dict = json.loads(cred_json)
+        cred = credentials.Certificate(cred_dict)
     else:
-        cred = credentials.ApplicationDefault()
+        # Fallback local se estiver testando na sua máquina com o arquivo JSON na pasta
+        firebase_cred_path = "serviceAccountKey.json"
+        if os.path.exists(firebase_cred_path):
+            cred = credentials.Certificate(firebase_cred_path)
+        else:
+            raise ValueError("As credenciais do Firebase não foram encontradas nas variáveis de ambiente nem localmente.")
     
     firebase_admin.initialize_app(cred, {
         'databaseURL': os.getenv("FIREBASE_DATABASE_URL", "https://letter-76c0a-default-rtdb.firebaseio.com")
@@ -29,6 +36,7 @@ app.add_middleware(
 )
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY", "3fd2be6f0c70a2a598f084ddfb75487c")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "") # Chave da API do Google Gemini
 
 @app.get("/")
 def read_root():
@@ -36,7 +44,7 @@ def read_root():
 
 @app.post("/api/update-daily-recommendation")
 def trigger_daily_recommendation():
-    """Endpoint para atualizar a recomendação diária de filme baseada em populares do TMDB."""
+    """Atualiza a recomendação diária de filme utilizando dados do TMDB."""
     try:
         url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMDB_API_KEY}&language=pt-BR&page=1"
         response = requests.get(url)
