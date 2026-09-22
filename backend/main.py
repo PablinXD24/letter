@@ -1,5 +1,4 @@
 import os
-import json
 import random
 import requests
 from fastapi import FastAPI, HTTPException
@@ -7,23 +6,18 @@ from fastapi.middleware.cors import CORSMiddleware
 import firebase_admin
 from firebase_admin import credentials, db
 
-# Inicialização do Firebase Admin no Render via Variável de Ambiente
+# Inicialização simplificada do Firebase Admin para rodar via Git sem arquivos JSON complexos
 if not firebase_admin._apps:
-    cred_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
-    if cred_json:
-        cred_dict = json.loads(cred_json)
-        cred = credentials.Certificate(cred_dict)
-    else:
-        # Fallback local se estiver testando na sua máquina com o arquivo JSON na pasta
-        firebase_cred_path = "serviceAccountKey.json"
-        if os.path.exists(firebase_cred_path):
-            cred = credentials.Certificate(firebase_cred_path)
-        else:
-            raise ValueError("As credenciais do Firebase não foram encontradas nas variáveis de ambiente nem localmente.")
+    # Utiliza a URL do Database configurada diretamente
+    database_url = os.getenv("FIREBASE_DATABASE_URL", "https://letter-76c0a-default-rtdb.firebaseio.com")
     
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': os.getenv("FIREBASE_DATABASE_URL", "https://letter-76c0a-default-rtdb.firebaseio.com")
-    })
+    # Se estiver rodando no Render sem arquivo de chave, inicializa com credenciais de aplicativo padrão ou opções básicas
+    try:
+        firebase_admin.initialize_app(options={
+            'databaseURL': database_url
+        })
+    except Exception as e:
+        print(f"Erro ao inicializar Firebase Admin: {e}")
 
 app = FastAPI(title="CineMozi Backend API", version="1.0.0")
 
@@ -36,7 +30,6 @@ app.add_middleware(
 )
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY", "3fd2be6f0c70a2a598f084ddfb75487c")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "") # Chave da API do Google Gemini
 
 @app.get("/")
 def read_root():
