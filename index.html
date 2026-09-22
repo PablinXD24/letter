@@ -1581,16 +1581,12 @@
 
         <div id="view-session" class="app-view hidden">
             
-            <!-- Bloco de Recomendação Diária Mais Clean e Receptivo -->
+            <!-- Bloco de Recomendação Diária Sem o Botão de Refresh no Topo Direito -->
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
-                    <!-- Botão simbolozinho de reanálise no topo do box -->
-                    <button type="button" id="btnRefreshAiRecBox" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Refazer análise e sugerir outro filme" onclick="event.stopPropagation(); refreshDailyRecommendation();">
-                        <i class="fa-solid fa-rotate"></i>
-                    </button>
                 </div>
                 <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center;">
                     <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
@@ -2382,45 +2378,41 @@
             loadDailyAIRecommendation();
         }
 
-        // Função para reanalisar e sortear outra sugestão de filme do TMDB
-        window.refreshDailyRecommendation = async function() {
-            showToast("Buscando nova sugestão...");
-            try {
-                const todayStr = new Date().toISOString().split('T')[0];
-                const res = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=pt-BR&sort_by=popularity.desc&primary_release_date.lte=${todayStr}&page=${Math.floor(Math.random() * 5) + 1}`);
-                const data = await res.json();
-                const results = data.results || [];
-                if (results.length > 0) {
-                    const validMovies = results.filter(m => m.poster_path);
-                    const movie = validMovies.length > 0 ? randomChoice(validMovies) : results[0];
-                    const newRec = {
-                        id: movie.id,
-                        title: movie.title,
-                        overview: movie.overview,
-                        year: movie.release_date ? movie.release_date.split('-')[0] : '2026',
-                        poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                        updatedAt: Date.now()
-                    };
-                    await set(ref(db, 'daily_recommendation'), newRec);
-                    showToast("Nova sugestão carregada com sucesso!");
-                }
-            } catch (err) {
-                console.error("Erro ao atualizar recomendação:", err);
-                showToast("Erro ao buscar nova sugestão.");
-            }
-        };
-
         function randomChoice(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // Função de Recomendação Diária atualizada para abrir o Modal Interativo ao clicar no Box
+        // Função de Recomendação Diária
         async function loadDailyAIRecommendation() {
             const aiRecRef = ref(db, 'daily_recommendation');
-            onValue(aiRecRef, (snapshot) => {
-                const data = snapshot.val();
+            onValue(aiRecRef, async (snapshot) => {
+                let data = snapshot.val();
                 const container = document.getElementById('aiRecContent');
                 if (!container) return;
+
+                if (!data || !data.title) {
+                    try {
+                        const todayStr = new Date().toISOString().split('T')[0];
+                        const res = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=pt-BR&sort_by=popularity.desc&primary_release_date.lte=${todayStr}&page=1`);
+                        const tmdbData = await res.json();
+                        const results = tmdbData.results || [];
+                        if (results.length > 0) {
+                            const validMovies = results.filter(m => m.poster_path);
+                            const movie = validMovies.length > 0 ? randomChoice(validMovies) : results[0];
+                            data = {
+                                id: movie.id,
+                                title: movie.title,
+                                overview: movie.overview,
+                                year: movie.release_date ? movie.release_date.split('-')[0] : '2026',
+                                poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                                updatedAt: Date.now()
+                            };
+                            await set(ref(db, 'daily_recommendation'), data);
+                        }
+                    } catch (e) {
+                        console.error("Erro ao gerar recomendação inicial:", e);
+                    }
+                }
 
                 if (!data || !data.title) {
                     container.innerHTML = `<p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Nenhuma sugestão diária disponível no momento.</p>`;
@@ -2437,9 +2429,6 @@
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
                                 <i class="fa-solid fa-heart"></i> Escolher Juntos
-                            </button>
-                            <button class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Refazer análise e sugerir outro filme" onclick='event.stopPropagation(); refreshDailyRecommendation();'>
-                                <i class="fa-solid fa-rotate"></i>
                             </button>
                         </div>
                     </div>
@@ -2479,7 +2468,6 @@
             };
 
             try {
-                // Buscar dados oficiais da API do TMDB para sinopse, trailer e notas aproximadas/simuladas do Rotten Tomatoes
                 const res = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}?api_key=${TMDB_API_KEY}&language=pt-BR`);
                 const details = await res.json();
 
@@ -2489,7 +2477,6 @@
                     overviewEl.textContent = 'Sinopse oficial indisponível em português.';
                 }
 
-                // Buscar vídeos para o trailer oficial no YouTube
                 const videoRes = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}/videos?api_key=${TMDB_API_KEY}&language=pt-BR`);
                 const videoData = await videoRes.json();
                 let trailerKey = '';
@@ -2499,7 +2486,6 @@
                 }
 
                 if (!trailerKey) {
-                    // Fallback para inglês se não encontrar em pt-BR
                     const videoResEn = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}/videos?api_key=${TMDB_API_KEY}&language=en-US`);
                     const videoDataEn = await videoResEn.json();
                     if (videoDataEn.results && videoDataEn.results.length > 0) {
@@ -2514,7 +2500,6 @@
                     trailerIframe.src = '';
                 }
 
-                // Notas do Rotten Tomatoes simuladas/calculadas com base na nota do TMDB para fidelidade à interface
                 const voteAvg = details.vote_average ? Math.round(details.vote_average * 10) : 85;
                 tomatometerEl.innerHTML = `<span style="color: #FA320A;"><i class="fa-solid fa-tomato"></i> ${voteAvg}%</span>`;
                 audienceScoreEl.innerHTML = `<span style="color: #28a745;"><i class="fa-solid fa-popcorn"></i> ${Math.min(98, voteAvg + 5)}%</span>`;
