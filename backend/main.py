@@ -4,18 +4,6 @@ import time
 import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import firebase_admin
-from firebase_admin import credentials, db
-
-# Inicialização do Firebase Admin
-if not firebase_admin._apps:
-    database_url = os.getenv("FIREBASE_DATABASE_URL", "https://letter-76c0a-default-rtdb.firebaseio.com")
-    try:
-        firebase_admin.initialize_app(options={
-            'databaseURL': database_url
-        })
-    except Exception as e:
-        print(f"Erro ao inicializar Firebase Admin: {e}")
 
 app = FastAPI(title="CineMozi Backend API", version="1.0.0")
 
@@ -28,7 +16,7 @@ app.add_middleware(
 )
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY", "3fd2be6f0c70a2a598f084ddfb75487c")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+FIREBASE_DATABASE_URL = os.getenv("FIREBASE_DATABASE_URL", "https://letter-76c0a-default-rtdb.firebaseio.com").rstrip("/")
 
 @app.get("/")
 def read_root():
@@ -36,7 +24,7 @@ def read_root():
 
 @app.post("/api/update-daily-recommendation")
 def trigger_daily_recommendation():
-    """Atualiza a recomendação diária de filme utilizando dados do TMDB."""
+    """Atualiza a recomendação diária de filme utilizando dados do TMDB e gravando no Firebase via REST."""
     try:
         url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMDB_API_KEY}&language=pt-BR&page=1"
         response = requests.get(url)
@@ -57,8 +45,12 @@ def trigger_daily_recommendation():
             "updatedAt": int(time.time() * 1000)
         }
         
-        ref = db.reference("daily_recommendation")
-        ref.set(recommendation_data)
+        # Envio direto via REST API do Firebase Realtime Database
+        firebase_url = f"{FIREBASE_DATABASE_URL}/daily_recommendation.json"
+        fb_response = requests.put(firebase_url, json=recommendation_data)
+        
+        if fb_response.status_code not in [200, 201]:
+            raise HTTPException(status_code=500, detail=f"Erro ao salvar no Firebase: {fb_response.text}")
         
         return {
             "success": True, 
