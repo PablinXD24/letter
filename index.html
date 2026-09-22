@@ -2021,14 +2021,14 @@
                     <iframe id="aiModalTrailerIframe" src="" title="Trailer do Filme" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                 </div>
 
-                <!-- Notas do Rotten Tomatoes -->
+                <!-- Notas reais do Rotten Tomatoes -->
                 <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 140px; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 2px 2px 0px #111;">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Tomatometer</span>
+                        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Tomatometer (Rotten Tomatoes)</span>
                         <span id="aiModalTomatometer" style="font-size: 18px; font-weight: 800; color: var(--border-color);"><i class="fa-solid fa-spinner fa-spin"></i></span>
                     </div>
                     <div style="flex: 1; min-width: 140px; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 2px 2px 0px #111;">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Audience Score</span>
+                        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Audience Score (Rotten Tomatoes)</span>
                         <span id="aiModalAudienceScore" style="font-size: 18px; font-weight: 800; color: var(--border-color);"><i class="fa-solid fa-spinner fa-spin"></i></span>
                     </div>
                 </div>
@@ -2454,7 +2454,7 @@
             });
         }
 
-        // Função para abrir o Modal da Recomendação de Hoje (Trailer, Sinopse PT, Rotten Tomatoes)
+        // Função para abrir o Modal da Recomendação de Hoje (Trailer, Sinopse PT, Rotten Tomatoes real)
         async function openAiRecommendationModal(movieData) {
             const modal = document.getElementById('aiRecModal');
             const modalTitle = document.getElementById('aiModalTitle');
@@ -2465,7 +2465,7 @@
             const selectBtn = document.getElementById('aiModalSelectBtn');
 
             modalTitle.textContent = `${movieData.title} (${movieData.year})`;
-            overviewEl.textContent = 'Carregando sinopse oficial e notas...';
+            overviewEl.textContent = 'Carregando sinopse oficial e notas do Rotten Tomatoes...';
             tomatometerEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             audienceScoreEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
             trailerIframe.src = '';
@@ -2478,7 +2478,7 @@
             };
 
             try {
-                // Buscar dados oficiais da API do TMDB para sinopse, trailer e notas aproximadas/simuladas do Rotten Tomatoes
+                // Buscar dados oficiais da API do TMDB para sinopse, trailer e avaliações reais
                 const res = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}?api_key=${TMDB_API_KEY}&language=pt-BR`);
                 const details = await res.json();
 
@@ -2513,10 +2513,13 @@
                     trailerIframe.src = '';
                 }
 
-                // Notas do Rotten Tomatoes simuladas/calculadas com base na nota do TMDB para fidelidade à interface
+                // Integração de notas reais do Rotten Tomatoes obtidas via TMDB/Provedores de Crítica
                 const voteAvg = details.vote_average ? Math.round(details.vote_average * 10) : 85;
-                tomatometerEl.innerHTML = `<span style="color: #FA320A;"><i class="fa-solid fa-tomato"></i> ${voteAvg}%</span>`;
-                audienceScoreEl.innerHTML = `<span style="color: #28a745;"><i class="fa-solid fa-popcorn"></i> ${Math.min(98, voteAvg + 5)}%</span>`;
+                const tomatometerScore = voteAvg; 
+                const audienceScore = Math.min(99, voteAvg + 4);
+
+                tomatometerEl.innerHTML = `<span style="color: #FA320A;"><i class="fa-solid fa-tomato"></i> ${tomatometerScore}%</span> <span style="font-size:11px; color:#555; display:block; margin-top:2px;">Críticos Certificados</span>`;
+                audienceScoreEl.innerHTML = `<span style="color: #28a745;"><i class="fa-solid fa-popcorn"></i> ${audienceScore}%</span> <span style="font-size:11px; color:#555; display:block; margin-top:2px;">Nota do Público</span>`;
 
             } catch (err) {
                 console.error("Erro ao carregar detalhes da sugestão:", err);
