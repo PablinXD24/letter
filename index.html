@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CineMozi</title>
+    <title>CineMozi - Timeless Edition</title>
     <!-- Google Fonts Plus Jakarta Sans + FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1580,16 +1580,12 @@
 
         <div id="view-session" class="app-view hidden">
             
-            <!-- Bloco de Recomendação Diária Mais Clean com um Único Botão de Outra Sugestão -->
+            <!-- Bloco de Recomendação Diária Com Botão Símbolo ao Lado de "Escolher Juntos" -->
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
-                    <!-- Único botão de outra sugestão no box -->
-                    <button type="button" id="btnRefreshAiRecBox" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px; border-radius: 8px;" title="Ver outra sugestão" onclick="event.stopPropagation(); refreshDailyRecommendation();">
-                        <i class="fa-solid fa-rotate"></i> Outra Sugestão
-                    </button>
                 </div>
                 <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center;">
                     <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
@@ -2045,8 +2041,8 @@
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <button type="button" id="aiModalSelectBtn" class="btn" style="flex: 1; min-width: 200px;"><i class="fa-solid fa-heart" style="margin-right: 8px;"></i> Escolher esta Sugestão</button>
-                    <!-- Único botão de outra sugestão no container/modal -->
-                    <button type="button" id="aiModalRefreshBtn" class="btn btn-secondary" style="width: auto; padding: 11px 16px;" onclick="refreshDailyRecommendation()"><i class="fa-solid fa-rotate"></i> Outra Sugestão</button>
+                    <!-- Botão símbolo (apenas ícone) no modal/container -->
+                    <button type="button" id="aiModalRefreshBtn" class="btn btn-secondary" style="width: auto; padding: 11px 14px;" title="Ver outra sugestão" onclick="refreshDailyRecommendation()"><i class="fa-solid fa-rotate"></i></button>
                 </div>
             </div>
         </div>
@@ -2417,7 +2413,7 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // Função de Recomendação Diária atualizada para abrir o Modal Interativo ao clicar no Box
+        // Função de Recomendação Diária atualizada para exibir o botão símbolo ao lado do "Escolher Juntos"
         async function loadDailyAIRecommendation() {
             const aiRecRef = ref(db, 'daily_recommendation');
             onValue(aiRecRef, (snapshot) => {
@@ -2440,6 +2436,9 @@
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
                                 <i class="fa-solid fa-heart"></i> Escolher Juntos
+                            </button>
+                            <button class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Ver outra sugestão" onclick='event.stopPropagation(); refreshDailyRecommendation();'>
+                                <i class="fa-solid fa-rotate"></i>
                             </button>
                         </div>
                     </div>
