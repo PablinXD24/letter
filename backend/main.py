@@ -4,6 +4,7 @@ import time
 import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
 
 app = FastAPI(title="CineMozi Backend API", version="1.0.0")
 
@@ -24,17 +25,30 @@ def read_root():
 
 @app.post("/api/update-daily-recommendation")
 def trigger_daily_recommendation():
-    """Atualiza a recomendação diária de filme utilizando dados do TMDB e gravando no Firebase via REST."""
+    """Atualiza a recomendação diária de filme utilizando dados do TMDB estritamente já lançados (em cartaz/streaming) e gravando no Firebase via REST."""
     try:
-        url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMDB_API_KEY}&language=pt-BR&page=1"
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        
+        # Buscamos filmes que já estrearam (com data de lançamento menor ou igual à data atual)
+        url = f"https://api.themoviedb.org/3/discover/movie?api_key={TMDB_API_KEY}&language=pt-BR&sort_by=popularity.desc&primary_release_date.lte={current_date}&page=1"
         response = requests.get(url)
         data = response.json()
         
         results = data.get("results", [])
         if not results:
-            raise HTTPException(status_code=404, detail="Nenhum filme encontrado no TMDB.")
+            raise HTTPException(status_code=404, detail="Nenhum filme disponível encontrado no TMDB.")
         
-        movie = random.choice(results[:10])
+        # Filtro de segurança adicional para garantir que não haja datas futuras
+        available_movies = []
+        for m in results:
+            release_date = m.get("release_date")
+            if release_date and release_date <= current_date and m.get("poster_path"):
+                available_movies.append(m)
+        
+        if not available_movies:
+            available_movies = results # Fallback caso a lista venha vazia
+
+        movie = random.choice(available_movies[:10])
         
         recommendation_data = {
             "id": movie.get("id"),
@@ -54,7 +68,7 @@ def trigger_daily_recommendation():
         
         return {
             "success": True, 
-            "message": "Recomendação diária atualizada com sucesso!", 
+            "message": "Recomendação diária atualizada com sucesso (apenas lançados/disponíveis)!", 
             "movie": recommendation_data["title"]
         }
     except Exception as e:
