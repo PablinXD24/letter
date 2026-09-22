@@ -1,17 +1,15 @@
 import os
 import random
+import time
 import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import firebase_admin
 from firebase_admin import credentials, db
 
-# Inicialização simplificada do Firebase Admin para rodar via Git sem arquivos JSON complexos
+# Inicialização do Firebase Admin
 if not firebase_admin._apps:
-    # Utiliza a URL do Database configurada diretamente
     database_url = os.getenv("FIREBASE_DATABASE_URL", "https://letter-76c0a-default-rtdb.firebaseio.com")
-    
-    # Se estiver rodando no Render sem arquivo de chave, inicializa com credenciais de aplicativo padrão ou opções básicas
     try:
         firebase_admin.initialize_app(options={
             'databaseURL': database_url
@@ -30,6 +28,7 @@ app.add_middleware(
 )
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY", "3fd2be6f0c70a2a598f084ddfb75487c")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 @app.get("/")
 def read_root():
@@ -55,7 +54,7 @@ def trigger_daily_recommendation():
             "overview": movie.get("overview"),
             "year": movie.get("release_date", "2026").split("-")[0],
             "poster": f"https://image.tmdb.org/t/p/w500{movie.get('poster_path')}",
-            "updatedAt": db.SERVER_TIMESTAMP
+            "updatedAt": int(time.time() * 1000)
         }
         
         ref = db.reference("daily_recommendation")
