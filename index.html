@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CineMozi - Timeless Edition</title>
+    <title>CineMozi</title>
     <!-- Google Fonts Plus Jakarta Sans + FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -2007,7 +2007,7 @@
         </div>
     </div>
 
-    <!-- MODAL DA RECOMENDAÇÃO DE HOJE (Trailer, Sinopse PT, Rotten Tomatoes) -->
+    <!-- MODAL DA RECOMENDAÇÃO DE HOJE (Trailer, Sinopse PT) -->
     <div id="aiRecModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
@@ -2019,18 +2019,6 @@
                 <!-- Trailer incorporado via iframe do YouTube -->
                 <div style="position: relative; width: 100%; aspect-ratio: 16/9; border: 3px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #000; box-shadow: 2px 2px 0px #111; margin-bottom: 16px;">
                     <iframe id="aiModalTrailerIframe" src="" title="Trailer do Filme" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-                </div>
-
-                <!-- Notas reais do Rotten Tomatoes -->
-                <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 140px; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 2px 2px 0px #111;">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Tomatometer (Rotten Tomatoes)</span>
-                        <span id="aiModalTomatometer" style="font-size: 18px; font-weight: 800; color: var(--border-color);"><i class="fa-solid fa-spinner fa-spin"></i></span>
-                    </div>
-                    <div style="flex: 1; min-width: 140px; background: #faf7f0; border: 2px solid var(--border-color); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 2px 2px 0px #111;">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Audience Score (Rotten Tomatoes)</span>
-                        <span id="aiModalAudienceScore" style="font-size: 18px; font-weight: 800; color: var(--border-color);"><i class="fa-solid fa-spinner fa-spin"></i></span>
-                    </div>
                 </div>
 
                 <!-- Sinopse Oficial em Português -->
@@ -2381,7 +2369,6 @@
             loadDailyAIRecommendation();
         }
 
-        // Função para reanalisar e sortear outra sugestão de filme do TMDB
         window.refreshDailyRecommendation = async function() {
             showToast("Buscando outra sugestão...");
             try {
@@ -2413,7 +2400,6 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // Função de Recomendação Diária atualizada para exibir o botão símbolo ao lado do "Escolher Juntos"
         async function loadDailyAIRecommendation() {
             const aiRecRef = ref(db, 'daily_recommendation');
             onValue(aiRecRef, (snapshot) => {
@@ -2454,20 +2440,15 @@
             });
         }
 
-        // Função para abrir o Modal da Recomendação de Hoje (Trailer, Sinopse PT, Rotten Tomatoes real)
         async function openAiRecommendationModal(movieData) {
             const modal = document.getElementById('aiRecModal');
             const modalTitle = document.getElementById('aiModalTitle');
             const trailerIframe = document.getElementById('aiModalTrailerIframe');
             const overviewEl = document.getElementById('aiModalOverview');
-            const tomatometerEl = document.getElementById('aiModalTomatometer');
-            const audienceScoreEl = document.getElementById('aiModalAudienceScore');
             const selectBtn = document.getElementById('aiModalSelectBtn');
 
             modalTitle.textContent = `${movieData.title} (${movieData.year})`;
-            overviewEl.textContent = 'Carregando sinopse oficial e notas do Rotten Tomatoes...';
-            tomatometerEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-            audienceScoreEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            overviewEl.textContent = 'Carregando sinopse oficial...';
             trailerIframe.src = '';
 
             modal.classList.remove('hidden');
@@ -2478,7 +2459,6 @@
             };
 
             try {
-                // Buscar dados oficiais da API do TMDB para sinopse, trailer e avaliações reais
                 const res = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}?api_key=${TMDB_API_KEY}&language=pt-BR`);
                 const details = await res.json();
 
@@ -2488,7 +2468,6 @@
                     overviewEl.textContent = 'Sinopse oficial indisponível em português.';
                 }
 
-                // Buscar vídeos para o trailer oficial no YouTube
                 const videoRes = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}/videos?api_key=${TMDB_API_KEY}&language=pt-BR`);
                 const videoData = await videoRes.json();
                 let trailerKey = '';
@@ -2498,7 +2477,6 @@
                 }
 
                 if (!trailerKey) {
-                    // Fallback para inglês se não encontrar em pt-BR
                     const videoResEn = await fetch(`${TMDB_BASE_URL}/movie/${movieData.id}/videos?api_key=${TMDB_API_KEY}&language=en-US`);
                     const videoDataEn = await videoResEn.json();
                     if (videoDataEn.results && videoDataEn.results.length > 0) {
@@ -2513,19 +2491,9 @@
                     trailerIframe.src = '';
                 }
 
-                // Integração de notas reais do Rotten Tomatoes obtidas via TMDB/Provedores de Crítica
-                const voteAvg = details.vote_average ? Math.round(details.vote_average * 10) : 85;
-                const tomatometerScore = voteAvg; 
-                const audienceScore = Math.min(99, voteAvg + 4);
-
-                tomatometerEl.innerHTML = `<span style="color: #FA320A;"><i class="fa-solid fa-tomato"></i> ${tomatometerScore}%</span> <span style="font-size:11px; color:#555; display:block; margin-top:2px;">Críticos Certificados</span>`;
-                audienceScoreEl.innerHTML = `<span style="color: #28a745;"><i class="fa-solid fa-popcorn"></i> ${audienceScore}%</span> <span style="font-size:11px; color:#555; display:block; margin-top:2px;">Nota do Público</span>`;
-
             } catch (err) {
                 console.error("Erro ao carregar detalhes da sugestão:", err);
                 overviewEl.textContent = 'Não foi possível carregar os detalhes complementares no momento.';
-                tomatometerEl.textContent = '88%';
-                audienceScoreEl.textContent = '91%';
             }
         }
 
@@ -4602,7 +4570,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${friendTag}`));
                 if (!tagSnap.exists()) {
-                    alert("Esta Nametag não foi encontrada.");
+                    alert(" Esta Nametag não foi encontrada.");
                     return;
                 }
 
