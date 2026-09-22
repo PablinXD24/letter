@@ -1581,7 +1581,7 @@
 
         <div id="view-session" class="app-view hidden">
             
-            <!-- Bloco de Recomendação Diária Sem o Botão de Refresh no Topo Direito -->
+            <!-- Bloco de Recomendação Diária -->
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
@@ -2385,34 +2385,10 @@
         // Função de Recomendação Diária
         async function loadDailyAIRecommendation() {
             const aiRecRef = ref(db, 'daily_recommendation');
-            onValue(aiRecRef, async (snapshot) => {
-                let data = snapshot.val();
+            onValue(aiRecRef, (snapshot) => {
+                const data = snapshot.val();
                 const container = document.getElementById('aiRecContent');
                 if (!container) return;
-
-                if (!data || !data.title) {
-                    try {
-                        const todayStr = new Date().toISOString().split('T')[0];
-                        const res = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=pt-BR&sort_by=popularity.desc&primary_release_date.lte=${todayStr}&page=1`);
-                        const tmdbData = await res.json();
-                        const results = tmdbData.results || [];
-                        if (results.length > 0) {
-                            const validMovies = results.filter(m => m.poster_path);
-                            const movie = validMovies.length > 0 ? randomChoice(validMovies) : results[0];
-                            data = {
-                                id: movie.id,
-                                title: movie.title,
-                                overview: movie.overview,
-                                year: movie.release_date ? movie.release_date.split('-')[0] : '2026',
-                                poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                                updatedAt: Date.now()
-                            };
-                            await set(ref(db, 'daily_recommendation'), data);
-                        }
-                    } catch (e) {
-                        console.error("Erro ao gerar recomendação inicial:", e);
-                    }
-                }
 
                 if (!data || !data.title) {
                     container.innerHTML = `<p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Nenhuma sugestão diária disponível no momento.</p>`;
