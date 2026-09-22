@@ -1383,6 +1383,85 @@
         .hidden {
             display: none !important;
         }
+
+        /* --- CORREÇÕES DE RESPONSIVIDADE MOBILE --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px 8px;
+            }
+            .container {
+                gap: 16px;
+            }
+            .floating-logo-box {
+                padding: 18px 16px;
+            }
+            header h1 {
+                font-size: 32px;
+            }
+            .card {
+                padding: 16px 12px;
+                border-radius: 12px;
+            }
+            .card h3 {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+            .nav-bar {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+            .selected-movie-preview {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 12px;
+                padding: 12px;
+            }
+            .selected-movie-preview img {
+                width: 100px;
+                height: 145px;
+            }
+            .selected-movie-preview > div:nth-child(2) {
+                width: 100%;
+            }
+            .selected-movie-preview > div:last-child {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+            }
+            .library-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
+            }
+            .connections-grid {
+                grid-template-columns: 1fr;
+            }
+            .scores-wrapper {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .score-divider {
+                width: 80%;
+                height: 2px;
+            }
+            .connection-add-form {
+                flex-direction: column;
+            }
+            .connection-add-form button {
+                width: 100%;
+            }
+            .toast-notification {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                text-align: center;
+                max-width: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1413,8 +1492,8 @@
             
             <div style="margin-top: 2rem; border-top: 2px dashed var(--border-color); padding-top: 1.5rem;">
                 <h4 style="font-weight: 800; font-size: 12px; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Já tem uma Nametag?</h4>
-                <form id="quickTagLoginForm" style="display: flex; gap: 8px; max-width: 360px; margin: 0 auto;">
-                    <input type="text" id="quickTagInput" required placeholder="Digite sua nametag" autocomplete="off" style="flex: 1; padding: 10px; background: #fff; border: 2px solid var(--border-color); border-radius: 8px; color: var(--border-color); font-size: 13px; font-weight: 600; outline: none;">
+                <form id="quickTagLoginForm" style="display: flex; gap: 8px; max-width: 360px; margin: 0 auto; flex-wrap: wrap;">
+                    <input type="text" id="quickTagInput" required placeholder="Digite sua nametag" autocomplete="off" style="flex: 1; min-width: 180px; padding: 10px; background: #fff; border: 2px solid var(--border-color); border-radius: 8px; color: var(--border-color); font-size: 13px; font-weight: 600; outline: none;">
                     <button type="submit" class="btn btn-secondary" style="width: auto; padding: 10px 14px; font-size: 12px;"><i class="fa-solid fa-right-to-bracket"></i></button>
                 </form>
             </div>
@@ -1440,7 +1519,7 @@
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
                 </div>
-                <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center;">
+                <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
                     <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
                 </div>
             </div>
@@ -1463,7 +1542,7 @@
             </div>
 
             <div id="step-movie" class="card hidden" style="margin-top: 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
                     <h3 style="margin-bottom: 0;" id="movieSectionTitle">Selecionar o Filme da Sessão</h3>
                     <button id="btnBackToHub" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;"><i class="fa-solid fa-arrow-left"></i> Voltar ao Hub</button>
                 </div>
@@ -1489,7 +1568,7 @@
 
             <!-- SELEÇÃO DE MÚSICA NA SESSÃO CONJUNTA -->
             <div id="step-session-music" class="card hidden" style="margin-top: 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
                     <h3 style="margin-bottom: 0;" id="musicSectionTitle">Selecionar o Álbum da Sessão</h3>
                     <button id="btnBackToHubMusic" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;"><i class="fa-solid fa-arrow-left"></i> Voltar ao Hub</button>
                 </div>
@@ -1531,7 +1610,7 @@
 
             <!-- SELEÇÃO DE LIVRO NA SESSÃO CONJUNTA -->
             <div id="step-session-book" class="card hidden" style="margin-top: 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
                     <h3 style="margin-bottom: 0;" id="bookSectionTitle">Selecionar o Livro da Sessão</h3>
                     <button id="btnBackToHubBook" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;"><i class="fa-solid fa-arrow-left"></i> Voltar ao Hub</button>
                 </div>
@@ -1752,10 +1831,10 @@
             <div class="card">
                 <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> Biblioteca de Avaliações</h3>
                 
-                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-                    <button type="button" id="libTabMoviesBtn" class="btn" style="flex: 1;"><i class="fa-solid fa-film"></i> Filmes</button>
-                    <button type="button" id="libTabMusicBtn" class="btn btn-secondary" style="flex: 1;"><i class="fa-solid fa-music"></i> Músicas</button>
-                    <button type="button" id="libTabBooksBtn" class="btn btn-secondary" style="flex: 1;"><i class="fa-solid fa-book"></i> Livros</button>
+                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <button type="button" id="libTabMoviesBtn" class="btn" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-film"></i> Filmes</button>
+                    <button type="button" id="libTabMusicBtn" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-music"></i> Músicas</button>
+                    <button type="button" id="libTabBooksBtn" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-book"></i> Livros</button>
                 </div>
 
                 <div id="libSectionMovies">
@@ -1843,7 +1922,7 @@
     <!-- MODAL DA RECOMENDAÇÃO DE HOJE (Trailer, Sinopse PT) -->
     <div id="aiRecModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
                 <h3 id="aiModalTitle" style="font-size: 18px; color: var(--border-color); margin: 0;">Detalhes da Sugestão</h3>
                 <button type="button" id="closeAiRecModalBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: auto;"><i class="fa-solid fa-xmark"></i> Fechar</button>
             </div>
@@ -1887,7 +1966,7 @@
 
     <div id="libraryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 650px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
                 <h3 style="font-size: 16px; color: var(--border-color); margin: 0;">Detalhes e Edição da Avaliação</h3>
                 <button type="button" id="closeLibraryModalBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: auto;"><i class="fa-solid fa-xmark"></i> Fechar</button>
             </div>
@@ -2250,7 +2329,7 @@
                     <div style="flex: 1; min-width: 0;">
                         <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 2px;">${data.title} (${data.year})</h4>
                         <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje?</p>
-                        <div style="display: flex; gap: 8px; align-items: center;">
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                             <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
                                 <i class="fa-solid fa-heart"></i> Escolher Juntos
                             </button>
