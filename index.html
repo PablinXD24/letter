@@ -1587,6 +1587,10 @@
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
+                    <!-- Botão simbolozinho de reanálise no topo do box -->
+                    <button type="button" id="btnRefreshAiRecBox" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Refazer análise e sugerir outro filme" onclick="event.stopPropagation(); refreshDailyRecommendation();">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
                 </div>
                 <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center;">
                     <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
@@ -2040,10 +2044,7 @@
                     <p id="aiModalOverview" style="font-size: 13px; font-weight: 600; color: var(--text-bright); line-height: 1.5;">Carregando sinopse...</p>
                 </div>
 
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <button type="button" id="aiModalSelectBtn" class="btn" style="flex: 1;"><i class="fa-solid fa-heart" style="margin-right: 8px;"></i> Escolher esta Sugestão para a Sessão</button>
-                    <button type="button" id="aiModalRefreshBtn" class="btn btn-secondary" title="Refazer análise e sugerir outro filme" style="width: auto; padding: 11px 16px;"><i class="fa-solid fa-rotate"></i></button>
-                </div>
+                <button type="button" id="aiModalSelectBtn" class="btn"><i class="fa-solid fa-heart" style="margin-right: 8px;"></i> Escolher esta Sugestão para a Sessão</button>
             </div>
         </div>
     </div>
@@ -2381,35 +2382,36 @@
             loadDailyAIRecommendation();
         }
 
-        // Função para buscar nova sugestão aleatória e atualizar o Firebase
-        async function triggerNewAISuggestion() {
+        // Função para reanalisar e sortear outra sugestão de filme do TMDB
+        window.refreshDailyRecommendation = async function() {
+            showToast("Buscando nova sugestão...");
             try {
-                showToast("Gerando nova sugestão...");
                 const todayStr = new Date().toISOString().split('T')[0];
-                const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=pt-BR&sort_by=popularity.desc&primary_release_date.lte=${todayStr}&page=${Math.floor(Math.random() * 5) + 1}`);
+                const res = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=pt-BR&sort_by=popularity.desc&primary_release_date.lte=${todayStr}&page=${Math.floor(Math.random() * 5) + 1}`);
                 const data = await res.json();
                 const results = data.results || [];
-                
-                const valid = results.filter(m => m.poster_path && m.release_date);
-                if (valid.length === 0) return;
-
-                const randomMovie = valid[Math.floor(Math.random() * valid.length)];
-                const newRecData = {
-                    id: randomMovie.id,
-                    title: randomMovie.title,
-                    overview: randomMovie.overview,
-                    year: randomMovie.release_date.split('-')[0],
-                    poster: `https://image.tmdb.org/t/p/w500${randomMovie.poster_path}`,
-                    updatedAt: Date.now()
-                };
-
-                await set(ref(db, 'daily_recommendation'), newRecData);
-                showToast("Nova sugestão carregada!");
-                openAiRecommendationModal(newRecData);
+                if (results.length > 0) {
+                    const validMovies = results.filter(m => m.poster_path);
+                    const movie = validMovies.length > 0 ? randomChoice(validMovies) : results[0];
+                    const newRec = {
+                        id: movie.id,
+                        title: movie.title,
+                        overview: movie.overview,
+                        year: movie.release_date ? movie.release_date.split('-')[0] : '2026',
+                        poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                        updatedAt: Date.now()
+                    };
+                    await set(ref(db, 'daily_recommendation'), newRec);
+                    showToast("Nova sugestão carregada com sucesso!");
+                }
             } catch (err) {
-                console.error("Erro ao gerar nova sugestão:", err);
+                console.error("Erro ao atualizar recomendação:", err);
                 showToast("Erro ao buscar nova sugestão.");
             }
+        };
+
+        function randomChoice(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
         }
 
         // Função de Recomendação Diária atualizada para abrir o Modal Interativo ao clicar no Box
@@ -2432,9 +2434,14 @@
                     <div style="flex: 1; min-width: 0;">
                         <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 2px;">${data.title} (${data.year})</h4>
                         <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje?</p>
-                        <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
-                            <i class="fa-solid fa-heart"></i> Escolher Juntos
-                        </button>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
+                                <i class="fa-solid fa-heart"></i> Escolher Juntos
+                            </button>
+                            <button class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Refazer análise e sugerir outro filme" onclick='event.stopPropagation(); refreshDailyRecommendation();'>
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                        </div>
                     </div>
                 `;
 
@@ -2457,7 +2464,6 @@
             const tomatometerEl = document.getElementById('aiModalTomatometer');
             const audienceScoreEl = document.getElementById('aiModalAudienceScore');
             const selectBtn = document.getElementById('aiModalSelectBtn');
-            const refreshBtn = document.getElementById('aiModalRefreshBtn');
 
             modalTitle.textContent = `${movieData.title} (${movieData.year})`;
             overviewEl.textContent = 'Carregando sinopse oficial e notas...';
@@ -2470,10 +2476,6 @@
             selectBtn.onclick = () => {
                 modal.classList.add('hidden');
                 selectMovieFromAI(movieData);
-            };
-
-            refreshBtn.onclick = async () => {
-                await triggerNewAISuggestion();
             };
 
             try {
