@@ -1587,6 +1587,10 @@
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
+                    <!-- Botão simbolozinho de reanálise no topo do box -->
+                    <button type="button" id="btnRefreshAiRecBox" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Refazer análise e sugerir outro filme" onclick="event.stopPropagation(); refreshDailyRecommendation();">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
                 </div>
                 <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center;">
                     <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
@@ -2433,6 +2437,9 @@
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
                                 <i class="fa-solid fa-heart"></i> Escolher Juntos
+                            </button>
+                            <button class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; border-radius: 8px;" title="Refazer análise e sugerir outro filme" onclick='event.stopPropagation(); refreshDailyRecommendation();'>
+                                <i class="fa-solid fa-rotate"></i>
                             </button>
                         </div>
                     </div>
