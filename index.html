@@ -492,7 +492,7 @@
             font-weight: 800;
         }
 
-        /* --- ESTILOS DA ABA DE CONEXÕES --- */
+        /* --- CONNECTIONS STYLES --- */
         .connections-container {
             display: flex;
             flex-direction: column;
@@ -734,7 +734,7 @@
             transform: scale(1.1);
         }
 
-        /* --- ESTILOS DA LISTA DE ESPERA --- */
+        /* --- WAITLIST STYLES --- */
         .waitlist-card {
             border-style: dashed !important;
             background: #faf7f0 !important;
@@ -821,7 +821,7 @@
         }
 
         /* ==========================================================================
-           ESTILOS DA PILHA DE VINIS & CARROSSEL EXATO DOS ÁLBUNS ESCUTADOS
+           VINYL STACK & VINYL PLAYER WIDGET (NEO-BRUTALISM INTEGRATED)
            ========================================================================== */
         .vinyl-stack-wrapper {
             display: flex;
@@ -980,7 +980,7 @@
             animation-play-state: paused;
         }
 
-        /* --- MINI VINYL PLAYER COMPACTO & EXPANSÍVEL --- */
+        /* --- MINI VINYL PLAYER COMPACTO & EXPANSÍVEL (NEO-BRUTALIST STYLING) --- */
         .vinyl-player-widget {
             background: var(--card-bg);
             border: var(--border-width) solid var(--border-color);
@@ -999,6 +999,7 @@
             cursor: pointer;
             gap: 12px;
             background: #fff;
+            user-select: none;
         }
 
         .vinyl-mini-bar:hover {
@@ -1018,7 +1019,7 @@
             display: flex;
         }
 
-        /* --- ESTANTE DE LIVROS REALISTA COM LOMBADAS VERTICAIS --- */
+        /* --- BOOKSHELF STYLES --- */
         .bookshelf-wrapper {
             background: var(--card-bg);
             border: var(--border-width) solid var(--border-color);
@@ -1218,9 +1219,7 @@
             border: 1px solid var(--border-color);
         }
 
-        /* ==========================================================================
-           ROLETA VERTICAL 3D
-           ========================================================================== */
+        /* --- VERTICAL 3D ROULETTE --- */
         .roulette-wrapper {
             position: relative;
             width: 100%;
@@ -1447,7 +1446,7 @@
             display: none !important;
         }
 
-        /* --- CORREÇÕES DE RESPONSIVIDADE MOBILE --- */
+        /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
             body {
                 padding: 12px 8px 80px 8px;
@@ -1740,14 +1739,14 @@
             </div>
         </div>
 
-        <!-- VIEW: ABA DE MÚSICA -->
+        <!-- VIEW: MUSIC TAB -->
         <div id="view-music" class="app-view hidden">
             
-            <!-- WIDGET DO VINIL PLAYER (Compacto / Expansível) -->
+            <!-- VINYL PLAYER WIDGET (Compact Bar / Expandable Neo-Brutalist) -->
             <div id="vinylPlayerWidget" class="vinyl-player-widget">
-                <!-- Barrinha Compacta dividida em duas partes (Você & Amigo) -->
+                <!-- Compact Split Bar (You & Friend) -->
                 <div class="vinyl-mini-bar" onclick="toggleVinylPlayerWidget()">
-                    <!-- Parte 1: Sua Música -->
+                    <!-- Part 1: Your Music -->
                     <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; border-right: 2px dashed #ddd; padding-right: 12px;">
                         <div id="miniUserThumb" style="width: 36px; height: 36px; border-radius: 50%; background: #111; border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                             <img id="miniUserImg" src="https://via.placeholder.com/30x30?text=🎵" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/30x30?text=🎵'">
@@ -1758,7 +1757,7 @@
                         </div>
                     </div>
 
-                    <!-- Parte 2: Música do Amigo -->
+                    <!-- Part 2: Friend Music -->
                     <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; padding-left: 4px;">
                         <div id="miniFriendThumb" style="width: 36px; height: 36px; border-radius: 50%; background: var(--blue); border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px;">
                             <i class="fa-solid fa-user-group"></i>
@@ -1769,64 +1768,64 @@
                         </div>
                     </div>
 
-                    <!-- Ícone de Expansão -->
+                    <!-- Expand Chevron Icon -->
                     <div style="font-size: 14px; font-weight: 800; color: var(--border-color); padding-left: 6px;">
                         <i id="expandChevronIcon" class="fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
 
-                <!-- Interface Completa do Vinil (Expandida) -->
+                <!-- Expanded Full Vinyl Player Interface (Neo-Brutalist Styled) -->
                 <div class="vinyl-expanded-content">
                     <div id="spotifyLoginPrompt" style="text-align: center; width: 100%; padding: 20px 0;">
                         <button id="spotifyConnectBtn" class="btn" style="background: #1DB954; max-width: 300px; margin: 0 auto;"><i class="fa-brands fa-spotify"></i> Conectar Spotify Player</button>
                     </div>
 
                     <div id="spotifyPlayerActive" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                        <!-- Seletor de Tema do Vinil -->
-                        <div class="flex space-x-1.5 bg-gray-100 p-1 rounded-xl border-2 border-[#111] text-[11px] mb-4">
-                            <button onclick="setTheme('classic')" class="px-2.5 py-1 rounded-lg bg-[#DF39F4] text-white font-bold transition theme-btn" data-theme="classic">Clássico</button>
-                            <button onclick="setTheme('gold')" class="px-2.5 py-1 rounded-lg hover:bg-gray-200 text-[#111] font-bold transition theme-btn" data-theme="gold">Dourado</button>
-                            <button onclick="setTheme('cyber')" class="px-2.5 py-1 rounded-lg hover:bg-gray-200 text-[#111] font-bold transition theme-btn" data-theme="cyber">Cyberpunk</button>
+                        <!-- Vinyl Theme Selector -->
+                        <div style="display: flex; gap: 6px; background: #faf7f0; padding: 6px; border-radius: 12px; border: var(--border-width) solid var(--border-color); font-size: 11px; margin-bottom: 1.2rem; box-shadow: 2px 2px 0px #111;">
+                            <button onclick="setTheme('classic')" style="padding: 6px 12px; border-radius: 8px; border: 2px solid var(--border-color); font-weight: 800; cursor: pointer; transition: all 0.1s;" class="theme-btn" data-theme="classic" style="background: var(--pink); color: #fff;">Clássico</button>
+                            <button onclick="setTheme('gold')" style="padding: 6px 12px; border-radius: 8px; border: 2px solid var(--border-color); font-weight: 800; cursor: pointer; transition: all 0.1s; background: #fff; color: var(--border-color);" class="theme-btn" data-theme="gold">Dourado</button>
+                            <button onclick="setTheme('cyber')" style="padding: 6px 12px; border-radius: 8px; border: 2px solid var(--border-color); font-weight: 800; cursor: pointer; transition: all 0.1s; background: #fff; color: var(--border-color);" class="theme-btn" data-theme="cyber">Cyberpunk</button>
                         </div>
 
-                        <!-- Palco do Vinil -->
-                        <div class="relative w-56 h-56 sm:w-60 sm:h-60 flex items-center justify-center my-2">
-                            <div id="album-sleeve" class="absolute left-0 w-44 h-44 sm:w-48 sm:h-48 bg-white rounded-lg shadow-2xl border-2 border-[#111] overflow-hidden transition-all duration-500 transform -translate-x-3 rotate-[-4deg]">
-                                <img id="sleeve-img" src="" alt="Capa" class="w-full h-full object-cover">
+                        <!-- Vinyl Stage -->
+                        <div style="position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin: 10px 0 20px 0;">
+                            <div id="album-sleeve" style="position: absolute; left: 0; width: 160px; height: 160px; background: #fff; border-radius: 10px; border: var(--border-width) solid var(--border-color); overflow: hidden; box-shadow: var(--box-shadow); transition: all 0.5s ease; transform: translateX(-10px) rotate(-6deg); z-index: 1;">
+                                <img id="sleeve-img" src="" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <div id="vinyl-record" class="absolute right-0 w-48 h-48 sm:w-52 sm:h-52 rounded-full vinyl-grooves shadow-2xl flex items-center justify-center border-4 border-[#111] animate-spin-slow paused transition-all duration-300">
-                                <div class="w-16 h-16 rounded-full overflow-hidden border-4 border-[#111] relative shadow-inner flex items-center justify-center">
-                                    <img id="vinyl-center-img" src="" alt="Selo" class="w-full h-full object-cover">
-                                    <div class="absolute w-3.5 h-3.5 bg-[#111] rounded-full border border-gray-700"></div>
+                            <div id="vinyl-record" style="position: absolute; right: 0; width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--border-color); box-shadow: var(--box-shadow-lg); display: flex; align-items: center; justify-content: center; z-index: 2;" class="vinyl-grooves paused">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3px solid var(--border-color); position: relative; box-shadow: inset 0 0 6px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;">
+                                    <img id="vinyl-center-img" src="" alt="Selo" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div style="position: absolute; width: 12px; height: 12px; background: var(--border-color); border-radius: 50%; border: 1px solid #fff;"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Info Música -->
-                        <div class="w-full text-center space-y-1 px-2 my-2">
-                            <h3 id="track-name" class="text-sm sm:text-base font-extrabold truncate text-[#111]">Nenhuma música tocando</h3>
-                            <p id="artist-name" class="text-xs text-gray-600 font-semibold truncate">Abra o Spotify e dê play</p>
+                        <!-- Track Info -->
+                        <div style="width: 100%; text-align: center; margin-bottom: 1rem; padding: 0 10px;">
+                            <h3 id="track-name" style="font-size: 15px; font-weight: 800; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">Nenhuma música tocando</h3>
+                            <p id="artist-name" style="font-size: 12px; color: var(--text-muted); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Abra o Spotify e dê play</p>
                         </div>
 
-                        <!-- Barra de Progresso -->
-                        <div class="w-full space-y-1 px-2 mb-3">
-                            <div class="flex justify-between text-[10px] text-gray-600 font-mono font-bold">
+                        <!-- Progress Bar -->
+                        <div style="width: 100%; margin-bottom: 1.2rem; padding: 0 10px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 10px; font-family: monospace; font-weight: 800; color: var(--text-muted); margin-bottom: 4px;">
                                 <span id="current-time">0:00</span>
                                 <span id="total-time">0:00</span>
                             </div>
-                            <div id="progress-container" class="w-full h-2 bg-gray-200 border-2 border-[#111] rounded-full overflow-hidden cursor-pointer relative shadow-[2px_2px_0px_#111]" onclick="seekTrack(event)">
-                                <div id="progress-bar" class="h-full bg-[#DF39F4] w-0 transition-all duration-100"></div>
+                            <div id="progress-container" style="width: 100%; height: 10px; background: #fff; border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; box-shadow: 2px 2px 0px #111;" onclick="seekTrack(event)">
+                                <div id="progress-bar" style="height: 100%; background: var(--pink); width: 0%; transition: width 0.1s linear;"></div>
                             </div>
                         </div>
 
-                        <!-- Controles -->
-                        <div class="flex items-center space-x-6">
-                            <button onclick="controlPlayback('previous')" class="text-[#111] hover:text-[#DF39F4] transition p-2"><i class="fa-solid fa-backward-step text-lg"></i></button>
-                            <button id="play-pause-btn" onclick="togglePlayPause()" class="w-12 h-12 bg-[#DF39F4] border-2 border-[#111] text-white rounded-full flex items-center justify-center transition shadow-[2px_2px_0px_#111]">
+                        <!-- Controls -->
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <button onclick="controlPlayback('previous')" style="background: #fff; border: 2px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px #111; font-size: 14px; transition: transform 0.1s;" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+                            <button id="play-pause-btn" onclick="togglePlayPause()" style="background: var(--pink); border: 2px solid var(--border-color); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 3px 3px 0px #111; color: #fff; font-size: 18px; transition: transform 0.1s;" title="Play/Pause">
                                 <i id="play-icon" class="fa-solid fa-play"></i>
                                 <i id="pause-icon" class="fa-solid fa-pause hidden"></i>
                             </button>
-                            <button onclick="controlPlayback('next')" class="text-[#111] hover:text-[#DF39F4] transition p-2"><i class="fa-solid fa-forward-step text-lg"></i></button>
+                            <button onclick="controlPlayback('next')" style="background: #fff; border: 2px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px #111; font-size: 14px; transition: transform 0.1s;" title="Próxima"><i class="fa-solid fa-forward-step"></i></button>
                         </div>
                     </div>
                 </div>
@@ -1884,7 +1883,7 @@
             </div>
         </div>
 
-        <!-- VIEW: ABA DE LIVROS (OPEN LIBRARY) -->
+        <!-- VIEW: BOOKS TAB -->
         <div id="view-books" class="app-view hidden">
             <div class="bookshelf-wrapper" id="booksHeroCarouselSection">
                 <div class="bookshelf-title">
@@ -1948,7 +1947,7 @@
             </div>
         </div>
 
-        <!-- VIEW: ABA DE CONEXÕES -->
+        <!-- VIEW: CONNECTIONS TAB -->
         <div id="view-connections" class="app-view hidden">
             <div class="card connections-container">
                 <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-users" style="margin-right: 8px;"></i> Conexões & Amigos</h3>
@@ -1971,6 +1970,7 @@
             </div>
         </div>
 
+        <!-- VIEW: LIBRARY TAB -->
         <div id="view-library" class="app-view hidden">
             <div class="card">
                 <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-book-bookmark" style="margin-right: 8px;"></i> Biblioteca de Avaliações</h3>
@@ -2025,6 +2025,7 @@
             </div>
         </div>
 
+        <!-- VIEW: PROFILE TAB -->
         <div id="view-profile" class="app-view hidden">
             <div class="card" style="max-width: 650px; margin: 0 auto;">
                 <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i> Meu Perfil & Cadastro</h3>
@@ -2063,7 +2064,7 @@
         </div>
     </div>
 
-    <!-- MODAL DA RECOMENDAÇÃO DE HOJE -->
+    <!-- AI RECOMMENDATION MODAL -->
     <div id="aiRecModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
@@ -2089,7 +2090,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE ESCOLHA DO TIPO -->
+    <!-- TYPE CHOICE MODAL -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 440px; text-align: center; margin-bottom: 0;">
             <h3 style="font-size: 18px; color: var(--border-color); margin-bottom: 16px;"><i class="fa-solid fa-circle-question" style="margin-right: 8px;"></i> O que vocês querem avaliar?</h3>
@@ -2105,6 +2106,7 @@
         </div>
     </div>
 
+    <!-- LIBRARY MODAL -->
     <div id="libraryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 650px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
@@ -2159,7 +2161,6 @@
         let selectedAlbumData = null;
         let selectedBookData = null;
 
-        // Spotify Integration State for Compact/Expandable Vinyl Player
         const spotifyClientId = 'c17b8a32ee1249ef976034607a115409';
         const spotifyRedirectUri = window.location.origin + window.location.pathname;
         const spotifyScopes = 'user-read-playback-state user-read-currently-playing user-modify-playback-state';
@@ -2168,7 +2169,6 @@
         let spotifyRefreshToken = localStorage.getItem('spotify_refresh_token');
         let spotifyTokenExpiry = localStorage.getItem('spotify_token_expiry');
         let isSpotifyPlaying = false;
-        let spotifyProgressTimer = null;
         let spotifyTrackDuration = 0;
         let spotifyTrackProgress = 0;
         let isVinylWidgetExpanded = false;
@@ -2312,7 +2312,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${newTag}`));
                 if (tagSnap.exists()) {
-                    alert(" Esta Nametag já está em uso por outro usuário. Escolha outra.");
+                    alert("Esta Nametag já está em uso por outro usuário. Escolha outra.");
                     return;
                 }
 
@@ -2445,7 +2445,6 @@
             }
         }
 
-        // --- SPOTIFY INTEGRATION & EXPANDABLE VINYL PLAYER ---
         async function initSpotifyPlayerIntegration() {
             const connectBtn = document.getElementById('spotifyConnectBtn');
             connectBtn.onclick = redirectToSpotifyLogin;
@@ -2773,15 +2772,14 @@
 
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 if (btn.dataset.theme === theme) {
-                    btn.classList.add('bg-[#DF39F4]', 'text-white');
-                    btn.classList.remove('hover:bg-gray-200', 'text-[#111]');
+                    btn.style.background = 'var(--pink)';
+                    btn.style.color = '#fff';
                 } else {
-                    btn.classList.remove('bg-[#DF39F4]', 'text-white');
-                    btn.classList.add('hover:bg-gray-200', 'text-[#111]');
+                    btn.style.background = '#fff';
+                    btn.style.color = 'var(--border-color)';
                 }
             });
         };
-        // --- END OF VINYL PLAYER INTEGRATION ---
 
         window.refreshDailyRecommendation = async function() {
             showToast("Buscando outra sugestão...");
