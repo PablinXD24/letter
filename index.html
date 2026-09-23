@@ -30,9 +30,6 @@
             --text-muted: #555555;
             
             --font-body: 'Plus Jakarta Sans', sans-serif;
-            --font-pixel: 'Plus Jakarta Sans', sans-serif;
-            --font-retro-sub: 'Plus Jakarta Sans', sans-serif;
-            --font-heading: 'Plus Jakarta Sans', sans-serif;
         }
 
         * {
@@ -63,7 +60,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--border-color);
-            padding: 30px 15px 90px 15px; /* Added padding bottom for floating bar */
+            padding: 30px 15px 90px 15px;
             display: flex;
             justify-content: center;
             min-height: 100vh;
@@ -873,7 +870,34 @@
             animation: spinVinyl 8s linear infinite;
         }
 
-        /* Sulcos do Vinil (Grooves) */
+        .vinyl-grooves {
+            background: repeating-radial-gradient(
+                circle at center,
+                #111 0px,
+                #111 2px,
+                #222 3px,
+                #111 4px
+            );
+        }
+        .vinyl-gold {
+            background: repeating-radial-gradient(
+                circle at center,
+                #2a2200 0px,
+                #2a2200 2px,
+                #daa520 3px,
+                #1a1400 4px
+            );
+        }
+        .vinyl-cyber {
+            background: repeating-radial-gradient(
+                circle at center,
+                #0b0f19 0px,
+                #0b0f19 2px,
+                #00f0ff 3px,
+                #110022 4px
+            );
+        }
+
         .vinyl-record::before {
             content: '';
             position: absolute;
@@ -902,6 +926,9 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        .paused {
+            animation-play-state: paused;
+        }
 
         .vinyl-cover-center {
             width: 96px;
@@ -920,7 +947,6 @@
             object-fit: cover;
         }
 
-        /* Modo carrossel ativo com a quantidade exata de álbuns escutados */
         .vinyl-stack-wrapper.carousel-active .vinyl-stack-container {
             width: auto;
             display: flex;
@@ -954,6 +980,43 @@
             animation-play-state: paused;
         }
 
+        /* --- MINI VINYL PLAYER COMPACTO & EXPANSÍVEL --- */
+        .vinyl-player-widget {
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--box-shadow-lg);
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .vinyl-mini-bar {
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            gap: 12px;
+            background: #fff;
+        }
+
+        .vinyl-mini-bar:hover {
+            background: #faf7f0;
+        }
+
+        .vinyl-expanded-content {
+            display: none;
+            padding: 24px;
+            border-top: var(--border-width) solid var(--border-color);
+            background: #fff;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .vinyl-player-widget.expanded .vinyl-expanded-content {
+            display: flex;
+        }
 
         /* --- ESTANTE DE LIVROS REALISTA COM LOMBADAS VERTICAIS --- */
         .bookshelf-wrapper {
@@ -1384,74 +1447,6 @@
             display: none !important;
         }
 
-        /* --- MINI VINYL PLAYER FLUTUANTE NA ABA DE MÚSICA --- */
-        #music-tab-vinyl-widget {
-            display: none;
-            margin-top: 20px;
-        }
-        #music-tab-vinyl-widget.active-tab {
-            display: block;
-        }
-
-        .vinyl-mini-bar {
-            background: var(--card-bg);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 16px;
-            padding: 12px 18px;
-            box-shadow: var(--box-shadow-lg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .vinyl-mini-bar:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px #111;
-        }
-
-        .vinyl-mini-thumb {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid var(--border-color);
-            background: #111;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 2px 2px 0px #111;
-            animation: spinVinyl 6s linear infinite;
-        }
-        .vinyl-mini-thumb img {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-        }
-
-        .vinyl-expanded-modal {
-            background: var(--card-bg);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--box-shadow-lg);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            margin-top: 15px;
-            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
         /* --- CORREÇÕES DE RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
             body {
@@ -1579,8 +1574,6 @@
         </div>
 
         <div id="view-session" class="app-view hidden">
-            
-            <!-- Bloco de Recomendação Diária Com Botão Símbolo ao Lado de "Escolher Juntos" -->
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
@@ -1634,7 +1627,6 @@
                 </div>
             </div>
 
-            <!-- SELEÇÃO DE MÚSICA NA SESSÃO CONJUNTA -->
             <div id="step-session-music" class="card hidden" style="margin-top: 0;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
                     <h3 style="margin-bottom: 0;" id="musicSectionTitle">Selecionar o Álbum da Sessão</h3>
@@ -1659,7 +1651,6 @@
                     <div id="sessionAlbumResults" class="movie-results"></div>
                 </div>
 
-                <!-- Roleta 3D flutuante de faixas para Sessão Conjunta -->
                 <div id="sessionTracksSection" class="hidden">
                     <div class="roulette-wrapper" id="sessionRouletteWrapper">
                         <div class="roulette-header">
@@ -1676,7 +1667,6 @@
                 </div>
             </div>
 
-            <!-- SELEÇÃO DE LIVRO NA SESSÃO CONJUNTA -->
             <div id="step-session-book" class="card hidden" style="margin-top: 0;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
                     <h3 style="margin-bottom: 0;" id="bookSectionTitle">Selecionar o Livro da Sessão</h3>
@@ -1753,43 +1743,45 @@
         <!-- VIEW: ABA DE MÚSICA -->
         <div id="view-music" class="app-view hidden">
             
-            <!-- MINI VINYL PLAYER INTEGRADO NA ABA DE MÚSICA -->
-            <div id="music-tab-vinyl-widget">
-                <!-- Barrinha inferior (Compacta) -->
-                <div id="vinylMiniBar" class="vinyl-mini-bar" onclick="toggleVinylWidgetExpand()">
-                    <div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1;">
-                        <div class="vinyl-mini-thumb" id="miniThumbVinyl">
-                            <img id="miniThumbImg" src="https://via.placeholder.com/30x30?text=🎵" alt="Capa" onerror="this.src='https://via.placeholder.com/30x30?text=🎵'">
+            <!-- WIDGET DO VINIL PLAYER (Compacto / Expansível) -->
+            <div id="vinylPlayerWidget" class="vinyl-player-widget">
+                <!-- Barrinha Compacta dividida em duas partes (Você & Amigo) -->
+                <div class="vinyl-mini-bar" onclick="toggleVinylPlayerWidget()">
+                    <!-- Parte 1: Sua Música -->
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; border-right: 2px dashed #ddd; padding-right: 12px;">
+                        <div id="miniUserThumb" style="width: 36px; height: 36px; border-radius: 50%; background: #111; border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <img id="miniUserImg" src="https://via.placeholder.com/30x30?text=🎵" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/30x30?text=🎵'">
                         </div>
                         <div style="min-width: 0; flex: 1;">
-                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <span style="font-size: 13px; font-weight: 800; color: var(--border-color);">Você:</span>
-                                <span id="miniTrackName" style="font-size: 13px; font-weight: 700; color: var(--text-bright); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Conecte o Spotify abaixo</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
-                                <span style="font-size: 11px; font-weight: 800; color: var(--pink);" id="miniFriendInfo">Amigo: Offline</span>
-                            </div>
+                            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--pink);">Você</div>
+                            <div id="miniUserTrack" style="font-size: 12px; font-weight: 700; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Conecte o Spotify abaixo</div>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-                        <button type="button" onclick="event.stopPropagation(); togglePlayPause();" id="miniPlayPauseBtn" style="background: var(--pink); color: #fff; border: 2px solid var(--border-color); width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 1px 1px 0px #111;"><i class="fa-solid fa-play" style="font-size: 12px;"></i></button>
-                        <i class="fa-solid fa-chevron-up" style="font-size: 14px; font-weight: 800; color: var(--border-color);" id="expandIndicatorIcon"></i>
+
+                    <!-- Parte 2: Música do Amigo -->
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; padding-left: 4px;">
+                        <div id="miniFriendThumb" style="width: 36px; height: 36px; border-radius: 50%; background: var(--blue); border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px;">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div style="min-width: 0; flex: 1;">
+                            <div id="miniFriendLabel" style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--blue);">Amigo</div>
+                            <div id="miniFriendTrack" style="font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Offline ou sem amigo</div>
+                        </div>
+                    </div>
+
+                    <!-- Ícone de Expansão -->
+                    <div style="font-size: 14px; font-weight: 800; color: var(--border-color); padding-left: 6px;">
+                        <i id="expandChevronIcon" class="fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
 
                 <!-- Interface Completa do Vinil (Expandida) -->
-                <div id="vinylExpandedCard" class="vinyl-expanded-modal">
-                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px dashed var(--border-color); padding-bottom: 8px;">
-                        <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--pink);"><i class="fa-solid fa-compact-disc"></i> Vinil Player & Sincronia</span>
-                        <button type="button" onclick="toggleVinylWidgetExpand()" class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px; width: auto;"><i class="fa-solid fa-xmark"></i> Recolher</button>
-                    </div>
-
-                    <!-- Spotify Connect / Login Status Area -->
-                    <div id="spotifyLoginPromptArea" style="text-align: center; width: 100%; padding: 10px 0;">
+                <div class="vinyl-expanded-content">
+                    <div id="spotifyLoginPrompt" style="text-align: center; width: 100%; padding: 20px 0;">
                         <button id="spotifyConnectBtn" class="btn" style="background: #1DB954; max-width: 300px; margin: 0 auto;"><i class="fa-brands fa-spotify"></i> Conectar Spotify Player</button>
                     </div>
 
-                    <div id="spotifyPlayerActiveArea" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                    <div id="spotifyPlayerActive" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                         <!-- Seletor de Tema do Vinil -->
                         <div class="flex space-x-1.5 bg-gray-100 p-1 rounded-xl border-2 border-[#111] text-[11px] mb-4">
                             <button onclick="setTheme('classic')" class="px-2.5 py-1 rounded-lg bg-[#DF39F4] text-white font-bold transition theme-btn" data-theme="classic">Clássico</button>
@@ -1840,8 +1832,7 @@
                 </div>
             </div>
 
-            <!-- PILHA DE VINIS & CARROSSEL EXATO DOS ÁLBUNS -->
-            <div class="featured-hero-carousel" id="musicHeroCarouselSection" style="margin-top: 15px;">
+            <div class="featured-hero-carousel" id="musicHeroCarouselSection">
                 <div class="vinyl-stack-wrapper" id="vinylStackWrapperBox">
                     <div class="vinyl-stack-container" id="musicCoverflowStage">
                         <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>
@@ -1871,7 +1862,6 @@
                 </div>
             </div>
 
-            <!-- Roleta 3D flutuante de Faixas e Avaliações -->
             <div id="step-album-review" class="hidden">
                 <div class="roulette-wrapper" id="musicTabRouletteWrapper">
                     <div class="roulette-header">
@@ -1896,7 +1886,6 @@
 
         <!-- VIEW: ABA DE LIVROS (OPEN LIBRARY) -->
         <div id="view-books" class="app-view hidden">
-            <!-- PRATELEIRA REALISTA PARA LIVROS -->
             <div class="bookshelf-wrapper" id="booksHeroCarouselSection">
                 <div class="bookshelf-title">
                     <i class="fa-solid fa-book-bookmark" style="color: var(--pink);"></i> Prateleira de Livros
@@ -1931,7 +1920,6 @@
                 </div>
             </div>
 
-            <!-- Formulário de Avaliação do Livro -->
             <div id="step-book-review" class="card hidden" style="margin-top: 1.5rem;">
                 <h3 style="margin-bottom: 1.4rem;"><i class="fa-solid fa-star-half-stroke" style="margin-right: 8px;"></i> Sua Avaliação do Livro</h3>
                 
@@ -2075,7 +2063,7 @@
         </div>
     </div>
 
-    <!-- MODAL DA RECOMENDAÇÃO DE HOJE (Trailer, Sinopse PT) -->
+    <!-- MODAL DA RECOMENDAÇÃO DE HOJE -->
     <div id="aiRecModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
@@ -2084,12 +2072,10 @@
             </div>
             
             <div id="aiModalBody">
-                <!-- Trailer incorporado via iframe do YouTube -->
                 <div style="position: relative; width: 100%; aspect-ratio: 16/9; border: 3px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #000; box-shadow: 2px 2px 0px #111; margin-bottom: 16px;">
                     <iframe id="aiModalTrailerIframe" src="" title="Trailer do Filme" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                 </div>
 
-                <!-- Sinopse Oficial em Português -->
                 <div style="background: #fff; border: 2px solid var(--border-color); border-radius: 10px; padding: 14px; box-shadow: 2px 2px 0px #111; margin-bottom: 20px;">
                     <h4 style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; color: var(--border-color);">Sinopse Oficial</h4>
                     <p id="aiModalOverview" style="font-size: 13px; font-weight: 600; color: var(--text-bright); line-height: 1.5;">Carregando sinopse...</p>
@@ -2097,14 +2083,13 @@
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <button type="button" id="aiModalSelectBtn" class="btn" style="flex: 1; min-width: 200px;"><i class="fa-solid fa-heart" style="margin-right: 8px;"></i> Escolher esta Sugestão</button>
-                    <!-- Botão símbolo (apenas ícone) no modal/container -->
                     <button type="button" id="aiModalRefreshBtn" class="btn btn-secondary" style="width: auto; padding: 11px 14px;" title="Ver outra sugestão" onclick="refreshDailyRecommendation()"><i class="fa-solid fa-rotate"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE ESCOLHA DO TIPO (Filme, Música ou Livro) -->
+    <!-- MODAL DE ESCOLHA DO TIPO -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 440px; text-align: center; margin-bottom: 0;">
             <h3 style="font-size: 18px; color: var(--border-color); margin-bottom: 16px;"><i class="fa-solid fa-circle-question" style="margin-right: 8px;"></i> O que vocês querem avaliar?</h3>
@@ -2174,7 +2159,7 @@
         let selectedAlbumData = null;
         let selectedBookData = null;
 
-        // Spotify Integration State for Mini/Expanded Vinyl Player
+        // Spotify Integration State for Compact/Expandable Vinyl Player
         const spotifyClientId = 'c17b8a32ee1249ef976034607a115409';
         const spotifyRedirectUri = window.location.origin + window.location.pathname;
         const spotifyScopes = 'user-read-playback-state user-read-currently-playing user-modify-playback-state';
@@ -2186,7 +2171,7 @@
         let spotifyProgressTimer = null;
         let spotifyTrackDuration = 0;
         let spotifyTrackProgress = 0;
-        let isVinylExpanded = false;
+        let isVinylWidgetExpanded = false;
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -2219,12 +2204,8 @@
                 }
             });
 
-            const vinylWidget = document.getElementById('music-tab-vinyl-widget');
             if (targetId === 'view-music') {
-                vinylWidget.classList.add('active-tab');
                 initSpotifyPlayerIntegration();
-            } else {
-                vinylWidget.classList.remove('active-tab');
             }
         }
 
@@ -2456,7 +2437,6 @@
             loadWaitlist();
             loadDailyAIRecommendation();
 
-            // Check Spotify OAuth Code
             const params = new URLSearchParams(window.location.search);
             const code = params.get('code');
             if (code) {
@@ -2465,7 +2445,7 @@
             }
         }
 
-        // --- SPOTIFY MINI & EXPANDED VINYL PLAYER LOGIC ---
+        // --- SPOTIFY INTEGRATION & EXPANDABLE VINYL PLAYER ---
         async function initSpotifyPlayerIntegration() {
             const connectBtn = document.getElementById('spotifyConnectBtn');
             connectBtn.onclick = redirectToSpotifyLogin;
@@ -2482,15 +2462,16 @@
         }
 
         function showSpotifyLoginPrompt() {
-            document.getElementById('spotifyLoginPromptArea').classList.remove('hidden');
-            document.getElementById('spotifyPlayerActiveArea').classList.add('hidden');
-            document.getElementById('miniTrackName').textContent = 'Conecte o Spotify';
-            document.getElementById('miniFriendInfo').textContent = connectedConnectionNametag ? `@${connectedConnectionNametag}: Offline` : 'Sem amigo conectado';
+            document.getElementById('spotifyLoginPrompt').classList.remove('hidden');
+            document.getElementById('spotifyPlayerActive').classList.add('hidden');
+            document.getElementById('miniUserTrack').textContent = 'Conecte o Spotify';
+            document.getElementById('miniFriendLabel').textContent = connectedConnectionNametag ? `@${connectedConnectionNametag}` : 'Amigo';
+            document.getElementById('miniFriendTrack').textContent = 'Offline ou sem música';
         }
 
         function showActiveSpotifyPlayer() {
-            document.getElementById('spotifyLoginPromptArea').classList.add('hidden');
-            document.getElementById('spotifyPlayerActiveArea').classList.remove('hidden');
+            document.getElementById('spotifyLoginPrompt').classList.add('hidden');
+            document.getElementById('spotifyPlayerActive').classList.remove('hidden');
             fetchSpotifyCurrentPlayback();
             setInterval(fetchSpotifyCurrentPlayback, 4000);
         }
@@ -2574,16 +2555,16 @@
             }
         }
 
-        window.toggleVinylWidgetExpand = function() {
-            isVinylExpanded = !isVinylExpanded;
-            const expandedCard = document.getElementById('vinylExpandedCard');
-            const icon = document.getElementById('expandIndicatorIcon');
-            if (isVinylExpanded) {
-                expandedCard.style.display = 'flex';
-                icon.className = 'fa-solid fa-chevron-down';
+        window.toggleVinylPlayerWidget = function() {
+            isVinylWidgetExpanded = !isVinylWidgetExpanded;
+            const widget = document.getElementById('vinylPlayerWidget');
+            const chevron = document.getElementById('expandChevronIcon');
+            if (isVinylWidgetExpanded) {
+                widget.classList.add('expanded');
+                chevron.className = 'fa-solid fa-chevron-up';
             } else {
-                expandedCard.style.display = 'none';
-                icon.className = 'fa-solid fa-chevron-up';
+                widget.classList.remove('expanded');
+                chevron.className = 'fa-solid fa-chevron-down';
             }
         };
 
@@ -2615,12 +2596,12 @@
                     }
                 }
 
-                // Push current listening status to Firebase for friend observation
                 if (currentTrackData) {
                     await set(ref(db, `users/${currentUser.uid}/now_playing`), {
                         ...currentTrackData,
                         updatedAt: Date.now()
                     });
+                    updateVinylPlayerUI(currentTrackData);
                 } else {
                     await set(ref(db, `users/${currentUser.uid}/now_playing`), {
                         name: 'Nenhuma música tocando',
@@ -2628,28 +2609,31 @@
                         isPlaying: false,
                         updatedAt: Date.now()
                     });
-                }
-
-                if (currentTrackData) {
-                    updateVinylPlayerUI(currentTrackData);
-                } else {
                     setVinylIdleState();
                 }
 
-                // Fetch Friend's Now Playing Status
                 if (connectedConnectionUid) {
                     const friendRef = ref(db, `users/${connectedConnectionUid}/now_playing`);
                     get(friendRef).then(snap => {
                         const friendData = snap.val();
-                        const friendInfoEl = document.getElementById('miniFriendInfo');
+                        const friendLabelEl = document.getElementById('miniFriendLabel');
+                        const friendTrackEl = document.getElementById('miniFriendTrack');
+                        const friendThumbEl = document.getElementById('miniFriendThumb');
+                        
+                        friendLabelEl.textContent = `@${connectedConnectionNametag}`;
                         if (friendData && friendData.name && friendData.name !== 'Nenhuma música tocando') {
-                            friendInfoEl.textContent = `@${connectedConnectionNametag} ouve: ${friendData.name} - ${friendData.artist}`;
+                            friendTrackEl.textContent = `${friendData.name} - ${friendData.artist}`;
+                            if (friendData.albumImg) {
+                                friendThumbEl.innerHTML = `<img src="${friendData.albumImg}" alt="Amigo" style="width: 100%; height: 100%; object-fit: cover;">`;
+                            }
                         } else {
-                            friendInfoEl.textContent = `@${connectedConnectionNametag}: Offline ou sem música`;
+                            friendTrackEl.textContent = 'Offline ou sem música';
+                            friendThumbEl.innerHTML = `<i class="fa-solid fa-user-group"></i>`;
                         }
                     });
                 } else {
-                    document.getElementById('miniFriendInfo').textContent = 'Nenhum amigo conectado';
+                    document.getElementById('miniFriendLabel').textContent = 'Amigo';
+                    document.getElementById('miniFriendTrack').textContent = 'Nenhum amigo conectado';
                 }
 
             } catch (err) {
@@ -2660,8 +2644,8 @@
         function setVinylIdleState() {
             document.getElementById('track-name').innerText = 'Nenhuma música tocando';
             document.getElementById('artist-name').innerText = 'Abra o Spotify e dê play';
-            document.getElementById('miniTrackName').innerText = 'Nenhuma música tocando';
-            document.getElementById('miniThumbImg').src = 'https://via.placeholder.com/30x30?text=🎵';
+            document.getElementById('miniUserTrack').innerText = 'Nenhuma música tocando';
+            document.getElementById('miniUserImg').src = 'https://via.placeholder.com/30x30?text=🎵';
             document.getElementById('vinyl-record').classList.add('paused');
             isSpotifyPlaying = false;
             updatePlayPauseIcon(false);
@@ -2671,12 +2655,12 @@
             isSpotifyPlaying = data.isPlaying;
             document.getElementById('track-name').innerText = data.name;
             document.getElementById('artist-name').innerText = data.artist;
-            document.getElementById('miniTrackName').innerText = `${data.name} - ${data.artist}`;
+            document.getElementById('miniUserTrack').innerText = `${data.name} - ${data.artist}`;
             
             if (data.albumImg) {
                 document.getElementById('sleeve-img').src = data.albumImg;
                 document.getElementById('vinyl-center-img').src = data.albumImg;
-                document.getElementById('miniThumbImg').src = data.albumImg;
+                document.getElementById('miniUserImg').src = data.albumImg;
             }
 
             const vinyl = document.getElementById('vinyl-record');
@@ -2693,13 +2677,10 @@
         function updatePlayPauseIcon(isPlaying) {
             const playIcon = document.getElementById('play-icon');
             const pauseIcon = document.getElementById('pause-icon');
-            const miniBtn = document.querySelector('#miniPlayPauseBtn i');
             if (isPlaying) {
                 playIcon.className = 'fa-solid fa-pause';
-                if(miniBtn) miniBtn.className = 'fa-solid fa-pause';
             } else {
                 playIcon.className = 'fa-solid fa-play';
-                if(miniBtn) miniBtn.className = 'fa-solid fa-play';
             }
         }
 
