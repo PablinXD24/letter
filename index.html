@@ -492,44 +492,93 @@
             font-weight: 800;
         }
 
-        /* --- VINTAGE TICKET INVITATION STYLES (BOX-FREE / BORDERLESS TICKET) --- */
-        .ticket-box {
-            background: #fdfbf7;
-            border: none;
-            border-radius: 0;
-            padding: 20px 0;
-            box-shadow: none;
-            margin-bottom: 1.5rem;
+        /* --- STYLIZED POPUP VINTAGE TICKET STYLES --- */
+        #ticketInvitationWidget {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInPopup 0.25s ease;
+        }
+
+        #ticketInvitationWidget.hidden {
+            display: none !important;
+        }
+
+        @keyframes fadeInPopup {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .ticket-popup-card {
+            background: #fffdf9;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 440px;
+            padding: 28px;
+            box-shadow: 8px 8px 0px #111;
             position: relative;
-            overflow: visible;
-            background-image: radial-gradient(#d6cebe 1px, transparent 1px);
+            overflow: hidden;
+            background-image: radial-gradient(#e2d9c5 1.5px, transparent 1.5px);
             background-size: 16px 16px;
         }
 
-        .ticket-box::before,
-        .ticket-box::after {
-            display: none !important;
+        /* Perforated Notches on Ticket Modal */
+        .ticket-popup-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.75);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 50%;
+        }
+
+        .ticket-popup-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.75);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 50%;
         }
 
         .ticket-inner {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 16px;
-            background: #fff;
-            border: none;
-            border-radius: 0;
-            padding: 16px 0;
-            box-shadow: none;
+            background: #ffffff;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 3px 3px 0px #111;
             position: relative;
+            text-align: center;
         }
 
         .ticket-inner img {
-            width: 80px;
-            height: 110px;
+            width: 110px;
+            height: 155px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 2px solid var(--border-color);
-            flex-shrink: 0;
+            box-shadow: 3px 3px 0px #111;
+            margin-bottom: 14px;
         }
 
         /* --- CONNECTIONS STYLES --- */
@@ -1606,7 +1655,7 @@
         </div>
 
         <div id="view-session" class="app-view hidden">
-            <!-- VINTAGE TICKET INVITATION WIDGET CONTAINER -->
+            <!-- VINTAGE TICKET INVITATION WIDGET CONTAINER (POPUP) -->
             <div id="ticketInvitationWidget" class="hidden"></div>
 
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
@@ -2537,7 +2586,7 @@
 
                 const inviteUrl = `${window.location.origin}${window.location.pathname}?ticket=${ticketId}&sender=${encodeURIComponent(userNametag)}&title=${encodeURIComponent(itemData.title)}&type=${itemType}&poster=${encodeURIComponent(itemData.poster || '')}`;
 
-                // Renderiza o Ticket interativo enviado na própria interface para confirmação visual estilizada
+                // Renderiza o Ticket interativo como Pop-up na interface para confirmação visual estilizada
                 renderTicketWidget(ticketData);
 
                 if (navigator.clipboard) {
@@ -2596,24 +2645,22 @@
             if (!widgetContainer) return;
 
             const typeName = ticket.type === 'music' ? 'Álbum Musical' : (ticket.type === 'book' ? 'Livro' : 'Filme');
-            const posterUrl = ticket.item.poster || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="110"><rect width="100%" height="100%" fill="%23ddd"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="14">CineMozi</text></svg>';
+            const posterUrl = ticket.item.poster || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="110" height="155"><rect width="100%" height="100%" fill="%23ddd"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="14">CineMozi</text></svg>';
 
             widgetContainer.innerHTML = `
-                <div class="ticket-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
-                        <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--border-color);">
-                            <i class="fa-solid fa-ticket" style="margin-right: 4px;"></i> Ingresso Teatral / Sessão
+                <div class="ticket-popup-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px;">
+                        <span style="font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--border-color);">
+                            <i class="fa-solid fa-ticket" style="margin-right: 6px; color: var(--blue);"></i> Ingresso de Sessão
                         </span>
-                        <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
+                        <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 10px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="ticket-inner">
                         <img src="${posterUrl}" alt="${ticket.item.title}">
-                        <div style="flex: 1; min-width: 0;">
-                            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 2px;">Convite de @${ticket.senderNametag}</div>
-                            <h4 style="font-size: 16px; font-weight: 800; color: var(--border-color); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ticket.item.title}</h4>
-                            <p style="font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 10px;">Vamos avaliar este ${typeName} juntos?</p>
-                            <button type="button" class="btn" style="padding: 8px 12px; font-size: 11px; background: var(--blue);" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Resgatar Ingresso</button>
-                        </div>
+                        <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--blue); letter-spacing: 0.5px; margin-bottom: 4px;">Convite especial de @${ticket.senderNametag}</div>
+                        <h4 style="font-size: 17px; font-weight: 800; color: var(--border-color); margin-bottom: 6px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ticket.item.title}</h4>
+                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 16px;">Vamos avaliar este ${typeName} juntos?</p>
+                        <button type="button" class="btn" style="padding: 10px 16px; font-size: 12px; background: var(--green); color: var(--border-color);" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Resgatar Ingresso</button>
                     </div>
                 </div>
             `;
