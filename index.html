@@ -492,6 +492,64 @@
             font-weight: 800;
         }
 
+        /* --- TICKET INVITATION STYLES (NEO-BRUTALIST) --- */
+        .ticket-box {
+            background: var(--yellow);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--box-shadow-lg);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-box::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--bg-color);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 50%;
+        }
+
+        .ticket-box::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--bg-color);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 50%;
+        }
+
+        .ticket-inner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 2px 2px 0px #111;
+        }
+
+        .ticket-inner img {
+            width: 80px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
         /* --- CONNECTIONS STYLES --- */
         .connections-container {
             display: flex;
@@ -1566,6 +1624,9 @@
         </div>
 
         <div id="view-session" class="app-view hidden">
+            <!-- TICKET INVITATION WIDGET CONTAINER -->
+            <div id="ticketInvitationWidget" class="hidden"></div>
+
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                     <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--blue); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
@@ -1607,6 +1668,7 @@
                         <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button id="btnSendTicketMovie" class="btn" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--green); color: var(--border-color);"><i class="fa-solid fa-ticket"></i> Enviar Ticket</button>
                         <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
                         <button id="btnWaitlistMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
@@ -1632,6 +1694,7 @@
                         <p id="selectedSessionAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button id="btnSendTicketAlbum" class="btn" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--green); color: var(--border-color);"><i class="fa-solid fa-ticket"></i> Enviar Ticket</button>
                         <button id="btnChangeSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
                         <button id="btnWaitlistSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
@@ -1672,6 +1735,7 @@
                         <p id="selectedSessionBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button id="btnSendTicketBook" class="btn" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--green); color: var(--border-color);"><i class="fa-solid fa-ticket"></i> Enviar Ticket</button>
                         <button id="btnChangeSessionBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
                         <button id="btnWaitlistSessionBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
@@ -2457,6 +2521,7 @@
             loadHubConnection();
             loadWaitlist();
             loadDailyAIRecommendation();
+            checkIncomingTicketInvite();
 
             const params = new URLSearchParams(window.location.search);
             const code = params.get('code');
@@ -2464,6 +2529,121 @@
                 window.history.replaceState({}, document.title, spotifyRedirectUri);
                 exchangeSpotifyCodeForToken(code);
             }
+        }
+
+        // --- TICKET INVITATION SYSTEM ---
+        async function sendTicketInvite(itemData, itemType) {
+            if (!connectedConnectionUid) {
+                alert("Selecione um amigo na aba Conexões para enviar o convite!");
+                switchTab('view-connections');
+                return;
+            }
+
+            const ticketId = 'ticket_' + Date.now();
+            const ticketData = {
+                id: ticketId,
+                senderUid: currentUser.uid,
+                senderNametag: userNametag,
+                receiverUid: connectedConnectionUid,
+                item: itemData,
+                type: itemType,
+                createdAt: Date.now()
+            };
+
+            try {
+                // Salva no banco para entrega em tempo real se o amigo estiver online
+                await set(ref(db, `users/${connectedConnectionUid}/incoming_ticket`), ticketData);
+
+                // Gera o link de compartilhamento para caso o usuário não esteja online no momento
+                const inviteUrl = `${window.location.origin}${window.location.pathname}?ticket=${ticketId}&sender=${encodeURIComponent(userNametag)}&title=${encodeURIComponent(itemData.title)}&type=${itemType}&poster=${encodeURIComponent(itemData.poster || '')}`;
+
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(inviteUrl);
+                    showToast(`Convite (Ticket) enviado para @${connectedConnectionNametag}! Link copiado para a área de transferência.`);
+                } else {
+                    showToast(`Convite (Ticket) enviado para @${connectedConnectionNametag}!`);
+                }
+            } catch (err) {
+                console.error("Erro ao enviar ticket:", err);
+                alert("Erro ao enviar o convite.");
+            }
+        }
+
+        document.getElementById('btnSendTicketMovie').addEventListener('click', () => {
+            if (tempMovieData) sendTicketInvite(tempMovieData, 'movie');
+        });
+        document.getElementById('btnSendTicketAlbum').addEventListener('click', () => {
+            if (tempSessionAlbumData) sendTicketInvite(tempSessionAlbumData, 'music');
+        });
+        document.getElementById('btnSendTicketBook').addEventListener('click', () => {
+            if (tempSessionBookData) sendTicketInvite(tempSessionBookData, 'book');
+        });
+
+        function checkIncomingTicketInvite() {
+            if (!currentUser || !userNametag) return;
+
+            // Verifica parâmetros na URL (link externo compartilhado)
+            const urlParams = new URLSearchParams(window.location.search);
+            const ticketParam = urlParams.get('ticket');
+            const senderParam = urlParams.get('sender');
+            const titleParam = urlParams.get('title');
+            const typeParam = urlParams.get('type') || 'movie';
+            const posterParam = urlParams.get('poster');
+
+            if (ticketParam && titleParam) {
+                renderTicketWidget({
+                    senderNametag: senderParam || 'Alguém',
+                    item: { title: titleParam, poster: posterParam, year: '2026' },
+                    type: typeParam
+                });
+                window.history.replaceState({}, document.title, window.location.pathname);
+                return;
+            }
+
+            // Verifica banco de dados em tempo real para convites recebidos
+            const incomingRef = ref(db, `users/${currentUser.uid}/incoming_ticket`);
+            onValue(incomingRef, (snapshot) => {
+                const ticket = snapshot.val();
+                if (ticket) {
+                    renderTicketWidget(ticket);
+                }
+            });
+        }
+
+        function renderTicketWidget(ticket) {
+            const widgetContainer = document.getElementById('ticketInvitationWidget');
+            if (!widgetContainer) return;
+
+            const typeName = ticket.type === 'music' ? 'Álbum Musical' : (ticket.type === 'book' ? 'Livro' : 'Filme');
+            const posterUrl = ticket.item.poster || 'https://via.placeholder.com/80x110?text=CineMozi';
+
+            widgetContainer.innerHTML = `
+                <div class="ticket-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; background: var(--border-color); color: #fff; padding: 4px 10px; border-radius: 20px;">
+                            <i class="fa-solid fa-ticket"></i> Convite de Sessão (@${ticket.senderNametag})
+                        </span>
+                        <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="ticket-inner">
+                        <img src="${posterUrl}" alt="${ticket.item.title}">
+                        <div style="flex: 1; min-width: 0;">
+                            <h4 style="font-size: 15px; font-weight: 800; color: var(--border-color); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ticket.item.title}</h4>
+                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">@${ticket.senderNametag} convidou você para avaliar este ${typeName} juntos!</p>
+                            <button type="button" class="btn" style="padding: 8px 12px; font-size: 11px;" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Aceitar Convite</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            widgetContainer.classList.remove('hidden');
+
+            document.getElementById('acceptTicketBtn').onclick = async () => {
+                widgetContainer.classList.add('hidden');
+                if (currentUser) {
+                    await remove(ref(db, `users/${currentUser.uid}/incoming_ticket`));
+                }
+                showToast("Convite aceito! Divirtam-se na sessão.");
+            };
         }
 
         async function initSpotifyPlayerIntegration() {
@@ -2583,7 +2763,6 @@
             const friendChevron = document.getElementById('friendExpandChevron');
 
             if (activeVinylExpandedSide === side) {
-                // Close if clicking the same side again
                 activeVinylExpandedSide = null;
                 widget.classList.remove('expanded');
                 userSection.classList.add('hidden');
@@ -2675,7 +2854,6 @@
                                 friendThumbEl.innerHTML = `<img src="${friendData.albumImg}" alt="Amigo" style="width: 100%; height: 100%; object-fit: cover;">`;
                             }
                             
-                            // Update Friend Expanded View
                             document.getElementById('expandedFriendTitleHeader').innerHTML = `<i class="fa-solid fa-user-group"></i> Player de @${connectedConnectionNametag}`;
                             document.getElementById('friend-track-name').textContent = friendData.name;
                             document.getElementById('friend-artist-name').textContent = friendData.artist;
