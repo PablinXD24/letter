@@ -118,6 +118,7 @@
             padding: 20px 14px;
             border-radius: 50px;
             overflow-y: auto;
+            flex-grow: 1;
         }
 
         .nav01 > i {
@@ -186,7 +187,7 @@
             flex-direction: column;
             background: var(--accent) var(--banner) center / cover;
             border-radius: 40px;
-            min-height: 280px;
+            min-height: 380px;
         }
 
         .header01 {
@@ -242,32 +243,173 @@
             object-fit: cover;
         }
 
-        .floating-logo-box {
-            background: transparent;
-            border: none;
-            padding: 0;
-            box-shadow: none;
-            display: block;
+        .header02 {
+            flex-grow: 1;
+            display: flex;
+            align-self: flex-start;
+            padding: 0 40px;
+            margin-top: auto;
+            margin-bottom: 20px;
         }
 
-        .hero-content-left {
-            text-align: left;
+        .header0201 {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
         }
 
-        header h1 {
-            font-size: 44px;
-            font-weight: 800;
-            line-height: 1.05;
+        .header0201 h1 {
+            font-size: 5.5rem;
+            font-weight: 500;
+            line-height: 0.8;
             color: var(--color01);
             margin: 0;
             font-family: var(--fontDeco);
             text-transform: uppercase;
         }
 
-        header h1 span {
+        .header0201 h1 span {
             color: var(--accent);
             background: transparent;
         }
+
+        .header0201 h2 {
+            color: var(--color01);
+            font: 500 0.9rem var(--fontMono);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .header0201 h2:after {
+            content: "";
+            background: var(--color01);
+            flex-grow: 1;
+            height: 2px;
+            display: block;
+        }
+
+        .header03 {
+            display: flex;
+            gap: 15px;
+            background: var(--backg01);
+            border-radius: 40px 0 0;
+            padding: 15px;
+            padding-right: 0;
+            padding-bottom: 0;
+            width: 67%;
+            align-self: flex-end;
+            position: relative;
+        }
+
+        .header03:before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            top: -48px;
+            right: 0;
+            width: 50px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 21px 21px 0px var(--backg01);
+        }
+
+        .header03:after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            bottom: 0;
+            left: -50px;
+            width: 50px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 21px 21px 0px var(--backg01);
+        }
+
+        .header03 > div {
+            background: var(--backg02);
+            padding: 15px;
+            color: var(--color01);
+            border-radius: 30px;
+            z-index: 2;
+            display: flex;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .header03 > div p {
+            font: 500 0.9rem/150% var(--fontBody);
+            text-align: justify;
+            padding: 5px;
+        }
+
+        /* Elementos Modernos Estilo Grid/Conexão Inspirados no Modelo */
+        .modern-info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modern-row-01 {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .modern-card-highlight {
+            background: var(--backg04);
+            padding: 30px;
+            border-radius: 40px;
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .modern-card-highlight a {
+            font: 100 4em / 1 var(--fontDeco);
+            color: var(--backg02);
+            text-decoration: none;
+        }
+
+        .modern-card-highlight a t {
+            font-style: normal;
+            text-decoration: underline;
+            text-decoration-color: var(--accent);
+        }
+
+        .conection {
+            width: 50px;
+            height: 30px;
+            position: absolute;
+        }
+
+        .conection:before, .conection:after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: var(--backg01);
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+        }
+
+        .conect01 { background: var(--backg04); top: -30px; left: 30%; }
+        .conect01:before { left: -16px; top: 0px; } 
+        .conect01:after { right: -16px; top: 0px; }
+
+        .conect02 { right: -30px; width: 30px; height: 60px; background: var(--backg02); bottom: 35%; }
+        .conect02:before { left: 0; top: -16px; } 
+        .conect02:after { right: 0; bottom: -16px; }
+
+        .conect03 { top: -30px; background: var(--backg03); right: 20%; }
+        .conect03:before { left: -16px; top: 0px; } 
+        .conect03:after { right: -16px; top: 0px; }
 
         .card {
             background: #ffffff;
@@ -1420,11 +1562,14 @@
                 padding-right: 0;
             }
             header {
-                min-height: 220px;
+                min-height: 280px;
                 border-radius: 24px;
             }
             .header01 {
                 margin-right: 5%;
+            }
+            .header03 {
+                width: 90%;
             }
             .selected-movie-preview {
                 flex-direction: column;
@@ -1483,13 +1628,30 @@
            <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" alt="Avatar" />
          </div>
        </div>
-       <div class="header02" style="padding: 0 40px; align-self: flex-start; margin-top: auto; margin-bottom: 20px;">
+       <div class="header02">
          <div class="header0201">
            <h1>Cine<span>Mozi</span></h1>
-           <h2 style="color: #fff; font-family: var(--fontMono); font-size: 0.9rem; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-top: 10px;">sua sessão de mídia em conjunto</h2>
+           <h2>sua sessão de mídia em conjunto</h2>
+         </div>
+       </div>
+       <div class="header03">
+         <div>
+           <p>Descubra, avalie e compartilhe seus filmes, músicas e livros favoritos em conjunto com seus amigos de forma moderna, integrada e interativa.</p>
          </div>
        </div>
      </header>
+
+     <!-- Elementos estruturais e visuais do modelo moderno integrados -->
+     <div class="modern-info-grid">
+         <div class="modern-row-01">
+             <div class="modern-card-highlight">
+                 <div style="display: flex; flex-direction: column;">
+                     <a href="#">Cine<t>Mozi</t></a>
+                     <p style="font-size: 0.9rem; line-height: 150%; text-align: justify; margin-top: 10px;">Conecte sua conta do Spotify, gerencie suas listas de espera e acompanhe avaliações conjuntas em tempo real.</p>
+                 </div>
+             </div>
+         </div>
+     </div>
 
      <div class="container">
         <div id="step-auth" class="card auth-container">
