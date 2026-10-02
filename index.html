@@ -492,25 +492,33 @@
             font-weight: 800;
         }
 
-        /* --- VINTAGE TICKET INVITATION STYLES (BOX-FREE / LIVRE DE BOX) --- */
+        /* --- VINTAGE TICKET INVITATION STYLES (BOX-FREE / BORDERLESS TICKET) --- */
         .ticket-box {
-            background: transparent;
+            background: #fdfbf7;
             border: none;
             border-radius: 0;
-            padding: 0;
+            padding: 20px 0;
             box-shadow: none;
             margin-bottom: 1.5rem;
             position: relative;
+            overflow: visible;
+            background-image: radial-gradient(#d6cebe 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+
+        .ticket-box::before,
+        .ticket-box::after {
+            display: none !important;
         }
 
         .ticket-inner {
             display: flex;
             align-items: center;
             gap: 16px;
-            background: transparent;
+            background: #fff;
             border: none;
             border-radius: 0;
-            padding: 4px 0;
+            padding: 16px 0;
             box-shadow: none;
             position: relative;
         }
@@ -522,7 +530,6 @@
             border-radius: 6px;
             border: 2px solid var(--border-color);
             flex-shrink: 0;
-            box-shadow: 2px 2px 0px #111;
         }
 
         /* --- CONNECTIONS STYLES --- */
@@ -2593,9 +2600,9 @@
 
             widgetContainer.innerHTML = `
                 <div class="ticket-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
                         <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--border-color);">
-                            <i class="fa-solid fa-ticket" style="margin-right: 4px;"></i> Ingresso / Sessão
+                            <i class="fa-solid fa-ticket" style="margin-right: 4px;"></i> Ingresso Teatral / Sessão
                         </span>
                         <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
                     </div>
