@@ -4,38 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CineMozi</title>
-    <!-- Fontes e Ícones -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.41.1/dist/tabler-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/css/phosphor.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <!-- Google Fonts Plus Jakarta Sans + FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
     <style>
         :root {
-            --backg01: #f5f5f5;
-            --backg02: #1c1c1c;
-            --backg03: #313131;
-            --backg04: #cccccc;
-            --color01: #f5f5f5;
-            --accent: #cd2c2f;
-            --banner: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop');
-            --fontBody: 'Open Sans', sans-serif;
-            --fontTitle: 'Poppins', sans-serif;
-            --fontDeco: "Abril Fatface", serif;
-            --fontMono: 'Roboto Mono', monospace;
-            
-            --bg-color: #f5f5f5;        
+            --bg-color: #86F46F;        
             --card-bg: #ffffff;
             --border-color: #111111;
-            --border-width: 2px;
-            --box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-            --box-shadow-lg: 6px 6px 0px rgba(0,0,0,0.15);
+            --border-width: 3px;
+            --box-shadow: 4px 4px 0px #111111;
+            --box-shadow-lg: 6px 6px 0px #111111;
             
             --yellow: #F5EA48;        
             --blue: #B05CF2;          
-            --pink: #cd2c2f;          
+            --pink: #DF39F4;          
             --green: #86F46F;         
             --orange: #DF39F4;        
             --whatsapp-green: #25D366;
@@ -44,21 +28,17 @@
             --text-bright: #111111;
             --text-dark: #000000;
             --text-muted: #555555;
+            
+            --font-body: 'Plus Jakarta Sans', sans-serif;
         }
 
         * {
-            position: relative;
             margin: 0;
             padding: 0;
-            border: 0;
-            outline: none;
             box-sizing: border-box;
-            transition: 0.2s all;
-            text-decoration: none;
-            color: unset;
-            font-family: var(--fontBody);
+            font-family: var(--font-body);
             scrollbar-width: thin;
-            scrollbar-color: var(--backg04) var(--backg01);
+            scrollbar-color: var(--border-color) var(--bg-color);
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -68,523 +48,190 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--backg01);
+            background: var(--bg-color);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--backg04);
+            background: var(--border-color);
+            border: 2px solid var(--card-bg);
             border-radius: 4px;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background: var(--backg01);
-            font: 300 1rem var(--fontBody);
-            color: var(--backg02);
-            min-height: 100vh;
-        }
-
-        wrapper {
+            background-color: var(--bg-color);
+            color: var(--border-color);
+            padding: 30px 15px 90px 15px;
             display: flex;
-            margin: 15px auto;
-            width: calc(100% - 30px);
-            min-height: calc(100dvh - 30px);
-            border-radius: 20px;
-            gap: 15px;
-            max-width: 1336px;
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            flex-grow: 1;
-            overflow: auto;
-            padding-right: 20px;
-            padding-bottom: 30px;
-        }
-
-        nav {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 10px;
-            position: sticky;
-            top: 15px;
-            height: calc(100dvh - 30px);
-        }
-
-        .nav01 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            background: var(--backg02);
-            padding: 20px 14px;
-            border-radius: 50px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .nav01 > i {
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .nav01 > .nav-btn, .nav01 > a.mainmenu {
-            background: transparent;
-            border: none;
-            color: var(--color01);
-            padding: 10px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            box-shadow: none;
-            text-transform: none;
-            width: 44px;
-            height: 44px;
-        }
-
-        .nav01 > .nav-btn.active, .nav01 > .nav-btn:hover, .nav01 > a.mainmenu:hover {
-            background: var(--accent);
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-        .nav01 > .nav-btn span {
-            display: none;
-        }
-
-        .nav02 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            background: var(--backg03);
-            padding: 20px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            color: var(--color01);
-            cursor: pointer;
-        }
-
-        .nav02 i:hover {
-            color: var(--accent);
+            min-height: 100vh;
         }
 
         .container {
             width: 100%;
+            max-width: 900px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 24px;
             position: relative;
             z-index: 2;
         }
 
         header {
+            text-align: center;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .floating-logo-box {
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px 30px;
+            box-shadow: var(--box-shadow-lg);
             display: flex;
-            flex-direction: column;
-            background: var(--accent) var(--banner) center / cover;
-            border-radius: 40px;
-            min-height: calc(100dvh - 30px);
-        }
-
-        .header01 {
-            width: fit-content;
-            background: var(--backg01);
-            padding: 15px;
-            padding-top: 0;
-            align-self: flex-end;
-            margin-right: 15%;
-            border-radius: 0 0 50px 50px;
-        }
-
-        .header01:before {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            top: 0px;
-            left: -50px;
-            width: 50px;
-            height: 40px;
-            border-radius: 50%;
-            box-shadow: 20px -19px 0px var(--backg01);
-        }
-
-        .header01:after {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            top: 0px;
-            right: -50px;
-            width: 50px;
-            height: 48px;
-            border-radius: 50%;
-            box-shadow: -19px -19px 0px var(--backg01);
-        }
-
-        .header01 > div {
-            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 20px;
-            background: var(--backg03);
-            border-radius: 50px;
-            padding: 10px;
-            color: var(--color01);
-            font: 400 1rem var(--fontTitle);
-        }
-
-        .header01 > div img {
-            width: 50px;
-            height: 50px;
-            border-radius: 100%;
-            object-fit: cover;
-        }
-
-        .header02 {
-            flex-grow: 1;
-            display: flex;
-            align-self: flex-end;
-            padding: 0 100px;
-            align-content: center;
-        }
-
-        .header0201 {
-            display: flex;
-            flex-direction: column;
-            align-self: center;
-        }
-
-        .header0201 h1 {
-            text-transform: uppercase;
-            font: 500 5.5rem / 0.8 var(--fontDeco);
-            color: var(--backg01);
-        }
-
-        .header0201 h1 span {
-            color: var(--accent);
-        }
-
-        .header0201 h2 {
-            color: var(--color01);
-            font: 500 0.9rem var(--fontMono);
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .header0201 h2:after {
-            content: "";
-            background: var(--backg01);
-            flex-grow: 1;
-            height: 2px;
-            display: block;
-        }
-
-        .header03 {
-            display: flex;
-            gap: 15px;
-            background: var(--backg01);
-            border-radius: 40px 0 0;
-            padding: 15px;
-            padding-right: 0;
-            padding-bottom: 0;
-            width: 67%;
-            align-self: flex-end;
-        }
-
-        .header03:before {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            top: -48px;
-            right: 0;
-            width: 50px;
-            height: 48px;
-            border-radius: 50%;
-            box-shadow: 21px 21px 0px var(--backg01);
-        }
-
-        .header03:after {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            bottom: 0;
-            left: -50px;
-            width: 50px;
-            height: 48px;
-            border-radius: 50%;
-            box-shadow: 21px 21px 0px var(--backg01);
-        }
-
-        .header03 > div {
-            background: var(--backg02);
-            padding: 15px;
-            color: var(--color01);
-            border-radius: 30px;
-            z-index: 2;
-            display: flex;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .header03 > div p {
-            column-count: 2;
-            font: 500 0.9rem/150% var(--fontBody);
-            text-align: justify;
-            padding: 5px;
-        }
-
-        #information {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            z-index: 2;
-        }
-
-        .information01 {
-            display: flex;
-            gap: 15px;
-        }
-
-        .information0101 {
-            background: var(--backg04);
-            padding: 40px;
-            border-radius: 40px;
-            flex: 34%;
-            display: flex;
-            gap: 10px;
+            position: relative;
             overflow: hidden;
-            align-items: center;
         }
 
-        .information010101 > a {
-            font: 100 5em / 1 var(--fontDeco);
-            color: var(--backg02);
+        .floating-logo-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--border-color),
+                var(--border-color) 12px,
+                transparent 12px,
+                transparent 20px
+            );
+            animation: filmBorderTop 6s linear infinite;
         }
 
-        .information010101 > a t {
-            font-style: normal;
-            text-decoration: underline;
-            text-decoration-color: var(--accent);
+        .floating-logo-box::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 200%;
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--border-color),
+                var(--border-color) 12px,
+                transparent 12px,
+                transparent 20px
+            );
+            animation: filmBorderBottom 6s linear infinite;
         }
 
-        .information010101 > p {
-            font: 500 0.9rem / 150% var(--fontBody);
-            text-align: justify;
-            margin-top: 10px;
+        @keyframes filmBorderTop {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); }
         }
 
-        .information0101 > img {
-            width: 180px;
-            object-fit: contain;
+        @keyframes filmBorderBottom {
+            0% { transform: translateX(50%); }
+            100% { transform: translateX(0); }
         }
 
-        .information0102 {
+        .hero-content-left {
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.05;
+            color: var(--border-color);
+            margin: 0;
+        }
+
+        header h1 span {
+            color: var(--pink);
+            background: transparent;
+            padding: 0;
+            border: none;
+            display: inline-block;
+            box-shadow: none;
+        }
+
+        .nav-bar {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-            justify-content: space-between;
-            flex-grow: 1;
-        }
-
-        .information0102 > a {
-            display: flex;
-            align-items: center;
+            justify-content: flex-start;
             gap: 10px;
-            color: var(--backg02);
-            font: 400 1rem var(--fontTitle);
-            background: var(--backg04);
-            padding: 10px 20px;
-            border-radius: 30px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            padding: 14px 20px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .information0102 > a:hover {
-            background: var(--backg02);
-            color: var(--color01);
-        }
-
-        .information0102 > a > i {
-            display: flex;
+        .nav-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--border-color);
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--color01);
-            background: var(--accent);
-            padding: 6px;
-            border-radius: 50px;
-        }
-
-        .information02 {
-            display: flex;
-            gap: 15px;
-        }
-
-        .information0201 {
-            flex: 30%;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .information020101 {
-            flex-grow: 1;
-            background: var(--backg01) var(--banner) center / cover;
-            border-radius: 30px;
-            padding: 30px 30px 0;
-            display: flex;
-            align-items: flex-end;
-            min-height: 250px;
-        }
-
-        .information020101 > div {
-            background: var(--backg03);
-            padding: 20px;
-            border-radius: 30px 0px 30px 0;
-            color: var(--color01);
-            font: 500 0.9rem / 150% var(--fontBody);
-            text-align: justify;
-            margin-right: -30px;
-            margin-left: 16%;
-        }
-
-        .information020101 h1 {
-            font: 100 1.2rem / 1.2 var(--fontDeco);
-            margin-bottom: 10px;
-        }
-
-        .information020102 {
-            display: flex;
-            gap: 15px;
-        }
-
-        .information020102 > span {
-            border-radius: 50px;
-            padding: 10px 30px;
-            color: var(--color01);
-            font: 400 1rem var(--fontTitle);
-            background: var(--backg03);
-            flex-grow: 1;
+            gap: 6px;
             text-transform: uppercase;
-            text-align: right;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-
-        .information020102 > a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent);
-            padding: 7px;
-            border-radius: 50px;
-        }
-
-        .information020102 > a i {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--color01);
-        }
-
-        .information0202 {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            flex-grow: 1;
-        }
-
-        .information020201 {
-            background: var(--backg04);
-            padding: 20px;
-            border-radius: 40px;
-            height: 250px;
-        }
-
-        .information020202 {
-            display: flex;
-            gap: 30px;
-        }
-
-        .information020202 > div {
             border-radius: 20px;
-            padding: 30px;
-            background: var(--backg02);
-            flex-grow: 1;
-            height: 200px;
+            box-shadow: 2px 2px 0px #111;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .conection {
-            width: 50px;
-            height: 30px;
-            position: absolute;
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--pink);
+            color: #fff;
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0px #111;
         }
-
-        .conection:before, .conection:after {
-            content: '';
-            display: block;
-            position: absolute;
-            background: var(--backg01);
-            border-radius: 100%;
-            width: 30px;
-            height: 30px;
-        }
-
-        .conect01 { background: var(--backg04); top: -30px; left: 30%; }
-        .conect01:before { left: -16px; top: 0px; } 
-        .conect01:after { right: -16px; top: 0px; }
-
-        .conect02 { right: -30px; width: 30px; height: 60px; background: var(--backg02); bottom: 35%; }
-        .conect02:before { left: 0; top: -16px; } 
-        .conect02:after { right: 0; bottom: -16px; }
-
-        .conect03 { top: -30px; background: var(--backg03); right: 20%; }
-        .conect03:before { left: -16px; top: 0px; } 
-        .conect03:after { right: -16px; top: 0px; }
 
         .card {
-            background: #ffffff;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: var(--box-shadow);
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--box-shadow-lg);
             margin-bottom: 0;
             position: relative;
         }
 
         .card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--backg02);
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--border-color);
             margin-bottom: 16px;
-            font-family: var(--fontTitle);
         }
 
         .auth-container {
             text-align: center;
             padding: 40px 24px;
-            border-radius: 24px;
+            border-radius: 16px;
         }
 
         .btn-google {
-            background: var(--accent);
+            background: var(--pink);
             color: #fff;
-            border: none;
+            border: var(--border-width) solid var(--border-color);
             width: 100%;
             max-width: 360px;
-            padding: 14px 20px;
-            font-weight: 600;
+            padding: 12px 20px;
+            font-weight: 700;
             font-size: 14px;
             cursor: pointer;
             display: inline-flex;
@@ -593,12 +240,13 @@
             gap: 10px;
             margin-top: 1.5rem;
             box-shadow: var(--box-shadow);
-            border-radius: 30px;
+            border-radius: 10px;
+            transition: all 0.1s ease;
         }
 
         .btn-google:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #111;
         }
 
         .search-box {
@@ -609,36 +257,36 @@
 
         .search-box input {
             width: 100%;
-            padding: 14px 14px 14px 46px;
-            background: var(--backg01);
-            border: 1px solid transparent;
-            border-radius: 30px;
-            color: var(--backg02);
+            padding: 14px 14px 14px 44px;
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 10px;
+            color: var(--border-color);
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: 2px 2px 0px #111;
             outline: none;
         }
 
         .search-box input:focus {
-            border-color: var(--accent);
-            background: #fff;
+            box-shadow: 4px 4px 0px #111;
         }
 
         .search-box i {
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
+            color: var(--border-color);
             font-size: 16px;
         }
 
         .movie-results {
             max-height: 340px;
             overflow-y: auto;
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 16px;
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
             display: none;
             margin-top: 6px;
             position: absolute;
@@ -656,11 +304,13 @@
             gap: 14px;
             padding: 10px;
             cursor: pointer;
-            border-radius: 12px;
+            transition: background 0.15s;
+            border-bottom: 1px solid #eee;
         }
 
         .movie-item:hover {
-            background: var(--backg01);
+            background: var(--blue);
+            color: #fff;
         }
 
         .movie-item img,
@@ -671,7 +321,9 @@
             z-index: 100000 !important;
             object-fit: cover;
             background-color: #000;
-            border-radius: 10px;
+            border: 2px solid var(--border-color) !important;
+            border-radius: 8px;
+            box-shadow: 2px 2px 0px #111 !important;
         }
 
         .movie-item img {
@@ -682,24 +334,25 @@
         .movie-info h4 {
             font-size: 14px;
             font-weight: 700;
-            color: var(--backg02);
+            color: var(--border-color);
             line-height: 1.3;
-            font-family: var(--fontTitle);
         }
 
         .movie-info span {
             font-size: 12px;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .selected-movie-preview {
             display: flex;
             align-items: center;
             gap: 16px;
-            background: var(--backg01);
+            background: #fff;
             padding: 16px;
-            border-radius: 16px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
             margin-bottom: 1.5rem;
         }
 
@@ -716,31 +369,25 @@
         .form-group label {
             display: block;
             margin-bottom: 6px;
-            color: var(--backg02);
-            font-weight: 600;
-            font-size: 12px;
+            color: var(--border-color);
+            font-weight: 800;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-family: var(--fontTitle);
         }
 
         .form-group input[type="text"],
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
-            background: var(--backg01);
-            border: 1px solid transparent;
-            border-radius: 16px;
-            color: var(--backg02);
-            font-size: 14px;
-            font-weight: 500;
-            outline: none;
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
+            padding: 12px 14px;
             background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 10px;
+            color: var(--border-color);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 2px 2px 0px #111;
+            outline: none;
         }
 
         .form-group textarea {
@@ -750,18 +397,21 @@
         }
 
         .rating-wrapper {
-            background: var(--backg01);
-            border-radius: 16px;
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
             padding: 20px;
             text-align: center;
             margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow);
+            touch-action: pan-y;
         }
 
         .rating-stars {
             display: inline-flex;
             gap: 12px;
             font-size: 2.2rem;
-            color: #ddd;
+            color: #ccc;
             cursor: pointer;
             margin-bottom: 8px;
             user-select: none;
@@ -775,14 +425,14 @@
         .rating-stars i:hover,
         .rating-stars i.hovered,
         .rating-stars i.active {
-            color: var(--accent);
-            transform: scale(1.1);
+            color: var(--pink);
+            transform: scale(1.2) translateY(-2px);
         }
 
         .rating-feedback-text {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
-            color: var(--backg02);
+            color: var(--border-color);
             min-height: 1.5rem;
             margin-top: 6px;
             text-transform: uppercase;
@@ -794,19 +444,20 @@
             font-size: 12px;
             color: var(--text-muted);
             margin-top: 6px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .btn {
-            background-color: var(--accent);
+            background-color: var(--pink);
             color: #fff;
-            border: none;
-            padding: 12px 20px;
-            font-weight: 600;
+            border: var(--border-width) solid var(--border-color);
+            padding: 11px 18px;
+            font-weight: 700;
             font-size: 13px;
-            border-radius: 30px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 0px #111;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: transform 0.1s, box-shadow 0.1s;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -814,28 +465,34 @@
             gap: 8px;
             text-transform: uppercase;
             width: 100%;
-            font-family: var(--fontTitle);
         }
 
         .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #111;
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px #111;
         }
 
         .btn-secondary {
-            background-color: var(--backg03);
+            background-color: var(--blue);
             color: #fff;
+            box-shadow: 2px 2px 0px #111;
         }
 
         .btn-danger {
-            background-color: #e53935 !important;
-            color: #fff !important;
+            background-color: var(--yellow) !important;
+            color: var(--border-color) !important;
         }
 
         .percent-symbol {
-            font-weight: 700;
+            font-weight: 800;
         }
 
+        /* --- CONNECTIONS STYLES --- */
         .connections-container {
             display: flex;
             flex-direction: column;
@@ -843,9 +500,11 @@
         }
 
         .connections-manager-card {
-            background: var(--backg01);
-            border-radius: 16px;
+            background: #faf7f0;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 14px;
             padding: 18px;
+            box-shadow: var(--box-shadow);
         }
 
         .connection-add-form {
@@ -856,20 +515,22 @@
 
         .connection-add-form input {
             flex: 1;
-            padding: 12px 16px;
+            padding: 12px 14px;
             background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 16px;
-            color: var(--backg02);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--border-color);
             font-size: 14px;
+            font-weight: 600;
             outline: none;
+            box-shadow: 2px 2px 0px #111;
         }
 
         .connection-add-form button {
             width: auto;
-            padding: 12px 20px;
+            padding: 12px 18px;
             font-size: 13px;
-            border-radius: 30px;
+            border-radius: 10px;
         }
 
         .connections-grid {
@@ -880,37 +541,44 @@
         }
 
         .connection-card-item {
-            background: var(--backg01);
-            border-radius: 16px;
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 14px;
             padding: 16px;
+            box-shadow: var(--box-shadow);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             display: flex;
             align-items: center;
             gap: 14px;
+            position: relative;
         }
 
         .connection-card-item:hover {
-            background: var(--backg02);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #111;
+            background: var(--blue);
             color: #fff;
         }
 
-        .connection-card-item:hover h4, 
-        .connection-card-item:hover span {
-            color: #fff !important;
+        .connection-card-item:hover .connection-avatar {
+            background: var(--yellow);
+            color: var(--border-color);
         }
 
         .connection-avatar {
             width: 48px;
             height: 48px;
-            background: var(--accent);
+            background: var(--pink);
             color: #fff;
+            border: 2px solid var(--border-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 18px;
+            box-shadow: 2px 2px 0px #111;
             flex-shrink: 0;
         }
 
@@ -928,29 +596,33 @@
         }
 
         .review-box {
-            background: var(--backg01);
-            border-radius: 16px;
-            padding: 20px;
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--box-shadow);
         }
 
         .review-box h3 {
-            color: var(--backg02);
+            color: var(--border-color);
             margin-bottom: 8px;
             font-size: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 700;
+            font-weight: 800;
             flex-wrap: wrap;
             gap: 6px;
         }
 
         .match-score-card {
             text-align: center;
-            background: var(--backg01);
-            border-radius: 16px;
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow);
         }
 
         .scores-wrapper {
@@ -968,16 +640,15 @@
 
         .score-block h2 {
             font-size: 2.8rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-top: 6px;
             line-height: 1;
-            font-family: var(--fontTitle);
         }
 
         .score-divider {
             width: 2px;
             height: 50px;
-            background: #ddd;
+            background: var(--border-color);
         }
 
         .library-grid {
@@ -996,26 +667,29 @@
 
         .library-card {
             background: #fff;
-            border-radius: 16px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 12px;
+            padding: 10px;
             box-shadow: var(--box-shadow);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             position: relative;
         }
 
         .library-card:hover {
-            transform: translateY(-4px);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #111;
         }
 
         .library-card img {
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            border-radius: 10px;
+            border: 2px solid var(--border-color) !important;
+            border-radius: 8px;
         }
 
         .library-card.movie-card img {
@@ -1024,23 +698,26 @@
 
         .library-card-match {
             margin-top: 8px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 11px;
+            color: var(--border-color);
             text-align: center;
-            background: var(--accent);
+            background: var(--pink);
             color: #fff;
+            border: 2px solid var(--border-color);
             border-radius: 6px;
             padding: 4px 6px;
             width: 100%;
+            box-shadow: 1px 1px 0px #111;
         }
 
         .library-delete-btn {
             position: absolute;
             top: 14px;
             right: 14px;
-            background: var(--backg03);
-            color: #fff;
-            border: none;
+            background: var(--yellow);
+            color: var(--border-color);
+            border: 2px solid var(--border-color);
             width: 26px;
             height: 26px;
             border-radius: 50%;
@@ -1049,30 +726,39 @@
             justify-content: center;
             font-size: 0.7rem;
             cursor: pointer;
+            box-shadow: 2px 2px 0px #000;
             z-index: 10;
         }
 
         .library-delete-btn:hover {
-            background: var(--accent);
+            transform: scale(1.1);
         }
 
+        /* --- WAITLIST STYLES --- */
         .waitlist-card {
-            background: var(--backg01) !important;
+            border-style: dashed !important;
+            background: #faf7f0 !important;
+            transform: scale(0.95);
             opacity: 0.85;
+            box-shadow: 2px 2px 0px #111;
         }
         .waitlist-card:hover {
             opacity: 1;
+            transform: scale(0.98) translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #111;
         }
         .waitlist-badge {
             margin-top: 8px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 11px;
             text-align: center;
-            background: var(--backg03);
-            color: #fff;
+            background: var(--yellow);
+            color: var(--border-color);
+            border: 2px solid var(--border-color);
             border-radius: 6px;
             padding: 4px 6px;
             width: 100%;
+            box-shadow: 1px 1px 0px #111;
         }
 
         .featured-hero-carousel {
@@ -1115,12 +801,18 @@
             transition: filter 0.3s ease;
         }
 
+        .coverflow-item.music-cover-item {
+            aspect-ratio: 1 / 1;
+            width: 130px;
+        }
+
         .coverflow-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
             border-radius: 12px;
+            border: 2px solid var(--border-color);
             box-shadow: var(--box-shadow);
         }
 
@@ -1128,6 +820,9 @@
             filter: brightness(1.15);
         }
 
+        /* ==========================================================================
+           VINYL STACK & VINYL PLAYER WIDGET (NEO-BRUTALISM INTEGRATED)
+           ========================================================================== */
         .vinyl-stack-wrapper {
             display: flex;
             align-items: center;
@@ -1166,6 +861,7 @@
             height: 240px;
             background: #111111;
             border-radius: 50%;
+            border: 4px solid var(--border-color);
             box-shadow: var(--box-shadow-lg);
             position: relative;
             display: flex;
@@ -1221,6 +917,7 @@
             height: 96px;
             border-radius: 50%;
             overflow: hidden;
+            border: 2px solid var(--border-color);
             position: relative;
             z-index: 2;
             box-shadow: 0 0 10px rgba(0,0,0,0.8);
@@ -1265,9 +962,11 @@
             animation-play-state: paused;
         }
 
+        /* --- MINI VINYL PLAYER COMPACTO & EXPANSÍVEL (NEO-BRUTALIST STYLING) --- */
         .vinyl-player-widget {
-            background: #ffffff;
-            border-radius: 24px;
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
             box-shadow: var(--box-shadow-lg);
             margin-bottom: 24px;
             overflow: hidden;
@@ -1280,7 +979,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            background: var(--backg01);
+            background: #fff;
             user-select: none;
         }
 
@@ -1292,7 +991,7 @@
             min-width: 0;
             cursor: pointer;
             padding: 4px;
-            border-radius: 12px;
+            border-radius: 8px;
             transition: background 0.15s ease;
         }
 
@@ -1303,7 +1002,7 @@
         .vinyl-expanded-content {
             display: none;
             padding: 24px;
-            border-top: 1px solid #eee;
+            border-top: var(--border-width) solid var(--border-color);
             background: #fff;
             flex-direction: column;
             align-items: center;
@@ -1313,9 +1012,11 @@
             display: flex;
         }
 
+        /* --- BOOKSHELF STYLES --- */
         .bookshelf-wrapper {
-            background: #ffffff;
-            border-radius: 24px;
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 16px;
             padding: 20px 20px 24px 20px;
             box-shadow: var(--box-shadow-lg);
             margin-bottom: 24px;
@@ -1324,20 +1025,20 @@
 
         .bookshelf-title {
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            color: var(--backg02);
+            color: var(--border-color);
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-family: var(--fontTitle);
         }
 
         .bookshelf-container {
             position: relative;
-            background: var(--backg02);
-            border-radius: 16px;
+            background: #2a1a08;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 10px;
             padding: 16px 16px 0px 16px;
             box-shadow: inset 0px 10px 20px rgba(0,0,0,0.5);
             overflow: visible;
@@ -1359,10 +1060,10 @@
         .bookshelf-wooden-plank {
             height: 18px;
             background: #D4A373;
-            border-top: 2px solid var(--backg02);
-            border-bottom: 2px solid var(--backg02);
+            border-top: var(--border-width) solid var(--border-color);
+            border-bottom: var(--border-width) solid var(--border-color);
             margin: 0 -16px;
-            box-shadow: 0px 6px 0px rgba(0,0,0,0.3);
+            box-shadow: 0px 6px 0px var(--border-color);
             position: relative;
             z-index: 5;
         }
@@ -1373,9 +1074,11 @@
             cursor: pointer;
             height: var(--spine-height, 180px);
             width: var(--spine-width, 36px);
-            background: var(--spine-bg, var(--accent));
-            border-radius: 6px 6px 0 0;
-            box-shadow: inset -3px 0px 5px rgba(0,0,0,0.25), inset 3px 0px 5px rgba(255,255,255,0.2), 2px -2px 5px rgba(0,0,0,0.2);
+            background: var(--spine-bg, var(--pink));
+            border: 2px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            box-shadow: inset -3px 0px 5px rgba(0,0,0,0.25), inset 3px 0px 5px rgba(255,255,255,0.2), 2px -2px 0px #111;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -1386,13 +1089,25 @@
             z-index: 2;
         }
 
+        .bookshelf-spine-item::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0,0,0,0.25);
+            box-shadow: 0 140px 0 rgba(0,0,0,0.25);
+        }
+
         .spine-title-vertical {
             writing-mode: vertical-rl;
             text-orientation: mixed;
             transform: rotate(180deg);
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             color: #ffffff;
+            text-shadow: 1px 1px 0px #111;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1404,19 +1119,23 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: #fff;
-            color: var(--backg02);
+            background: var(--yellow);
+            color: var(--border-color);
             font-size: 9px;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 1px 1px 0px #111;
             flex-shrink: 0;
         }
 
         .bookshelf-spine-item:hover {
             transform: translateY(-24px) scale(1.15) rotate(-3deg);
             z-index: 100;
+            box-shadow: -6px 12px 0px #111;
+            border-color: #ffffff;
         }
 
         .bookshelf-preview-card {
@@ -1425,7 +1144,8 @@
             left: 50%;
             transform: translateX(-50%) translateY(-10px) scale(0.85);
             background: #ffffff;
-            border-radius: 16px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
             padding: 8px;
             width: 140px;
             box-shadow: var(--box-shadow-lg);
@@ -1441,8 +1161,20 @@
             width: 100%;
             height: 120px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 6px;
+            border: 2px solid var(--border-color);
             margin-bottom: 6px;
+        }
+
+        .bookshelf-preview-card::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--border-color) transparent transparent transparent;
         }
 
         .bookshelf-spine-item:hover .bookshelf-preview-card {
@@ -1453,8 +1185,8 @@
 
         .bookshelf-preview-title {
             font-size: 11px;
-            font-weight: 700;
-            color: var(--backg02);
+            font-weight: 800;
+            color: var(--border-color);
             display: block;
             white-space: nowrap;
             overflow: hidden;
@@ -1464,26 +1196,32 @@
         .bookshelf-preview-sub {
             font-size: 9px;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 700;
             display: block;
             margin-bottom: 4px;
         }
 
         .bookshelf-preview-match {
-            background: var(--accent);
+            background: var(--pink);
             color: #fff;
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 9px;
-            font-weight: 700;
+            font-weight: 800;
             display: inline-block;
+            border: 1px solid var(--border-color);
         }
 
+        /* --- VERTICAL 3D ROULETTE --- */
         .roulette-wrapper {
             position: relative;
             width: 100%;
             margin-top: 1.5rem;
             background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
             overflow: visible;
             user-select: none;
         }
@@ -1497,12 +1235,14 @@
         }
 
         .roulette-counter-badge {
-            background: var(--accent);
+            background: var(--pink);
             color: #fff;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 11px;
             padding: 4px 10px;
             border-radius: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 2px 2px 0px #111;
             text-transform: uppercase;
         }
 
@@ -1530,12 +1270,12 @@
 
         .roulette-viewport::before {
             top: 0;
-            background: linear-gradient(to bottom, #fff 15%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to bottom, var(--bg-color) 15%, rgba(134, 244, 111, 0) 100%);
         }
 
         .roulette-viewport::after {
             bottom: 0;
-            background: linear-gradient(to top, #fff 15%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to top, var(--bg-color) 15%, rgba(134, 244, 111, 0) 100%);
         }
 
         .roulette-stage-3d {
@@ -1559,10 +1299,11 @@
         }
 
         .track-item-wrapper {
-            background: var(--backg01);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: var(--box-shadow);
+            background: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            box-shadow: var(--box-shadow-lg);
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -1575,14 +1316,14 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            border-bottom: 2px dashed #ddd;
+            border-bottom: 2px dashed var(--border-color);
             padding-bottom: 8px;
         }
 
         .track-title-num {
-            font-weight: 700;
+            font-weight: 800;
             font-size: 14px;
-            color: var(--backg02);
+            color: var(--border-color);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1593,7 +1334,7 @@
 
         .track-duration {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
             display: flex;
             align-items: center;
@@ -1602,8 +1343,9 @@
         }
 
         .btn-play-track {
-            background: var(--backg03);
+            background: var(--blue);
             color: #fff;
+            border: 2px solid var(--border-color);
             border-radius: 6px;
             width: 28px;
             height: 28px;
@@ -1612,11 +1354,18 @@
             justify-content: center;
             font-size: 11px;
             cursor: pointer;
+            box-shadow: 1px 1px 0px #111;
+            transition: transform 0.1s;
+        }
+
+        .btn-play-track:hover {
+            transform: scale(1.1);
         }
 
         .btn-spotify-track {
             background: #1DB954;
             color: #fff;
+            border: 2px solid var(--border-color);
             border-radius: 6px;
             width: 28px;
             height: 28px;
@@ -1625,7 +1374,13 @@
             justify-content: center;
             font-size: 14px;
             cursor: pointer;
+            box-shadow: 1px 1px 0px #111;
+            transition: transform 0.1s;
             text-decoration: none;
+        }
+
+        .btn-spotify-track:hover {
+            transform: scale(1.1);
         }
 
         .roulette-controls {
@@ -1637,28 +1392,42 @@
         }
 
         .roulette-nav-btn {
-            background: var(--backg03);
-            color: #fff;
-            font-weight: 700;
+            background: var(--yellow);
+            border: 2px solid var(--border-color);
+            color: var(--border-color);
+            font-weight: 800;
             font-size: 12px;
             padding: 8px 16px;
-            border-radius: 30px;
+            border-radius: 10px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            box-shadow: 2px 2px 0px #111;
+            transition: all 0.1s ease;
             text-transform: uppercase;
+        }
+
+        .roulette-nav-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #111;
+        }
+
+        .roulette-nav-btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 0px 0px 0px #111;
         }
 
         .toast-notification {
             position: fixed;
             bottom: 28px;
             right: 28px;
-            background: var(--backg02);
+            background: var(--pink);
             color: #fff;
             padding: 14px 18px;
+            border: var(--border-width) solid var(--border-color);
             border-radius: 12px;
-            font-weight: 600;
+            font-weight: 800;
             font-size: 13px;
             box-shadow: var(--box-shadow-lg);
             z-index: 100000;
@@ -1670,165 +1439,117 @@
             display: none !important;
         }
 
+        /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
-            wrapper {
-                flex-direction: column;
-                margin: 8px;
-                width: calc(100% - 16px);
-                height: auto;
+            body {
+                padding: 12px 8px 80px 8px;
             }
-            nav {
-                position: static;
-                height: auto;
-                flex-direction: row;
-                justify-content: center;
-                width: 100%;
+            .container {
+                gap: 16px;
             }
-            .nav01 {
-                flex-direction: row;
-                border-radius: 30px;
-                padding: 10px;
+            .floating-logo-box {
+                padding: 18px 16px;
             }
-            .nav01 > i {
-                display: none;
+            header h1 {
+                font-size: 32px;
             }
-            .nav02 {
-                display: none;
+            .card {
+                padding: 16px 12px;
+                border-radius: 12px;
             }
-            main {
-                padding-right: 0;
+            .card h3 {
+                font-size: 18px;
+                margin-bottom: 12px;
             }
-            header {
-                min-height: 220px;
-                border-radius: 24px;
+            .nav-bar {
+                padding: 10px 12px;
+                gap: 8px;
             }
-            .header01 {
-                margin-right: 5%;
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 11px;
             }
             .selected-movie-preview {
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+                gap: 12px;
+                padding: 12px;
+            }
+            .selected-movie-preview img {
+                width: 100px;
+                height: 145px;
+            }
+            .selected-movie-preview > div:nth-child(2) {
+                width: 100%;
+            }
+            .selected-movie-preview > div:last-child {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
             }
             .library-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
+            }
+            .connections-grid {
+                grid-template-columns: 1fr;
             }
             .scores-wrapper {
                 flex-direction: column;
+                gap: 12px;
             }
             .score-divider {
                 width: 80%;
                 height: 2px;
+            }
+            .connection-add-form {
+                flex-direction: column;
+            }
+            .connection-add-form button {
+                width: 100%;
+            }
+            .toast-notification {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                text-align: center;
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
 
-<wrapper>
-   <nav>
-     <div id="socialNavbar" class="nav01 hidden">
-       <i class="ti ti-sparkle-highlight"></i>
-       <button class="nav-btn active" data-target="view-session" data-index="0" title="Minha Sessão"><i class="fa-solid fa-film"></i><span>Minha Sessão</span></button>
-       <button class="nav-btn" data-target="view-music" data-index="1" title="Música"><i class="fa-solid fa-music"></i><span>Música</span></button>
-       <button class="nav-btn" data-target="view-books" data-index="2" title="Livros"><i class="fa-solid fa-book"></i><span>Livros</span></button>
-       <button class="nav-btn" data-target="view-connections" data-index="3" title="Conexões"><i class="fa-solid fa-users"></i><span>Conexões</span></button>
-       <button class="nav-btn" data-target="view-library" data-index="4" title="Biblioteca"><i class="fa-solid fa-book-bookmark"></i><span>Biblioteca</span></button>
-       <button class="nav-btn" data-target="view-profile" data-index="5" title="Perfil"><i class="fa-solid fa-user-gear"></i><span>Perfil</span></button>
-       
-       <ul class="linklist navlinks" style="display:none;">
-         <li><a class="mainmenu" href="/"><img id="i_icon_mini_index" class="sprite-icon_home" src="" title="Índice"> Índice</a></li>
-         <li><a class="mainmenu" href="/profile?mode=editprofile"><img id="i_icon_mini_profile" class="sprite-icon_ucp" src="" title="Perfil"> Perfil</a></li>
-         <li><a class="mainmenu" href="/privmsg?folder=inbox"><img id="i_icon_mini_message" class="sprite-icon_message" src="" title="Mensagens"> Mensagens</a></li>
-         <li><a class="mainmenu" href="/memberlist"><img id="i_icon_mini_members" class="sprite-icon_members" src="" title="Membros"> Membros</a></li>
-         <li><a class="mainmenu" href="/groups"><img id="i_icon_mini_groups" class="sprite-icon_groups" src="" title="Grupos"> Grupos</a></li>
-         <li><a class="mainmenu" href="/search"><img id="i_icon_mini_search" class="sprite-icon_search" src="" title="Pesquisar"> Pesquisar</a></li>
-       </ul>
-     </div>
-     <div class="nav02">
-       <i class="ti ti-caret-up"></i>
-       <i class="ti ti-toggle-left"></i>
-       <i class="ti ti-replace-user"></i>
-       <i class="ti ti-notification-off"></i>
-       <i class="ti ti-caret-down"></i>
-     </div>
-   </nav>
+    <div class="container" id="mainContainerSwipe">
+        <header>
+            <div class="floating-logo-box">
+                <div class="hero-content-left">
+                    <h1>Cine<span>Mozi</span></h1>
+                </div>
+            </div>
+        </header>
 
-   <main id="mainContainerSwipe">
-     <header>
-       <div class="header01">
-         <div>
-           <p style="text-transform:lowercase;">@<span id="profileViewNametagHeader">usuario</span></p>
-           <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" alt="Avatar" />
-         </div>
-       </div>
-       <div class="header02">
-         <div class="header0201">
-           <h1>Cine<span>Mozi</span></h1>
-           <h2>sua sessão de mídia em conjunto</h2>
-         </div>
-       </div>
-       <div class="header03">
-         <div>
-           <p id="aiDynamicSynopsisText">Carregando sugestão da IA para a sessão de hoje...</p>
-         </div>
-       </div>
-     </header>
+        <div id="socialNavbar" class="nav-bar hidden">
+            <button class="nav-btn active" data-target="view-session" data-index="0"><i class="fa-solid fa-film"></i> Minha Sessão</button>
+            <button class="nav-btn" data-target="view-music" data-index="1"><i class="fa-solid fa-music"></i> Música</button>
+            <button class="nav-btn" data-target="view-books" data-index="2"><i class="fa-solid fa-book"></i> Livros</button>
+            <button class="nav-btn" data-target="view-connections" data-index="3"><i class="fa-solid fa-users"></i> Conexões</button>
+            <button class="nav-btn" data-target="view-library" data-index="4"><i class="fa-solid fa-book-bookmark"></i> Biblioteca</button>
+            <button class="nav-btn" data-target="view-profile" data-index="5"><i class="fa-solid fa-user-gear"></i> Perfil</button>
+        </div>
 
-     <section id="information">
-       <div class="information01">
-         <div class="information0101">
-           <div class="information010101">
-             <a href="#" onclick="event.preventDefault(); document.querySelector('[data-target=\'view-library\']').click();">Guide<t>book</t></a>
-             <p id="miniLibraryVersionText">Sua biblioteca compacta de avaliações e itens salvos no CineMozi.</p>
-           </div>
-           <img src="https://i.imgur.com/Z5ztAer.png" alt="Pichu device" />
-         </div>
-         <div class="information0102" id="quickLinksContainer">
-           <!-- Preenchido dinamicamente com as sugestões de filmes anteriores limitadas à interface -->
-         </div>
-       </div>
-
-       <div class="information02">
-         <div class="information0201">
-           <div class="information020101">
-             <div>
-               <h1 id="hubCardAiTitle">Próxima Sessão com Amigos</h1>
-               <p id="hubCardAiDesc">Clique abaixo para abrir a escolha de filmes, músicas ou livros com sua conexão.</p>
-             </div>
-           </div>
-           <div class="information020102" style="cursor: pointer;" onclick="document.getElementById('hubWelcomeBox').click();">
-             <article class="conection conect03"></article>
-             <span>Iniciar Sessão Conjunta</span>
-             <a href="#"><i class="ph ph-arrow-circle-right"></i></a>
-           </div>
-         </div>
-         <div class="information0202">
-           <div class="information020201" style="background: var(--backg04) var(--banner) center / cover;">
-             <article class="conection conect01"></article>
-           </div>
-           <div class="information020202">
-             <div class="information02020201">
-               <article class="conection conect02"></article>
-             </div>
-             <div class="information02020202"></div>
-           </div>
-         </div>
-       </div>
-     </section>
-
-     <div class="container" style="margin-top: 20px;">
         <div id="step-auth" class="card auth-container">
             <h3>Bem-vindo ao CineMozi</h3>
             <button id="googleLoginBtn" class="btn-google">
                 <i class="fa-brands fa-google"></i> Entrar com o Google
             </button>
             
-            <div style="margin-top: 2rem; border-top: 1px dashed #ddd; padding-top: 1.5rem;">
-                <h4 style="font-weight: 700; font-size: 12px; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;">Já tem uma Nametag?</h4>
+            <div style="margin-top: 2rem; border-top: 2px dashed var(--border-color); padding-top: 1.5rem;">
+                <h4 style="font-weight: 800; font-size: 12px; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Já tem uma Nametag?</h4>
                 <form id="quickTagLoginForm" style="display: flex; gap: 8px; max-width: 360px; margin: 0 auto; flex-wrap: wrap;">
-                    <input type="text" id="quickTagInput" required placeholder="Digite sua nametag" autocomplete="off" style="flex: 1; min-width: 180px; padding: 12px 16px; background: var(--backg01); border: 1px solid transparent; border-radius: 16px; color: var(--backg02); font-size: 13px; outline: none;">
-                    <button type="submit" class="btn btn-secondary" style="width: auto; padding: 12px 16px; font-size: 12px; border-radius: 30px;"><i class="fa-solid fa-right-to-bracket"></i></button>
+                    <input type="text" id="quickTagInput" required placeholder="Digite sua nametag" autocomplete="off" style="flex: 1; min-width: 180px; padding: 10px; background: #fff; border: 2px solid var(--border-color); border-radius: 8px; color: var(--border-color); font-size: 13px; font-weight: 600; outline: none;">
+                    <button type="submit" class="btn btn-secondary" style="width: auto; padding: 10px 14px; font-size: 12px;"><i class="fa-solid fa-right-to-bracket"></i></button>
                 </form>
             </div>
         </div>
@@ -1845,20 +1566,20 @@
         </div>
 
         <div id="view-session" class="app-view hidden">
-            <div class="card" id="aiDailyCard" style="background: #fff; margin-bottom: 24px; padding: 20px; cursor: pointer;">
+            <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; background: var(--accent); color: #fff; padding: 4px 10px; border-radius: 20px;">
+                    <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
                 </div>
                 <div id="aiRecContent" style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-                    <p style="font-weight: 500; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
+                    <p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Buscando uma recomendação especial para você e seu amigo...</p>
                 </div>
             </div>
 
             <div class="featured-hero-carousel" id="featuredHeroCarouselSection">
                 <div class="coverflow-stage" id="coverflowStage">
-                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Nenhum filme no destaque ainda.</p>
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>
                 </div>
             </div>
 
@@ -1867,10 +1588,10 @@
                 <button id="btnLeaveRoom"></button>
             </div>
 
-            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--backg02); color: #fff; cursor: pointer; transition: transform 0.2s;" title="Clique para abrir a escolha para avaliar juntos">
-                <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: var(--accent); margin-bottom: 12px;"></i>
+            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--pink); color: #fff; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha para avaliar juntos">
+                <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: #fff; margin-bottom: 12px;"></i>
                 <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px; color: #fff;">Veja a próxima sessão com @amigo</h3>
-                <p style="font-size: 13px; font-weight: 500; color: #ccc;">Clique aqui para escolher o que avaliar com seu amigo!</p>
+                <p style="font-size: 13px; font-weight: 700; color: #fdfbf7;">Clique aqui para escolher o que avaliar com seu amigo!</p>
             </div>
 
             <div id="step-movie" class="card hidden" style="margin-top: 0;">
@@ -1883,11 +1604,11 @@
                     <img id="selectedMoviePoster" alt="Poster">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedMovieTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
-                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 13px; font-weight: 600;"></p>
+                        <p id="selectedMovieYear" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <button id="btnChangeMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
-                        <button id="btnWaitlistMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: #ddd; color: var(--backg02);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                        <button id="btnWaitlistMovie" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
                 </div>
 
@@ -1908,11 +1629,11 @@
                     <img id="selectedSessionAlbumPoster" alt="Capa">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedSessionAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
-                        <p id="selectedSessionAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 600;"></p>
+                        <p id="selectedSessionAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <button id="btnChangeSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
-                        <button id="btnWaitlistSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: #ddd; color: var(--backg02);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                        <button id="btnWaitlistSessionAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
                 </div>
 
@@ -1948,11 +1669,11 @@
                     <img id="selectedSessionBookPoster" alt="Capa">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedSessionBookTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
-                        <p id="selectedSessionBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 600;"></p>
+                        <p id="selectedSessionBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <button id="btnChangeSessionBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
-                        <button id="btnWaitlistSessionBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: #ddd; color: var(--backg02);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                        <button id="btnWaitlistSessionBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
                 </div>
 
@@ -1968,7 +1689,7 @@
                 
                 <form id="reviewForm">
                     <div class="rating-wrapper" id="ratingWrapperBox">
-                        <label style="display: block; color: var(--backg02); font-weight: 700; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">Toque e arraste nas estrelas para avaliar</label>
+                        <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">Toque e arraste nas estrelas para avaliar</label>
                         <div class="rating-stars" id="starContainer">
                             <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
                             <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
@@ -1996,13 +1717,13 @@
                 <div class="match-score-card">
                     <div class="scores-wrapper">
                         <div class="score-block">
-                            <p style="font-weight: 700; font-size: 11px; text-transform: uppercase; color: #666;">Match de Gosto</p>
-                            <h2 id="matchPercentage" style="color: var(--accent);">0<span class="percent-symbol">%</span></h2>
+                            <p style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #666;">Match de Gosto</p>
+                            <h2 id="matchPercentage" style="color: var(--pink);">0<span class="percent-symbol">%</span></h2>
                         </div>
                         <div class="score-divider"></div>
                         <div class="score-block">
-                            <p style="font-weight: 700; font-size: 11px; text-transform: uppercase; color: #666;">Avaliação Total</p>
-                            <h2 id="totalRatingPercentage" style="color: var(--backg02);">0<span class="percent-symbol">%</span></h2>
+                            <p style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #666;">Avaliação Total</p>
+                            <h2 id="totalRatingPercentage" style="color: var(--border-color);">0<span class="percent-symbol">%</span></h2>
                         </div>
                     </div>
                 </div>
@@ -2013,41 +1734,50 @@
 
         <!-- VIEW: MUSIC TAB -->
         <div id="view-music" class="app-view hidden">
+            
+            <!-- VINYL PLAYER WIDGET (Compact Bar / Expandable Neo-Brutalist) -->
             <div id="vinylPlayerWidget" class="vinyl-player-widget">
+                <!-- Compact Split Bar (You & Friend) -->
                 <div class="vinyl-mini-bar">
+                    <!-- Part 1: Your Side (Expands User Player) -->
                     <div class="vinyl-mini-side" onclick="toggleVinylPlayerSide('user')">
-                        <div id="miniUserThumb" style="width: 36px; height: 36px; border-radius: 50%; background: #111; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <div id="miniUserThumb" style="width: 36px; height: 36px; border-radius: 50%; background: #111; border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                             <img id="miniUserImg" src="https://via.placeholder.com/30x30?text=🎵" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/30x30?text=🎵'">
                         </div>
                         <div style="min-width: 0; flex: 1;">
-                            <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent);">Você</div>
-                            <div id="miniUserTrack" style="font-size: 12px; font-weight: 600; color: var(--backg02); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Conecte o Spotify abaixo</div>
+                            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--pink);">Você</div>
+                            <div id="miniUserTrack" style="font-size: 12px; font-weight: 700; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Conecte o Spotify abaixo</div>
                         </div>
-                        <div style="font-size: 12px; font-weight: 700; color: var(--backg02); padding-left: 4px;">
+                        <div style="font-size: 12px; font-weight: 800; color: var(--border-color); padding-left: 4px;">
                             <i id="userExpandChevron" class="fa-solid fa-chevron-down"></i>
                         </div>
                     </div>
 
+                    <!-- Divider -->
                     <div style="width: 2px; height: 35px; background: #ddd; border-right: 2px dashed #ddd;"></div>
 
+                    <!-- Part 2: Friend Side (Expands Friend Player) -->
                     <div class="vinyl-mini-side" onclick="toggleVinylPlayerSide('friend')">
-                        <div id="miniFriendThumb" style="width: 36px; height: 36px; border-radius: 50%; background: var(--backg03); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 12px;">
+                        <div id="miniFriendThumb" style="width: 36px; height: 36px; border-radius: 50%; background: var(--blue); border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px;">
                             <i class="fa-solid fa-user-group"></i>
                         </div>
                         <div style="min-width: 0; flex: 1;">
-                            <div id="miniFriendLabel" style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--backg03);">Amigo</div>
-                            <div id="miniFriendTrack" style="font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Offline ou sem amigo</div>
+                            <div id="miniFriendLabel" style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--blue);">Amigo</div>
+                            <div id="miniFriendTrack" style="font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Offline ou sem amigo</div>
                         </div>
-                        <div style="font-size: 12px; font-weight: 700; color: var(--backg02); padding-left: 4px;">
+                        <div style="font-size: 12px; font-weight: 800; color: var(--border-color); padding-left: 4px;">
                             <i id="friendExpandChevron" class="fa-solid fa-chevron-down"></i>
                         </div>
                     </div>
                 </div>
 
+                <!-- Expanded Full Vinyl Player Interface (Dynamic based on clicked side) -->
                 <div class="vinyl-expanded-content">
+                    
+                    <!-- USER PLAYER EXPANDED SECTION -->
                     <div id="expandedUserSection" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #ddd; padding-bottom: 6px;">
-                            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--accent);"><i class="fa-solid fa-user"></i> Seu Player (Spotify)</span>
+                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">
+                            <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--pink);"><i class="fa-solid fa-user"></i> Seu Player (Spotify)</span>
                             <button class="btn btn-secondary" style="width: auto; padding: 4px 10px; font-size: 11px;" onclick="toggleVinylPlayerSide(null)"><i class="fa-solid fa-xmark"></i> Fechar</button>
                         </div>
 
@@ -2056,70 +1786,76 @@
                         </div>
 
                         <div id="spotifyPlayerActive" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                            <!-- Vinyl Stage -->
                             <div style="position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin: 10px 0 20px 0;">
-                                <div id="album-sleeve" style="position: absolute; left: 0; width: 160px; height: 160px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: var(--box-shadow); transition: all 0.5s ease; transform: translateX(-10px) rotate(-6deg); z-index: 1;">
+                                <div id="album-sleeve" style="position: absolute; left: 0; width: 160px; height: 160px; background: #fff; border-radius: 10px; border: var(--border-width) solid var(--border-color); overflow: hidden; box-shadow: var(--box-shadow); transition: all 0.5s ease; transform: translateX(-10px) rotate(-6deg); z-index: 1;">
                                     <img id="sleeve-img" src="" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
-                                <div id="vinyl-record" style="position: absolute; right: 0; width: 180px; height: 180px; border-radius: 50%; box-shadow: var(--box-shadow-lg); display: flex; align-items: center; justify-content: center; z-index: 2;" class="vinyl-grooves paused">
-                                    <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; position: relative; box-shadow: inset 0 0 6px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;">
+                                <div id="vinyl-record" style="position: absolute; right: 0; width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--border-color); box-shadow: var(--box-shadow-lg); display: flex; align-items: center; justify-content: center; z-index: 2;" class="vinyl-grooves paused">
+                                    <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3px solid var(--border-color); position: relative; box-shadow: inset 0 0 6px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;">
                                         <img id="vinyl-center-img" src="" alt="Selo" style="width: 100%; height: 100%; object-fit: cover;">
-                                        <div style="position: absolute; width: 12px; height: 12px; background: var(--backg02); border-radius: 50%; border: 1px solid #fff;"></div>
+                                        <div style="position: absolute; width: 12px; height: 12px; background: var(--border-color); border-radius: 50%; border: 1px solid #fff;"></div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Track Info -->
                             <div style="width: 100%; text-align: center; margin-bottom: 1rem; padding: 0 10px;">
-                                <h3 id="track-name" style="font-size: 15px; font-weight: 700; color: var(--backg02); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">Nenhuma música tocando</h3>
-                                <p id="artist-name" style="font-size: 12px; color: var(--text-muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Abra o Spotify e dê play</p>
+                                <h3 id="track-name" style="font-size: 15px; font-weight: 800; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">Nenhuma música tocando</h3>
+                                <p id="artist-name" style="font-size: 12px; color: var(--text-muted); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Abra o Spotify e dê play</p>
                             </div>
 
+                            <!-- Progress Bar -->
                             <div style="width: 100%; margin-bottom: 1.2rem; padding: 0 10px;">
-                                <div style="display: flex; justify-content: space-between; font-size: 10px; font-family: monospace; font-weight: 700; color: var(--text-muted); margin-bottom: 4px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 10px; font-family: monospace; font-weight: 800; color: var(--text-muted); margin-bottom: 4px;">
                                     <span id="current-time">0:00</span>
                                     <span id="total-time">0:00</span>
                                 </div>
-                                <div id="progress-container" style="width: 100%; height: 8px; background: var(--backg01); border-radius: 4px; overflow: hidden; cursor: pointer; position: relative;" onclick="seekTrack(event)">
-                                    <div id="progress-bar" style="height: 100%; background: var(--accent); width: 0%; transition: width 0.1s linear;"></div>
+                                <div id="progress-container" style="width: 100%; height: 10px; background: #fff; border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; box-shadow: 2px 2px 0px #111;" onclick="seekTrack(event)">
+                                    <div id="progress-bar" style="height: 100%; background: var(--pink); width: 0%; transition: width 0.1s linear;"></div>
                                 </div>
                             </div>
 
+                            <!-- Controls -->
                             <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 1rem;">
-                                <button onclick="controlPlayback('previous')" style="background: var(--backg01); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
-                                <button id="play-pause-btn" onclick="togglePlayPause()" style="background: var(--accent); border: none; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; font-size: 18px;" title="Play/Pause">
+                                <button onclick="controlPlayback('previous')" style="background: #fff; border: 2px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px #111; font-size: 14px; transition: transform 0.1s;" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+                                <button id="play-pause-btn" onclick="togglePlayPause()" style="background: var(--pink); border: 2px solid var(--border-color); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 3px 3px 0px #111; color: #fff; font-size: 18px; transition: transform 0.1s;" title="Play/Pause">
                                     <i id="play-icon" class="fa-solid fa-play"></i>
                                     <i id="pause-icon" class="fa-solid fa-pause hidden"></i>
                                 </button>
-                                <button onclick="controlPlayback('next')" style="background: var(--backg01); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;" title="Próxima"><i class="fa-solid fa-forward-step"></i></button>
+                                <button onclick="controlPlayback('next')" style="background: #fff; border: 2px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px #111; font-size: 14px; transition: transform 0.1s;" title="Próxima"><i class="fa-solid fa-forward-step"></i></button>
                             </div>
                         </div>
                     </div>
 
+                    <!-- FRIEND PLAYER EXPANDED SECTION -->
                     <div id="expandedFriendSection" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #ddd; padding-bottom: 6px;">
-                            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--backg03);" id="expandedFriendTitleHeader"><i class="fa-solid fa-user-group"></i> Player do Amigo</span>
+                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">
+                            <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--blue);" id="expandedFriendTitleHeader"><i class="fa-solid fa-user-group"></i> Player do Amigo</span>
                             <button class="btn btn-secondary" style="width: auto; padding: 4px 10px; font-size: 11px;" onclick="toggleVinylPlayerSide(null)"><i class="fa-solid fa-xmark"></i> Fechar</button>
                         </div>
 
                         <div id="friendPlayerContentArea" style="width: 100%; text-align: center; padding: 20px 0; display: flex; flex-direction: column; align-items: center;">
                             <div style="position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin: 10px 0 16px 0;">
-                                <div id="friend-vinyl-record" style="width: 180px; height: 180px; border-radius: 50%; box-shadow: var(--box-shadow-lg); display: flex; align-items: center; justify-content: center;" class="vinyl-grooves paused">
-                                    <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; position: relative; box-shadow: inset 0 0 6px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;">
+                                <div id="friend-vinyl-record" style="width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--border-color); box-shadow: var(--box-shadow-lg); display: flex; align-items: center; justify-content: center;" class="vinyl-grooves paused">
+                                    <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3px solid var(--border-color); position: relative; box-shadow: inset 0 0 6px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;">
                                         <img id="friend-vinyl-center-img" src="https://via.placeholder.com/60x60?text=🎵" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;">
-                                        <div style="position: absolute; width: 12px; height: 12px; background: var(--backg02); border-radius: 50%; border: 1px solid #fff;"></div>
+                                        <div style="position: absolute; width: 12px; height: 12px; background: var(--border-color); border-radius: 50%; border: 1px solid #fff;"></div>
                                     </div>
                                 </div>
                             </div>
-                            <h3 id="friend-track-name" style="font-size: 15px; font-weight: 700; color: var(--backg02); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; width: 100%;">Nenhuma música tocando</h3>
-                            <p id="friend-artist-name" style="font-size: 12px; color: var(--text-muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">O amigo está offline ou sem música</p>
+                            <h3 id="friend-track-name" style="font-size: 15px; font-weight: 800; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; width: 100%;">Nenhuma música tocando</h3>
+                            <p id="friend-artist-name" style="font-size: 12px; color: var(--text-muted); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">O amigo está offline ou sem música</p>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             <div class="featured-hero-carousel" id="musicHeroCarouselSection">
                 <div class="vinyl-stack-wrapper" id="vinylStackWrapperBox">
                     <div class="vinyl-stack-container" id="musicCoverflowStage">
-                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>
+                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>
                     </div>
                 </div>
             </div>
@@ -2131,11 +1867,11 @@
                     <img id="selectedAlbumCover" alt="Capa do Álbum">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedAlbumTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
-                        <p id="selectedAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 600;"></p>
+                        <p id="selectedAlbumArtist" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <button id="btnChangeAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
-                        <button id="btnWaitlistAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: #ddd; color: var(--backg02);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                        <button id="btnWaitlistAlbum" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
                 </div>
 
@@ -2172,11 +1908,11 @@
         <div id="view-books" class="app-view hidden">
             <div class="bookshelf-wrapper" id="booksHeroCarouselSection">
                 <div class="bookshelf-title">
-                    <i class="fa-solid fa-book-bookmark" style="color: var(--accent);"></i> Prateleira de Livros
+                    <i class="fa-solid fa-book-bookmark" style="color: var(--pink);"></i> Prateleira de Livros
                 </div>
                 <div class="bookshelf-container">
                     <div class="bookshelf-shelf" id="booksCoverflowStage">
-                        <p style="font-size: 12px; color: #ccc; font-weight: 500; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>
+                        <p style="font-size: 12px; color: #ccc; font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>
                     </div>
                     <div class="bookshelf-wooden-plank"></div>
                 </div>
@@ -2189,11 +1925,11 @@
                     <img id="selectedBookCover" alt="Capa do Livro">
                     <div style="flex: 1; min-width: 0;">
                         <h3 id="selectedBookTitle" style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;"></h3>
-                        <p id="selectedBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 600;"></p>
+                        <p id="selectedBookAuthor" style="color:var(--text-muted); font-size: 13px; font-weight: 700;"></p>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <button id="btnChangeBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px;"><i class="fa-solid fa-pen"></i> Alterar</button>
-                        <button id="btnWaitlistBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: #ddd; color: var(--backg02);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
+                        <button id="btnWaitlistBook" class="btn btn-secondary" style="width: auto; padding: 6px 10px; font-size: 11px; background: var(--yellow); color: var(--border-color);"><i class="fa-solid fa-clock"></i> Pra Fila</button>
                     </div>
                 </div>
 
@@ -2209,7 +1945,7 @@
                 
                 <form id="bookReviewForm">
                     <div class="rating-wrapper" id="bookRatingWrapperBox">
-                        <label style="display: block; color: var(--backg02); font-weight: 700; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">Toque e arraste nas estrelas para avaliar</label>
+                        <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">Toque e arraste nas estrelas para avaliar</label>
                         <div class="rating-stars" id="bookStarContainer">
                             <i class="fa-solid fa-star" data-value="1" title="Ruim"></i>
                             <i class="fa-solid fa-star" data-value="2" title="Regular"></i>
@@ -2236,10 +1972,10 @@
         <div id="view-connections" class="app-view hidden">
             <div class="card connections-container">
                 <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-users" style="margin-right: 8px;"></i> Conexões & Amigos</h3>
-                <p style="font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 1rem;">Adicione amigos por Nametag para desbloquear sessões e avaliações conjuntas.</p>
+                <p style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 1rem;">Adicione amigos por Nametag para desbloquear sessões e avaliações conjuntas.</p>
 
                 <div class="connections-manager-card">
-                    <label style="font-weight: 700; font-size: 11px; color: var(--backg02); display: block; margin-bottom: 6px; text-transform: uppercase;">Adicionar Nova Conexão</label>
+                    <label style="font-weight: 800; font-size: 11px; color: var(--border-color); display: block; margin-bottom: 6px; text-transform: uppercase;">Adicionar Nova Conexão</label>
                     <form id="addConnectionForm" class="connection-add-form">
                         <input type="text" id="connectionNametagInput" placeholder="Digite a Nametag do amigo (ex: joao99)" autocomplete="off" required>
                         <button type="submit" class="btn"><i class="fa-solid fa-user-plus" style="margin-right: 6px;"></i> Adicionar</button>
@@ -2247,9 +1983,9 @@
                 </div>
 
                 <div style="margin-top: 1rem;">
-                    <h4 style="font-size: 13px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;">Conexões Feitas</h4>
+                    <h4 style="font-size: 13px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Conexões Feitas</h4>
                     <div class="connections-grid" id="connectionsGridList">
-                        <p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">Nenhuma conexão adicionada ainda.</p>
+                        <p style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Nenhuma conexão adicionada ainda.</p>
                     </div>
                 </div>
             </div>
@@ -2267,44 +2003,44 @@
                 </div>
 
                 <div id="libSectionMovies">
-                    <div style="margin-bottom: 2rem; border-bottom: 1px dashed #ddd; padding-bottom: 1.5rem;">
-                        <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Assistir</h4>
+                    <div style="margin-bottom: 2rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 1.5rem;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Assistir</h4>
                         <div class="library-grid" id="waitlistMoviesGrid">
-                            <p style="color: var(--text-muted); font-weight: 500;">Nenhum filme na lista de espera.</p>
+                            <p style="color: var(--text-muted); font-weight: 600;">Nenhum filme na lista de espera.</p>
                         </div>
                     </div>
                     
-                    <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;">Filmes Avaliados</h4>
+                    <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Filmes Avaliados</h4>
                     <div class="library-grid" id="libraryGridContainer">
-                        <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 500;">Nenhum filme na biblioteca ainda.</p>
+                        <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>
                     </div>
                 </div>
 
                 <div id="libSectionMusic" class="hidden">
-                    <div style="margin-bottom: 2rem; border-bottom: 1px dashed #ddd; padding-bottom: 1.5rem;">
-                        <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Ouvir</h4>
+                    <div style="margin-bottom: 2rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 1.5rem;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Ouvir</h4>
                         <div class="library-grid" id="waitlistMusicGrid">
-                            <p style="color: var(--text-muted); font-weight: 500;">Nenhum álbum na lista de espera.</p>
+                            <p style="color: var(--text-muted); font-weight: 600;">Nenhum álbum na lista de espera.</p>
                         </div>
                     </div>
                     
-                    <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;">Álbuns de Música Avaliados</h4>
+                    <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Álbuns de Música Avaliados</h4>
                     <div class="library-grid" id="libraryMusicGridContainer">
-                        <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 500;">Nenhum álbum de música na biblioteca ainda.</p>
+                        <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>
                     </div>
                 </div>
 
                 <div id="libSectionBooks" class="hidden">
-                    <div style="margin-bottom: 2rem; border-bottom: 1px dashed #ddd; padding-bottom: 1.5rem;">
-                        <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Ler</h4>
+                    <div style="margin-bottom: 2rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 1.5rem;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;"><i class="fa-solid fa-clock"></i> Na Fila para Ler</h4>
                         <div class="library-grid" id="waitlistBooksGrid">
-                            <p style="color: var(--text-muted); font-weight: 500;">Nenhum livro na lista de espera.</p>
+                            <p style="color: var(--text-muted); font-weight: 600;">Nenhum livro na lista de espera.</p>
                         </div>
                     </div>
                     
-                    <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;">Livros Avaliados</h4>
+                    <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Livros Avaliados</h4>
                     <div class="library-grid" id="libraryBooksGridContainer">
-                        <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 500;">Nenhum livro na biblioteca ainda.</p>
+                        <p style="color: var(--text-muted); margin-top: 1.2rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>
                     </div>
                 </div>
             </div>
@@ -2315,14 +2051,14 @@
             <div class="card" style="max-width: 650px; margin: 0 auto;">
                 <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i> Meu Perfil & Cadastro</h3>
                 
-                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.8rem; background: var(--backg01); padding: 16px; border-radius: 16px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.8rem; background: #fff; padding: 16px; border: var(--border-width) solid var(--border-color); border-radius: 12px; box-shadow: var(--box-shadow); flex-wrap: wrap;">
                     <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
                         <img id="profileViewAvatarImg" alt="Avatar" style="width: 100%; height: 100%; display: none;">
-                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;"><i class="fa-solid fa-user"></i></div>
+                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--pink); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;"><i class="fa-solid fa-user"></i></div>
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <p style="font-weight: 700; font-size: 15px; color: var(--backg02);" id="profileViewNametag">@usuario</p>
-                        <p style="font-size: 13px; color: var(--text-muted); font-weight: 500; margin-top: 4px; word-break: break-all;" id="profileViewEmail">email@exemplo.com</p>
+                        <p style="font-weight: 800; font-size: 15px; color: var(--border-color);" id="profileViewNametag">@usuario</p>
+                        <p style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-top: 4px; word-break: break-all;" id="profileViewEmail">email@exemplo.com</p>
                     </div>
                 </div>
 
@@ -2341,32 +2077,30 @@
                     </div>
                 </form>
 
-                <div style="margin-top: 2rem; border-top: 1px dashed #ddd; padding-top: 1.2rem;">
-                    <h4 style="font-weight: 700; font-size: 12px; color: var(--backg02); margin-bottom: 0.8rem; text-transform: uppercase;">Estatísticas da Conta</h4>
-                    <p style="font-size: 14px; color: var(--text-muted); font-weight: 600;">Itens avaliados salvos: <strong id="profileStatsCount" style="color: var(--backg02);">0</strong></p>
+                <div style="margin-top: 2rem; border-top: 2px dashed var(--border-color); padding-top: 1.2rem;">
+                    <h4 style="font-weight: 800; font-size: 12px; color: var(--border-color); margin-bottom: 0.8rem; text-transform: uppercase;">Estatísticas da Conta</h4>
+                    <p style="font-size: 14px; color: var(--text-muted); font-weight: 700;">Itens avaliados salvos: <strong id="profileStatsCount" style="color: var(--border-color);">0</strong></p>
                 </div>
             </div>
         </div>
-     </div>
-   </main>
-</wrapper>
+    </div>
 
     <!-- AI RECOMMENDATION MODAL -->
     <div id="aiRecModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #ddd; padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
-                <h3 id="aiModalTitle" style="font-size: 18px; color: var(--backg02); margin: 0;">Detalhes da Sugestão</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                <h3 id="aiModalTitle" style="font-size: 18px; color: var(--border-color); margin: 0;">Detalhes da Sugestão</h3>
                 <button type="button" id="closeAiRecModalBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: auto;"><i class="fa-solid fa-xmark"></i> Fechar</button>
             </div>
             
             <div id="aiModalBody">
-                <div style="position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; background: #000; margin-bottom: 16px;">
+                <div style="position: relative; width: 100%; aspect-ratio: 16/9; border: 3px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #000; box-shadow: 2px 2px 0px #111; margin-bottom: 16px;">
                     <iframe id="aiModalTrailerIframe" src="" title="Trailer do Filme" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                 </div>
 
-                <div style="background: var(--backg01); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
-                    <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: var(--backg02);">Sinopse Oficial</h4>
-                    <p id="aiModalOverview" style="font-size: 13px; font-weight: 500; color: var(--text-bright); line-height: 1.5;">Carregando sinopse...</p>
+                <div style="background: #fff; border: 2px solid var(--border-color); border-radius: 10px; padding: 14px; box-shadow: 2px 2px 0px #111; margin-bottom: 20px;">
+                    <h4 style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; color: var(--border-color);">Sinopse Oficial</h4>
+                    <p id="aiModalOverview" style="font-size: 13px; font-weight: 600; color: var(--text-bright); line-height: 1.5;">Carregando sinopse...</p>
                 </div>
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -2380,8 +2114,8 @@
     <!-- TYPE CHOICE MODAL -->
     <div id="typeChoiceModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 440px; text-align: center; margin-bottom: 0;">
-            <h3 style="font-size: 18px; color: var(--backg02); margin-bottom: 16px;"><i class="fa-solid fa-circle-question" style="margin-right: 8px;"></i> O que vocês querem avaliar?</h3>
-            <p style="font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 24px;">Escolha a categoria para iniciar a sessão conjunta:</p>
+            <h3 style="font-size: 18px; color: var(--border-color); margin-bottom: 16px;"><i class="fa-solid fa-circle-question" style="margin-right: 8px;"></i> O que vocês querem avaliar?</h3>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 24px;">Escolha a categoria para iniciar a sessão conjunta:</p>
             <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                 <button type="button" id="chooseTypeMovie" class="btn" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-film"></i> Filme</button>
                 <button type="button" id="chooseTypeMusic" class="btn btn-secondary" style="flex: 1; min-width: 90px;"><i class="fa-solid fa-music"></i> Música</button>
@@ -2396,8 +2130,8 @@
     <!-- LIBRARY MODAL -->
     <div id="libraryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 16px;">
         <div class="card" style="width: 100%; max-width: 650px; max-height: 92vh; overflow-y: auto; margin-bottom: 0; position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #ddd; padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
-                <h3 style="font-size: 16px; color: var(--backg02); margin: 0;">Detalhes e Edição da Avaliação</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                <h3 style="font-size: 16px; color: var(--border-color); margin: 0;">Detalhes e Edição da Avaliação</h3>
                 <button type="button" id="closeLibraryModalBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: auto;"><i class="fa-solid fa-xmark"></i> Fechar</button>
             </div>
             <div id="libraryModalContent"></div>
@@ -2458,7 +2192,7 @@
         let isSpotifyPlaying = false;
         let spotifyTrackDuration = 0;
         let spotifyTrackProgress = 0;
-        let activeVinylExpandedSide = null;
+        let activeVinylExpandedSide = null; // null, 'user', or 'friend'
 
         const stepAuth = document.getElementById('step-auth');
         const stepNametag = document.getElementById('step-nametag');
@@ -2579,7 +2313,6 @@
                 currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
                 
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
-                document.getElementById('profileViewNametagHeader').textContent = tag;
                 document.getElementById('profileEditNametagInput').value = tag;
                 document.getElementById('profileViewEmail').textContent = currentUser.email;
 
@@ -2588,7 +2321,7 @@
                 showToast(`Bem-vindo de volta, @${tag}!`);
             } catch (error) {
                 console.error("Erro ao logar com nametag:", error);
-                alert("Erro de permissão ou conexão ao efetuar login com a nametag.");
+                alert("Erro de permissão ou conexão ao efetuar login com a nametag. Verifique as regras do Firebase.");
             }
         });
 
@@ -2613,7 +2346,6 @@
                 userNametag = newTag;
                 localStorage.setItem('cinemozi_logged_tag', newTag);
                 document.getElementById('profileViewNametag').textContent = `@${newTag}`;
-                document.getElementById('profileViewNametagHeader').textContent = newTag;
                 showToast("Nametag atualizada com sucesso!");
             } catch (error) {
                 console.error("Erro ao atualizar perfil:", error);
@@ -2631,8 +2363,6 @@
                     profileViewAvatarImg.src = user.photoURL;
                     profileViewAvatarImg.style.display = 'block';
                     document.getElementById('profileViewAvatarFallback').style.display = 'none';
-
-                    document.getElementById('headerUserAvatar').src = user.photoURL;
                 }
                 document.getElementById('profileViewEmail').textContent = user.email || '';
 
@@ -2644,7 +2374,6 @@
                         userNametag = snapshot.val().nametag;
                         localStorage.setItem('cinemozi_logged_tag', userNametag);
                         document.getElementById('profileViewNametag').textContent = `@${userNametag}`;
-                        document.getElementById('profileViewNametagHeader').textContent = userNametag;
                         document.getElementById('profileEditNametagInput').value = userNametag;
                         await update(userRef, { lastLogin: Date.now() });
                         startApplication();
@@ -2652,7 +2381,7 @@
                         stepNametag.classList.remove('hidden');
                     }
                 } catch (err) {
-                    console.error("Erro ao buscar dados do usuário:", err);
+                    console.error("Erro de permissão ao buscar dados do usuário:", err);
                     stepNametag.classList.remove('hidden');
                 }
             } else {
@@ -2667,7 +2396,6 @@
                                 userNametag = savedTag;
                                 currentUser = { uid: uid, email: userSnap.val().email || '', photoURL: null };
                                 document.getElementById('profileViewNametag').textContent = `@${savedTag}`;
-                                document.getElementById('profileViewNametagHeader').textContent = savedTag;
                                 document.getElementById('profileEditNametagInput').value = savedTag;
                                 document.getElementById('profileViewEmail').textContent = currentUser.email;
                                 stepAuth.classList.add('hidden');
@@ -2711,13 +2439,12 @@
                 userNametag = tag;
                 localStorage.setItem('cinemozi_logged_tag', tag);
                 document.getElementById('profileViewNametag').textContent = `@${tag}`;
-                document.getElementById('profileViewNametagHeader').textContent = tag;
                 document.getElementById('profileEditNametagInput').value = tag;
                 stepNametag.classList.add('hidden');
                 startApplication();
             } catch (error) {
                 console.error("Erro ao salvar nametag:", error);
-                alert("Erro ao registrar a nametag.");
+                alert("Erro ao registrar a nametag. Verifique as regras de segurança do Firebase Database.");
             }
         });
 
@@ -2856,6 +2583,7 @@
             const friendChevron = document.getElementById('friendExpandChevron');
 
             if (activeVinylExpandedSide === side) {
+                // Close if clicking the same side again
                 activeVinylExpandedSide = null;
                 widget.classList.remove('expanded');
                 userSection.classList.add('hidden');
@@ -2947,6 +2675,7 @@
                                 friendThumbEl.innerHTML = `<img src="${friendData.albumImg}" alt="Amigo" style="width: 100%; height: 100%; object-fit: cover;">`;
                             }
                             
+                            // Update Friend Expanded View
                             document.getElementById('expandedFriendTitleHeader').innerHTML = `<i class="fa-solid fa-user-group"></i> Player de @${connectedConnectionNametag}`;
                             document.getElementById('friend-track-name').textContent = friendData.name;
                             document.getElementById('friend-artist-name').textContent = friendData.artist;
@@ -3010,6 +2739,7 @@
 
         function updatePlayPauseIcon(isPlaying) {
             const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
             if (isPlaying) {
                 playIcon.className = 'fa-solid fa-pause';
             } else {
@@ -3133,27 +2863,20 @@
             onValue(aiRecRef, (snapshot) => {
                 const data = snapshot.val();
                 const container = document.getElementById('aiRecContent');
-                const synopsisTextEl = document.getElementById('aiDynamicSynopsisText');
-                
+                if (!container) return;
+
                 if (!data || !data.title) {
-                    if (container) container.innerHTML = `<p style="font-weight: 500; font-size: 13px; color: var(--text-muted);">Nenhuma sugestão diária disponível no momento.</p>`;
-                    if (synopsisTextEl) synopsisTextEl.textContent = "Explore filmes, músicas e livros em conjunto com seus amigos no CineMozi.";
+                    container.innerHTML = `<p style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Nenhuma sugestão diária disponível no momento.</p>`;
                     return;
                 }
-
-                if (synopsisTextEl) {
-                    synopsisTextEl.textContent = data.overview ? data.overview : `${data.title} (${data.year}) é a sugestão especial de hoje para a sua sessão em conjunto.`;
-                }
-
-                if (!container) return;
 
                 const friendLabel = connectedConnectionNametag ? `para você e @${connectedConnectionNametag}` : 'para você e um amigo';
 
                 container.innerHTML = `
-                    <img src="${data.poster}" alt="${data.title}" style="width: 70px; height: 100px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+                    <img src="${data.poster}" alt="${data.title}" style="width: 70px; height: 100px; object-fit: cover; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 2px 2px 0px #111; flex-shrink: 0;">
                     <div style="flex: 1; min-width: 0;">
-                        <h4 style="font-size: 14px; font-weight: 700; color: var(--backg02); margin-bottom: 2px;">${data.title} (${data.year})</h4>
-                        <p style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje?</p>
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--border-color); margin-bottom: 2px;">${data.title} (${data.year})</h4>
+                        <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Que tal curtirem esta sugestão ${friendLabel} hoje?</p>
                         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                             <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick='event.stopPropagation(); selectMovieFromAI(${JSON.stringify({id: data.id, title: data.title, year: data.year, poster: data.poster})})'>
                                 <i class="fa-solid fa-heart"></i> Escolher Juntos
@@ -3166,11 +2889,10 @@
                 `;
 
                 const aiDailyCard = document.getElementById('aiDailyCard');
-                if (aiDailyCard) {
-                    aiDailyCard.onclick = () => {
-                        openAiRecommendationModal(data);
-                    };
-                }
+                aiDailyCard.style.cursor = 'pointer';
+                aiDailyCard.onclick = () => {
+                    openAiRecommendationModal(data);
+                };
             }, (error) => {
                 console.error("Erro ao carregar recomendação diária:", error);
             });
@@ -3455,9 +3177,9 @@
                     }
                 });
 
-                if(!hasMovies) moviesGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 500;">Nenhum filme na lista de espera.</p>';
-                if(!hasMusic) musicGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 500;">Nenhum álbum na lista de espera.</p>';
-                if(booksGrid && !hasBooks) booksGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 500;">Nenhum livro na lista de espera.</p>';
+                if(!hasMovies) moviesGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum filme na lista de espera.</p>';
+                if(!hasMusic) musicGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum álbum na lista de espera.</p>';
+                if(booksGrid && !hasBooks) booksGrid.innerHTML = '<p style="color: var(--text-muted); font-weight: 600;">Nenhum livro na lista de espera.</p>';
             }, (error) => {
                 console.error("Erro ao carregar lista de espera:", error);
             });
@@ -3553,7 +3275,7 @@
                 showToast(`Sessão conjunta de Filme aberta com @${connectedConnectionNametag}!`);
             } catch (err) {
                 console.error("Erro ao abrir sala conjunta de filme:", err);
-                alert("Erro ao abrir sessão conjunta.");
+                alert("Erro ao abrir sessão conjunta. Verifique as permissões.");
             }
         });
 
@@ -3576,7 +3298,7 @@
                 showToast(`Sessão conjunta de Música aberta com @${connectedConnectionNametag}!`);
             } catch (err) {
                 console.error("Erro ao abrir sala conjunta de música:", err);
-                alert("Erro ao abrir sessão conjunta.");
+                alert("Erro ao abrir sessão conjunta. Verifique as permissões.");
             }
         });
 
@@ -3599,7 +3321,7 @@
                 showToast(`Sessão conjunta de Livro aberta com @${connectedConnectionNametag}!`);
             } catch (err) {
                 console.error("Erro ao abrir sala conjunta de livro:", err);
-                alert("Erro ao abrir sessão conjunta.");
+                alert("Erro ao abrir sessão conjunta. Verifique as permissões.");
             }
         });
 
@@ -3954,7 +3676,7 @@
                     <div class="track-item-wrapper">
                         <div class="track-header-info">
                             <div class="track-title-num">
-                                <span style="background: var(--accent); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px;">${track.trackNumber}</span>
+                                <span style="background: var(--pink); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px; border: 2px solid var(--border-color);">${track.trackNumber}</span>
                                 <span>${track.trackName}</span>
                             </div>
                             <div class="track-duration">
@@ -3965,7 +3687,7 @@
                         </div>
 
                         <div class="rating-wrapper" style="padding: 10px; margin-bottom: 0;" data-trackid="${track.trackId}">
-                            <label style="display: block; color: var(--backg02); font-weight: 700; font-size: 10px; margin-bottom: 4px; text-transform: uppercase;">Avaliação da Faixa</label>
+                            <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 10px; margin-bottom: 4px; text-transform: uppercase;">Avaliação da Faixa</label>
                             <div class="rating-stars track-stars" data-trackid="${track.trackId}" style="font-size: 1.5rem; gap: 8px; margin-bottom: 4px;">
                                 <i class="fa-solid fa-star ${existingTrackReview.rating >= 1 ? 'active' : ''}" data-value="1"></i>
                                 <i class="fa-solid fa-star ${existingTrackReview.rating >= 2 ? 'active' : ''}" data-value="2"></i>
@@ -4515,7 +4237,7 @@
                 showToast("Avaliação salva com sucesso!");
             } catch (error) {
                 console.error("Erro ao enviar avaliação:", error);
-                alert("Erro ao salvar avaliação.");
+                alert("Erro ao salvar avaliação. Verifique as permissões de segurança.");
             }
         });
 
@@ -4561,7 +4283,7 @@
                 switchTab('view-library');
             } catch (err) {
                 console.error("Erro ao salvar livro:", err);
-                alert("Erro ao salvar avaliação do livro.");
+                alert("Erro ao salvar avaliação do livro. Verifique as permissões.");
             }
         });
 
@@ -4604,7 +4326,7 @@
                 switchTab('view-library');
             } catch (err) {
                 console.error("Erro ao salvar álbum:", err);
-                alert("Erro ao salvar avaliação do álbum.");
+                alert("Erro ao salvar avaliação do álbum. Verifique as permissões.");
             }
         });
 
@@ -4629,13 +4351,13 @@
             container.innerHTML = `
                 <div class="review-box">
                     <h3>@${rev1.name} <span>${'★'.repeat(rev1.rating)}${'☆'.repeat(5 - rev1.rating)}</span></h3>
-                    <p style="font-size: 13px; margin-bottom: 6px; font-weight: 600;">Nota: ${rev1.rating} de 5 estrelas</p>
-                    <p style="font-size: 13px; line-height: 1.5; color: var(--text-bright); font-weight: 500;">"${rev1.comment}"</p>
+                    <p style="font-size: 13px; margin-bottom: 6px; font-weight: 700;">Nota: ${rev1.rating} de 5 estrelas</p>
+                    <p style="font-size: 13px; line-height: 1.5; color: var(--text-bright); font-weight: 600;">"${rev1.comment}"</p>
                 </div>
                 <div class="review-box">
                     <h3>@${rev2.name} <span>${'★'.repeat(rev2.rating)}${'☆'.repeat(5 - rev2.rating)}</span></h3>
-                    <p style="font-size: 13px; margin-bottom: 6px; font-weight: 600;">Nota: ${rev2.rating} de 5 estrelas</p>
-                    <p style="font-size: 13px; line-height: 1.5; color: var(--text-bright); font-weight: 500;">"${rev2.comment}"</p>
+                    <p style="font-size: 13px; margin-bottom: 6px; font-weight: 700;">Nota: ${rev2.rating} de 5 estrelas</p>
+                    <p style="font-size: 13px; line-height: 1.5; color: var(--text-bright); font-weight: 600;">"${rev2.comment}"</p>
                 </div>
             `;
         }
@@ -4673,13 +4395,10 @@
                 const movieContainer = document.getElementById('libraryGridContainer');
                 const musicContainer = document.getElementById('libraryMusicGridContainer');
                 const booksContainer = document.getElementById('libraryBooksGridContainer');
-                const quickLinksContainer = document.getElementById('quickLinksContainer');
-                const miniLibraryVersionText = document.getElementById('miniLibraryVersionText');
                 
                 movieContainer.innerHTML = '';
                 musicContainer.innerHTML = '';
                 if (booksContainer) booksContainer.innerHTML = '';
-                if (quickLinksContainer) quickLinksContainer.innerHTML = '';
 
                 const uniqueMoviesMap = new Map();
                 const uniqueMusicMap = new Map();
@@ -4716,61 +4435,13 @@
 
                 document.getElementById('profileStatsCount').textContent = allValidItems.length;
 
-                // Mini versão da biblioteca para o "Guidebook"
-                if (miniLibraryVersionText) {
-                    miniLibraryVersionText.textContent = `Você possui ${allValidItems.length} item(ns) avaliado(s) na sua biblioteca do CineMozi.`;
-                }
-
-                // Preencher quick links limitados à interface com os filmes anteriores
-                if (quickLinksContainer) {
-                    const iconsList = ['ph-bag-simple', 'ph-basket', 'ph-book-bookmark', 'ph-brain', 'ph-cake', 'ph-car-profile'];
-                    const limitedMovies = validMovies.slice(0, iconsList.length);
-                    
-                    if (limitedMovies.length > 0) {
-                        limitedMovies.forEach((entry, idx) => {
-                            const movieTitle = entry.item.movie.title;
-                            const iconClass = iconsList[idx % iconsList.length];
-                            const linkA = document.createElement('a');
-                            linkA.href = "#";
-                            linkA.innerHTML = `<i class="ph ${iconClass}"></i> ${movieTitle}`;
-                            linkA.onclick = (e) => {
-                                e.preventDefault();
-                                openLibraryModal(entry.key);
-                            };
-                            quickLinksContainer.appendChild(linkA);
-                        });
-                    } else {
-                        // Fallback se não houver filmes ainda
-                        const defaultLinks = [
-                            {icon: 'ph-bag-simple', label: 'Explorar Filmes'},
-                            {icon: 'ph-basket', label: 'Lista de Desejos'},
-                            {icon: 'ph-book-bookmark', label: 'Biblioteca'},
-                            {icon: 'ph-brain', label: 'Recomendações IA'},
-                            {icon: 'ph-cake', label: 'Sessões Conjuntas'},
-                            {icon: 'ph-car-profile', label: 'Configurações'}
-                        ];
-                        defaultLinks.forEach((dl, idx) => {
-                            const linkA = document.createElement('a');
-                            linkA.href = "#";
-                            linkA.innerHTML = `<i class="ph ${dl.icon}"></i> ${dl.label}`;
-                            linkA.onclick = (e) => {
-                                e.preventDefault();
-                                if(idx === 2) document.querySelector('[data-target=\'view-library\']').click();
-                                else if(idx === 0) document.querySelector('[data-target=\'view-session\']').click();
-                                else if(idx === 3) refreshDailyRecommendation();
-                            };
-                            quickLinksContainer.appendChild(linkA);
-                        });
-                    }
-                }
-
                 if (allValidItems.length === 0) {
-                    movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 500;">Nenhum filme na biblioteca ainda.</p>';
-                    musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 500;">Nenhum álbum de música na biblioteca ainda.</p>';
-                    if (booksContainer) booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 500;">Nenhum livro na biblioteca ainda.</p>';
-                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Nenhum filme no destaque ainda.</p>';
-                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
-                    if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 500; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
+                    movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
+                    musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
+                    if (booksContainer) booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
+                    document.getElementById('coverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
+                    document.getElementById('musicCoverflowStage').innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
+                    if (document.getElementById('booksCoverflowStage')) document.getElementById('booksCoverflowStage').innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                     featuredMoviesOnly = [];
                     featuredMusicOnly = [];
                     featuredBooksOnly = [];
@@ -4786,7 +4457,7 @@
                 renderBooksShelf();
 
                 if (validMovies.length === 0) {
-                    movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 500;">Nenhum filme na biblioteca ainda.</p>';
+                    movieContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum filme na biblioteca ainda.</p>';
                 } else {
                     validMovies.forEach(({ key: k, item }) => {
                         renderLibraryCard(k, item, movieContainer, true);
@@ -4794,7 +4465,7 @@
                 }
 
                 if (validMusic.length === 0) {
-                    musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 500;">Nenhum álbum de música na biblioteca ainda.</p>';
+                    musicContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum álbum de música na biblioteca ainda.</p>';
                 } else {
                     validMusic.forEach(({ key: k, item }) => {
                         renderLibraryCard(k, item, musicContainer, false);
@@ -4803,7 +4474,7 @@
 
                 if (booksContainer) {
                     if (validBooks.length === 0) {
-                        booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 500;">Nenhum livro na biblioteca ainda.</p>';
+                        booksContainer.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem; font-weight: 600;">Nenhum livro na biblioteca ainda.</p>';
                     } else {
                         validBooks.forEach(({ key: k, item }) => {
                             renderLibraryCard(k, item, booksContainer, true);
@@ -4865,7 +4536,7 @@
             const stage = document.getElementById('coverflowStage');
             if (!stage) return;
             if (featuredMoviesOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Nenhum filme no destaque ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhum filme no destaque ainda.</p>';
                 return;
             }
 
@@ -4905,7 +4576,7 @@
             if (!stage || !wrapper) return;
             
             if (featuredMusicOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-align: center; padding-top: 100px;">Nenhum álbum avaliado ainda.</p>';
                 wrapper.classList.remove('carousel-active');
                 return;
             }
@@ -4961,6 +4632,9 @@
                 startX = e.pageX - wrapper.offsetLeft;
                 scrollLeft = stage.scrollLeft;
             };
+            wrapper.onmouseleave = () => {
+                isDown = false;
+            };
             wrapper.onmouseup = () => {
                 isDown = false;
             };
@@ -4994,13 +4668,13 @@
             const stage = document.getElementById('booksCoverflowStage');
             if (!stage) return;
             if (featuredBooksOnly.length === 0) {
-                stage.innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 500; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
+                stage.innerHTML = '<p style="font-size: 12px; color: #ccc; font-weight: 600; padding-bottom: 20px;">Nenhum livro na prateleira ainda.</p>';
                 return;
             }
 
             stage.innerHTML = '';
 
-            const spineColors = ['#cd2c2f', '#313131', '#1c1c1c', '#B05CF2', '#F5EA48', '#FF6B6B', '#4D96FF'];
+            const spineColors = ['#DF39F4', '#B05CF2', '#F5EA48', '#86F46F', '#FF6B6B', '#4D96FF', '#FF9F45'];
 
             featuredBooksOnly.forEach((entry, idx) => {
                 const item = entry.item;
@@ -5074,8 +4748,8 @@
                 let tracksHTML = '';
                 if (item.type === 'music') {
                     const tracks = await fetchAlbumTracks(item.movie.id);
-                    tracksHTML = `<div style="margin-top: 1rem; margin-bottom: 1rem; background: var(--backg01); border-radius: 16px; padding: 12px;">
-                        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">Faixas Avaliadas</h4>
+                    tracksHTML = `<div style="margin-top: 1rem; margin-bottom: 1rem; background: #fdfbf7; border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; box-shadow: 2px 2px 0px #111;">
+                        <h4 style="font-size: 13px; font-weight: 800; margin-bottom: 8px; text-transform: uppercase;">Faixas Avaliadas</h4>
                         <div style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px;">`;
                     
                     let hasRatedTracks = false;
@@ -5085,17 +4759,17 @@
                             const tr = rev.tracks && rev.tracks[track.trackId];
                             if (tr && tr.rating > 0) {
                                 hasRatedTracks = true;
-                                ratedByUsersHTML += `<div style="font-size: 11px; font-weight: 600; color: var(--text-muted); background: #fff; padding: 6px 10px; border-radius: 8px;">@${rev.name}: <span style="color: var(--accent);">${'★'.repeat(tr.rating)}</span> ${tr.comment ? `<span style="font-weight:500; color:var(--backg02); display:block; margin-top:2px;">"${tr.comment}"</span>` : ''}</div>`;
+                                ratedByUsersHTML += `<div style="font-size: 11px; font-weight: 700; color: var(--text-muted); background: #fff; padding: 4px 6px; border-radius: 6px; border: 1px solid #ddd;">@${rev.name}: <span style="color: var(--pink);">${'★'.repeat(tr.rating)}</span> ${tr.comment ? `<span style="font-weight:600; color:var(--text-dark); display:block; margin-top:2px;">"${tr.comment}"</span>` : ''}</div>`;
                             }
                         });
 
                         if (ratedByUsersHTML) {
                             tracksHTML += `
-                                <div style="display: flex; flex-direction: column; padding: 8px; border-radius: 12px; background: #fff;">
+                                <div style="display: flex; flex-direction: column; padding: 8px; border: 2px solid var(--border-color); border-radius: 8px; background: #faf7f0; box-shadow: 1px 1px 0px #111;">
                                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                                         <a href="https://open.spotify.com/search/${encodeURIComponent(track.trackName)}" target="_blank" class="btn-spotify-track" style="width: 24px; height: 24px; font-size: 12px; flex-shrink: 0;" title="Ouvir no Spotify"><i class="fa-brands fa-spotify"></i></a>
                                         ${track.previewUrl ? `<button type="button" class="btn-play-track modal-play-btn" data-url="${track.previewUrl}" style="width: 24px; height: 24px; font-size: 10px; flex-shrink: 0;"><i class="fa-solid fa-play"></i></button>` : ''}
-                                        <span style="font-size: 12px; font-weight: 700; color: var(--backg02);">${track.trackNumber}. ${track.trackName}</span>
+                                        <span style="font-size: 12px; font-weight: 800; color: var(--border-color);">${track.trackNumber}. ${track.trackName}</span>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 4px;">
                                         ${ratedByUsersHTML}
@@ -5106,7 +4780,7 @@
                     });
                     
                     if (!hasRatedTracks) {
-                        tracksHTML += `<p style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Nenhuma faixa foi avaliada individualmente.</p>`;
+                        tracksHTML += `<p style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Nenhuma faixa foi avaliada individualmente.</p>`;
                     }
                     
                     tracksHTML += `</div></div>`;
@@ -5120,20 +4794,20 @@
                         <img src="${posterUrlModal}" alt="Poster">
                         <div style="flex: 1; min-width: 0;">
                             <h3 style="color:var(--text-bright); font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${item.movie.title}</h3>
-                            <p style="color:var(--text-muted); font-size: 13px; font-weight: 600;">${subDetailText}</p>
+                            <p style="color:var(--text-muted); font-size: 13px; font-weight: 700;">${subDetailText}</p>
                         </div>
                     </div>
 
                     <div class="match-score-card" style="margin-bottom: 1rem; padding: 1rem;">
                         <div class="scores-wrapper">
                             <div class="score-block">
-                                <p style="font-weight: 700; font-size: 10px; text-transform: uppercase; color: #666;">Match</p>
-                                <h2 style="color: var(--accent); font-size: 2rem;">${similarity}<span class="percent-symbol">%</span></h2>
+                                <p style="font-weight: 800; font-size: 10px; text-transform: uppercase; color: #666;">Match</p>
+                                <h2 style="color: var(--pink); font-size: 2rem;">${similarity}<span class="percent-symbol">%</span></h2>
                             </div>
                             <div class="score-divider"></div>
                             <div class="score-block">
-                                <p style="font-weight: 700; font-size: 10px; text-transform: uppercase; color: #666;">Média Avaliação</p>
-                                <h2 style="color: var(--backg02); font-size: 2rem;">${totalRatingPercent}<span class="percent-symbol">%</span></h2>
+                                <p style="font-weight: 800; font-size: 10px; text-transform: uppercase; color: #666;">Média Avaliação</p>
+                                <h2 style="color: var(--border-color); font-size: 2rem;">${totalRatingPercent}<span class="percent-symbol">%</span></h2>
                             </div>
                         </div>
                     </div>
@@ -5146,14 +4820,14 @@
                             return `
                             <div class="review-box review-box-dblclick" data-revuid="${rev.uid}" style="margin-bottom: 0; position: relative; cursor: pointer; user-select: none;" title="Dê 2 cliques para curtir!">
                                 <h3 style="padding-right: 28px;">@${rev.name} <span>${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</span></h3>
-                                <p style="font-size: 12px; margin-bottom: 4px; font-weight: 600;">Nota Geral: ${rev.rating} / 5</p>
-                                <p style="font-size: 13px; line-height: 1.4; color: var(--text-bright); font-weight: 500; margin-bottom: 12px;">"${rev.comment}"</p>
+                                <p style="font-size: 12px; margin-bottom: 4px; font-weight: 700;">Nota Geral: ${rev.rating} / 5</p>
+                                <p style="font-size: 13px; line-height: 1.4; color: var(--text-bright); font-weight: 600; margin-bottom: 12px;">"${rev.comment}"</p>
                                 
-                                <div class="like-container" style="position: absolute; bottom: 12px; right: 16px; font-size: 18px; color: ${hasLiked ? 'var(--accent)' : '#ccc'}; transition: transform 0.2s;">
-                                    <i class="${hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i> <span style="font-size: 13px; font-weight: 700; color: var(--backg02);">${likesCount > 0 ? likesCount : ''}</span>
+                                <div class="like-container" style="position: absolute; bottom: 12px; right: 16px; font-size: 18px; color: ${hasLiked ? 'var(--pink)' : '#ccc'}; transition: transform 0.2s;">
+                                    <i class="${hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="filter: drop-shadow(2px 2px 0px #111);"></i> <span style="font-size: 13px; font-weight: 800; color: var(--border-color);">${likesCount > 0 ? likesCount : ''}</span>
                                 </div>
                                 
-                                ${rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--backg02); cursor: pointer;" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
+                                ${rev.uid === currentUser.uid ? `<button id="toggleEditBtn" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 18px; color: var(--border-color); cursor: pointer; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Editar Avaliação"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
                             </div>
                             `;
                         }).join('')}
@@ -5165,7 +4839,7 @@
                         <h3 style="margin-bottom: 1rem; font-size: 15px;"><i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> Editar Minha Avaliação</h3>
                         <form id="modalReviewForm">
                             <div class="rating-wrapper" style="padding: 1rem; margin-bottom: 1rem;">
-                                <label style="display: block; color: var(--backg02); font-weight: 700; font-size: 11px; margin-bottom: 6px; text-transform: uppercase;">Sua Nota Geral</label>
+                                <label style="display: block; color: var(--border-color); font-weight: 800; font-size: 11px; margin-bottom: 6px; text-transform: uppercase;">Sua Nota Geral</label>
                                 <div class="rating-stars" id="modalStarContainer" style="font-size: 1.8rem; gap: 8px;">
                                     <i class="fa-solid fa-star ${myReview.rating >= 1 ? 'active' : ''}" data-value="1"></i>
                                     <i class="fa-solid fa-star ${myReview.rating >= 2 ? 'active' : ''}" data-value="2"></i>
@@ -5203,12 +4877,13 @@
                             const heartAnim = document.createElement('i');
                             heartAnim.className = 'fa-solid fa-heart';
                             heartAnim.style.position = 'absolute';
-                            heartAnim.style.color = 'var(--accent)';
+                            heartAnim.style.color = 'var(--pink)';
                             heartAnim.style.fontSize = '50px';
                             heartAnim.style.left = '50%';
                             heartAnim.style.top = '50%';
                             heartAnim.style.transform = 'translate(-50%, -50%) scale(0)';
                             heartAnim.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s';
+                            heartAnim.style.filter = 'drop-shadow(4px 4px 0px #111)';
                             heartAnim.style.zIndex = '100';
                             box.appendChild(heartAnim);
                             
@@ -5362,7 +5037,7 @@
                 showToast(`Conexão com @${friendTag} adicionada com sucesso!`);
             } catch (err) {
                 console.error("Erro ao adicionar conexão:", err);
-                alert("Erro ao adicionar conexão.");
+                alert("Erro ao adicionar conexão. Verifique as permissões.");
             }
         });
 
@@ -5374,7 +5049,7 @@
 
                 const keys = Object.keys(friends);
                 if (keys.length === 0) {
-                    connectionsGridList.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; font-weight: 500;">Nenhuma conexão adicionada ainda.</p>';
+                    connectionsGridList.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Nenhuma conexão adicionada ainda.</p>';
                     return;
                 }
 
@@ -5387,8 +5062,8 @@
                     item.innerHTML = `
                         <div class="connection-avatar">${friend.nametag.charAt(0).toUpperCase()}</div>
                         <div style="min-width: 0; flex: 1;">
-                            <h4 style="font-weight: 700; font-size: 14px; color: var(--backg02); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">@${friend.nametag}</h4>
-                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">Clique para avaliar junto</span>
+                            <h4 style="font-weight: 800; font-size: 14px; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">@${friend.nametag}</h4>
+                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Clique para avaliar junto</span>
                         </div>
                     `;
 
@@ -5408,6 +5083,7 @@
         function getRoomId(uid1, uid2) {
             return uid1 < uid2 ? `chat_${uid1}_${uid2}` : `chat_${uid2}_${uid1}`;
         }
+
     </script>
 </body>
 </html>
