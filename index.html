@@ -2397,7 +2397,7 @@
             try {
                 const tagSnap = await get(ref(db, `nametags/${newTag}`));
                 if (tagSnap.exists()) {
-                    alert("Esta Nametag já está em uso por outro usuário. Escolha outra.");
+                    alert(" Esta Nametag já está em uso por outro usuário. Escolha outra.");
                     return;
                 }
 
@@ -2555,11 +2555,14 @@
 
                 const inviteUrl = `${window.location.origin}${window.location.pathname}?ticket=${ticketId}&sender=${encodeURIComponent(userNametag)}&title=${encodeURIComponent(itemData.title)}&type=${itemType}&poster=${encodeURIComponent(itemData.poster || '')}`;
 
+                // Renderiza o Ticket interativo enviado na própria interface para confirmação visual estilizada
+                renderTicketWidget(ticketData);
+
                 if (navigator.clipboard) {
                     await navigator.clipboard.writeText(inviteUrl);
-                    showToast(`Convite (Ticket) enviado para @${connectedConnectionNametag}! Link copiado para a área de transferência.`);
+                    showToast(`Convite em formato de Ticket enviado para @${connectedConnectionNametag}! Link copiado.`);
                 } else {
-                    showToast(`Convite (Ticket) enviado para @${connectedConnectionNametag}!`);
+                    showToast(`Convite em formato de Ticket enviado para @${connectedConnectionNametag}!`);
                 }
             } catch (err) {
                 console.error("Erro ao enviar ticket:", err);
@@ -2617,7 +2620,7 @@
                 <div class="ticket-box">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; background: var(--border-color); color: #fff; padding: 4px 10px; border-radius: 20px;">
-                            <i class="fa-solid fa-ticket"></i> Convite de Sessão (@${ticket.senderNametag})
+                            <i class="fa-solid fa-ticket"></i> Ticket de Convite (@${ticket.senderNametag})
                         </span>
                         <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
                     </div>
@@ -2625,8 +2628,8 @@
                         <img src="${posterUrl}" alt="${ticket.item.title}">
                         <div style="flex: 1; min-width: 0;">
                             <h4 style="font-size: 15px; font-weight: 800; color: var(--border-color); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ticket.item.title}</h4>
-                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">@${ticket.senderNametag} convidou você para avaliar este ${typeName} juntos!</p>
-                            <button type="button" class="btn" style="padding: 8px 12px; font-size: 11px;" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Aceitar Convite</button>
+                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">@${ticket.senderNametag} enviou este ticket para avaliar este ${typeName} juntos!</p>
+                            <button type="button" class="btn" style="padding: 8px 12px; font-size: 11px;" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Resgatar / Aceitar Ticket</button>
                         </div>
                     </div>
                 </div>
@@ -2638,7 +2641,7 @@
                 if (currentUser) {
                     await remove(ref(db, `users/${currentUser.uid}/incoming_ticket`));
                 }
-                showToast("Convite aceito! Divirtam-se na sessão.");
+                showToast("Ticket resgatado com sucesso! Divirtam-se na sessão.");
             };
         }
 
