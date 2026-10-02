@@ -492,7 +492,7 @@
             font-weight: 800;
         }
 
-        /* --- TICKET INVITATION STYLES (LIVRE DE BOX - SEM BORDAS/CAIXA) --- */
+        /* --- VINTAGE TICKET INVITATION STYLES (BOX-FREE / LIVRE DE BOX) --- */
         .ticket-box {
             background: transparent;
             border: none;
@@ -510,7 +510,7 @@
             background: transparent;
             border: none;
             border-radius: 0;
-            padding: 0;
+            padding: 4px 0;
             box-shadow: none;
             position: relative;
         }
@@ -519,10 +519,10 @@
             width: 80px;
             height: 110px;
             object-fit: cover;
-            border-radius: 8px;
-            border: var(--border-width) solid var(--border-color);
-            box-shadow: var(--box-shadow);
+            border-radius: 6px;
+            border: 2px solid var(--border-color);
             flex-shrink: 0;
+            box-shadow: 2px 2px 0px #111;
         }
 
         /* --- CONNECTIONS STYLES --- */
@@ -1599,7 +1599,7 @@
         </div>
 
         <div id="view-session" class="app-view hidden">
-            <!-- VINTAGE TICKET INVITATION WIDGET CONTAINER (LIVRE DE BOX) -->
+            <!-- VINTAGE TICKET INVITATION WIDGET CONTAINER -->
             <div id="ticketInvitationWidget" class="hidden"></div>
 
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
@@ -2593,9 +2593,9 @@
 
             widgetContainer.innerHTML = `
                 <div class="ticket-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--border-color);">
-                            <i class="fa-solid fa-ticket" style="margin-right: 4px;"></i> Ingresso Teatral / Sessão
+                            <i class="fa-solid fa-ticket" style="margin-right: 4px;"></i> Ingresso / Sessão
                         </span>
                         <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
                     </div>
@@ -5233,7 +5233,7 @@
             });
         }
 
-        getRoomId = function(uid1, uid2) {
+        function getRoomId(uid1, uid2) {
             return uid1 < uid2 ? `chat_${uid1}_${uid2}` : `chat_${uid2}_${uid1}`;
         }
 
