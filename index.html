@@ -10,7 +10,7 @@
     
     <style>
         :root {
-            --bg-color: #39E80C;        
+            --bg-color: #DB00FF;        
             --card-bg: #ffffff;
             --border-color: #111111;
             --border-width: 3px;
@@ -21,7 +21,7 @@
             --blue: #600DFF;          
             --pink: #FF0D5B;          
             --green: #39E80C;         
-            --orange: #DB00FF;        
+            --orange: #FF0D5B;        
             --whatsapp-green: #25D366;
             --dark-card: #141414;
             
@@ -152,7 +152,7 @@
         }
 
         header h1 span {
-            color: var(--pink);
+            color: var(--blue);
             background: transparent;
             padding: 0;
             border: none;
@@ -195,7 +195,7 @@
         }
 
         .nav-btn.active, .nav-btn:hover {
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             transform: translate(-1px, -1px);
             box-shadow: 3px 3px 0px #111;
@@ -225,7 +225,7 @@
         }
 
         .btn-google {
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             border: var(--border-width) solid var(--border-color);
             width: 100%;
@@ -425,7 +425,7 @@
         .rating-stars i:hover,
         .rating-stars i.hovered,
         .rating-stars i.active {
-            color: var(--pink);
+            color: var(--blue);
             transform: scale(1.2) translateY(-2px);
         }
 
@@ -448,7 +448,7 @@
         }
 
         .btn {
-            background-color: var(--pink);
+            background-color: var(--blue);
             color: #fff;
             border: var(--border-width) solid var(--border-color);
             padding: 11px 18px;
@@ -478,7 +478,7 @@
         }
 
         .btn-secondary {
-            background-color: var(--blue);
+            background-color: var(--pink);
             color: #fff;
             box-shadow: 2px 2px 0px #111;
         }
@@ -569,7 +569,7 @@
         .connection-avatar {
             width: 48px;
             height: 48px;
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             border: 2px solid var(--border-color);
             border-radius: 50%;
@@ -702,7 +702,7 @@
             font-size: 11px;
             color: var(--border-color);
             text-align: center;
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             border: 2px solid var(--border-color);
             border-radius: 6px;
@@ -1074,7 +1074,7 @@
             cursor: pointer;
             height: var(--spine-height, 180px);
             width: var(--spine-width, 36px);
-            background: var(--spine-bg, var(--pink));
+            background: var(--spine-bg, var(--blue));
             border: 2px solid var(--border-color);
             border-bottom: none;
             border-radius: 4px 4px 0 0;
@@ -1202,7 +1202,7 @@
         }
 
         .bookshelf-preview-match {
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             padding: 2px 6px;
             border-radius: 4px;
@@ -1235,7 +1235,7 @@
         }
 
         .roulette-counter-badge {
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             font-weight: 800;
             font-size: 11px;
@@ -1270,12 +1270,12 @@
 
         .roulette-viewport::before {
             top: 0;
-            background: linear-gradient(to bottom, var(--bg-color) 15%, rgba(57, 232, 12, 0) 100%);
+            background: linear-gradient(to bottom, var(--bg-color) 15%, rgba(219, 0, 255, 0) 100%);
         }
 
         .roulette-viewport::after {
             bottom: 0;
-            background: linear-gradient(to top, var(--bg-color) 15%, rgba(57, 232, 12, 0) 100%);
+            background: linear-gradient(to top, var(--bg-color) 15%, rgba(219, 0, 255, 0) 100%);
         }
 
         .roulette-stage-3d {
@@ -1343,7 +1343,7 @@
         }
 
         .btn-play-track {
-            background: var(--blue);
+            background: var(--pink);
             color: #fff;
             border: 2px solid var(--border-color);
             border-radius: 6px;
@@ -1422,7 +1422,7 @@
             position: fixed;
             bottom: 28px;
             right: 28px;
-            background: var(--pink);
+            background: var(--blue);
             color: #fff;
             padding: 14px 18px;
             border: var(--border-width) solid var(--border-color);
@@ -1568,7 +1568,7 @@
         <div id="view-session" class="app-view hidden">
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--pink); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
+                    <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; background: var(--blue); color: #fff; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); box-shadow: 1px 1px 0px #111;">
                         <i class="fa-solid fa-sparkles"></i> Sugestão de hoje para vocês
                     </span>
                 </div>
@@ -1588,7 +1588,7 @@
                 <button id="btnLeaveRoom"></button>
             </div>
 
-            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--pink); color: #fff; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha para avaliar juntos">
+            <div id="hubWelcomeBox" class="card" style="text-align: center; padding: 32px 20px; background: var(--blue); color: #fff; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;" title="Clique para abrir a escolha para avaliar juntos">
                 <i class="fa-solid fa-people-arrows" style="font-size: 2.2rem; color: #fff; margin-bottom: 12px;"></i>
                 <h3 id="hubWelcomeTitle" style="font-size: 18px; margin-bottom: 6px; color: #fff;">Veja a próxima sessão com @amigo</h3>
                 <p style="font-size: 13px; font-weight: 700; color: #fdfbf7;">Clique aqui para escolher o que avaliar com seu amigo!</p>
@@ -1718,7 +1718,7 @@
                     <div class="scores-wrapper">
                         <div class="score-block">
                             <p style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #666;">Match de Gosto</p>
-                            <h2 id="matchPercentage" style="color: var(--pink);">0<span class="percent-symbol">%</span></h2>
+                            <h2 id="matchPercentage" style="color: var(--blue);">0<span class="percent-symbol">%</span></h2>
                         </div>
                         <div class="score-divider"></div>
                         <div class="score-block">
@@ -1745,7 +1745,7 @@
                             <img id="miniUserImg" src="https://via.placeholder.com/30x30?text=🎵" alt="Capa" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/30x30?text=🎵'">
                         </div>
                         <div style="min-width: 0; flex: 1;">
-                            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--pink);">Você</div>
+                            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--blue);">Você</div>
                             <div id="miniUserTrack" style="font-size: 12px; font-weight: 700; color: var(--border-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Conecte o Spotify abaixo</div>
                         </div>
                         <div style="font-size: 12px; font-weight: 800; color: var(--border-color); padding-left: 4px;">
@@ -1758,11 +1758,11 @@
 
                     <!-- Part 2: Friend Side (Expands Friend Player) -->
                     <div class="vinyl-mini-side" onclick="toggleVinylPlayerSide('friend')">
-                        <div id="miniFriendThumb" style="width: 36px; height: 36px; border-radius: 50%; background: var(--blue); border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px;">
+                        <div id="miniFriendThumb" style="width: 36px; height: 36px; border-radius: 50%; background: var(--pink); border: 2px solid var(--border-color); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 12px;">
                             <i class="fa-solid fa-user-group"></i>
                         </div>
                         <div style="min-width: 0; flex: 1;">
-                            <div id="miniFriendLabel" style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--blue);">Amigo</div>
+                            <div id="miniFriendLabel" style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--pink);">Amigo</div>
                             <div id="miniFriendTrack" style="font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Offline ou sem amigo</div>
                         </div>
                         <div style="font-size: 12px; font-weight: 800; color: var(--border-color); padding-left: 4px;">
@@ -1777,7 +1777,7 @@
                     <!-- USER PLAYER EXPANDED SECTION -->
                     <div id="expandedUserSection" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                         <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">
-                            <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--pink);"><i class="fa-solid fa-user"></i> Seu Player (Spotify)</span>
+                            <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--blue);"><i class="fa-solid fa-user"></i> Seu Player (Spotify)</span>
                             <button class="btn btn-secondary" style="width: auto; padding: 4px 10px; font-size: 11px;" onclick="toggleVinylPlayerSide(null)"><i class="fa-solid fa-xmark"></i> Fechar</button>
                         </div>
 
@@ -1812,14 +1812,14 @@
                                     <span id="total-time">0:00</span>
                                 </div>
                                 <div id="progress-container" style="width: 100%; height: 10px; background: #fff; border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; box-shadow: 2px 2px 0px #111;" onclick="seekTrack(event)">
-                                    <div id="progress-bar" style="height: 100%; background: var(--pink); width: 0%; transition: width 0.1s linear;"></div>
+                                    <div id="progress-bar" style="height: 100%; background: var(--blue); width: 0%; transition: width 0.1s linear;"></div>
                                 </div>
                             </div>
 
                             <!-- Controls -->
                             <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 1rem;">
                                 <button onclick="controlPlayback('previous')" style="background: #fff; border: 2px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px #111; font-size: 14px; transition: transform 0.1s;" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
-                                <button id="play-pause-btn" onclick="togglePlayPause()" style="background: var(--pink); border: 2px solid var(--border-color); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 3px 3px 0px #111; color: #fff; font-size: 18px; transition: transform 0.1s;" title="Play/Pause">
+                                <button id="play-pause-btn" onclick="togglePlayPause()" style="background: var(--blue); border: 2px solid var(--border-color); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 3px 3px 0px #111; color: #fff; font-size: 18px; transition: transform 0.1s;" title="Play/Pause">
                                     <i id="play-icon" class="fa-solid fa-play"></i>
                                     <i id="pause-icon" class="fa-solid fa-pause hidden"></i>
                                 </button>
@@ -1831,7 +1831,7 @@
                     <!-- FRIEND PLAYER EXPANDED SECTION -->
                     <div id="expandedFriendSection" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                         <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;">
-                            <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--blue);" id="expandedFriendTitleHeader"><i class="fa-solid fa-user-group"></i> Player do Amigo</span>
+                            <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--pink);" id="expandedFriendTitleHeader"><i class="fa-solid fa-user-group"></i> Player do Amigo</span>
                             <button class="btn btn-secondary" style="width: auto; padding: 4px 10px; font-size: 11px;" onclick="toggleVinylPlayerSide(null)"><i class="fa-solid fa-xmark"></i> Fechar</button>
                         </div>
 
@@ -1908,7 +1908,7 @@
         <div id="view-books" class="app-view hidden">
             <div class="bookshelf-wrapper" id="booksHeroCarouselSection">
                 <div class="bookshelf-title">
-                    <i class="fa-solid fa-book-bookmark" style="color: var(--pink);"></i> Prateleira de Livros
+                    <i class="fa-solid fa-book-bookmark" style="color: var(--blue);"></i> Prateleira de Livros
                 </div>
                 <div class="bookshelf-container">
                     <div class="bookshelf-shelf" id="booksCoverflowStage">
@@ -2054,7 +2054,7 @@
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.8rem; background: #fff; padding: 16px; border: var(--border-width) solid var(--border-color); border-radius: 12px; box-shadow: var(--box-shadow); flex-wrap: wrap;">
                     <div class="profile-avatar-large" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
                         <img id="profileViewAvatarImg" alt="Avatar" style="width: 100%; height: 100%; display: none;">
-                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--pink); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;"><i class="fa-solid fa-user"></i></div>
+                        <div id="profileViewAvatarFallback" style="width: 100%; height: 100%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;"><i class="fa-solid fa-user"></i></div>
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <p style="font-weight: 800; font-size: 15px; color: var(--border-color);" id="profileViewNametag">@usuario</p>
@@ -3676,7 +3676,7 @@
                     <div class="track-item-wrapper">
                         <div class="track-header-info">
                             <div class="track-title-num">
-                                <span style="background: var(--pink); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px; border: 2px solid var(--border-color);">${track.trackNumber}</span>
+                                <span style="background: var(--blue); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 11px; border: 2px solid var(--border-color);">${track.trackNumber}</span>
                                 <span>${track.trackName}</span>
                             </div>
                             <div class="track-duration">
@@ -4674,7 +4674,7 @@
 
             stage.innerHTML = '';
 
-            const spineColors = ['#FF0D5B', '#600DFF', '#E8F78C', '#39E80C', '#DB00FF', '#FF6B6B', '#4D96FF'];
+            const spineColors = ['#FF0D5B', '#600DFF', '#E8F78C', '#39E80C', '#DB00FF'];
 
             featuredBooksOnly.forEach((entry, idx) => {
                 const item = entry.item;
@@ -4759,7 +4759,7 @@
                             const tr = rev.tracks && rev.tracks[track.trackId];
                             if (tr && tr.rating > 0) {
                                 hasRatedTracks = true;
-                                ratedByUsersHTML += `<div style="font-size: 11px; font-weight: 700; color: var(--text-muted); background: #fff; padding: 4px 6px; border-radius: 6px; border: 1px solid #ddd;">@${rev.name}: <span style="color: var(--pink);">${'★'.repeat(tr.rating)}</span> ${tr.comment ? `<span style="font-weight:600; color:var(--text-dark); display:block; margin-top:2px;">"${tr.comment}"</span>` : ''}</div>`;
+                                ratedByUsersHTML += `<div style="font-size: 11px; font-weight: 700; color: var(--text-muted); background: #fff; padding: 4px 6px; border-radius: 6px; border: 1px solid #ddd;">@${rev.name}: <span style="color: var(--blue);">${'★'.repeat(tr.rating)}</span> ${tr.comment ? `<span style="font-weight:600; color:var(--text-dark); display:block; margin-top:2px;">"${tr.comment}"</span>` : ''}</div>`;
                             }
                         });
 
@@ -4802,7 +4802,7 @@
                         <div class="scores-wrapper">
                             <div class="score-block">
                                 <p style="font-weight: 800; font-size: 10px; text-transform: uppercase; color: #666;">Match</p>
-                                <h2 style="color: var(--pink); font-size: 2rem;">${similarity}<span class="percent-symbol">%</span></h2>
+                                <h2 style="color: var(--blue); font-size: 2rem;">${similarity}<span class="percent-symbol">%</span></h2>
                             </div>
                             <div class="score-divider"></div>
                             <div class="score-block">
@@ -4823,7 +4823,7 @@
                                 <p style="font-size: 12px; margin-bottom: 4px; font-weight: 700;">Nota Geral: ${rev.rating} / 5</p>
                                 <p style="font-size: 13px; line-height: 1.4; color: var(--text-bright); font-weight: 600; margin-bottom: 12px;">"${rev.comment}"</p>
                                 
-                                <div class="like-container" style="position: absolute; bottom: 12px; right: 16px; font-size: 18px; color: ${hasLiked ? 'var(--pink)' : '#ccc'}; transition: transform 0.2s;">
+                                <div class="like-container" style="position: absolute; bottom: 12px; right: 16px; font-size: 18px; color: ${hasLiked ? 'var(--blue)' : '#ccc'}; transition: transform 0.2s;">
                                     <i class="${hasLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="filter: drop-shadow(2px 2px 0px #111);"></i> <span style="font-size: 13px; font-weight: 800; color: var(--border-color);">${likesCount > 0 ? likesCount : ''}</span>
                                 </div>
                                 
@@ -4877,7 +4877,7 @@
                             const heartAnim = document.createElement('i');
                             heartAnim.className = 'fa-solid fa-heart';
                             heartAnim.style.position = 'absolute';
-                            heartAnim.style.color = 'var(--pink)';
+                            heartAnim.style.color = 'var(--blue)';
                             heartAnim.style.fontSize = '50px';
                             heartAnim.style.left = '50%';
                             heartAnim.style.top = '50%';
