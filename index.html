@@ -492,24 +492,27 @@
             font-weight: 800;
         }
 
-        /* --- TICKET INVITATION STYLES (NEO-BRUTALIST) --- */
+        /* --- VINTAGE TICKET INVITATION STYLES (THEATER / CINEMA TICKET) --- */
         .ticket-box {
-            background: var(--yellow);
+            background: #fdfbf7;
             border: var(--border-width) solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 20px;
             box-shadow: var(--box-shadow-lg);
             margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
+            background-image: radial-gradient(#d6cebe 1px, transparent 1px);
+            background-size: 16px 16px;
         }
 
+        /* Lateral Punch-out Circles (Notches) simulating perforated vintage tickets */
         .ticket-box::before {
             content: '';
             position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            left: -15px;
+            transform: translateY(-50%);
             width: 30px;
             height: 30px;
             background: var(--bg-color);
@@ -520,9 +523,9 @@
         .ticket-box::after {
             content: '';
             position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
             width: 30px;
             height: 30px;
             background: var(--bg-color);
@@ -535,17 +538,18 @@
             align-items: center;
             gap: 16px;
             background: #fff;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
             padding: 16px;
             box-shadow: 2px 2px 0px #111;
+            position: relative;
         }
 
         .ticket-inner img {
             width: 80px;
             height: 110px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid var(--border-color);
             flex-shrink: 0;
         }
@@ -1624,7 +1628,7 @@
         </div>
 
         <div id="view-session" class="app-view hidden">
-            <!-- TICKET INVITATION WIDGET CONTAINER -->
+            <!-- VINTAGE TICKET INVITATION WIDGET CONTAINER -->
             <div id="ticketInvitationWidget" class="hidden"></div>
 
             <div class="card" id="aiDailyCard" style="background: #fff; border: var(--border-width) solid var(--border-color); margin-bottom: 24px; padding: 20px;">
@@ -2618,18 +2622,19 @@
 
             widgetContainer.innerHTML = `
                 <div class="ticket-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; background: var(--border-color); color: #fff; padding: 4px 10px; border-radius: 20px;">
-                            <i class="fa-solid fa-ticket"></i> Ticket de Convite (@${ticket.senderNametag})
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+                        <span style="font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--border-color);">
+                            <i class="fa-solid fa-ticket" style="margin-right: 4px;"></i> Ingresso Teatral / Sessão
                         </span>
                         <button type="button" class="btn btn-secondary" style="width: auto; padding: 4px 8px; font-size: 11px;" onclick="document.getElementById('ticketInvitationWidget').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="ticket-inner">
                         <img src="${posterUrl}" alt="${ticket.item.title}">
                         <div style="flex: 1; min-width: 0;">
-                            <h4 style="font-size: 15px; font-weight: 800; color: var(--border-color); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ticket.item.title}</h4>
-                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">@${ticket.senderNametag} enviou este ticket para avaliar este ${typeName} juntos!</p>
-                            <button type="button" class="btn" style="padding: 8px 12px; font-size: 11px;" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Resgatar / Aceitar Ticket</button>
+                            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 2px;">Convite de @${ticket.senderNametag}</div>
+                            <h4 style="font-size: 16px; font-weight: 800; color: var(--border-color); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ticket.item.title}</h4>
+                            <p style="font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 10px;">Vamos avaliar este ${typeName} juntos?</p>
+                            <button type="button" class="btn" style="padding: 8px 12px; font-size: 11px; background: var(--blue);" id="acceptTicketBtn"><i class="fa-solid fa-check" style="margin-right: 6px;"></i> Resgatar Ingresso</button>
                         </div>
                     </div>
                 </div>
@@ -2641,7 +2646,7 @@
                 if (currentUser) {
                     await remove(ref(db, `users/${currentUser.uid}/incoming_ticket`));
                 }
-                showToast("Ticket resgatado com sucesso! Divirtam-se na sessão.");
+                showToast("Ingresso resgatado com sucesso! Divirtam-se na sessão.");
             };
         }
 
